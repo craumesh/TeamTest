@@ -40,10 +40,21 @@ public class MasterDataController {
    
    
 // http://localhost:8088/masterdata/PIM
+   //PIM 메인페이지 리스트
    @RequestMapping(value="/PIM",method=RequestMethod.GET)
    public void productListGET(Model model) {
 	   logger.debug(" /masterdata/PIM -> ProductListGet()");
 	   model.addAttribute("productList", mdService.ProductList());
+   }
+   //CIM메인페이지리스트
+   @RequestMapping(value="/CIM",method=RequestMethod.GET)
+   public void consumtionListGET(Model model) {
+	  
+   }
+   //MIM 메인페이지리스트
+   @RequestMapping(value="/MIM",method=RequestMethod.GET)
+   public void materialListGET(Model model) {
+	  
    }
    
  
