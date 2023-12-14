@@ -7,8 +7,8 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h1>회원가입</h1>
-	
-	<h1>dsfsd</h1>
+BOM관리 메인 페이지입니다
+<h3><a href="/masterdata/PIM">품목정보관리 </a></h3>
+
 </body>
 </html>
