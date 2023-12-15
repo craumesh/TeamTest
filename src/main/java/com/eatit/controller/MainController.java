@@ -13,7 +13,7 @@ public class MainController {
 	
 	//http://localhost:8088
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String main() {
+	public String main() throws Exception{
 		logger.debug("/main 호출  => mainPage()실행");
 		
 		return "main";
