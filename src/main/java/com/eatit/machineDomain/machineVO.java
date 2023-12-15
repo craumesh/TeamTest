@@ -1,4 +1,4 @@
-package com.eatit.domain;
+package com.eatit.machineDomain;
 
 import java.sql.Timestamp;
 
@@ -8,6 +8,7 @@ import lombok.Data;
 public class machineVO {
 	
 	private String machine_code;
+	private String machine_name;
 	private int member_no;
 	private String machine_status;
 	private String purpose_of_use;
@@ -16,5 +17,5 @@ public class machineVO {
 	private Timestamp last_check_time;
 	private Timestamp last_operating_time;
 	private Timestamp installation_date;
-	
+	private String machine_location;
 }

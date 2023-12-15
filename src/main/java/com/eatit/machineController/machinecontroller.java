@@ -1,4 +1,4 @@
-package com.eatit.controller.machine;
+package com.eatit.machineController;
 
 import javax.inject.Inject;
 
@@ -8,23 +8,24 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.eatit.service.machine.machine_service;
+import com.eatit.machineDomain.machineVO;
+import com.eatit.machineService.machineservice;
 
 
 
 @Controller
 @RequestMapping(value = "/machine/*")
-public class machine_controller {
+public class machinecontroller {
 
 	
-	private static final Logger logger = LoggerFactory.getLogger(machine_controller.class);
+	private static final Logger logger = LoggerFactory.getLogger(machinecontroller.class);
 	
 	@Inject
-//	private machine_service mcService;
+	private machineservice mcService;
 	
 	
 	
-	
+	 
 	// http://localhost:8088/machine/machine
 	// 기계 정보
 	@RequestMapping(value = "/machine", method = RequestMethod.GET)
@@ -34,6 +35,14 @@ public class machine_controller {
 		logger.debug("/views/machine/machine.jsp 페이지로 이동");
 	}
 	
+	@RequestMapping(value = "/machine", method = RequestMethod.POST)
+	public String machinePOST(machineVO vo) {
+		logger.debug("machinePOST() 호출");
+		logger.debug("vo :" + vo);
+		mcService.insertmachine(vo);
+		logger.debug("/views/machine/machine.jsp 페이지로 이동");
+		return "/machine/machine";
+	}
 	
 	
 	
