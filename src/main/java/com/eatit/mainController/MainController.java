@@ -1,4 +1,4 @@
-package com.eatit.controller;
+package com.eatit.mainController;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,7 +13,7 @@ public class MainController {
 	
 	//http://localhost:8088
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String main() throws Exception{
+	public String main() {
 		logger.debug("/main 호출  => mainPage()실행");
 		
 		return "main";
