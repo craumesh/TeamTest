@@ -13,7 +13,8 @@ public class PurchaseVO {
 	private Timestamp purchase_order_update_date;
 	private Integer product_no;
 	private String purchase_order_status;
-	private Timestamp purchase_order_due_date;
+	private String purchase_order_due_date;
 	private String purchase_order_comment;
+	private Integer member_no;
 	
 }
