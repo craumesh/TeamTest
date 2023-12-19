@@ -5,4 +5,10 @@
   
   <mapper namespace="com.eatit.mapper.PurchaseMapper">
   
+	  <!-- 신청서 작성 -->
+	  <insert id="insertForm">
+	  		INSERT INTO purchase_order (purchase_order_comment, purchase_order_due_date)
+	  		VALUES (#{purchase_order_comment}, #{purchase_order_due_date})
+	  </insert>
+  
   </mapper>
