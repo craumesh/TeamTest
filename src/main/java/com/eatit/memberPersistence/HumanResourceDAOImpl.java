@@ -1,4 +1,4 @@
-package com.eatit.humanResourcePersistence;
+package com.eatit.memberPersistence;
 
 import java.util.List;
 
@@ -9,7 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
-import com.eatit.humanResourceDomain.HumanResourceVO;
+import com.eatit.memberDomain.MemberVO;
 
 @Repository
 public class HumanResourceDAOImpl implements HumanResourceDAO {
@@ -21,13 +21,13 @@ public class HumanResourceDAOImpl implements HumanResourceDAO {
 	private static final String NAMESPACE = "com.eatit.mapper.HrMapper";
 	
 	@Override
-	public List<HumanResourceVO> selectHrList() {
+	public List<MemberVO> selectHrList() {
 		logger.debug("DAO(selectHrList) -> Mapper 호출");
 		return sqlSession.selectList(NAMESPACE+".selectHrList");
 	}
 
 	@Override
-	public HumanResourceVO selectHrContent(HumanResourceVO vo) {
+	public MemberVO selectHrContent(MemberVO vo) {
 		logger.debug("DAO(selectHrContent) -> Mapper 호출");
 		return sqlSession.selectOne(NAMESPACE+".selectHrContent", vo);
 	}

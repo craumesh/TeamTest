@@ -1,4 +1,4 @@
-package com.eatit.humanResourceController;
+package com.eatit.memberController;
 
 import javax.inject.Inject;
 
@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.eatit.humanResourceDomain.HumanResourceVO;
-import com.eatit.humanResourceService.HumanResourceService;
+import com.eatit.memberDomain.MemberVO;
+import com.eatit.memberService.HumanResourceService;
 import com.google.gson.Gson;
 
 @Controller
@@ -31,12 +31,10 @@ public class HumanResourceController {
 	
 	@RequestMapping(value = "/content", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
 	@ResponseBody
-	public String hrContentGET(HumanResourceVO vo, Model model) {
+	public MemberVO hrContentGET(MemberVO vo, Model model) {
 		logger.debug("/hr/content 호출 -> hrContentGET() 실행");
 		logger.debug("vo : "+vo);
 		logger.debug("hrService.getHrContent(vo) : "+hrService.getHrContent(vo));
-		Gson gson = new Gson();
-		String jsonString = gson.toJson(hrService.getHrContent(vo));
-		return jsonString;		
+		return hrService.getHrContent(vo);
 	}
 }

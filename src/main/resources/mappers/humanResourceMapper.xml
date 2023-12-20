@@ -5,13 +5,13 @@
   
 
 <mapper namespace="com.eatit.mapper.HrMapper">
-	<select id="selectHrList" resultType="HumanResourceVO">
+	<select id="selectHrList" resultType="MemberVO">
 		SELECT *
 		FROM member
 	</select>
-	<select id="selectHrContent" resultType="HumanResourceVO">
+	<select id="selectHrContent" resultType="MemberVO">
 		SELECT *
 		FROM member
-		WHERE member_no = #{member_no}
+		WHERE employee_no = #{employee_no}
 	</select>
 </mapper>

@@ -6,6 +6,6 @@
   <!-- mybatis 설정파일 -->
   <configuration>
     <typeAliases>
-  		<package name="com.eatit.humanResourceDomain"/>
+  		<package name="com.eatit.memberDomain"/>
   	</typeAliases>
   </configuration>

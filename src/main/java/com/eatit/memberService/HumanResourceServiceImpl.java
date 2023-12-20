@@ -1,4 +1,4 @@
-package com.eatit.humanResourceService;
+package com.eatit.memberService;
 
 import java.util.List;
 
@@ -8,8 +8,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import com.eatit.humanResourceDomain.HumanResourceVO;
-import com.eatit.humanResourcePersistence.HumanResourceDAO;
+import com.eatit.memberDomain.MemberVO;
+import com.eatit.memberPersistence.HumanResourceDAO;
 
 @Service
 public class HumanResourceServiceImpl implements HumanResourceService {	
@@ -19,13 +19,13 @@ public class HumanResourceServiceImpl implements HumanResourceService {
 	HumanResourceDAO hrDAO;
 
 	@Override
-	public List<HumanResourceVO> getHrList() {
+	public List<MemberVO> getHrList() {
 		logger.debug("Service(getHrList) -> DAO 호출");
 		return hrDAO.selectHrList();
 	}
 
 	@Override
-	public HumanResourceVO getHrContent(HumanResourceVO vo) {
+	public MemberVO getHrContent(MemberVO vo) {
 		logger.debug("Service(getHrContent) -> DAO 호출");
 		return hrDAO.selectHrContent(vo);
 	}

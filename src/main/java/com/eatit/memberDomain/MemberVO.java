@@ -1,11 +1,11 @@
-package com.eatit.humanResourceDomain;
+package com.eatit.memberDomain;
 
 import java.sql.Timestamp;
 
 import lombok.Data;
 
 @Data
-public class HumanResourceVO {
+public class MemberVO {
 	private int employee_no;
 	private String photo_paths;
 	private String id;
