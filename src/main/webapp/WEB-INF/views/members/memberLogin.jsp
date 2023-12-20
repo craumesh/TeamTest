@@ -45,25 +45,23 @@
                 </div>
               </div>
               <div class="card-body">
-                <form role="form" class="text-start">
+                <form role="form" class="text-start" method="post">
                   <div class="input-group input-group-outline my-3">
-                    <label class="form-label">ID</label>
-                    <input type="email" class="form-control" name="member_id">
+                    <input type="text" class="form-control" name="id" placeholder="아이디">
                   </div>
                   <div class="input-group input-group-outline mb-3">
-                    <label class="form-label">Password</label>
-                    <input type="password" class="form-control" name="member_pw">
+                    <input type="password" class="form-control" name="pw" placeholder="패스워드">
                   </div>
                   <div class="form-check form-switch d-flex align-items-center mb-3">
-                    <input class="form-check-input" type="checkbox" id="rememberMe" checked>
-                    <label class="form-check-label mb-0 ms-3" for="rememberMe">로그인 정보 기억</label>
+                    <input class="form-check-input" type="checkbox" id="rememberMe">
+                    <label class="form-check-label mb-0 ms-3" for="rememberMe">아이디 정보 기억</label>
                   </div>
                   <div class="text-center">
-                    <button type="button" class="btn bg-gradient-primary w-100 my-4 mb-2">로 그 인</button>
+                    <input type="submit" class="btn bg-gradient-primary w-100 my-4 mb-2" value="로 그 인">
                   </div>
                   <p class="mt-4 text-sm text-center">
                    	 회원 신청하시겠습니까?
-                    <a href="../pages/sign-up.html" class="text-primary text-gradient font-weight-bold">회원 등록</a>
+                    <a href="/members/memberJoin" class="text-primary text-gradient font-weight-bold">회원 등록</a>
                   </p>
                 </form>
               </div>
@@ -90,19 +88,5 @@
       </footer>
     </div>
   </main>
-  <!--   Core JS Files   -->
-  <script src="../assets/js/core/popper.min.js"></script>
-  <script src="../assets/js/core/bootstrap.min.js"></script>
-  <script src="../assets/js/plugins/perfect-scrollbar.min.js"></script>
-  <script src="../assets/js/plugins/smooth-scrollbar.min.js"></script>
-  <script>
-    var win = navigator.platform.indexOf('Win') > -1;
-    if (win && document.querySelector('#sidenav-scrollbar')) {
-      var options = {
-        damping: '0.5'
-      }
-      Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
-    }
-  </script>
 </body>
 </html>
