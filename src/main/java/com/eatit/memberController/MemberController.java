@@ -43,6 +43,7 @@ public class MemberController {
 		if(resultVO != null) {
 			// O => 메인페이지 호출(리다이렉트), 세션 아이디 정보 저장
 			session.setAttribute("id", resultVO.getId());
+			session.setAttribute("name", resultVO.getName());
 			return "redirect:/";
 		}else {
 			// X => /members/memberLogin 페이지 호출
