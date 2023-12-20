@@ -7,14 +7,15 @@ import lombok.Data;
 @Data
 public class PurchaseVO {
 	
-	private Integer purchase_order_code;
+	private Integer order_id;
 	private Integer company_no;
-	private Timestamp purchase_order_date;
-	private Timestamp purchase_order_update_date;
-	private Integer product_no;
-	private String purchase_order_status;
-	private String purchase_order_due_date;
-	private String purchase_order_comment;
 	private Integer member_no;
+	private Integer product_no;
+	private Timestamp order_date;
+	private String due_date;
+	private String comments;
+	private String order_status;
+	private Timestamp update_date;
+	private int delete_status; 
 	
 }

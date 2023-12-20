@@ -7,8 +7,8 @@
   
 	  <!-- 신청서 작성 -->
 	  <insert id="insertForm">
-	  		INSERT INTO purchase_order (purchase_order_comment, purchase_order_due_date)
-	  		VALUES (#{purchase_order_comment}, #{purchase_order_due_date})
+	  		INSERT INTO purchase_order (company_no, member_no, product_no, due_date, comments)
+	  		VALUES (#{company_no}, #{member_no}, #{product_no},#{due_date}, #{comments})
 	  </insert>
   
   </mapper>

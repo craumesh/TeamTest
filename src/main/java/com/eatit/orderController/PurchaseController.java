@@ -40,7 +40,10 @@ public class PurchaseController {
 		
 		// 서비스 - 신청서 작성(INSERT) 동작 호출
 		pService.createPurchaseOrder(pvo);
+		logger.debug("신청서 작성 완료");
 		
-		return "";
+		// 페이지 이동
+		logger.debug("/purchase/orderList 페이지 이동");
+		return "redirect:/purchase/orderList";
 	}
 }
