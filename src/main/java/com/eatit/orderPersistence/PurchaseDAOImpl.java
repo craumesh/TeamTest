@@ -1,5 +1,7 @@
 package com.eatit.orderPersistence;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.apache.ibatis.session.SqlSession;
@@ -23,6 +25,12 @@ public class PurchaseDAOImpl implements PurchaseDAO {
 	public void insertPurchaseOrder(PurchaseVO pvo) throws Exception {
 		logger.debug("DAO: insertPurchaseOrder(PurchaseVO pvo)");
 		SqlSession.insert(NAMESPACE + ".insertForm", pvo);
+	}
+
+	@Override
+	public List<PurchaseVO> getOrderList() throws Exception {
+		logger.debug("DAO: getOrderList()");
+		return SqlSession.selectList(NAMESPACE + ".list");
 	}
 	
 }

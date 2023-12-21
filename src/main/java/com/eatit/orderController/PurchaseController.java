@@ -1,10 +1,15 @@
 package com.eatit.orderController;
 
+import java.util.List;
+
 import javax.inject.Inject;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -38,7 +43,7 @@ public class PurchaseController {
 		// 전달 정보 저장, 확인
 		logger.debug("pvo: " + pvo);
 		
-		// 서비스 - 신청서 작성(INSERT) 동작 호출
+		// 서비스 - 신청서 작성 동작 호출(INSERT)
 		pService.createPurchaseOrder(pvo);
 		logger.debug("신청서 작성 완료");
 		
@@ -46,4 +51,23 @@ public class PurchaseController {
 		logger.debug("/purchase/orderList 페이지 이동");
 		return "redirect:/purchase/orderList";
 	}
+	
+	// 발주 내역 조회 - GET
+	@RequestMapping(value = "orderList", method = RequestMethod.GET)
+	public String orderListGET(Model model, @ModelAttribute("result") String result, HttpSession session) throws Exception {
+		
+		logger.debug("orderListGET() 호출");
+		
+		session.setAttribute("viewcntCheck", true);
+		
+		// 서비스 - DB에서 저장된 신청 내역 가져오기(SELECT)
+		List<PurchaseVO> purchaseVOList = pService.orderList();
+		logger.debug("orderList: " + purchaseVOList);
+		
+		// 데이터 전달
+		model.addAttribute(purchaseVOList);
+		
+		return "/purchase/orderList";
+	}
+	
 }

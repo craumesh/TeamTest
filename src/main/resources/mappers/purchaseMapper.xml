@@ -10,5 +10,10 @@
 	  		INSERT INTO purchase_order (company_no, member_no, product_no, due_date, comments)
 	  		VALUES (#{company_no}, #{member_no}, #{product_no},#{due_date}, #{comments})
 	  </insert>
+	  
+	  <!-- 내역 조회 -->
+	  <select id="list" resultType="PurchaseVO">
+	  		SELECT * FROM purchase_order
+	  </select>
   
   </mapper>

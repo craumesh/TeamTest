@@ -1,5 +1,7 @@
 package com.eatit.orderService;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.slf4j.Logger;
@@ -21,6 +23,12 @@ public class PurchaseServiceImpl implements PurchaseService {
 	public void createPurchaseOrder(PurchaseVO pvo) throws Exception {
 		logger.debug("Service: createPurchaseOrder(PurchaseVO pvo)");
 		pdao.insertPurchaseOrder(pvo);
+	}
+
+	@Override
+	public List<PurchaseVO> orderList() throws Exception {
+		logger.debug("Service: orderList()");
+		return pdao.getOrderList();
 	}
 	
 }
