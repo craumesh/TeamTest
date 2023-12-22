@@ -11,13 +11,13 @@
 	</appender>
 	
 	<!-- Application Loggers -->
-	<logger name="com.eatit.controller">
+	<logger name="com.eatit.machineController">
 		<level value="debug" />
 	</logger>
-	<logger name="com.eatit.persistence">
+	<logger name="com.eatit.machineService">
 		<level value="debug" />
 	</logger>
-	<logger name="com.eatit.service">
+	<logger name="com.eatit.machinePersistence">
 		<level value="debug" />
 	</logger>
 	

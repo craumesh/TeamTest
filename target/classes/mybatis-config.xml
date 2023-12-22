@@ -6,7 +6,6 @@
   <!-- mybatis 설정파일 -->
   <configuration>
    <typeAliases>
-      	 <package name="com.eatit.domain"/>
-      	 <package name="com.eatit.domain.machine"/>
+      	 <package name="com.eatit.machineDomain"/>
       </typeAliases>  
   </configuration>

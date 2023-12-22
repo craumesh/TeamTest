@@ -8,14 +8,22 @@
   
   <!-- 설비 추가  -->
   <insert id="insertmachine">
-  insert into machine(machine_code,machine_name,member_no,installation_date=now(),machine_location)
-  values(#{machine_code},#{machine_name},#{member_no},#{machine_location})
+  insert into machine(machine_name,member_no,installation_date,machine_location)
+  values(#{machine_name},#{member_no},#{installation_date},#{machine_location})
   </insert>
   
+  <!-- 설비 추가 기록 -->
+  <insert id="machinehistory">
+   insert into machine_history(machine_code,operating_time, use_history, check_purpose, check_time, member_no, machine_update, machine_update_date)
+   values(#{machine_code},now(),'설치 후 작동 테스트', '설치 후 작동 점검',now() ,#{member_no},'추가',now())
+   </insert>
   
+  <!-- 설비 조회 -->
+  <select id="getmachinelist" resultType="machineVO">
+  SELECT * FROM machine;
+  </select>
   
-  
-  
+  <!-- 설비 상세 조회 -->
   
   
   

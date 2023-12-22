@@ -1,5 +1,6 @@
 package com.eatit.machineDomain;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 
 import lombok.Data;
@@ -7,15 +8,15 @@ import lombok.Data;
 @Data
 public class machineVO {
 	
-	private String machine_code;
+	private int machine_code;
 	private String machine_name;
-	private int member_no;
 	private String machine_status;
+	private int member_no;
 	private String purpose_of_use;
-	private String purpos_of_check;
-	
-	private Timestamp last_check_time;
-	private Timestamp last_operating_time;
-	private Timestamp installation_date;
+	private Date installation_date;
 	private String machine_location;
+	
+	
 }
+
+

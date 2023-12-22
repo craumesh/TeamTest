@@ -1,5 +1,7 @@
 package com.eatit.machinePersistence;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.apache.ibatis.session.SqlSession;
@@ -8,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import com.eatit.machineDomain.machineVO;
+import com.eatit.machineDomain.machinehistoryVO;
 
 @Repository
 public class machineDAOImpl implements machineDAO {
@@ -26,6 +29,19 @@ private static final String NAMESPACE="com.eatit.mapper.machineMapper";
 		logger.debug("mapper(DB) 설비를 추가하는 동작 구문 실행 - 시작");
 		sqlSession.insert(NAMESPACE+ ".insertmachine",vo);
 		logger.debug("mapper(DB) 설비를 추가하는 동작 구문 실행 - 끝");
+	}
+
+	@Override
+	public List<machineVO> getmachinelist() {
+		logger.debug("machinelist()");
+		return sqlSession.selectList(NAMESPACE+ ".getmachinelist");
+	}
+
+	@Override
+	public void machinehistory(machinehistoryVO vo) {
+		logger.debug("machinehistory(machinehistoryVO vo) 구문 시작");
+		sqlSession.insert(NAMESPACE+ ".machinehistory", vo);
+		logger.debug("machinehistory(machinehistoryVO vo) 구문 끝");
 	}
 	
 	
