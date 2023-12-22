@@ -50,6 +50,8 @@ public class MasterDataController {
    }
    
    
+   
+   
 // http://localhost:8088/masterdata/PIM
    //PIM 메인페이지 리스트
    @RequestMapping(value="/PIM",method=RequestMethod.GET)

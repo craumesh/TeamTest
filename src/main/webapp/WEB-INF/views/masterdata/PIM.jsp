@@ -17,6 +17,8 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
   <link id="pagestyle" href="${path}/resources/css/material-dashboard.css?v=3.1.0" rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
    <style>
     /* 추가된 CSS */
     .form-horizontal .form-group {
@@ -282,7 +284,8 @@
       
     </nav>
     <!-- End Navbar -->
-             
+    
+    
       <table border="1">
         <thead>
             <tr>
@@ -298,9 +301,9 @@
         </thead>
         
         <tbody>          
-            <c:forEach items="${productList}" var="product">
-                <tr>
-                    <td>${product.product_no}</td>
+            <c:forEach items="${productList}" var="product">              
+                <tr>              
+                    <td>${product.product_no}</td>                 
                     <td>${product.product_code}</td>
                     <td>${product.product_name}</td>
                     <td>${product.product_category}</td>
@@ -308,12 +311,15 @@
                     <td>${product.product_unit}</td>
                     <td>${product.product_price}</td>
                     <td>${product.recipe }</td>
-                   <td><button onclick="openEditModal(event)">품목정보수정</button></td>
+                   <td><button onclick="openEditModal(event)" class="btn btn-warning">품목정보수정</button></td>
+                   <td><button type="submit" class="btn btn-danger">품목정보삭제</button></td>
                 </tr>
             </c:forEach>
         </tbody>
+    
       
     </table>
+    
     <button onclick="openModal()">품목정보등록</button>
    
     
@@ -365,9 +371,8 @@
         <span class="close" onclick="closeEditModal()">&times;</span>
         <form id="editForm" method="post" action="/masterdata/PIMedit">
             <table>
-             <tr>
-                    <td>품목번호:</td>
-                    <td><input type="text" name="product_no" readonly="readonly"></td>
+             <tr>                   
+                    <td><input type="hidden" name="product_no" value="product_no"></td>
                 </tr>
             <tr>
                     <td>품목코드:</td>
@@ -407,6 +412,33 @@
         </form>
     </div>
 </div>
+<script>
+    function deleteProduct(productNo) {
+        if (confirm('품목 정보를 삭제하시겠습니까?')) {
+            $.ajax({
+                type: 'POST',
+                url: '/masterdata/delete',
+                data: { product_no: productNo },
+                success: function(response) {
+                    // 삭제에 대한 처리 - 성공 시 행 삭제
+                    if (response.success) {
+                        // 여기에서 해당 행을 삭제하도록 코드 작성
+                        alert('품목 정보가 삭제되었습니다.');
+                    } else {
+                        alert('삭제 실패: ' + response.message);
+                    }
+                },
+                error: function() {
+                    alert('서버 오류: 삭제에 실패했습니다.');
+                }
+            });
+        }
+    }
+</script>
+
+
+
+
 
    <script>
     function openModal() {
@@ -415,6 +447,7 @@
 
     function closeModal() {
         document.getElementById("myModal").style.display = "none";
+        
     }
 
    
@@ -442,9 +475,13 @@
         document.querySelector('#editForm [name="product_unit"]').value = productUnit;
         document.querySelector('#editForm [name="product_price"]').value = productPrice;
         document.querySelector('#editForm [name="recipe"]').value = recipe;
+        
+       
+        
     }
     function closeEditModal() {
         document.getElementById("editModal").style.display = "none";
+        
     }
     function validateForm(formId) {
         const form = document.getElementById(formId);
@@ -452,7 +489,7 @@
 
         for (let i = 0; i < inputs.length; i++) {
             if (inputs[i].value.trim() === '') {
-                alert('입력하지 않은 칸이 있습니다!');
+                
                 return false;
             }
         }
@@ -460,16 +497,65 @@
     }
 
     document.getElementById('myForm').addEventListener('submit', function (event) {
-        if (!validateForm('myForm')) {
-            event.preventDefault();
-        }
+    	 event.preventDefault(); // 기본 제출 동작 방지
+
+ 	    if (!validateForm('myForm')) {
+ 	        // 폼이 유효하지 않은 경우
+ 	        swal('입력하지 않은 칸이 있습니다!', '', 'warning');
+ 	        return;
+ 	    }
+
+ 	    // 유효한 경우 SweetAlert로 사용자에게 확인 요청
+ 	    swal({
+ 	        title: '품목정보 등록',
+ 	        text: '정말 등록하시겠습니까? 한 번 더 정보를 확인해 주세요',
+ 	        icon: 'info',
+ 	        buttons: true,
+ 	        dangerMode: false,
+ 	    })
+ 	    .then((willSubmit) => {
+ 	        if (willSubmit) {
+ 	            swal('등록이 성공적으로 완료됐습니다!', '', 'success')
+ 	            .then(() => {
+ 	                event.target.submit(); // 확인을 누르면 submit 실행
+ 	            });
+ 	        } else {
+ 	            swal('등록 취소', '등록이 취소되었습니다.', 'info');
+ 	        }
+ 	    });
     });
 
     document.getElementById('editForm').addEventListener('submit', function (event) {
-        if (!validateForm('editForm')) {
-            event.preventDefault();
-        }
+    	 event.preventDefault(); // 기본 제출 동작 방지
+
+    	    if (!validateForm('editForm')) {
+    	        // 폼이 유효하지 않은 경우
+    	        swal('입력하지 않은 칸이 있습니다!', '', 'warning');
+    	        return;
+    	    }
+
+    	    // 유효한 경우 SweetAlert로 사용자에게 확인 요청
+    	    swal({
+    	        title: '품목정보 수정',
+    	        text: '정말 수정하시겠습니까? 한 번 더 정보를 확인해 주세요',
+    	        icon: 'info',
+    	        buttons: true,
+    	        dangerMode: false,
+    	    })
+    	    .then((willSubmit) => {
+    	        if (willSubmit) {
+    	            swal('수정이 성공적으로 완료됐습니다!', '', 'success')
+    	            .then(() => {
+    	                event.target.submit(); // 확인을 누르면 submit 실행
+    	            });
+    	        } else {
+    	            swal('수정 취소', '수정이 취소되었습니다.', 'info');
+    	        }
+    	    });
     });
+   
+    
+    
 </script>
       <footer class="footer py-4  ">
         <div class="container-fluid">

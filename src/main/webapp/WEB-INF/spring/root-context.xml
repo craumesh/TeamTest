@@ -47,6 +47,8 @@
 	<!--  com.itwillbs.persistence 패키지 등록 -->
 	<context:component-scan base-package="com.eatit.persistence"/>
 	
+
+	
 	<!--  com.itwillbs.service패키지 등록 -->
 	<context:component-scan base-package="com.eatit.service"/>
 </beans>
