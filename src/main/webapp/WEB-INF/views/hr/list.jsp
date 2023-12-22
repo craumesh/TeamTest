@@ -4,8 +4,8 @@
 <%@ include file="../include/header.jsp"%>
 <!-- 본문 시작 -->
 <div class="col-11 mx-auto">
-	<div class="card my-3 mx-auto pt-5 px-6 pb-4">
-		<div class="card-header p-0 position-relative mb-2 mx-3 z-index-2">
+	<div class="card my-3 mx-auto pt-5 px-6 pb-2">
+		<div class="card-header p-0 position-relative mx-3 z-index-2">
 			<div class="bg-gradient-primary shadow-primary border-radius-lg pt-3 pb-3 pe-3 d-flex">
 				<h3 class="text-white text-capitalize ps-5 align-items-center mb-0 py-1">인사 정보 테이블</h3>
 				<div class="ms-md-auto bg-white rounded p-2 d-flex align-items-center">
@@ -57,14 +57,21 @@
 		
 		<div class="row">
 			<div class="col-sm-5">
-				<div>Showing 1 to 10 of 57 entries</div>
+				<div>Showing ${pageVO.startPage } to ${pageVO.endPage } of 미구현 entries</div>
 			</div>
 			<div class="col-sm-5">
 				<ul class="pagination">
-					<li class="page-link link-container"><a href="#" class="link"><<</a></li>
-					<li class="page-link link-container"><a href="#" class="link">1</a></li>
-					<li class="page-link link-container"><a href="#" class="link">2</a></li>
-					<li class="page-link link-container"><a href="#" class="link">>></a></li>
+					<c:if test="${pageVO.prev }">
+						<li class="page-link link-container"><a href="/hr/list?page=${pageVO.endPage-pageVO.displayPageNum }" class="link"><<</a></li>
+					</c:if>
+					<c:forEach var="i" begin="${pageVO.startPage }" end="${pageVO.endPage }" step="1">
+						<li ${pageVO.cri.page == i ? "class='page-link link-container active'" : "class='page-link link-container'"} >
+							<a href="/hr/list?page=${i }" ${pageVO.cri.page == i ? "class='link-white'" : ""}>${i }</a>
+						</li>				
+					</c:forEach>
+					<c:if test="${pageVO.next }">
+						<li class="page-link link-container"><a href="/hr/list?page=${pageVO.startPage+pageVO.displayPageNum }" class="link">>></a></li>
+					</c:if>
 				</ul>
 			</div>
 		</div>
@@ -75,7 +82,7 @@
 <div id="Modal" class="modal top-10 position-absolute">
 	<div class="modal-dialog">
 		<div class="modal-content">
-			<button class="btn-close position-absolute end-5"></button>
+			<button class="btn-close bg-gradient-primary position-absolute end-5"></button>
 			<div class="modal-header">
 				<h3 class="modal-title mx-auto">사원 정보</h3>
 			</div>
@@ -143,33 +150,30 @@
 	var span = document.getElementsByClassName("btn-close")[0];
 
 	$(document).ready(function() {
-		$("table").on("click", "tr", function(event) {
-            // 첫 번째 열과 행을 제외한 부분만 처리
-			if (!$(event.target).is(':first-child') && !$(this).is(':first')) {
-	            var value = $(this).find("td.identify-no").text();
-				$.ajax({
-					url : '/hr/content?employee_no='+value,
-					method : 'GET',
-					dataType: 'json',
-					success : function(data) {
-						$('#photo_paths').attr('src', data.photo_paths).attr('width', '100');
-						$("#employee_no").text(data.employee_no);
-						$("#id").text(data.id);
-					    $("#name").text(data.name);
-					    $("#depart_name").text(data.depart_name);
-					    $("#position_name").text(data.position_name);
-					    $("#email").text(data.email);
-					    $("#extension_no").text(data.extension_no);
-					    $("#contact").text(data.contact);
-					    $("#address").text(data.address);
-					    $("#status").text(data.status);
-						modal.style.display = "block";
-					},
-					error : function(error) {
-						console.log('실패:', error);
-					}
-				});
-			}
+		$("table").on("click", "tr td:not(:first-child)", function(event) {
+	        var value = $(this).closest("tr").find("td.identify-no").text();
+	        $.ajax({
+	            url: '/hr/content?employee_no=' + value,
+				method : 'GET',
+				dataType: 'json',
+				success : function(data) {
+					$('#photo_paths').attr('src', data.photo_paths).attr('width', '100');
+					$("#employee_no").text(data.employee_no);
+					$("#id").text(data.id);
+				    $("#name").text(data.name);
+				    $("#depart_name").text(data.depart_name);
+				    $("#position_name").text(data.position_name);
+				    $("#email").text(data.email);
+				    $("#extension_no").text(data.extension_no);
+				    $("#contact").text(data.contact);
+				    $("#address").text(data.address);
+				    $("#status").text(data.status);
+					modal.style.display = "block";
+				},
+				error : function(error) {
+					console.log('실패:', error);
+				}
+			});
 	    });
 		
 		$(".btn-close").click(function(){

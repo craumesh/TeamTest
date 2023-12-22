@@ -5,13 +5,25 @@
   
 
 <mapper namespace="com.eatit.mapper.HrMapper">
-	<select id="selectHrList" resultType="MemberVO">
-		SELECT *
-		FROM member
-	</select>
+
 	<select id="selectHrContent" resultType="MemberVO">
 		SELECT *
 		FROM member
 		WHERE employee_no = #{employee_no}
 	</select>
+	
+	<select id="selectHrList" resultType="MemberVO">
+  		SELECT * 
+  		FROM member
+  		ORDER BY employee_no desc,regdate desc
+  		LIMIT #{startPage},#{pageSize}
+  	</select>
+  	
+  	<select id="totalCount" resultType="int">
+  		<![CDATA[
+	  		SELECT COUNT(*)
+	  		FROM member
+	  		WHERE employee_no>0
+  		]]>
+  	</select>
 </mapper>

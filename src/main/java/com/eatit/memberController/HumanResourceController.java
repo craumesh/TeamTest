@@ -10,9 +10,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.eatit.mainDomain.Criteria;
+import com.eatit.mainDomain.PageVO;
 import com.eatit.memberDomain.MemberVO;
 import com.eatit.memberService.HumanResourceService;
-import com.google.gson.Gson;
 
 @Controller
 @RequestMapping(value = "/hr/*")
@@ -24,17 +25,20 @@ public class HumanResourceController {
 
 	// http://localhost:8088/hr/list
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public void hrListGET(Model model) {
+	public void hrListGET(Model model, Criteria cri) {
 		logger.debug("/hr/list 호출 -> hrListGET() 실행");
-		model.addAttribute("list",hrService.getHrList());
+		PageVO pageVO = new PageVO();
+		pageVO.setCri(cri);
+		pageVO.setTotalCount(hrService.getTotalCount());
+		
+		model.addAttribute("pageVO", pageVO);
+		model.addAttribute("list", hrService.getHrList(cri));
 	}
 	
 	@RequestMapping(value = "/content", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public MemberVO hrContentGET(MemberVO vo, Model model) {
 		logger.debug("/hr/content 호출 -> hrContentGET() 실행");
-		logger.debug("vo : "+vo);
-		logger.debug("hrService.getHrContent(vo) : "+hrService.getHrContent(vo));
 		return hrService.getHrContent(vo);
 	}
 }

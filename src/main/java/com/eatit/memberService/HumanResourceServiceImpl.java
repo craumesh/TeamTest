@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import com.eatit.mainDomain.Criteria;
 import com.eatit.memberDomain.MemberVO;
 import com.eatit.memberPersistence.HumanResourceDAO;
 
@@ -19,15 +20,22 @@ public class HumanResourceServiceImpl implements HumanResourceService {
 	HumanResourceDAO hrDAO;
 
 	@Override
-	public List<MemberVO> getHrList() {
+	public List<MemberVO> getHrList(Criteria cri) {
 		logger.debug("Service(getHrList) -> DAO 호출");
-		return hrDAO.selectHrList();
+		logger.debug("Service getBoardListPage() 호출");
+		return hrDAO.selectHrList(cri);
 	}
 
 	@Override
 	public MemberVO getHrContent(MemberVO vo) {
 		logger.debug("Service(getHrContent) -> DAO 호출");
 		return hrDAO.selectHrContent(vo);
+	}
+
+	@Override
+	public int getTotalCount() {
+		logger.debug("Service(getTotalCount) -> DAO 호출");
+		return hrDAO.getTotalCount();
 	}
 
 }
