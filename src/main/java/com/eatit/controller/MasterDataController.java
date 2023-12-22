@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.eatit.domain.ProductVO;
 import com.eatit.service.MasterDataService;
@@ -36,7 +37,17 @@ public class MasterDataController {
        
        return "redirect:/masterdata/PIM";
  }
-   
+   //품목정보수정컨트롤러
+   @RequestMapping(value="/masterdata/PIMedit",method = RequestMethod.POST)
+   public String PIMedit(ProductVO pvo)throws Exception {
+	   logger.debug("pvo"+pvo);
+	   int result = mdService.productUpdate(pvo);
+	   logger.debug("/update form ->updatePOST()");
+	   
+	   
+	   
+	   return "redirect:/masterdata/PIM";
+   }
    
    
 // http://localhost:8088/masterdata/PIM

@@ -296,6 +296,7 @@
                 <th>레시피</th>
             </tr>
         </thead>
+        
         <tbody>          
             <c:forEach items="${productList}" var="product">
                 <tr>
@@ -307,12 +308,14 @@
                     <td>${product.product_unit}</td>
                     <td>${product.product_price}</td>
                     <td>${product.recipe }</td>
+                   <td><button onclick="openEditModal(event)">품목정보수정</button></td>
                 </tr>
             </c:forEach>
         </tbody>
+      
     </table>
     <button onclick="openModal()">품목정보등록</button>
-    <button onclick="openEditModal()">품목정보수정</button>
+   
     
 <div id="myModal" class="modal">
     <div class="modal-content">
@@ -360,8 +363,12 @@
 <div id="editModal" class="modal">
     <div class="modal-content">
         <span class="close" onclick="closeEditModal()">&times;</span>
-        <form id="editForm" method="post">
+        <form id="editForm" method="post" action="/masterdata/PIMedit">
             <table>
+             <tr>
+                    <td>품목번호:</td>
+                    <td><input type="text" name="product_no" readonly="readonly"></td>
+                </tr>
             <tr>
                     <td>품목코드:</td>
                     <td><input type="text" name="product_code"></td>
@@ -410,30 +417,32 @@
         document.getElementById("myModal").style.display = "none";
     }
 
-   /*  function submitForm() {
-        var form = document.getElementById("myForm");
-        var formData = new FormData(form);
-        console.log(formData);
+   
+    function openEditModal(event) {
+        // 수정 버튼이 속한 <tr> 요소를 찾습니다.
+        const selectedRow = event.target.closest('tr');
 
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", "/masterdata/PIM", true);
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState === XMLHttpRequest.DONE) {
-                if (xhr.status === 200) {
-                    // 요청 성공 처리
-                    closeModal(); // 성공 시 모달 닫기
-                } else {
-                    // 요청 실패 처리
-                    alert('등록에 실패했습니다.');
-                }
-            }
-        };
-        xhr.send(formData);
-    } */
-    function openEditModal() {
+        // 각 셀의 데이터를 가져와 변수에 저장합니다.
+        const productNo = selectedRow.cells[0].innerText;
+        const productCode = selectedRow.cells[1].innerText;
+        const productName = selectedRow.cells[2].innerText;
+        const productCategory = selectedRow.cells[3].innerText;
+        const companyNo = selectedRow.cells[4].innerText;
+        const productUnit = selectedRow.cells[5].innerText;
+        const productPrice = selectedRow.cells[6].innerText;
+        const recipe = selectedRow.cells[7].innerText;
+
+        // 가져온 데이터를 수정 모달에 넣어줍니다.
         document.getElementById("editModal").style.display = "block";
+        document.querySelector('#editForm [name="product_no"]').value = productNo;
+        document.querySelector('#editForm [name="product_code"]').value = productCode;
+        document.querySelector('#editForm [name="product_name"]').value = productName;
+        document.querySelector('#editForm [name="product_category"]').value = productCategory;
+        document.querySelector('#editForm [name="company_no"]').value = companyNo;
+        document.querySelector('#editForm [name="product_unit"]').value = productUnit;
+        document.querySelector('#editForm [name="product_price"]').value = productPrice;
+        document.querySelector('#editForm [name="recipe"]').value = recipe;
     }
-
     function closeEditModal() {
         document.getElementById("editModal").style.display = "none";
     }
@@ -479,8 +488,7 @@
           </div>
         </div>
       </footer>
-    </div>
-    </div>
+    
   </main>
   <!--   Core JS Files   -->
   <script src="${path}/resources/js/core/popper.min.js"></script>
@@ -492,253 +500,7 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://unpkg.com/smooth-scrollbar"></script>
 
-  <script>
-    var ctx = document.getElementById("chart-bars").getContext("2d");
-
-    new Chart(ctx, {
-      type: "bar",
-      data: {
-        labels: ['2020', '2021', '2022', '2023'],
-        datasets: [{
-          label: "전체 납품량",
-          tension: 0.4,
-          borderWidth: 0,
-          borderRadius: 4,
-          borderSkipped: false,
-          backgroundColor: "rgba(255, 255, 255, .8)",
-          data: [500, 1200, 1700, 2300],
-          maxBarThickness: 6
-        }, ],
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: {
-            display: false,
-          }
-        },
-        interaction: {
-          intersect: false,
-          mode: 'index',
-        },
-        scales: {
-          y: {
-            grid: {
-              drawBorder: false,
-              display: true,
-              drawOnChartArea: true,
-              drawTicks: false,
-              borderDash: [5, 5],
-              color: 'rgba(255, 255, 255, .2)'
-            },
-            ticks: {
-              suggestedMin: 0,
-              suggestedMax: 500,
-              beginAtZero: true,
-              padding: 10,
-              font: {
-                size: 14,
-                weight: 300,
-                family: "Roboto",
-                style: 'normal',
-                lineHeight: 2
-              },
-              color: "#fff"
-            },
-          },
-          x: {
-            grid: {
-              drawBorder: false,
-              display: true,
-              drawOnChartArea: true,
-              drawTicks: false,
-              borderDash: [5, 5],
-              color: 'rgba(255, 255, 255, .2)'
-            },
-            ticks: {
-              display: true,
-              color: '#f8f9fa',
-              padding: 10,
-              font: {
-                size: 14,
-                weight: 300,
-                family: "Roboto",
-                style: 'normal',
-                lineHeight: 2
-              },
-            }
-          },
-        },
-      },
-    });
-
-
-    var ctx2 = document.getElementById("chart-line").getContext("2d");
-
-    new Chart(ctx2, {
-      type: "line",
-      data: {
-        labels: ['2023-08', '2023-09', '2023-10', '2023-11', '2023-12'],
-        datasets: [{
-          label: "이번달 납품액",
-          tension: 0,
-          borderWidth: 0,
-          pointRadius: 5,
-          pointBackgroundColor: "rgba(255, 255, 255, .8)",
-          pointBorderColor: "transparent",
-          borderColor: "rgba(255, 255, 255, .8)",
-          borderColor: "rgba(255, 255, 255, .8)",
-          borderWidth: 4,
-          backgroundColor: "transparent",
-          fill: true,
-          data: [5900000, 4900000, 6800000,7300000,6900000],
-          maxBarThickness: 6
-
-        }],
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: {
-            display: false,
-          }
-        },
-        interaction: {
-          intersect: false,
-          mode: 'index',
-        },
-        scales: {
-          y: {
-            grid: {
-              drawBorder: false,
-              display: true,
-              drawOnChartArea: true,
-              drawTicks: false,
-              borderDash: [5, 5],
-              color: 'rgba(255, 255, 255, .2)'
-            },
-            ticks: {
-              display: true,
-              color: '#f8f9fa',
-              padding: 10,
-              font: {
-                size: 14,
-                weight: 300,
-                family: "Roboto",
-                style: 'normal',
-                lineHeight: 2
-              },
-            }
-          },
-          x: {
-            grid: {
-              drawBorder: false,
-              display: false,
-              drawOnChartArea: false,
-              drawTicks: false,
-              borderDash: [5, 5]
-            },
-            ticks: {
-              display: true,
-              color: '#f8f9fa',
-              padding: 10,
-              font: {
-                size: 14,
-                weight: 300,
-                family: "Roboto",
-                style: 'normal',
-                lineHeight: 2
-              },
-            }
-          },
-        },
-      },
-    });
-
-    var ctx3 = document.getElementById("chart-line-tasks").getContext("2d");
-
-    new Chart(ctx3, {
-      type: "line",
-      data: {
-        labels: ['2023-08', '2023-09', '2023-10', '2023-11', '2023-12'],
-        datasets: [{
-          label: "이번달 납품량",
-          tension: 0,
-          borderWidth: 0,
-          pointRadius: 5,
-          pointBackgroundColor: "rgba(255, 255, 255, .8)",
-          pointBorderColor: "transparent",
-          borderColor: "rgba(255, 255, 255, .8)",
-          borderWidth: 4,
-          backgroundColor: "transparent",
-          fill: true,
-          data: [100, 200,500,300,320],
-          maxBarThickness: 6
-
-        }],
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: {
-            display: false,
-          }
-        },
-        interaction: {
-          intersect: false,
-          mode: 'index',
-        },
-        scales: {
-          y: {
-            grid: {
-              drawBorder: false,
-              display: true,
-              drawOnChartArea: true,
-              drawTicks: false,
-              borderDash: [5, 5],
-              color: 'rgba(255, 255, 255, .2)'
-            },
-            ticks: {
-              display: true,
-              padding: 10,
-              color: '#f8f9fa',
-              font: {
-                size: 14,
-                weight: 300,
-                family: "Roboto",
-                style: 'normal',
-                lineHeight: 2
-              },
-            }
-          },
-          x: {
-            grid: {
-              drawBorder: false,
-              display: false,
-              drawOnChartArea: false,
-              drawTicks: false,
-              borderDash: [5, 5]
-            },
-            ticks: {
-              display: true,
-              color: '#f8f9fa',
-              padding: 10,
-              font: {
-                size: 14,
-                weight: 300,
-                family: "Roboto",
-                style: 'normal',
-                lineHeight: 2
-              },
-            }
-          },
-        },
-      },
-    });
-  </script>
+ 
   <script>
     var win = navigator.platform.indexOf('Win') > -1;
     if (win && document.querySelector('#sidenav-scrollbar')) {

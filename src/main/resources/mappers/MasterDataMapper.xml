@@ -14,6 +14,17 @@
     values(#{product_code},#{product_name},#{product_category},#{company_no},#{product_unit},#{product_price},#{recipe})
   </insert>
   
+  <update id="updateProduct">
+    update product_information
+    set product_code = #{product_code},
+        product_name = #{product_name},
+        product_category = #{product_category},
+        company_no = #{company_no},
+        product_unit = #{product_unit},
+        product_price = #{product_price},
+        recipe = #{recipe}
+    where product_no = #{product_no};
+</update>
   
   
   </mapper>

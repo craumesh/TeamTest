@@ -34,5 +34,13 @@ public class MasterDataServiceImpl implements MasterDataService {
 		
 		
 	}
+
+
+	@Override
+	public int productUpdate(ProductVO pvo)throws Exception {
+		logger.debug("S:productUpdate(ProductVO pvo)");
+		return mddao.productUpdate(pvo);
+		
+	}
    
 }

@@ -8,5 +8,7 @@ public interface MasterDataDAO {
   public List<ProductVO> getProductList();
   
   public void productInsert(ProductVO pvo);
+  
+  public int productUpdate(ProductVO pvo)throws Exception;
 }
 

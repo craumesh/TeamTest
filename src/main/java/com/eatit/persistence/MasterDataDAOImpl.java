@@ -31,5 +31,11 @@ public class MasterDataDAOImpl implements MasterDataDAO{
 		logger.debug(" mapper(DB) 殿废 贸府 备巩 角青 - 场");
 		
 	}
+	@Override
+	public int productUpdate(ProductVO pvo)throws Exception {
+		logger.debug("DAO:updateProduct(ProductVO vo)");
+		return sqlSession.update(NAMESPACE+".updateProduct", pvo);
+		
+	}
 
 }

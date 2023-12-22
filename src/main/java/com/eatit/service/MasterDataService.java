@@ -9,5 +9,7 @@ public interface MasterDataService {
 	public List<ProductVO> ProductList();
 	
 	public void productInsert(ProductVO pvo);
+	
+	public int productUpdate(ProductVO pvo)throws Exception;
 
 }
