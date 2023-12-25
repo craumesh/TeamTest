@@ -19,16 +19,21 @@
 						</div>						
 						<div class="align-items-center d-flex flex-column py-1">						
 							<a class="btn btn-outline-primary btn-sm mb-0 py-1 ms-2" target="_blank" href="">검색</a>						
-						</div>					
+						</div>										
 					</div>					
 				</div>				
 			</div>			
-			<div class="card-body px-0 pb-2">
+			<div class="card-body px-0 pb-2">	
+				<div class="text-end pe-4 pb-3">
+					<a class="btn bg-gradient-dark mb-0" href="/purchase/writeForm">
+						<i class="material-icons text-sm">add</i> 발주서 작성하기
+					</a>
+				</div>	
 				<div class="table-responsive p-0">
 					<table class="table align-items-center mb-0">					
 						<thead>
 							<tr>
-								<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+								<th class="text-uppercase text-secondary text-s font-weight-bolder opacity-7 ps-2">
 									<div class="form-check form-check-info text-start ps-0">
 										<input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" data-gtm-form-interact-field-id="0">
 									</div>
@@ -43,7 +48,7 @@
 						<tbody>
 							<c:forEach var="vo" items="${purchaseVOList }">
 								<tr>
-									<td class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+									<td class="text-uppercase text-secondary text-s font-weight-bolder opacity-7 ps-2">
 										<div class="form-check form-check-info text-start ps-0">
 											<input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" data-gtm-form-interact-field-id="0">
 										</div>

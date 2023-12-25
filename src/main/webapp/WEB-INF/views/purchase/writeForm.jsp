@@ -101,7 +101,7 @@
 								<table class="table align-items-center mb-0">
 									<thead>
 										<tr>
-											<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+											<th class="text-uppercase text-secondary text-s font-weight-bolder opacity-7 ps-2">
 												<div class="form-check form-check-info text-start ps-0">
 													<input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" data-gtm-form-interact-field-id="0">
 												</div>
@@ -114,7 +114,7 @@
 									</thead>
 									<tbody>
 										<tr>
-											<td class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+											<td class="text-uppercase text-secondary text-s font-weight-bolder opacity-7 ps-2">
 												<div class="form-check form-check-info text-start ps-0">
 													<input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" data-gtm-form-interact-field-id="0">
 												</div>
