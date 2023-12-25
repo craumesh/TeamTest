@@ -6,16 +6,26 @@
 <%@ include file="../include/js.jsp"%>
 
 	<div class="col-12">
-		<div class="card my-4">
-			<div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-				<div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-					<h6 class="text-white text-capitalize ps-3">발주 내역</h6>
-				</div>
-			</div>
+		<div class="card my-4">		
+			<div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">				
+				<div class="bg-gradient-primary shadow-primary border-radius-lg pt-3 pb-3 pe-3 d-flex">			
+					<h6 class="text-white text-capitalize pt-3 ps-3">발주 내역</h6>					
+					<div class="ms-md-auto bg-white rounded p-2 d-flex align-items-center">	
+						<div class="align-items-center d-flex flex-column">					
+							<div class="input-group input-group-outline">							
+								<label class="form-label">Type here...</label>
+                   				<input type="text" class="form-control">							
+							</div>						
+						</div>						
+						<div class="align-items-center d-flex flex-column py-1">						
+							<a class="btn btn-outline-primary btn-sm mb-0 py-1 ms-2" target="_blank" href="">검색</a>						
+						</div>					
+					</div>					
+				</div>				
+			</div>			
 			<div class="card-body px-0 pb-2">
 				<div class="table-responsive p-0">
-					<table class="table align-items-center mb-0">
-					
+					<table class="table align-items-center mb-0">					
 						<thead>
 							<tr>
 								<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
@@ -29,8 +39,7 @@
 								<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">발주 일자</th>
 								<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">처리 상태</th>
 							</tr>
-						</thead>
-						
+						</thead>					
 						<tbody>
 							<c:forEach var="vo" items="${purchaseVOList }">
 								<tr>
@@ -67,8 +76,7 @@
 			                      	</td>
 								</tr>
 							</c:forEach>
-						</tbody>	
-											
+						</tbody>												
 					</table>
 				</div>
 			</div>
