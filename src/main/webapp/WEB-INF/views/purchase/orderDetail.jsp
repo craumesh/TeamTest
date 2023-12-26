@@ -21,7 +21,7 @@
 				<a class="btn btn-outline-primary mb-0" href="/purchase/orderList">
 					<i class="material-icons text-sm me-2">more_horiz</i> 목록으로
 				</a>
-				<a class="btn bg-gradient-danger mb-0" href="/purchase/deleteForm">
+				<a class="btn bg-gradient-danger mb-0">
 					<i class="material-icons text-sm me-2">delete</i> 삭제하기
 				</a>
 			</div>
@@ -194,5 +194,20 @@
 		</div>
 	</div>
 </div>
+
+<script type="text/javascript">
+
+ 	$(document).ready(function(){
+ 		
+ 		var form = $('form[role="form"]');
+
+ 		$(".bg-gradient-danger").click(function(){
+ 			form.attr("action","/purchase/cancelForm");
+ 			form.submit();
+ 		});
+ 			
+ 	});
+
+</script>
 
 <%@ include file="../include/footer.jsp"%>

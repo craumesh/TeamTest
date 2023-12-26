@@ -42,5 +42,11 @@ public class PurchaseServiceImpl implements PurchaseService {
 		logger.debug("Service: editForm(PurchaseVO pvo)");
 		return pdao.updateForm(pvo);
 	}
+
+	@Override
+	public int cancelForm(int order_id) throws Exception {
+		logger.debug("Service: cancelForm(int order_id)");
+		return pdao.deleteForm(order_id);	
+	}
 	
 }

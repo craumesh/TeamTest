@@ -44,5 +44,11 @@ public class PurchaseDAOImpl implements PurchaseDAO {
 		logger.debug("DAO: updateForm(PurchaseVO pvo)");
 		return SqlSession.update(NAMESPACE + ".updateForm", pvo);
 	}
+
+	@Override
+	public int deleteForm(int order_id) throws Exception {
+		logger.debug("DAO: deleteForm(int order_id)");
+		return SqlSession.update(NAMESPACE + ".deleteForm", order_id);
+	}
 	
 }

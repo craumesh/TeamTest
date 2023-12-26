@@ -14,4 +14,6 @@ public interface PurchaseService {
 
 	public int editForm(PurchaseVO pvo) throws Exception;
 
+	public int cancelForm(int order_id) throws Exception;
+
 }

@@ -14,4 +14,6 @@ public interface PurchaseDAO {
 
 	public int updateForm(PurchaseVO pvo) throws Exception;
 
+	public int deleteForm(int order_id) throws Exception;
+
 }

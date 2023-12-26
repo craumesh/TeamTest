@@ -14,6 +14,7 @@
 	  <!-- 내역 조회 -->
 	  <select id="list" resultType="PurchaseVO">
 	  		SELECT * FROM purchase_order
+	  		WHERE delete_status = 0
 	  </select>
 	  
 	  <!-- 주문 상세 조회 -->
@@ -27,5 +28,11 @@
 	  		UPDATE purchase_order SET due_date = #{due_date}, comments = #{comments}, update_date = NOW()
 	  		WHERE order_id = #{order_id} 
 	  </update>
-  
+	  
+	  <!-- 발주서 삭제 -->
+	  <update id="deleteForm">
+	  		UPDATE purchase_order SET order_status = "취소", update_date = NOW(), delete_status = 1
+	  		WHERE order_id = #{order_id}
+	  </update>
+	  
   </mapper>

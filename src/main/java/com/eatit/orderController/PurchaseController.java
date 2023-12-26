@@ -99,6 +99,19 @@ public class PurchaseController {
 		
 		// 서비스 - 신청서 수정 동작 호출(UPDATE)
 		pService.editForm(pvo);
+		rttr.addFlashAttribute("result", "modifyOK");
+		
+		return "redirect:/purchase/orderList";
+	}
+	
+	// 발주서 삭제 - POST
+	@RequestMapping(value = "/cancelForm", method = RequestMethod.POST)
+	public String cancelFormPOST(@RequestParam("order_id")int order_id) throws Exception {
+		
+		logger.debug("/purchase/cancelFormPOST() 호출");
+		
+		// 서비스 - 발주서 삭제 동작 호출(DELETE)
+		pService.cancelForm(order_id);
 		
 		return "redirect:/purchase/orderList";
 	}
