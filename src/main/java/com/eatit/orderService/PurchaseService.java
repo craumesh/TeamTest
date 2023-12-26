@@ -12,4 +12,6 @@ public interface PurchaseService {
 
 	public PurchaseVO getOrderDetail(int order_id) throws Exception;
 
+	public int editForm(PurchaseVO pvo) throws Exception;
+
 }

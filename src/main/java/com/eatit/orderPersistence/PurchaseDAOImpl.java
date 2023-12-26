@@ -38,5 +38,11 @@ public class PurchaseDAOImpl implements PurchaseDAO {
 		logger.debug("DAO: getOrderDetail(int order_id)");
 		return SqlSession.selectOne(NAMESPACE + ".readOrder", order_id);
 	}
+
+	@Override
+	public int updateForm(PurchaseVO pvo) throws Exception {
+		logger.debug("DAO: updateForm(PurchaseVO pvo)");
+		return SqlSession.update(NAMESPACE + ".updateForm", pvo);
+	}
 	
 }

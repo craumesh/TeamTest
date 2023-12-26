@@ -5,7 +5,7 @@
   
   <mapper namespace="com.eatit.mapper.PurchaseMapper">
   
-	  <!-- 신청서 작성 -->
+	  <!-- 발주서 작성 -->
 	  <insert id="insertForm">
 	  		INSERT INTO purchase_order (company_no, member_no, product_no, due_date, comments)
 	  		VALUES (#{company_no}, #{member_no}, #{product_no},#{due_date}, #{comments})
@@ -21,5 +21,11 @@
 	  		SELECT * FROM purchase_order
 	  		WHERE order_id = #{order_id}
 	  </select>
+	  
+	  <!-- 발주서 수정 -->
+	  <update id="updateForm">
+	  		UPDATE purchase_order SET due_date = #{due_date}, comments = #{comments}, update_date = NOW()
+	  		WHERE order_id = #{order_id} 
+	  </update>
   
   </mapper>

@@ -36,5 +36,11 @@ public class PurchaseServiceImpl implements PurchaseService {
 		logger.debug("Service: getOrderDetail(int order_id)");
 		return pdao.getOrderDetail(order_id);
 	}
+
+	@Override
+	public int editForm(PurchaseVO pvo) throws Exception {
+		logger.debug("Service: editForm(PurchaseVO pvo)");
+		return pdao.updateForm(pvo);
+	}
 	
 }

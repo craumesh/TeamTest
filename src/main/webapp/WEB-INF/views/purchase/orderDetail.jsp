@@ -27,10 +27,8 @@
 			</div>
 		<div class="card-body">
 			<!-- 폼테그 시작  -->
-			<form role="form" method="post">
-			<input type="hidden" name="company_no" value="1">
-			<input type="hidden" name="member_no" value="1">
-			<input type="hidden" name="product_no" value="1">
+			<form role="form" action="/purchase/editForm" method="post">
+			<input type="hidden" name="order_id" value="${purchaseVO.order_id }">
 				<!-- 거래처 정보 -->
 				<div class="row mb-4">
 					<div class="card">

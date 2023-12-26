@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.eatit.orderDomain.PurchaseVO;
 import com.eatit.orderService.PurchaseService;
@@ -71,7 +72,6 @@ public class PurchaseController {
 		return "/purchase/orderList";
 	}
 	
-	
 	// 발주 내역 상세 조회 - GET
 	@RequestMapping(value = "/orderDetail", method = RequestMethod.GET)
 	public void orderDetailGET(@RequestParam("order_id")int order_id, Model model) throws Exception {
@@ -87,4 +87,20 @@ public class PurchaseController {
 		// 페이지 이동 시 정보 전달
 		model.addAttribute(purchaseVO);
 	}
+	
+	// 발주서 수정 - POST
+	@RequestMapping(value = "/editForm", method = RequestMethod.POST)
+	public String editFormPOST(PurchaseVO pvo, RedirectAttributes rttr) throws Exception {
+		
+		logger.debug("/purchase/editFormPOST() 호출");
+		
+		// 수정할 정보 확인
+		logger.debug("pvo: " + pvo);
+		
+		// 서비스 - 신청서 수정 동작 호출(UPDATE)
+		pService.editForm(pvo);
+		
+		return "redirect:/purchase/orderList";
+	}
+	
 }
