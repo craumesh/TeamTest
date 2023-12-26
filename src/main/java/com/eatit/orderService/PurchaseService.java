@@ -10,4 +10,6 @@ public interface PurchaseService {
 
 	public List<PurchaseVO> orderList() throws Exception;
 
+	public PurchaseVO getOrderDetail(int order_id) throws Exception;
+
 }

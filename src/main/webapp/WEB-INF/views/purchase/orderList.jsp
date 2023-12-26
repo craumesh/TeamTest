@@ -53,8 +53,10 @@
 											<input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" data-gtm-form-interact-field-id="0">
 										</div>
 									</td>
-									<td class="align-middle text-center">
-                      					<span class="text-secondary font-weight-bold">${vo.order_id }</span>
+									<td class="align-middle text-center identify-no">
+                      					<a href="/purchase/orderDetail?order_id=${vo.order_id }">
+                      						<span class="text-secondary font-weight-bold">${vo.order_id }</span>
+                      					</a>                  						
                      				</td>
 									<td>
 				                    	<div class="d-flex px-2 py-1">

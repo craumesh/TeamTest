@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.eatit.orderDomain.PurchaseVO;
 import com.eatit.orderService.PurchaseService;
@@ -53,10 +54,10 @@ public class PurchaseController {
 	}
 	
 	// 발주 내역 조회 - GET
-	@RequestMapping(value = "orderList", method = RequestMethod.GET)
+	@RequestMapping(value = "/orderList", method = RequestMethod.GET)
 	public String orderListGET(Model model, @ModelAttribute("result") String result, HttpSession session) throws Exception {
 		
-		logger.debug("orderListGET() 호출");
+		logger.debug("/purchase/orderListGET() 호출");
 		
 		session.setAttribute("viewcntCheck", true);
 		
@@ -70,4 +71,20 @@ public class PurchaseController {
 		return "/purchase/orderList";
 	}
 	
+	
+	// 발주 내역 상세 조회 - GET
+	@RequestMapping(value = "/orderDetail", method = RequestMethod.GET)
+	public void orderDetailGET(@RequestParam("order_id")int order_id, Model model) throws Exception {
+		
+		logger.debug("/purchase/orderDetailGET() 호출");
+		
+		// 전달 정보 저장(order_id)
+		logger.debug("order_id: " + order_id);
+		
+		// 서비스 - 주문 번호에 해당하는 주문 상세 내역 조회
+		PurchaseVO purchaseVO = pService.getOrderDetail(order_id);
+		
+		// 페이지 이동 시 정보 전달
+		model.addAttribute(purchaseVO);
+	}
 }

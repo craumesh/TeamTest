@@ -15,5 +15,11 @@
 	  <select id="list" resultType="PurchaseVO">
 	  		SELECT * FROM purchase_order
 	  </select>
+	  
+	  <!-- 주문 상세 조회 -->
+	  <select id="readOrder" resultType="PurchaseVO">
+	  		SELECT * FROM purchase_order
+	  		WHERE order_id = #{order_id}
+	  </select>
   
   </mapper>

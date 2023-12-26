@@ -30,5 +30,11 @@ public class PurchaseServiceImpl implements PurchaseService {
 		logger.debug("Service: orderList()");
 		return pdao.getOrderList();
 	}
+
+	@Override
+	public PurchaseVO getOrderDetail(int order_id) throws Exception {
+		logger.debug("Service: getOrderDetail(int order_id)");
+		return pdao.getOrderDetail(order_id);
+	}
 	
 }
