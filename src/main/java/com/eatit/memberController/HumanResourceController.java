@@ -37,7 +37,7 @@ public class HumanResourceController {
 	
 	@RequestMapping(value = "/content", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
 	@ResponseBody
-	public MemberVO hrContentGET(MemberVO vo, Model model) {
+	public MemberVO hrContentGET(MemberVO vo) {
 		logger.debug("/hr/content 호출 -> hrContentGET() 실행");
 		return hrService.getHrContent(vo);
 	}

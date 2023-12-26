@@ -24,7 +24,7 @@
 	
 		<div class="card-body mx-5 px-0 pb-4">
 			<div class="table-responsive p-0">
-				<table class="table table-hover align-items-center mb-0">
+				<table id="hr-table" class="table table-hover align-items-center mb-0">
 					<thead>
 						<tr>
 							<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2"><input type="checkbox"></th>
@@ -82,8 +82,8 @@
 <div id="Modal" class="modal top-10 position-absolute">
 	<div class="modal-dialog">
 		<div class="modal-content">
-			<button class="btn-close bg-gradient-primary position-absolute end-5"></button>
 			<div class="modal-header">
+				<button id="closebtn" class="btn bg-gradient-primary position-absolute py-1 px-2 mt-2 end-5">X</button>
 				<h3 class="modal-title mx-auto">사원 정보</h3>
 			</div>
 			<div class="modal-body p-5">
@@ -106,8 +106,8 @@
 						</table>
 					</div>
 				</div>
-				<div>
-					<table class="table">
+				<div id="tableContainer" class="modal-body">
+					<table id="view-table" class="table">
 						<tr>
 							<th class="fs-5">부서</th>
 							<td class="fs-5" id="depart_name"></td>
@@ -137,6 +137,57 @@
 							<td class="fs-5" id="status"></td>
 						</tr>
 					</table>
+					
+					<table id="edit-table" class="d-none table">
+				    	<tr>
+							<th class="fs-5">부서</th>
+							<td class="fs-5">
+								<select id="depart_name-select">
+									<option class="fs-5" value="미정">미정</option>
+									<option class="fs-5" value="관리">관리</option>
+									<option class="fs-5" value="생산">생산</option>
+									<option class="fs-5" value="영업">영업</option>
+									<option class="fs-5" value="총괄">총괄</option>
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<th class="fs-5">직책</th>
+							<td class="fs-5">
+								<select id="position_name-select"></select>
+							</td>
+						</tr>
+						<tr>
+							<th class="fs-5">이메일</th>
+							<td class="fs-5"><input type="email" name="email" id="email-input"></td>
+						</tr>
+						<tr>
+							<th class="fs-5">내선번호</th>
+							<td class="fs-5"><input type="tel" name="extension_no" id="extension_no-input"></td>
+						</tr>
+						<tr>
+							<th class="fs-5">연락처</th>
+							<td class="fs-5" ><input type="tel" name="contact" id="contact-input"></td>
+						</tr>
+						<tr>
+							<th class="fs-5">주소</th>
+							<td class="fs-5"><input type="text" name="address" id="address-input"></td>
+						</tr>
+						<tr>
+							<th class="fs-5">재직상태</th>
+							<td class="fs-5">
+								<select id="status-select">
+									<option class="fs-5" value="재직">재직</option>
+									<option class="fs-5" value="휴가">휴가</option>
+									<option class="fs-5" value="휴직">휴직</option>
+									<option class="fs-5" value="퇴직">퇴직</option>
+								</select>
+							</td>
+						</tr>
+				  	</table>
+				</div>
+				<div class="text-center">
+					<button id="editbtn" class="btn bg-gradient-danger fs-6 mb-0 py-2 px-3">정보 수정</button>
 				</div>
 			</div>
 		</div>
@@ -147,10 +198,9 @@
 
 <script>
 	var modal = document.getElementById("Modal");
-	var span = document.getElementsByClassName("btn-close")[0];
 
 	$(document).ready(function() {
-		$("table").on("click", "tr td:not(:first-child)", function(event) {
+		$("#hr-table").on("click", "tr td:not(:first-child)", function(event) {
 	        var value = $(this).closest("tr").find("td.identify-no").text();
 	        $.ajax({
 	            url: '/hr/content?employee_no=' + value,
@@ -176,10 +226,34 @@
 			});
 	    });
 		
-		$(".btn-close").click(function(){
+		$("#closebtn").click(function(){
 			modal.style.display = "none";
 			location.reload();
 		});
+		
+		$("#editbtn").click(function(){
+			$("#view-table").toggleClass("d-none");
+		    $("#edit-table").toggleClass("d-none");
+		    
+		    updatePositionNameSelect();
+		    getEditInfo();
+		    
+/* 		    var optionToSelect = $("#depart_name-select option").filter(function() {
+				return $(this).text().indexOf($("#depart_name").text()) !== -1;
+			});
+			
+			if (optionToSelect.length > 0) {
+			    optionToSelect.prop("selected", true);
+		    } */
+			
+/* 			optionToSelect = $("#position_name-select option").filter(function() {
+				return $(this).text().indexOf($("#position_name").text()) !== -1;
+			});
+			
+			if (optionToSelect.length > 0) {
+			    optionToSelect.prop("selected", true);
+		    } */
+		});		
 		
 		$(window).click(function(event){
 			if (event.target == modal) {
@@ -195,6 +269,64 @@
 		$(".input-group").click(function(){
 			$(this).addClass("focused is-focused");
 		});
+		
+		$("#depart_name-select").on("change", function() {			
+			updatePositionNameSelect();
+		});	
 	});
+	
+	function getEditInfo() {
+	    getSelected("#depart_name");
+	    getSelected("#position_name");
+		$("#email-input").val($("#email").text());
+		$("#extension_no-input").val($("#extension_no").text());
+		$("#contact-input").val($("#contact").text());
+		$("#address-input").val($("#address").text());
+	    getSelected("#status");
+	}
+	
+	function updatePositionNameSelect() {
+	    var selectedValue = $("#depart_name-select").val();
+	    var positionNameSelect = $("#position_name-select");
+
+	    positionNameSelect.empty();
+
+	    switch (selectedValue) {
+	      case "미정":
+	        addOption(positionNameSelect, "미정", "미정");
+	        break;
+	      case "관리":
+	        addOption(positionNameSelect, "서브 옵션 1", "subOption1");
+	        addOption(positionNameSelect, "서브 옵션 2", "subOption2");
+	        break;
+	      case "생산":
+	        addOption(positionNameSelect, "서브 옵션 3", "subOption3");
+	        addOption(positionNameSelect, "서브 옵션 4", "subOption4");
+	        break;
+	      case "영업":
+	        addOption(positionNameSelect, "서브 옵션 5", "subOption5");
+	        addOption(positionNameSelect, "서브 옵션 6", "subOption6");
+	        break;
+	      case "총괄":
+	        addOption(positionNameSelect, "서브 옵션 7", "subOption7");
+	        addOption(positionNameSelect, "서브 옵션 8", "subOption8");
+	        break;
+	    }
+	}
+	
+	function addOption(selectElement, text, value) {
+		var option = $("<option>").text(text).val(value);
+		selectElement.append(option);
+	}
+	
+	function getSelected(id) {
+		var optionToSelect = $(id+"-select option").filter(function() {
+			return $(this).text().indexOf($(id).text()) !== -1;
+		});
+		
+		if (optionToSelect.length > 0) {
+		    optionToSelect.prop("selected", true);
+	    }
+	}
 	
 </script>
