@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <%@ include file="../include/header.jsp"%>
 <%@ include file="../include/js.jsp"%>
@@ -13,18 +14,31 @@
 <div class="card my-4">
 	<div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
 		<div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-			<h6 class="text-white text-capitalize ps-3">발주 신청서</h6>
+			<h6 class="text-white text-capitalize ps-3">발주서</h6>
 		</div>
 	</div>	
-	<div class="card-body px-0 pb-2">
-			<div class="text-end pe-3 pb-3">
-				<a class="btn btn-outline-primary mb-0" href="/purchase/orderList">
-					<i class="material-icons text-sm me-2">more_horiz</i> 목록으로
-				</a>
-				<a class="btn bg-gradient-danger mb-0">
-					<i class="material-icons text-sm me-2">delete</i> 삭제하기
-				</a>
+	<div class="card-body px-0 pb-2">	
+		<div class="row gx-4 mb-2">	
+			<div class="col-auto my-auto">
+				<div class="h-100 ps-4">
+					<h5 class="mb-1">${purchaseVO.order_id }</h5>
+					<p class="mb-0 font-weight-normal text-sm">
+						<fmt:formatDate value="${purchaseVO.order_date }" pattern="yyyy-MM-dd HH:mm:ss" var="order_date"/>
+						${order_date }
+					</p>
+				</div>
 			</div>
+			<div class="col-lg-4 col-md-6 my-sm-auto ms-sm-auto me-sm-0 mx-auto mt-3">			
+				<div class="text-end pe-3 pb-3">
+					<a class="btn btn-outline-primary mb-0" href="/purchase/orderList">
+						<i class="material-icons text-sm me-2">more_horiz</i> 목록으로
+					</a>
+					<a class="btn bg-gradient-danger mb-0">
+						<i class="material-icons text-sm me-2">delete</i> 삭제하기
+					</a>					 
+				</div> 	
+			</div>
+		</div>			
 		<div class="card-body">
 			<!-- 폼테그 시작  -->
 			<form role="form" action="/purchase/editForm" method="post">
