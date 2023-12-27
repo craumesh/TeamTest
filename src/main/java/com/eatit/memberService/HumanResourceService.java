@@ -11,4 +11,6 @@ public interface HumanResourceService {
 	public MemberVO getHrContent(MemberVO vo);
 	
 	public int getTotalCount();
+	
+	public void editHrContent(MemberVO vo);
 }

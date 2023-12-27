@@ -35,8 +35,14 @@ public class HumanResourceDAOImpl implements HumanResourceDAO {
 
 	@Override
 	public int getTotalCount() {
-		logger.debug("DAO getTotalCount() 호출");
+		logger.debug("DAO(getTotalCount) -> Mapper 호출");
 		return sqlSession.selectOne(NAMESPACE+".totalCount");
+	}
+
+	@Override
+	public void updateHrContent(MemberVO vo) {
+		logger.debug("DAO(updateHrContent) -> Mapper 호출");
+		sqlSession.update(NAMESPACE+".updateHrContent", vo);
 	}
 
 }

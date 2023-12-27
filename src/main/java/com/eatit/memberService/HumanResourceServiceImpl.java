@@ -38,4 +38,10 @@ public class HumanResourceServiceImpl implements HumanResourceService {
 		return hrDAO.getTotalCount();
 	}
 
+	@Override
+	public void editHrContent(MemberVO vo) {
+		logger.debug("Service(editHrContent) -> DAO 호출");
+		hrDAO.updateHrContent(vo);
+	}
+
 }

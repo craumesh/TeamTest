@@ -12,11 +12,11 @@
 					<div class="align-items-center d-flex flex-column">
 						<div class="input-group input-group-outline">
 							<label class="form-label">검색어</label>
-							<input type="text" class="form-control">
+							<input type="text" id="searchWord" name="searchWord" class="form-control">
 						</div>
 					</div>
 					<div class="align-items-center d-flex flex-column py-1">
-						<a class="btn btn-outline-primary btn-sm mb-0 py-1 ms-2" target="_blank" href="">검색</a>
+						<button id="searchbtn" class="btn btn-outline-primary btn-sm mb-0 py-1 ms-2">검색</button>
 					</div>
 				</div>
 			</div>
@@ -138,53 +138,56 @@
 						</tr>
 					</table>
 					
-					<table id="edit-table" class="d-none table">
-				    	<tr>
-							<th class="fs-5">부서</th>
-							<td class="fs-5">
-								<select id="depart_name-select">
-									<option class="fs-5" value="미정">미정</option>
-									<option class="fs-5" value="관리">관리</option>
-									<option class="fs-5" value="생산">생산</option>
-									<option class="fs-5" value="영업">영업</option>
-									<option class="fs-5" value="총괄">총괄</option>
-								</select>
-							</td>
-						</tr>
-						<tr>
-							<th class="fs-5">직책</th>
-							<td class="fs-5">
-								<select id="position_name-select"></select>
-							</td>
-						</tr>
-						<tr>
-							<th class="fs-5">이메일</th>
-							<td class="fs-5"><input type="email" name="email" id="email-input"></td>
-						</tr>
-						<tr>
-							<th class="fs-5">내선번호</th>
-							<td class="fs-5"><input type="tel" name="extension_no" id="extension_no-input"></td>
-						</tr>
-						<tr>
-							<th class="fs-5">연락처</th>
-							<td class="fs-5" ><input type="tel" name="contact" id="contact-input"></td>
-						</tr>
-						<tr>
-							<th class="fs-5">주소</th>
-							<td class="fs-5"><input type="text" name="address" id="address-input"></td>
-						</tr>
-						<tr>
-							<th class="fs-5">재직상태</th>
-							<td class="fs-5">
-								<select id="status-select">
-									<option class="fs-5" value="재직">재직</option>
-									<option class="fs-5" value="휴가">휴가</option>
-									<option class="fs-5" value="휴직">휴직</option>
-									<option class="fs-5" value="퇴직">퇴직</option>
-								</select>
-							</td>
-						</tr>
-				  	</table>
+					<form id="edit-form" method="post">
+						<input type="hidden" name="employee_no" id="employee_no-forSubmit">
+						<table id="edit-table" class="d-none table">
+					    	<tr>
+								<th class="fs-5">부서</th>
+								<td class="fs-6">
+									<select name="depart_name" id="depart_name-select">
+										<option value="미정">미정</option>
+										<option value="관리">관리</option>
+										<option value="생산">생산</option>
+										<option value="영업">영업</option>
+										<option value="총괄">총괄</option>
+									</select>
+								</td>
+							</tr>
+							<tr>
+								<th class="fs-5">직책</th>
+								<td class="fs-6">
+									<select name="position_name" id="position_name-select"></select>
+								</td>
+							</tr>
+							<tr>
+								<th class="fs-5">이메일</th>
+								<td class="fs-6"><input type="email" name="email" id="email-input" required="required"></td>
+							</tr>
+							<tr>
+								<th class="fs-5">내선번호</th>
+								<td class="fs-6"><input type="tel" name="extension_no" id="extension_no-input" required="required"></td>
+							</tr>
+							<tr>
+								<th class="fs-5">연락처</th>
+								<td class="fs-6" ><input type="tel" name="contact" id="contact-input" required="required"></td>
+							</tr>
+							<tr>
+								<th class="fs-5">주소</th>
+								<td class="fs-6"><input type="text" name="address" id="address-input" required="required"></td>
+							</tr>
+							<tr>
+								<th class="fs-5">재직상태</th>
+								<td class="fs-6">
+									<select name="status" id="status-select">
+										<option value="재직">재직</option>
+										<option value="휴가">휴가</option>
+										<option value="휴직">휴직</option>
+										<option value="퇴직">퇴직</option>
+									</select>
+								</td>
+							</tr>
+					  	</table>
+				  	</form>
 				</div>
 				<div class="text-center">
 					<button id="editbtn" class="btn bg-gradient-danger fs-6 mb-0 py-2 px-3">정보 수정</button>
@@ -200,6 +203,19 @@
 	var modal = document.getElementById("Modal");
 
 	$(document).ready(function() {
+		$("#searchbtn").click(function(){
+			$.ajax({
+	            url: '/hr/content?employee_no=' + value,
+				method : 'GET',
+				dataType: 'json',
+				success : function(data) {
+				},
+				error : function(error) {
+					console.log('실패:', error);
+				}
+			});
+		});		
+		
 		$("#hr-table").on("click", "tr td:not(:first-child)", function(event) {
 	        var value = $(this).closest("tr").find("td.identify-no").text();
 	        $.ajax({
@@ -209,6 +225,7 @@
 				success : function(data) {
 					$('#photo_paths').attr('src', data.photo_paths).attr('width', '100');
 					$("#employee_no").text(data.employee_no);
+					$("#employee_no-forSubmit").val(data.employee_no);
 					$("#id").text(data.id);
 				    $("#name").text(data.name);
 				    $("#depart_name").text(data.depart_name);
@@ -232,27 +249,31 @@
 		});
 		
 		$("#editbtn").click(function(){
-			$("#view-table").toggleClass("d-none");
-		    $("#edit-table").toggleClass("d-none");
-		    
-		    updatePositionNameSelect();
-		    getEditInfo();
-		    
-/* 		    var optionToSelect = $("#depart_name-select option").filter(function() {
-				return $(this).text().indexOf($("#depart_name").text()) !== -1;
-			});
-			
-			if (optionToSelect.length > 0) {
-			    optionToSelect.prop("selected", true);
-		    } */
-			
-/* 			optionToSelect = $("#position_name-select option").filter(function() {
-				return $(this).text().indexOf($("#position_name").text()) !== -1;
-			});
-			
-			if (optionToSelect.length > 0) {
-			    optionToSelect.prop("selected", true);
-		    } */
+			if ($("#edit-table").hasClass("d-none")) {
+				$("#view-table").toggleClass("d-none");
+			    $("#edit-table").toggleClass("d-none");	
+				$("#editbtn").text("수정 완료");
+			    getEditInfo();
+			    updatePositionNameSelect();
+			} else {
+				swal({
+					  title: "정말 수정하시겠습니까?",
+					  text: "이 사람도 누군가의 가장입니다",
+					  icon: "warning",
+					  buttons: true,
+					  dangerMode: true,
+					})
+					.then((willDelete) => {
+					  if (willDelete) {
+						swal("당신은 정말 잔인한 사람이에요!", {icon: "success"}).then(function(){
+							$("#closebtn").click(); 
+							$("#edit-form").submit();                
+						});							
+					  } else {
+					    swal("우유부단 하시군요!");
+					  }
+				});		    
+			}		    
 		});		
 		
 		$(window).click(function(event){
@@ -293,29 +314,28 @@
 
 	    switch (selectedValue) {
 	      case "미정":
-	        addOption(positionNameSelect, "미정", "미정");
+	        addOption(positionNameSelect, "미정");
 	        break;
 	      case "관리":
-	        addOption(positionNameSelect, "서브 옵션 1", "subOption1");
-	        addOption(positionNameSelect, "서브 옵션 2", "subOption2");
+	        addOption(positionNameSelect, "정보");
+	        addOption(positionNameSelect, "재고");
 	        break;
 	      case "생산":
-	        addOption(positionNameSelect, "서브 옵션 3", "subOption3");
-	        addOption(positionNameSelect, "서브 옵션 4", "subOption4");
+	        addOption(positionNameSelect, "상품");
+	        addOption(positionNameSelect, "설비");
 	        break;
 	      case "영업":
-	        addOption(positionNameSelect, "서브 옵션 5", "subOption5");
-	        addOption(positionNameSelect, "서브 옵션 6", "subOption6");
+	        addOption(positionNameSelect, "자재");
+	        addOption(positionNameSelect, "납품");
 	        break;
 	      case "총괄":
-	        addOption(positionNameSelect, "서브 옵션 7", "subOption7");
-	        addOption(positionNameSelect, "서브 옵션 8", "subOption8");
+	        addOption(positionNameSelect, "임원");
 	        break;
 	    }
 	}
 	
-	function addOption(selectElement, text, value) {
-		var option = $("<option>").text(text).val(value);
+	function addOption(selectElement, value) {
+		var option = $("<option>").text(value).val(value);
 		selectElement.append(option);
 	}
 	

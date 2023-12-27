@@ -35,6 +35,13 @@ public class HumanResourceController {
 		model.addAttribute("list", hrService.getHrList(cri));
 	}
 	
+	@RequestMapping(value = "/list", method = RequestMethod.POST)
+	public String hrListPost(MemberVO vo) {
+		logger.debug("/hr/list 호출 -> hrListPOST() 실행");
+		hrService.editHrContent(vo);
+		return "redirect:/hr/list";
+	}
+	
 	@RequestMapping(value = "/content", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public MemberVO hrContentGET(MemberVO vo) {

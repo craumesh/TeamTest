@@ -26,4 +26,16 @@
 	  		WHERE employee_no>0
   		]]>
   	</select>
+  	
+  	<update id="updateHrContent">
+  		UPDATE member
+  		SET depart_name=#{depart_name},
+  		position_name=#{position_name},
+  		email=#{email},
+  		extension_no=#{extension_no},
+  		contact=#{contact},
+  		address=#{address},
+  		status=#{status}
+  		WHERE employee_no=#{employee_no}
+  	</update>
 </mapper>

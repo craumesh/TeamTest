@@ -12,4 +12,6 @@ public interface HumanResourceDAO {
 	public List<MemberVO> selectHrList(Criteria cri);
 	
 	public int getTotalCount();
+	
+	public void updateHrContent(MemberVO vo);
 }
