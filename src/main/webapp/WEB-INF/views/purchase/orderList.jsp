@@ -43,6 +43,7 @@
 								<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">지점 정보</th>
 								<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">발주 일자</th>
 								<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">처리 상태</th>
+								<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">수정/삭제</th>
 							</tr>
 						</thead>					
 						<tbody>
@@ -81,6 +82,16 @@
 									<td class="align-middle text-center text-sm">
 			                        	<span class="badge badge-sm bg-gradient-success">${vo.order_status }</span>
 			                      	</td>
+									<td class="align-middle text-center">
+										<a class="btn btn-link text-dark px-3 mb-0" href="/purchase/orderDetail?order_id=${vo.order_id }">
+											<i class="material-icons text-sm me-2">edit</i>
+											Edit
+										</a>
+										<a class="btn btn-link text-danger text-gradient px-3 mb-0" href="./delete">
+											<i class="material-icons text-sm me-2">delete</i>
+											Delete
+										</a>
+									</td>
 								</tr>
 							</c:forEach>
 						</tbody>												
