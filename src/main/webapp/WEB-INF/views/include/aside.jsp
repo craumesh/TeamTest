@@ -104,7 +104,7 @@
 				class="nav-link text-white" style="cursor: default;">인사 관리</span>
 				<ul class="navbar-nav" id="sm6">
 					<li class="nav-item"><a class="nav-link text-white sm-hv"
-						href="${path}/submenu1.html"> <span class="nav-link-text ms-1">서브메뉴
+						href="${path}/hr/list"> <span class="nav-link-text ms-1">서브메뉴
 								1</span>
 					</a></li>
 					<li class="nav-item"><a class="nav-link text-white sm-hv"

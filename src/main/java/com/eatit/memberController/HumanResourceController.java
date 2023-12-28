@@ -1,11 +1,14 @@
 package com.eatit.memberController;
 
+import java.util.Map;
+
 import javax.inject.Inject;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -31,6 +34,7 @@ public class HumanResourceController {
 		pageVO.setCri(cri);
 		pageVO.setTotalCount(hrService.getTotalCount());
 		
+		model.addAttribute("listUrl", "list");
 		model.addAttribute("pageVO", pageVO);
 		model.addAttribute("list", hrService.getHrList(cri));
 	}
@@ -48,4 +52,24 @@ public class HumanResourceController {
 		logger.debug("/hr/content 호출 -> hrContentGET() 실행");
 		return hrService.getHrContent(vo);
 	}
-}
+	
+	@RequestMapping(value = "/searchlist", method = RequestMethod.GET)
+	public String searchListGET(Model model, Map<String, Object> params, Criteria cri, @ModelAttribute("searchword") String searchword) {
+		logger.debug("/hr/searchlist 호출 -> searchListGET() 실행");
+		logger.debug("searchword : " + searchword);
+		PageVO pageVO = new PageVO();
+		pageVO.setCri(cri);
+		pageVO.setTotalCount(hrService.getSearchCount(searchword));
+		
+		logger.debug("hrService.getSearchCount() : "+hrService.getSearchCount(searchword));
+		
+		params.put("cri", cri);
+		params.put("searchword", searchword);
+		model.addAttribute("searchword",searchword);
+		model.addAttribute("listUrl", "searchlist");
+		model.addAttribute("pageVO", pageVO);
+		model.addAttribute("list",hrService.getSearchList(params,cri, searchword));
+		
+		return "/hr/list";
+	}
+}	

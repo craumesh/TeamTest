@@ -1,6 +1,7 @@
 package com.eatit.memberService;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -42,6 +43,18 @@ public class HumanResourceServiceImpl implements HumanResourceService {
 	public void editHrContent(MemberVO vo) {
 		logger.debug("Service(editHrContent) -> DAO 호출");
 		hrDAO.updateHrContent(vo);
+	}
+
+	@Override
+	public List<MemberVO> getSearchList(Map<String, Object> params, Criteria cri, String searchword) {
+		logger.debug("Service(getSearchList) -> DAO 호출");
+		return hrDAO.selectSearchList(params, cri, searchword);
+	}
+
+	@Override
+	public int getSearchCount(String searchword) {
+		logger.debug("Service(getSearchCount) -> DAO 호출");
+		return hrDAO.getSearchCount(searchword);
 	}
 
 }

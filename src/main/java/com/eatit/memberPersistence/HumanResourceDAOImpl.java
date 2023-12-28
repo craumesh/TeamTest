@@ -1,9 +1,11 @@
 package com.eatit.memberPersistence;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,6 +45,18 @@ public class HumanResourceDAOImpl implements HumanResourceDAO {
 	public void updateHrContent(MemberVO vo) {
 		logger.debug("DAO(updateHrContent) -> Mapper 호출");
 		sqlSession.update(NAMESPACE+".updateHrContent", vo);
+	}
+
+	@Override
+	public List<MemberVO> selectSearchList(Map<String, Object> params, Criteria cri, String searchword) {
+		logger.debug("DAO(selectSearchList) -> Mapper 호출");
+		return sqlSession.selectList(NAMESPACE+".selectSearchList",params);
+	}
+
+	@Override
+	public int getSearchCount(String searchword) {
+		logger.debug("DAO(getSearchCount) -> Mapper 호출");
+		return sqlSession.selectOne(NAMESPACE+".searchCount",searchword);
 	}
 
 }

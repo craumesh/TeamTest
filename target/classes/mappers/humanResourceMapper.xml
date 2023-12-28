@@ -38,4 +38,25 @@
   		status=#{status}
   		WHERE employee_no=#{employee_no}
   	</update>
+  	
+	<select id="selectSearchList" resultType="MemberVO" parameterType="map">
+	    SELECT *
+	    FROM member
+	    WHERE employee_no=#{searchword}
+	    OR name LIKE CONCAT('%', #{searchword}, '%')
+	    OR position_name LIKE CONCAT('%', #{searchword}, '%')
+	    ORDER BY employee_no DESC, regdate DESC
+	    LIMIT #{cri.startPage}, #{cri.pageSize}
+	</select>
+	
+	<select id="searchCount" resultType="int">
+  		<![CDATA[
+	  		SELECT COUNT(*)
+	  		FROM member
+		    WHERE employee_no=#{searchword}
+		    OR name LIKE CONCAT('%', #{searchword}, '%')
+		    OR position_name LIKE CONCAT('%', #{searchword}, '%')
+		    AND employee_no>0
+  		]]>
+  	</select>
 </mapper>

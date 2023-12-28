@@ -12,7 +12,7 @@
 					<div class="align-items-center d-flex flex-column">
 						<div class="input-group input-group-outline">
 							<label class="form-label">검색어</label>
-							<input type="text" id="searchWord" name="searchWord" class="form-control">
+							<input type="text" id="searchword" name="searchword" class="form-control">
 						</div>
 					</div>
 					<div class="align-items-center d-flex flex-column py-1">
@@ -37,7 +37,7 @@
 							<th class="text-center font-weight-bolder col-1">재직상태</th>
 						</tr>
 					</thead>
-	 				<tbody>
+	 				<tbody id="employeeTableBody">
 						<c:forEach var="vo" items="${list}">
 							<tr class="memList">
 								<td class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2 py-3"><input type="checkbox"></td>
@@ -62,15 +62,15 @@
 			<div class="col-sm-5">
 				<ul class="pagination">
 					<c:if test="${pageVO.prev }">
-						<li class="page-link link-container"><a href="/hr/list?page=${pageVO.endPage-pageVO.displayPageNum }" class="link"><<</a></li>
+						<li class="page-link link-container"><a href="/hr/${listUrl }?page=${pageVO.endPage-pageVO.displayPageNum }&searchword=${searchword}" class="link"><<</a></li>
 					</c:if>
 					<c:forEach var="i" begin="${pageVO.startPage }" end="${pageVO.endPage }" step="1">
 						<li ${pageVO.cri.page == i ? "class='page-link link-container active'" : "class='page-link link-container'"} >
-							<a href="/hr/list?page=${i }" ${pageVO.cri.page == i ? "class='link-white'" : ""}>${i }</a>
+							<a href="/hr/${listUrl }?page=${i }&searchword=${searchword}" ${pageVO.cri.page == i ? "class='link-white'" : "class=''"}>${i }</a>
 						</li>				
 					</c:forEach>
 					<c:if test="${pageVO.next }">
-						<li class="page-link link-container"><a href="/hr/list?page=${pageVO.startPage+pageVO.displayPageNum }" class="link">>></a></li>
+						<li class="page-link link-container"><a href="/hr/${listUrl }?page=${pageVO.startPage+pageVO.displayPageNum }&searchword=${searchword}" class="link">>></a></li>
 					</c:if>
 				</ul>
 			</div>
@@ -203,17 +203,10 @@
 	var modal = document.getElementById("Modal");
 
 	$(document).ready(function() {
+		
 		$("#searchbtn").click(function(){
-			$.ajax({
-	            url: '/hr/content?employee_no=' + value,
-				method : 'GET',
-				dataType: 'json',
-				success : function(data) {
-				},
-				error : function(error) {
-					console.log('실패:', error);
-				}
-			});
+			var value = $("#searchword").val();
+			location.href= '/hr/searchlist?searchword=' + value;
 		});		
 		
 		$("#hr-table").on("click", "tr td:not(:first-child)", function(event) {
@@ -245,7 +238,11 @@
 		
 		$("#closebtn").click(function(){
 			modal.style.display = "none";
-			location.reload();
+			if (tableBody.hasClass('searchresult')) {
+				
+			} else {
+				location.reload();
+			}
 		});
 		
 		$("#editbtn").click(function(){
@@ -283,7 +280,9 @@
 			}
 			
 			if (!$(event.target).closest('.input-group').length) {
-		        $(".input-group").removeClass("focused is-focused");
+				if (!$("#searchword").val()) {
+		       		$(".input-group").removeClass("focused is-focused");
+				}
 		    }
 		});		
 		
@@ -347,6 +346,5 @@
 		if (optionToSelect.length > 0) {
 		    optionToSelect.prop("selected", true);
 	    }
-	}
-	
+	}	
 </script>
