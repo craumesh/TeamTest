@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <%@ include file="../include/header.jsp"%>
 <%@ include file="../include/js.jsp"%>
@@ -6,23 +7,42 @@
 <script>
     function openSearchProduct() {
         // 새 창을 여는 코드
-        window.open('/product/search', '_blank', 'width=800,height=600');
+        window.open('/purchaseOrder/search', '_blank', 'width=800,height=600');
     }
 </script>
 
 <div class="card my-4">
 	<div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
 		<div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-			<h6 class="text-white text-capitalize ps-3">발주 신청서</h6>
+			<h6 class="text-white text-capitalize ps-3">발주서</h6>
 		</div>
 	</div>	
-	<div class="card-body px-0 pb-2">
+	<div class="card-body px-0 pb-2">	
+		<div class="row gx-4 mb-2">	
+			<div class="col-auto my-auto">
+				<div class="h-100 ps-4">
+					<h5 class="mb-1">${purchaseVO.order_id }</h5>
+					<p class="mb-0 font-weight-normal text-sm">
+						<fmt:formatDate value="${purchaseVO.order_date }" pattern="yyyy-MM-dd HH:mm:ss" var="order_date"/>
+						${order_date }
+					</p>
+				</div>
+			</div>
+			<div class="col-lg-4 col-md-6 my-sm-auto ms-sm-auto me-sm-0 mx-auto mt-3">			
+				<div class="text-end pe-3 pb-3">
+					<a class="btn btn-outline-primary mb-0" href="/purchaseOrder/orderList">
+						<i class="material-icons text-sm me-2">more_horiz</i> 목록으로
+					</a>
+					<a class="btn bg-gradient-danger mb-0">
+						<i class="material-icons text-sm me-2">delete</i> 삭제하기
+					</a>					 
+				</div> 	
+			</div>
+		</div>			
 		<div class="card-body">
 			<!-- 폼테그 시작  -->
-			<form role="form" method="post">
-			<input type="hidden" name="company_no" value="1">
-			<input type="hidden" name="member_no" value="1">
-			<input type="hidden" name="product_no" value="1">
+			<form role="form" action="/purchaseOrder/editForm" method="post">
+			<input type="hidden" name="order_id" value="${purchaseVO.order_id }">
 				<!-- 거래처 정보 -->
 				<div class="row mb-4">
 					<div class="card">
@@ -168,13 +188,13 @@
 									<h6>희망 납기일</h6>
 								</div>
 								<div class="input-group input-group-outline mb-3">
-									<input class="form-control" type="date" name="due_date">
+									<input class="form-control" type="date" name="due_date" value="${purchaseVO.due_date }">
 								</div>
 								<div class="col-lg-6 col-7">
 									<h6>요청사항</h6>
 								</div>
 								<div class="input-group input-group-outline mb-3">
-									<textarea class="form-control" rows="7" placeholder="요청사항을 입력하세요" name="comments"></textarea>
+									<textarea class="form-control" rows="7" name="comments">${purchaseVO.comments }</textarea>
 								</div>	
 							</div>
 						</div>
@@ -182,11 +202,26 @@
 				</div>
 				<!-- 버튼 -->
 				<div class="text-center">
-					<button type="submit" class="btn btn-lg bg-gradient-primary btn-lg w-100 mt-4 mb-0">신청하기</button>
+					<button type="submit" class="btn btn-lg bg-gradient-primary btn-lg w-100 mt-4 mb-0">수정하기</button>
 				</div>
 			</form>
 		</div>
 	</div>
 </div>
+
+<script type="text/javascript">
+
+ 	$(document).ready(function(){
+ 		
+ 		var form = $('form[role="form"]');
+
+ 		$(".bg-gradient-danger").click(function(){
+ 			form.attr("action","/purchaseOrder/cancelForm");
+ 			form.submit();
+ 		});
+ 			
+ 	});
+
+</script>
 
 <%@ include file="../include/footer.jsp"%>

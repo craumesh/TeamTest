@@ -25,7 +25,7 @@
 			</div>			
 			<div class="card-body px-0 pb-2">	
 				<div class="text-end pe-4 pb-3">
-					<a class="btn bg-gradient-dark mb-0" href="/purchase/writeForm">
+					<a class="btn bg-gradient-dark mb-0" href="/purchaseOrder/writeForm">
 						<i class="material-icons text-sm">add</i> 발주서 작성하기
 					</a>
 				</div>	
@@ -55,7 +55,7 @@
 										</div>
 									</td>
 									<td class="align-middle text-center identify-no">
-                      					<a href="/purchase/orderDetail?order_id=${vo.order_id }">
+                      					<a href="/purchaseOrder/orderDetail?order_id=${vo.order_id }">
                       						<span class="text-secondary font-weight-bold">${vo.order_id }</span>
                       					</a>                  						
                      				</td>
@@ -83,7 +83,7 @@
 			                        	<span class="badge badge-sm bg-gradient-success">${vo.order_status }</span>
 			                      	</td>
 									<td class="align-middle text-center">
-										<a class="btn btn-link text-dark px-3 mb-0" href="/purchase/orderDetail?order_id=${vo.order_id }">
+										<a class="btn btn-link text-dark px-3 mb-0" href="/purchaseOrder/orderDetail?order_id=${vo.order_id }">
 											<i class="material-icons text-sm me-2">edit</i>
 											Edit
 										</a>

@@ -19,7 +19,7 @@ import com.eatit.orderDomain.PurchaseVO;
 import com.eatit.orderService.PurchaseService;
 
 @Controller
-@RequestMapping(value = "/purchase/*")
+@RequestMapping(value = "/purchaseOrder/*")
 public class PurchaseController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(PurchaseController.class);
@@ -51,7 +51,7 @@ public class PurchaseController {
 		
 		// 페이지 이동
 		logger.debug("/purchase/orderList 페이지 이동");
-		return "redirect:/purchase/orderList";
+		return "redirect:/purchaseOrder/orderList";
 	}
 	
 	// 발주 내역 조회 - GET
@@ -69,7 +69,7 @@ public class PurchaseController {
 		// 데이터 전달
 		model.addAttribute(purchaseVOList);
 		
-		return "/purchase/orderList";
+		return "/purchaseOrder/orderList";
 	}
 	
 	// 발주 내역 상세 조회 - GET
@@ -101,7 +101,7 @@ public class PurchaseController {
 		pService.editForm(pvo);
 		rttr.addFlashAttribute("result", "modifyOK");
 		
-		return "redirect:/purchase/orderList";
+		return "redirect:/purchaseOrder/orderList";
 	}
 	
 	// 발주서 삭제 - POST
@@ -113,7 +113,7 @@ public class PurchaseController {
 		// 서비스 - 발주서 삭제 동작 호출(DELETE)
 		pService.cancelForm(order_id);
 		
-		return "redirect:/purchase/orderList";
+		return "redirect:/purchaseOrder/orderList";
 	}
 	
 }
