@@ -18,4 +18,6 @@ public interface HumanResourceService {
 	public List<MemberVO> getSearchList(Map<String, Object> params, Criteria cri, String searchword);
 	
 	public int getSearchCount(String searchword);
+	
+	public List<MemberVO> getHrRegList(Criteria cri);
 }

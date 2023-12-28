@@ -59,4 +59,10 @@ public class HumanResourceDAOImpl implements HumanResourceDAO {
 		return sqlSession.selectOne(NAMESPACE+".searchCount",searchword);
 	}
 
+	@Override
+	public List<MemberVO> selectHrRegList(Criteria cri) {
+		logger.debug("DAO(selectHrRegList) -> Mapper 호출");
+		return sqlSession.selectList(NAMESPACE+".selectHrRegList", cri);
+	}
+
 }

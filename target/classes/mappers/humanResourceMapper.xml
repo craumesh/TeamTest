@@ -59,4 +59,12 @@
 		    AND employee_no>0
   		]]>
   	</select>
+  	
+  	<select id="selectHrRegList" resultType="MemberVO">
+  		SELECT * 
+  		FROM member
+  		WHERE active = '대기'
+  		ORDER BY employee_no desc,regdate desc
+  		LIMIT #{startPage},#{pageSize}
+  	</select>
 </mapper>

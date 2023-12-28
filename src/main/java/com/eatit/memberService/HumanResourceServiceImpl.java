@@ -23,7 +23,6 @@ public class HumanResourceServiceImpl implements HumanResourceService {
 	@Override
 	public List<MemberVO> getHrList(Criteria cri) {
 		logger.debug("Service(getHrList) -> DAO 호출");
-		logger.debug("Service getBoardListPage() 호출");
 		return hrDAO.selectHrList(cri);
 	}
 
@@ -55,6 +54,12 @@ public class HumanResourceServiceImpl implements HumanResourceService {
 	public int getSearchCount(String searchword) {
 		logger.debug("Service(getSearchCount) -> DAO 호출");
 		return hrDAO.getSearchCount(searchword);
+	}
+
+	@Override
+	public List<MemberVO> getHrRegList(Criteria cri) {
+		logger.debug("Service(getHrRegList) -> DAO 호출");
+		return hrDAO.selectHrRegList(cri);
 	}
 
 }

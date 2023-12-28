@@ -18,5 +18,7 @@ public interface HumanResourceDAO {
 	
 	public List<MemberVO> selectSearchList(Map<String, Object> params, Criteria cri, String searchword);
 	
-	public int getSearchCount(String searchword);
+	public int getSearchCount(String searchword);	
+
+	public List<MemberVO> selectHrRegList(Criteria cri);
 }
