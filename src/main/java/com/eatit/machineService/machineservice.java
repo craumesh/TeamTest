@@ -15,5 +15,11 @@ public interface machineservice {
 	
 	// 설비 기록
 	public void machinehistory(machinehistoryVO vo);
+	
+	// 설비 코드
+	public int getmachinecode();
+	
+	// 설비 정보
+	public machineVO machineinfo(int code);
 
 }

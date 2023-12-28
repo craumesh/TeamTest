@@ -43,6 +43,18 @@ private static final String NAMESPACE="com.eatit.mapper.machineMapper";
 		sqlSession.insert(NAMESPACE+ ".machinehistory", vo);
 		logger.debug("machinehistory(machinehistoryVO vo) 구문 끝");
 	}
+
+	@Override
+	public int getmachinecode() {
+		logger.debug("getmachinecode() 구문시작");
+		return sqlSession.selectOne(NAMESPACE+ ".getmachinecode");
+	}
+
+	@Override
+	public machineVO machineinfo(int code) {
+		logger.debug("machineinfo() 구문시작");
+		return sqlSession.selectOne(NAMESPACE+ ".machineinfo",code);
+	}
 	
 	
 	

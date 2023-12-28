@@ -57,8 +57,22 @@
 
 <div class="col-10 m-auto">
 <div class="card">
-	<h1>설비 관리</h1>
-
+<div class="card-header p-0 position-relative mx-3 z-index-2">
+	<div class="bg-gradient-primary shadow-primary border-radius-lg pt-3 pb-3 pe-3 d-flex">
+				<h3 class="text-white text-capitalize ps-5 align-items-center mb-0 py-1">설비 관리</h3>
+				<div class="ms-md-auto bg-white rounded p-2 d-flex align-items-center">
+					<div class="align-items-center d-flex flex-column">
+						<div class="input-group input-group-outline">
+							<label class="form-label">검색어</label>
+							<input type="text" id="searchWord" name="searchWord" class="form-control">
+						</div>
+					</div>
+					<div class="align-items-center d-flex flex-column py-1">
+						<button id="searchbtn" class="btn btn-outline-primary btn-sm mb-0 py-1 ms-2">검색</button>
+					</div>
+				</div>
+			</div>
+		</div>
 
 		<table class="table">
 			<!-- 테이블 헤더 -->
@@ -71,28 +85,10 @@
 				<th>설비 설치일</th>
 				<th>설비 위치</th>
 			</tr>
-			<tr>
-			<td><input type="checkbox"></td>
-			<td>첫번째 칸</td>
-			<td>두번째 칸</td>
-			<td>세번째 칸</td>
-			<td>네번째 칸</td>
-			<td>다섯번째 칸</td>
-			<td>여섯번째 칸</td>
-			</tr>
-			<tr>
-				<td><input type="checkbox"></td>
-				<td>machine_code</td>
-				<td>machine_status</td>
-				<td>member_no</td>
-				<td>purpose_of_use</td>
-				<td>installation_date</td>
-				<td>machine_location</td>
-			</tr>
 
 			<c:forEach var="ml" items="${machinelist}">
 				<tr>
-					<td><input type="checkbox"></td>
+					<td><input type="checkbox" id="${ml.machine_code}"></td>
 					<td>${ml.machine_name}_${ml.machine_code}</td>
 					<td>${ml.machine_status}</td>
 					<td>${ml.member_no}</td>
@@ -105,7 +101,7 @@
 		</table>
 		<div class="col-6 w-100 text-end">
 		<a class="btn bg-gradient-dark mb-0" onclick="openModal()"><i class="material-icons text-sm"></i>&nbsp;&nbsp;설비 추가</a>
-		<a class="btn bg-gradient-dark mb-0" ><i class="material-icons text-sm"></i>&nbsp;&nbsp;설비 삭제</a>
+		<a class="btn bg-gradient-dark mb-0" onclick=""><i class="material-icons text-sm"></i>&nbsp;&nbsp;설비 삭제</a>
 		</div>
 </div>
 </div>
@@ -130,7 +126,9 @@
 								<option value="Oven">오븐</option>
 								<option value="Packaging">포장</option>
 							</select></td>
-						<td><input type="text" id="member_no" name="member_no" required></td>
+						<td><input type="text" id="member_no" name="member_no" required>
+							<input type="hidden" id="machine_code" name="machine_code" value="${code }">
+						</td>
 						<td><input type="text" id="installation_date" name="installation_date"></td>
 						<td><select id="machine_location" name="machine_location">
 								<option value="선택">--선택하세요--</option>
@@ -154,18 +152,19 @@
 			<button class="btn-close position-absolute end-3"></button>
 			<div id="machine_info">
 			<form action="">
-            설비 코드 : <input type="text" id="machine_code" value="machineNoInModal" readonly><br>
-            설비 상태 : <select id="machine_status" name="machine_status">
+            설비 코드 : <input type="text" id="namecode" readonly><br>
+            설비 상태 : <select id="status" >
 								<option value="선택">--선택하세요--</option>
 								<option value="점검중">점검중</option>
 								<option value="수리중">수리중</option>
 								<option value="고장">고장</option>
+								<option value="설치중">설치중</option>
 						</select><br>
-			 작 업 자 :  <input type="text" id="" value="member_name" readonly><br>
-			 마지막 점검일 : <input type="text" id="last_check_time" value="last_check_time" readonly><br>
-			 마지막 작동시간 : <input type="text" id="last_operating_time" value="last_operating_time" readonly><br>
-			 설비 설치일 : <input type="text" id="installationdate" value="installation_date" readonly><br>
-			 설비 위치 : <input type="text" id="machinelocation" value="machine_location" readonly><br>
+			 작 업 자 :  <input type="text" id="memberno" readonly><br>
+			 마지막 점검일 : <input type="text" id="lastchecktime"  readonly><br>
+			 마지막 작동시간 : <input type="text" id="lastoperatingtime"  readonly><br>
+			 설비 설치일 : <input type="text" id="installationdate"  readonly><br>
+			 설비 위치 : <input type="text" id="machinelocation"  readonly><br>
 			 
 			
             <input type="submit" value="저장"> <input type="button" onclick="closeModal()" value="닫기">
@@ -176,41 +175,51 @@
 <%@ include file="../include/footer.jsp" %>
 <%@ include file="../include/js.jsp" %>
 <script>
-/* var modal = document.getElementById("Modal");
-var span = document.getElementsByClassName("btn-close")[0];
 
-$(document).ready(function() {
-	$("table").on("click", "tr", function() {
-		var value = $(this).find("td:first").text();
-		$.ajax({
-			url : '/machine/machineinfo?machine_code='+value,
-			method : 'GET',
-			dataType: 'json',
-			success : function(data) {
-				$("#machine_code").text(data.machine_code);
-				$("#machine_name").text(data.machine_name);
-			    $("#member_name").text(data.member_name);
-			    $("#machine_status").text(data.machine_status);
-			    $("#installationdate").text(data.installationdate);
-			    $("#machinelocation").text(data.machinelocation);
-				modal.style.display = "block";
-			},
-			error : function(error) {
-				console.log('실패:', error);
-			}
-		});
-	});
+$(document).ready(function () {
+    $("table").on("click", "tr", function () {
+        // 추출한 machine_code
+        var machineCode = $(this).find("td:eq(1)").text().match(/\d+/);
+
+        $.ajax({
+            url: '/machine/machineinfo?machine_code=' + machineCode, 
+            method: 'GET',
+            data: { machineCode: machineCode ? parseInt(machineCode[0]) : 0 },
+            dataType: 'json',
+            success: function (data) {
+                // infolist의 각 항목을 순회
+                for (var i = 0; i < data.infolist.length; i++) {
+                    var historyData = data.infolist[i];
+                }
+                
+                // 서버에서 받은 데이터를 사용하여 모달에 표시
+                var namecode = data.machine_name + "_" + historyData.machine_code;
+                $("#namecode").val(namecode);
+                $("#code").val(historyData.machine_code);
+                $("#name").val(data.machine_name);
+                $("#status").val(data.machine_status);
+                $("#memberno").val(data.member_no);
+                // formatDate 함수를 AJAX 내부에 직접 정의
+                function formatDate(dateString) {
+                    var formattedDate = dateString.replace(/(\d+)월 (\d+), (\d+)/, '$3-$1-$2');
+                    return formattedDate;
+                }
+                // formatDate 함수를 사용하여 날짜 형식 변환
+                $("#lastchecktime").val(formatDate(historyData.check_time));
+                $("#lastoperatingtime").val(formatDate(historyData.operating_time));
+                $("#installationdate").val(formatDate(data.installation_date));
+                $("#machinelocation").val(data.machine_location);
+
+                // 모달 열기
+                document.getElementById("Modal").style.display = "block";
+            },
+            error: function (error) {
+                console.log('실패:', error);
+            }
+        });
+    });
+});
 	
-	$(".btn-close").click(function(){
-		modal.style.display = "none";
-	});
-	
-	$(window).click(function(event){
-		if (event.target == modal) {
-			modal.style.display = "none";
-		}
-	});
-}); */
 
 		function openModal() {
 			document.getElementById("myModal").style.display = "block";

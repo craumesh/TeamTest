@@ -3,6 +3,8 @@ package com.eatit.machineDomain;
 import java.sql.Date;
 import java.sql.Timestamp;
 
+
+
 import lombok.Data;
 
 @Data
@@ -19,3 +21,4 @@ public class machinehistoryVO {
 	private Timestamp machine_update_date;
 	
 }
+	

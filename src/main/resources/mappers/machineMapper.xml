@@ -6,6 +6,31 @@
   
   <mapper namespace="com.eatit.mapper.machineMapper">
   
+  <resultMap type="com.eatit.machineDomain.machineVO" id="machineVO">
+  	<result property="machine_code" column="machine_code"/>
+  	<result property="machine_name" column="machine_name"/>
+  	<result property="machine_status" column="machine_status"/>
+  	<result property="member_no" column="member_no"/>
+  	<result property="purpose_of_use" column="purpose_of_use"/>
+  	<result property="installation_date" column="installation_date"/>
+  	<result property="machine_location" column="machine_location"/>
+  	<collection property="infolist" resultMap="machinehistoryVO">
+  	</collection>
+  </resultMap>
+  
+<resultMap type="com.eatit.machineDomain.machinehistoryVO" id="machinehistoryVO">
+  	<result property="history_no" column="history_no"/>
+  	<result property="machine_code" column="machine_code"/>
+  	<result property="operating_time" column="operating_time"/>
+  	<result property="use_history" column="use_history"/>
+  	<result property="check_purpose" column="check_purpose"/>
+  	<result property="check_time" column="check_time"/>
+  	<result property="member_no" column="member_no"/>
+  	<result property="machine_update" column="machine_update"/>
+  	<result property="machine_update_date" column="machine_update_date"/>
+</resultMap>  
+
+
   <!-- 설비 추가  -->
   <insert id="insertmachine">
   insert into machine(machine_name,member_no,installation_date,machine_location)
@@ -24,6 +49,20 @@
   </select>
   
   <!-- 설비 상세 조회 -->
+  <select id="machineinfo" resultMap="machineVO">
+  SELECT *
+  FROM machine as a
+  JOIN machine_history as b 
+  ON a.machine_code = b.machine_code
+  where a.machine_code = #{machine_code}
+  </select>
+  
+  
+  <!-- 설비 최신 코드 -->
+  <select id="getmachinecode"  resultType="int">
+  select max(machine_code)+1
+  from machine;
+  </select>
   
   
   

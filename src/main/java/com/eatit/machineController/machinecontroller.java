@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.support.SessionStatus;
 
 import com.eatit.machineDomain.machineVO;
 import com.eatit.machineDomain.machinehistoryVO;
@@ -40,13 +41,14 @@ public class machinecontroller {
 		logger.debug("  machineGET()  호출 ");
 		
 		model.addAttribute("machinelist",mcService.machinelist());
-		
+		model.addAttribute("code", mcService.getmachinecode());
+	
 		// 연결된 뷰페이지로 이동
 		logger.debug("/views/machine/machine.jsp 페이지로 이동");
 	}
 	
 	@RequestMapping(value = "/machine", method = RequestMethod.POST)
-	public String machinePOST(machineVO vo, machinehistoryVO vo1,@RequestParam("installation_date") Date date) {
+	public String machinePOST(machineVO vo, machinehistoryVO vo1,@RequestParam("installation_date") Date date /*,@RequestParam("machine_code") int code*/) {
 		logger.debug("machinePOST() 호출");
 		logger.debug("vo :" + vo);
 		logger.debug("vo1 : " + vo1);
@@ -58,27 +60,22 @@ public class machinecontroller {
 		
 		/* vo.setInstallation_date(new Timestamp(System.currentTimeMillis())); */
 		mcService.insertmachine(vo);
-		
-		다시 불러오고
-		불러온 값을
-		사용해서 설비에 연결
-		
-		vo1.set
-		
 		mcService.machinehistory(vo1);
 		logger.debug("/views/machine/machine.jsp 페이지로 이동");
 		return "redirect:/machine/machine";
 	}
 	
-	/*
-	 * @RequestMapping(value = "/machineinfo", method = RequestMethod.GET, produces
-	 * = "application/json;charset=UTF-8" )
-	 * 
-	 * @ResponseBody public machineVO machineinfoGET(machineVO vo, Model model) {
-	 * logger.debug("machineinfoGET 실행"); logger.debug("vo : " + vo);
-	 * 
-	 * return ""; }
-	 */
+	
+	  @RequestMapping(value = "/machineinfo", method = RequestMethod.GET, produces = "application/json;charset=UTF-8" )
+	  @ResponseBody 
+	  public machineVO machineinfoGET(@RequestParam("machine_code") int code) {
+		  
+	  logger.debug("machineinfoGET 실행");
+	  logger.debug("code : " + code);
+	  logger.debug("mcService.machineinfo(code) : " + mcService.machineinfo(code));
+	  return mcService.machineinfo(code);
+	  }
+	 
 	
 	
 	
