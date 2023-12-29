@@ -54,17 +54,17 @@
 	margin-top: 50px;
 }
 </style>
-
-<div class="col-10 m-auto">
-<div class="card">
-<div class="card-header p-0 position-relative mx-3 z-index-2">
-	<div class="bg-gradient-primary shadow-primary border-radius-lg pt-3 pb-3 pe-3 d-flex">
+<!-- 시작 -->
+<div class="col-11 mx-auto">
+	<div class="card my-3 mx-auto pt-5 px-6 pb-2">
+		<div class="card-header p-0 position-relative mx-3 ">
+			<div class="bg-gradient-primary shadow-primary border-radius-lg pt-3 pb-3 pe-3 d-flex">
 				<h3 class="text-white text-capitalize ps-5 align-items-center mb-0 py-1">설비 관리</h3>
 				<div class="ms-md-auto bg-white rounded p-2 d-flex align-items-center">
 					<div class="align-items-center d-flex flex-column">
 						<div class="input-group input-group-outline">
 							<label class="form-label">검색어</label>
-							<input type="text" id="searchWord" name="searchWord" class="form-control">
+							<input type="text" id="searchword" name="searchword" class="form-control" value="${param.searchword }">
 						</div>
 					</div>
 					<div class="align-items-center d-flex flex-column py-1">
@@ -72,42 +72,51 @@
 					</div>
 				</div>
 			</div>
+		</div>		
+	
+		<div class="card-body mx-5 px-0 pb-4">
+			<div class="table-responsive p-0">
+				<table id="hr-table" class="table table-hover align-items-center mb-0">
+					<thead>
+						<tr>
+							<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2"><input type="checkbox"></th>
+							<th class="text-center font-weight-bolder col-2">설비 코드</th>
+							<th class="text-center font-weight-bolder col-1">설비 상태</th>
+							<th class="text-center font-weight-bolder col-2">관리자</th>
+							<th class="text-center font-weight-bolder col-2">작동 목적</th>
+							<th class="text-center font-weight-bolder col-3">설비 설치일</th>
+							<th class="text-center font-weight-bolder col-3">설비 위치</th>
+						</tr>
+					</thead>
+	 				<tbody id="employeeTableBody">
+						<c:forEach var="ml" items="${machinelist}">
+							<tr class="mllist">
+								<td class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2 py-3"><input type="checkbox"></td>
+								<td class="text-center">${ml.machine_name}_${ml.machine_code}</td>
+								<td class="text-center"><span class="badge badge-sm bg-gradient-success">${ml.machine_status}</span></td>
+								<td class="text-center">${ml.name}</td>
+								<td class="text-center">${ml.purpose_of_use}</td>
+								<td class="text-center">${ml.installation_date}</td>
+								<td class="text-center">${ml.machine_location}</td>
+							</tr>
+						</c:forEach>
+					</tbody>
+				</table>
+			</div>
 		</div>
 
-		<table class="table">
-			<!-- 테이블 헤더 -->
-			<tr>
-				<th></th>
-				<th>설비 코드</th>
-				<th>설비 상태</th>
-				<th>관리자</th>
-				<th>작동 목적</th>
-				<th>설비 설치일</th>
-				<th>설비 위치</th>
-			</tr>
-
-			<c:forEach var="ml" items="${machinelist}">
-				<tr>
-					<td><input type="checkbox" id="${ml.machine_code}"></td>
-					<td>${ml.machine_name}_${ml.machine_code}</td>
-					<td>${ml.machine_status}</td>
-					<td>${ml.member_no}</td>
-					<td>${ml.purpose_of_use}</td>
-					<td>${ml.installation_date}</td>
-					<td>${ml.machine_location}</td>
-				</tr>
-			</c:forEach>
-
-		</table>
 		<div class="col-6 w-100 text-end">
 		<a class="btn bg-gradient-dark mb-0" onclick="openModal()"><i class="material-icons text-sm"></i>&nbsp;&nbsp;설비 추가</a>
 		<a class="btn bg-gradient-dark mb-0" onclick=""><i class="material-icons text-sm"></i>&nbsp;&nbsp;설비 삭제</a>
 		</div>
 </div>
 </div>
+<!-- 끝 -->
 
 
-	<div id="myModal" class="modal position-absolute">
+
+
+	<div id="myModal" class="modal top-10 position-absolute">
 		<div class="modal-content">
 			<span class="close" onclick="closeModal()">&times;</span>
 			<form id="myForm" method="post">
@@ -126,7 +135,7 @@
 								<option value="Oven">오븐</option>
 								<option value="Packaging">포장</option>
 							</select></td>
-						<td><input type="text" id="member_no" name="member_no" required>
+						<td><input type="text" id="employee_no" name="employee_no" required>
 							<input type="hidden" id="machine_code" name="machine_code" value="${code }">
 						</td>
 						<td><input type="text" id="installation_date" name="installation_date"></td>
@@ -147,37 +156,89 @@
 
 
 	<!-- 설비 상세보기 -->
-	<div id="Modal" class="modal">
-		<div class="modal-content">
-			<button class="btn-close position-absolute end-3"></button>
-			<div id="machine_info">
-			<form action="">
-            설비 코드 : <input type="text" id="namecode" readonly><br>
-            설비 상태 : <select id="status" >
-								<option value="선택">--선택하세요--</option>
-								<option value="점검중">점검중</option>
-								<option value="수리중">수리중</option>
-								<option value="고장">고장</option>
-								<option value="설치중">설치중</option>
-						</select><br>
-			 작 업 자 :  <input type="text" id="memberno" readonly><br>
-			 마지막 점검일 : <input type="text" id="lastchecktime"  readonly><br>
-			 마지막 작동시간 : <input type="text" id="lastoperatingtime"  readonly><br>
-			 설비 설치일 : <input type="text" id="installationdate"  readonly><br>
-			 설비 위치 : <input type="text" id="machinelocation"  readonly><br>
-			 
-			
-            <input type="submit" value="저장"> <input type="button" onclick="closeModal()" value="닫기">
-        </form>
- 			</div>
+	<div id="Modal" class="modal top-10 position-absolute">
+	<div class="modal-dialog">
+		<div class="modal-content w-100">
+			<div class="modal-header">
+				<button id="closebtn" class="btn bg-gradient-primary position-absolute py-1 px-2 mt-2 end-5">X</button>
+				<h3 class="modal-title mx-auto">설비 정보</h3>
+			</div>
+			<div class="modal-body p-5">
+				<div class="user-container d-flex align-items-center">
+					<div class="user-info d-flex w-100">
+						<table class="table">
+							<tr>
+								<th class="fs-5 w-50">설비 코드</th>
+								<td class="fs-5 w-50" id="namecode"></td>
+							</tr>
+							<tr>
+								<th class="fs-5">점검일</th>
+								<td class="fs-5" id="lastchecktime"></td>
+							</tr>
+							<tr>
+								<th class="fs-5">최종 작동</th>
+								<td class="fs-5" id="lastoperatingtime"></td>
+							</tr>
+						</table>
+					</div>
+				</div>
+				<div id="tableContainer">
+					<table id="view-table" class="table">
+						<tr>
+							<th class="fs-5 w-50">설비 상태</th>
+							<td class="fs-5 w-50" id="status"></td>
+						</tr>
+						<tr>
+							<th class="fs-5">관리자</th>
+							<td class="fs-5" id="employeename"></td>
+						</tr>
+						<tr>
+							<th class="fs-5">위치</th>
+							<td class="fs-5" id="machinelocation"></td>
+						</tr>
+					</table>
+					
+					<form action="/machine/machine" id="edit-form" method="post">
+						<input type="hidden" name="employeeno" id="employee_no-forSubmit">
+						<input type="hidden" name="searchword" id="searchword-forSubmit">
+						<table id="edit-table" class="d-none table">
+					    	<tr>
+								<th class="fs-5">설비 상태</th>
+								<td class="fs-6">
+									<select name="status" id="status">
+										<option value="점검중">점검중</option>
+										<option value="수리중">수리중</option>
+										<option value="고장">고장</option>
+										<option value="설치중">설치중</option>
+									</select>
+								</td>
+							</tr>
+							<tr>
+								<th class="fs-5">관리자</th>
+								<td class="fs-6">
+									<select name="employeename" id="employeename"></select>
+								</td>
+							</tr>
+							<tr>
+								<th class="fs-5">위치</th>
+								<td class="fs-6"><input type="text" name="machinelocation" id="machinelocation"></td>
+							</tr>
+					  	</table>
+				  	</form>
+				</div>
+				<div class="text-center">
+					<button id="editbtn" class="btn bg-gradient-danger fs-6 mb-0 py-2 px-3">수정</button>
+				</div>
+			</div>
 		</div>
 	</div>
+</div>
 <%@ include file="../include/footer.jsp" %>
 <%@ include file="../include/js.jsp" %>
 <script>
 
 $(document).ready(function () {
-    $("table").on("click", "tr", function () {
+    $("#hr-table").on("click", "tr", function () {
         // 추출한 machine_code
         var machineCode = $(this).find("td:eq(1)").text().match(/\d+/);
 
@@ -194,22 +255,24 @@ $(document).ready(function () {
                 
                 // 서버에서 받은 데이터를 사용하여 모달에 표시
                 var namecode = data.machine_name + "_" + historyData.machine_code;
-                $("#namecode").val(namecode);
-                $("#code").val(historyData.machine_code);
-                $("#name").val(data.machine_name);
-                $("#status").val(data.machine_status);
-                $("#memberno").val(data.member_no);
+                $("#namecode").text(namecode);
+                $("#code").text(historyData.machine_code);
+                $("#name").text(data.machine_name);
+                $("#status").text(data.machine_status);
+                $("#employeename").text(data.name);
+                
                 // formatDate 함수를 AJAX 내부에 직접 정의
                 function formatDate(dateString) {
                     var formattedDate = dateString.replace(/(\d+)월 (\d+), (\d+)/, '$3-$1-$2');
                     return formattedDate;
                 }
                 // formatDate 함수를 사용하여 날짜 형식 변환
-                $("#lastchecktime").val(formatDate(historyData.check_time));
-                $("#lastoperatingtime").val(formatDate(historyData.operating_time));
-                $("#installationdate").val(formatDate(data.installation_date));
-                $("#machinelocation").val(data.machine_location);
-
+                $("#lastchecktime").text(formatDate(historyData.check_time));
+                $("#lastoperatingtime").text(formatDate(historyData.operating_time));
+                $("#installationdate").text(formatDate(data.installation_date));
+                $("#machinelocation").text(data.machine_location);
+				
+                console.log(data);
                 // 모달 열기
                 document.getElementById("Modal").style.display = "block";
             },
@@ -218,8 +281,66 @@ $(document).ready(function () {
             }
         });
     });
+
+$("#Modal, #closebtn").click(function (e) {
+    if (e.target.id === "Modal" || e.target.id === "closebtn") {
+        $("#Modal").css("display", "none");
+        location.reload();
+    }
 });
-	
+});
+$("#editbtn").click(function(){
+	if ($("#edit-table").hasClass("d-none")) {
+		$("#editbtn").text("수정 완료");
+		toggleTable();
+	    getEditInfo();
+	} else {
+		swal({
+			  title: "수정하시겠습니까?",
+			  text: "수정 중 입니다.",
+			  icon: "warning",
+			  buttons: true,
+			  dangerMode: true,
+			})
+			.then((willDelete) => {
+			  if (willDelete) {
+				swal("수정 완료 되었습니다!", {icon: "success"}).then(function(){
+					if($("#searchword").val()){
+						$("#searchword-forSubmit").val($("#searchword").val());
+					}							
+					$("#edit-form").submit();                
+				});							
+			  } else {
+			    swal("수정 취소했습니다!");
+			  }
+		});		    
+	}		    
+});		
+		function toggleTable(){
+			$("#view-table").toggleClass("d-none");
+  		    $("#edit-table").toggleClass("d-none");			
+				}
+
+		function getEditInfo() {
+ 		   getSelected("#status");
+			
+				}
+		
+		function updatePositionNameSelect() {
+		    var selectedValue = $("#status-select").val();
+
+		    switch (selectedValue) {
+		      case "점검중":
+		        break;
+		      case "수리중":
+		        break;
+		      case "생산중":
+		        break;
+		      case "설치중":
+		        break;
+		    }
+		}
+		
 
 		function openModal() {
 			document.getElementById("myModal").style.display = "block";
@@ -249,7 +370,15 @@ $(document).ready(function () {
 			}
 		}
 		
-
+		function getSelected(id) {
+			var optionToSelect = $(id+"-select option").filter(function() {
+				return $(this).text().indexOf($(id).text()) !== -1;
+			});
+			
+			if (optionToSelect.length > 0) {
+			    optionToSelect.prop("selected", true);
+		    }
+		}	
 		    
 		
 		

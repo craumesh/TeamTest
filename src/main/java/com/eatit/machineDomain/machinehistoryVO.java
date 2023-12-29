@@ -16,9 +16,10 @@ public class machinehistoryVO {
 	private String use_history;
 	private String check_purpose;
 	private Date check_time;
-	private int member_no;
+	private int employee_no;
 	private String machine_update;
 	private Timestamp machine_update_date;
+
 	
 }
 	
