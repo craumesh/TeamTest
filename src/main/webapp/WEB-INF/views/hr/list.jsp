@@ -12,7 +12,7 @@
 					<div class="align-items-center d-flex flex-column">
 						<div class="input-group input-group-outline">
 							<label class="form-label">검색어</label>
-							<input type="text" id="searchword" name="searchword" class="form-control">
+							<input type="text" id="searchword" name="searchword" class="form-control" value="${param.searchword }">
 						</div>
 					</div>
 					<div class="align-items-center d-flex flex-column py-1">
@@ -138,8 +138,9 @@
 						</tr>
 					</table>
 					
-					<form id="edit-form" method="post">
+					<form action="/hr/list" id="edit-form" method="post">
 						<input type="hidden" name="employee_no" id="employee_no-forSubmit">
+						<input type="hidden" name="searchword" id="searchword-forSubmit">
 						<table id="edit-table" class="d-none table">
 					    	<tr>
 								<th class="fs-5">부서</th>
@@ -200,13 +201,17 @@
 <%@ include file="../include/js.jsp"%>
 
 <script>
-	var modal = document.getElementById("Modal");
-
 	$(document).ready(function() {
+		
+		var modal = document.getElementById("Modal");
+		
+		if($("#searchword").val()) {
+			$(".input-group").addClass("focused is-focused");
+		}
 		
 		$("#searchbtn").click(function(){
 			var value = $("#searchword").val();
-			location.href= '/hr/searchlist?searchword=' + value;
+			location.href = '/hr/searchlist?searchword=' + value;
 		});		
 		
 		$("#hr-table").on("click", "tr td:not(:first-child)", function(event) {
@@ -237,19 +242,15 @@
 	    });
 		
 		$("#closebtn").click(function(){
+			var value = $("#searchword").val();
 			modal.style.display = "none";
-			if (tableBody.hasClass('searchresult')) {
-				
-			} else {
-				location.reload();
-			}
+			location.reload();
 		});
 		
 		$("#editbtn").click(function(){
 			if ($("#edit-table").hasClass("d-none")) {
-				$("#view-table").toggleClass("d-none");
-			    $("#edit-table").toggleClass("d-none");	
 				$("#editbtn").text("수정 완료");
+				toggleTable();
 			    getEditInfo();
 			    updatePositionNameSelect();
 			} else {
@@ -263,7 +264,9 @@
 					.then((willDelete) => {
 					  if (willDelete) {
 						swal("당신은 정말 잔인한 사람이에요!", {icon: "success"}).then(function(){
-							$("#closebtn").click(); 
+							if($("#searchword").val()){
+								$("#searchword-forSubmit").val($("#searchword").val());
+							}							
 							$("#edit-form").submit();                
 						});							
 					  } else {
@@ -331,6 +334,11 @@
 	        addOption(positionNameSelect, "임원");
 	        break;
 	    }
+	}
+	
+	function toggleTable(){
+		$("#view-table").toggleClass("d-none");
+	    $("#edit-table").toggleClass("d-none");			
 	}
 	
 	function addOption(selectElement, value) {

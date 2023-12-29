@@ -40,9 +40,12 @@ public class HumanResourceController {
 	}
 	
 	@RequestMapping(value = "/list", method = RequestMethod.POST)
-	public String hrListPost(MemberVO vo) {
-		logger.debug("/hr/list 호출 -> hrListPOST() 실행");
+	public String hrListPost(MemberVO vo, @ModelAttribute("searchword") String searchword) {
+		logger.debug("/hr/list 호출 -> hrListPOST() 실행");		
 		hrService.editHrContent(vo);
+		if(!searchword.isEmpty()) {
+			return "redirect:/hr/searchlist";
+		}
 		return "redirect:/hr/list";
 	}
 	

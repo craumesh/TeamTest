@@ -222,11 +222,7 @@
 		
 		$("#closebtn").click(function(){
 			modal.style.display = "none";
-			if (tableBody.hasClass('searchresult')) {
-				
-			} else {
-				location.reload();
-			}
+			location.reload();
 		});
 		
 		$("#editbtn").click(function(){
