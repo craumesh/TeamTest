@@ -55,6 +55,11 @@ public class PurchaseServiceImpl implements PurchaseService {
 		logger.debug("Service: productList()");
 		return pdao.getProductList();
 	}
-	
-	
+
+	@Override
+	public List<ProductVO> searchProduct(String query) throws Exception {
+		logger.debug("Service: searchProduct(String query)");
+		return pdao.searchProduct(query);
+	}
+		
 }

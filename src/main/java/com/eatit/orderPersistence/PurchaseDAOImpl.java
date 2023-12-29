@@ -45,7 +45,6 @@ public class PurchaseDAOImpl implements PurchaseDAO {
 		logger.debug("DAO: updateForm(PurchaseVO pvo)");
 		return SqlSession.update(NAMESPACE + ".updateForm", pvo);
 	}
-
 	@Override
 	public int deleteForm(int order_id) throws Exception {
 		logger.debug("DAO: deleteForm(int order_id)");
@@ -56,6 +55,12 @@ public class PurchaseDAOImpl implements PurchaseDAO {
 	public List<ProductVO> getProductList() throws Exception {
 		logger.debug("DAO: getProductList()");
 		return SqlSession.selectList(NAMESPACE + ".productList");
+	}
+
+	@Override
+	public List<ProductVO> searchProduct(String query) throws Exception {
+		logger.debug("DAO: searchProduct(String query)");
+		return SqlSession.selectList(NAMESPACE + ".searchProduct", query);
 	}
 	
 }

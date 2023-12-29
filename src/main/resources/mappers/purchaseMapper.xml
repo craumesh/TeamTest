@@ -53,4 +53,13 @@
 	  		FROM product_information
 	  </select>
 	  
+	  <!-- 검색 상품 조회 -->
+	  <select id="searchProduct" resultMap="productMap">
+	  		<![CDATA[
+	  		SELECT product_no, product_code, product_name, product_category_detail, product_price
+	  		FROM product_information
+	  		WHERE product_name LIKE CONCAT('%', #{query}, '%')
+	  		]]>
+	  </select>
+	  
   </mapper>

@@ -19,4 +19,6 @@ public interface PurchaseService {
 
 	public List<ProductVO> productList() throws Exception;
 
+	public List<ProductVO> searchProduct(String query) throws Exception;
+
 }

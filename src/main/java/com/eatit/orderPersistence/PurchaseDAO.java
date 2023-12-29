@@ -19,4 +19,6 @@ public interface PurchaseDAO {
 
 	public List<ProductVO> getProductList() throws Exception;
 
+	public List<ProductVO> searchProduct(String query) throws Exception;
+
 }

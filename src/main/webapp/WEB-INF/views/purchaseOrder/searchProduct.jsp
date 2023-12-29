@@ -7,18 +7,18 @@
 	<div class="col-12">
 		<div class="card my-4">		
 			<div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">				
-				<div class="bg-gradient-primary shadow-primary border-radius-lg pt-3 pb-3 pe-3 d-flex">			
+				<div class="bg-gradient-primary shadow-primary border-radius-lg pt-3 pe-3 d-flex">			
 					<h6 class="text-white text-capitalize pt-3 ps-3">상품 검색</h6>					
-					<div class="ms-md-auto bg-white rounded p-2 d-flex align-items-center">	
+					<form action="" class="ms-md-auto bg-white rounded p-2 d-flex align-items-center">
 						<div class="align-items-center d-flex flex-column">					
-							<div class="input-group input-group-outline">							
-                   				<input type="text" class="form-control" id="searchWord" name="searchWord" value="${param.searchWord }" placeholder="상품명을 입력하세요">							
+							<div class="input-group input-group-outline">
+           						<input type="text" class="form-control" id="query" name="query" value="${param.query }" placeholder="상품명을 입력하세요">							
 							</div>						
 						</div>						
-						<div class="align-items-center d-flex flex-column py-1">						
-							<a class="btn btn-outline-primary btn-sm mb-0 py-1 ms-2" href="/purchaseOrder/searchProduct?">검색</a>						
-						</div>										
-					</div>					
+						<div class="align-items-center d-flex flex-column py-1">
+							<input type="submit" class="btn btn-outline-primary btn-sm mb-0 py-1 ms-2">						
+						</div>											
+					</form>							
 				</div>				
 			</div>			
 			<div class="card-body px-0 pb-2">	
