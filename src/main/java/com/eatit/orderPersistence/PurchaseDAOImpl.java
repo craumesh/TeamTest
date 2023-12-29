@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
+import com.eatit.orderDomain.ProductVO;
 import com.eatit.orderDomain.PurchaseVO;
 
 @Repository
@@ -49,6 +50,12 @@ public class PurchaseDAOImpl implements PurchaseDAO {
 	public int deleteForm(int order_id) throws Exception {
 		logger.debug("DAO: deleteForm(int order_id)");
 		return SqlSession.update(NAMESPACE + ".deleteForm", order_id);
+	}
+
+	@Override
+	public List<ProductVO> getProductList() throws Exception {
+		logger.debug("DAO: getProductList()");
+		return SqlSession.selectList(NAMESPACE + ".productList");
 	}
 	
 }

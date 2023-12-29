@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import com.eatit.orderDomain.ProductVO;
 import com.eatit.orderDomain.PurchaseVO;
 import com.eatit.orderPersistence.PurchaseDAO;
 
@@ -48,5 +49,12 @@ public class PurchaseServiceImpl implements PurchaseService {
 		logger.debug("Service: cancelForm(int order_id)");
 		return pdao.deleteForm(order_id);	
 	}
+
+	@Override
+	public List<ProductVO> productList() throws Exception {
+		logger.debug("Service: productList()");
+		return pdao.getProductList();
+	}
+	
 	
 }

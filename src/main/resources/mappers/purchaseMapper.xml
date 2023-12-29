@@ -5,6 +5,18 @@
   
   <mapper namespace="com.eatit.mapper.PurchaseMapper">
   
+	  <!-- 테이블 데이터 매핑 -->
+	  <resultMap type="com.eatit.orderDomain.ProductVO" id="productMap">
+	  		<id property="product_no" column="product_no"/>
+	  		<result property="product_no" column="product_no"/>
+	  		<result property="product_code" column="product_code"/>
+	  		<result property="product_name" column="product_name"/>
+	  		<result property="product_category_detail" column="product_category_detail"/>
+	  		<result property="product_price" column="product_price"/>
+
+			<collection property="productList" resultMap="productMap"></collection>
+	  </resultMap>
+  
 	  <!-- 발주서 작성 -->
 	  <insert id="insertForm">
 	  		INSERT INTO purchase_order (company_no, member_no, product_no, due_date, comments)
@@ -34,5 +46,11 @@
 	  		UPDATE purchase_order SET order_status = "취소", update_date = NOW(), delete_status = 1
 	  		WHERE order_id = #{order_id}
 	  </update>
+	  
+	  <!-- 전체 상품 조회 -->
+	  <select id="productList" resultMap="productMap">
+	  		SELECT product_no, product_code, product_name, product_category_detail, product_price
+	  		FROM product_information
+	  </select>
 	  
   </mapper>

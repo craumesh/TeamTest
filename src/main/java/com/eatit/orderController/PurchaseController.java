@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.eatit.orderDomain.ProductVO;
 import com.eatit.orderDomain.PurchaseVO;
 import com.eatit.orderService.PurchaseService;
 
@@ -114,6 +115,23 @@ public class PurchaseController {
 		pService.cancelForm(order_id);
 		
 		return "redirect:/purchaseOrder/orderList";
+	}
+	
+	// 상품 검색 - GET
+	@RequestMapping(value = "/searchProduct", method = RequestMethod.GET)
+	public String searchProductGET(Model model) throws Exception {
+		
+		logger.debug("Controller: /purchaseOrder/searchProductGET()");
+		logger.debug("searchProduct.jsp");
+		
+		// 서비스 - 기준 정보 상품 가져오기
+		List<ProductVO> productVOList = pService.productList();
+		logger.debug("productList: " + productVOList);
+		
+		// 데이터 전달
+		model.addAttribute(productVOList);
+		
+		return "/purchaseOrder/searchProduct";
 	}
 	
 }

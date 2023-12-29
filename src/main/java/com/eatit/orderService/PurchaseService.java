@@ -2,6 +2,7 @@ package com.eatit.orderService;
 
 import java.util.List;
 
+import com.eatit.orderDomain.ProductVO;
 import com.eatit.orderDomain.PurchaseVO;
 
 public interface PurchaseService {
@@ -15,5 +16,7 @@ public interface PurchaseService {
 	public int editForm(PurchaseVO pvo) throws Exception;
 
 	public int cancelForm(int order_id) throws Exception;
+
+	public List<ProductVO> productList() throws Exception;
 
 }

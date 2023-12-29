@@ -2,6 +2,7 @@ package com.eatit.orderPersistence;
 
 import java.util.List;
 
+import com.eatit.orderDomain.ProductVO;
 import com.eatit.orderDomain.PurchaseVO;
 
 public interface PurchaseDAO {
@@ -15,5 +16,7 @@ public interface PurchaseDAO {
 	public int updateForm(PurchaseVO pvo) throws Exception;
 
 	public int deleteForm(int order_id) throws Exception;
+
+	public List<ProductVO> getProductList() throws Exception;
 
 }

@@ -6,7 +6,7 @@
 <script>
     function openSearchProduct() {
         // 새 창을 여는 코드
-        window.open('/productOrder/search', '_blank', 'width=800,height=600');
+        window.open('/purchaseOrder/searchProduct', '_blank', 'width=800,height=600');
     }
 </script>
 

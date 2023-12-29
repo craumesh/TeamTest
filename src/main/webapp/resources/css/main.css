@@ -1034,6 +1034,10 @@ progress {
     flex: 1 0 0%;
   }
 
+  .ms-md-auto {
+    margin-left: auto !important;
+  }
+
   .row-cols-sm-auto>* {
     flex: 0 0 auto;
     width: auto;
