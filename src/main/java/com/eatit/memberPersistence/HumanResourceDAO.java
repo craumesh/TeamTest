@@ -21,4 +21,8 @@ public interface HumanResourceDAO {
 	public int getSearchCount(String searchword);	
 
 	public List<MemberVO> selectHrRegList(Criteria cri);
+	
+	public void updateHrRegActive(MemberVO vo);
+	
+	public void deleteHrRegData(MemberVO vo);
 }

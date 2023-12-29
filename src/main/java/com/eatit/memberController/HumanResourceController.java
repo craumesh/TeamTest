@@ -85,5 +85,15 @@ public class HumanResourceController {
 		model.addAttribute("list", hrService.getHrRegList(cri));
 	}
 	
+	@RequestMapping(value = "/reglist", method = RequestMethod.POST)
+	public String hrRegListPost(MemberVO vo, @ModelAttribute("ad_identify") String ad_identify) {
+		logger.debug("/hr/reglist 호출 -> hrRegListPOST() 실행");	
+		if(ad_identify.equals("access")) {
+			hrService.setHrRegActive(vo);
+		} else if(ad_identify.equals("denied")) {
+			hrService.deniedHrReg(vo);
+		}
+		return "redirect:/hr/reglist";
+	}
 	
 }	

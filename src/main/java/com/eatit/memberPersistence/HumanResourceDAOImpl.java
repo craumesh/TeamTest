@@ -65,4 +65,16 @@ public class HumanResourceDAOImpl implements HumanResourceDAO {
 		return sqlSession.selectList(NAMESPACE+".selectHrRegList", cri);
 	}
 
+	@Override
+	public void updateHrRegActive(MemberVO vo) {
+		logger.debug("DAO(updateHrRegActive) -> Mapper 호출");
+		sqlSession.update(NAMESPACE+".updateHrRegActive",vo);		
+	}
+
+	@Override
+	public void deleteHrRegData(MemberVO vo) {
+		logger.debug("DAO(deleteHrRegData) -> Mapper 호출");
+		sqlSession.update(NAMESPACE+".deleteHrRegData",vo);	
+	}
+
 }

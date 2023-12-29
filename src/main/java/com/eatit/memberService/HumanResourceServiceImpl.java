@@ -62,4 +62,16 @@ public class HumanResourceServiceImpl implements HumanResourceService {
 		return hrDAO.selectHrRegList(cri);
 	}
 
+	@Override
+	public void setHrRegActive(MemberVO vo) {
+		logger.debug("Service(setHrRegActive) -> DAO 호출");
+		hrDAO.updateHrRegActive(vo);
+	}
+
+	@Override
+	public void deniedHrReg(MemberVO vo) {
+		logger.debug("Service(deniedHrReg) -> DAO 호출");
+		hrDAO.deleteHrRegData(vo);
+	}
+
 }

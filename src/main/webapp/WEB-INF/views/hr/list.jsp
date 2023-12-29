@@ -79,10 +79,10 @@
 </div>
 <!-- 본문 종료 -->
 
-<div id="Modal" class="modal top-10 position-absolute">
+<div id="Modal" class="modal top-7 position-absolute h-auto">
 	<div class="modal-dialog">
 		<div class="modal-content">
-			<div class="modal-header">
+			<div class="modal-header py-4">
 				<button id="closebtn" class="btn bg-gradient-primary position-absolute py-1 px-2 mt-2 end-5">X</button>
 				<h3 class="modal-title mx-auto">사원 정보</h3>
 			</div>

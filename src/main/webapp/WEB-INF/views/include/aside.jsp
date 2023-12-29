@@ -108,7 +108,7 @@
 								1</span>
 					</a></li>
 					<li class="nav-item"><a class="nav-link text-white sm-hv"
-						href="${path}/submenu2.html"> <span class="nav-link-text ms-1">서브메뉴
+						href="${path}/hr/reglist"> <span class="nav-link-text ms-1">서브메뉴
 								2</span>
 					</a></li>
 					<li class="nav-item"><a class="nav-link text-white sm-hv"

@@ -20,4 +20,8 @@ public interface HumanResourceService {
 	public int getSearchCount(String searchword);
 	
 	public List<MemberVO> getHrRegList(Criteria cri);
+	
+	public void setHrRegActive(MemberVO vo);
+	
+	public void deniedHrReg(MemberVO vo);
 }
