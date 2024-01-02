@@ -4,11 +4,6 @@
 <!DOCTYPE html>
 <html>
 <%@ include file="../include/header.jsp" %>
-<!-- Bootstrap CSS 및 JS 추가 -->
-<!-- <link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script> -->
 <style>
 /* 모달 스타일 */
 .modal {
@@ -117,6 +112,7 @@
 
 
 	<div id="myModal" class="modal top-10 position-absolute">
+	<div class="modal-dialog">
 		<div class="modal-content">
 			<span class="close" onclick="closeModal()">&times;</span>
 			<form id="myForm" method="post">
@@ -153,14 +149,14 @@
 			</form>
 		</div>
 	</div>
-
+</div>
 
 	<!-- 설비 상세보기 -->
 	<div id="Modal" class="modal top-10 position-absolute">
 	<div class="modal-dialog">
 		<div class="modal-content w-100">
 			<div class="modal-header">
-				<button id="closebtn" class="btn bg-gradient-primary position-absolute py-1 px-2 mt-2 end-5">X</button>
+				<button id="closebtn" class="btn bg-gradient-primary position-absolute py-1 px-2 mt-2 end-5" onclick="closeModal()">X</button>
 				<h3 class="modal-title mx-auto">설비 정보</h3>
 			</div>
 			<div class="modal-body p-5">
@@ -249,6 +245,8 @@
 <script>
 
 $(document).ready(function () {
+	
+	
 	
     $("#hr-table").on("click", "tr", function () {
         // 추출한 machine_code
@@ -366,7 +364,7 @@ $(".input-group").click(function(){
 
 		function closeModal() {
 			document.getElementById("myModal").style.display = "none";
-			document.getElementById("MachinModal").style.display = "none";
+			document.getElementById("Modal").style.display = "none";
 			
 			location.reload();
 		}
