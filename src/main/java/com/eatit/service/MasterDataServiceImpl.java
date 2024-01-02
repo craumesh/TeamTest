@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import com.eatit.domain.ProductCriteria;
 import com.eatit.domain.ProductVO;
 import com.eatit.persistence.MasterDataDAO;
 
@@ -21,7 +22,7 @@ public class MasterDataServiceImpl implements MasterDataService {
 	
 	
 	@Override
-	public List<ProductVO> ProductList() {
+	public List<ProductVO> ProductList() throws Exception {
 		logger.debug("ProductList()");
 		return mddao.getProductList();
 	}
@@ -42,5 +43,35 @@ public class MasterDataServiceImpl implements MasterDataService {
 		return mddao.productUpdate(pvo);
 		
 	}
+
+
+	@Override
+	public void productDelete(int product_no,String product_code) throws Exception {
+		mddao.deleteProduct(product_no,product_code);
+		
+	}
+
+
+	@Override
+	public List<ProductVO> productListPage(ProductCriteria cri) throws Exception {
+		
+		return mddao.getProductListPage(cri);
+	}
+
+
+	@Override
+	public int totalProductCount() throws Exception {
+		
+		return mddao.getProductCount();
+	}
+
+
+	@Override
+	public List<ProductVO> searchProducts(String keyword)throws Exception {
+		logger.debug("searchProducts(String keyword)");
+		return mddao.searchProducts(keyword);
+	}
    
 }
+
+

@@ -51,7 +51,7 @@
 		    </li>
 		    <li class="nav-item">
 		      <a class="nav-link text-white" href="${path}/masterdata/QualityManagement">
-		        <span class="nav-link-text ms-1">품질관리</span>
+		        <span class="nav-link-text ms-1">설비정보관리</span>
 		      </a>
 		    </li>
 		  </ul>
@@ -197,9 +197,10 @@
     </nav>
     <!-- End Navbar -->
              
-      <input type="button" onclick="window.location.href='/masterdata/PIM'" value="품목정보관리">
-      <input type="button" onclick="window.location.href='/masterdata/CIM'" value="소요량관리">
+      <input type="button" onclick="window.location.href='/masterdata/MdListPage'" value="품목정보관리">
       <input type="button" onclick="window.location.href='/masterdata/MIM'" value="원자재정보관리">
+      <input type="button" onclick="window.location.href='/masterdata/CIM'" value="소요량관리">
+      <input type="button" onclick="window.location.href='/masterdata/QIM'" value="품질관리">
       <footer class="footer py-4  ">
         <div class="container-fluid">
           <div class="row align-items-center justify-content-lg-between">

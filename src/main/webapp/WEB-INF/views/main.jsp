@@ -45,15 +45,16 @@
 		      </a>
 		    </li>
 		    <li class="nav-item">
-		      <a class="nav-link text-white" href="${path}/submenu2.html">
-		        <span class="nav-link-text ms-1">서브메뉴 2</span>
+		      <a class="nav-link text-white" href="${path}/masterdata/CostManagement">
+		        <span class="nav-link-text ms-1">비용관리</span>
 		      </a>
 		    </li>
 		    <li class="nav-item">
-		      <a class="nav-link text-white" href="${path}/submenu3.html">
-		        <span class="nav-link-text ms-1">서브메뉴 3</span>
+		      <a class="nav-link text-white" href="${path}/masterdata/QualityManagement">
+		        <span class="nav-link-text ms-1">설비정보관리</span>
 		      </a>
 		    </li>
+		   
 		  </ul>
 		</li>
         <li class="nav-item">
