@@ -88,19 +88,14 @@ public class HumanResourceController {
 	}
 	
 	@RequestMapping(value = "/reglist", method = RequestMethod.POST)
-	public String hrRegListPost(MemberVO vo, @ModelAttribute("ad_identify") String ad_identify) {
+	public String hrRegListPost(MemberVO vo, @RequestParam("ad_identify") String ad_identify) {
 		logger.debug("/hr/reglist 호출 -> hrRegListPOST() 실행");	
 		hrRegProcessing(vo, ad_identify);
-//		if(ad_identify.equals("access")) {
-//			hrService.setHrRegActive(vo);
-//		} else if(ad_identify.equals("denied")) {
-//			hrService.deniedHrReg(vo);
-//		}
 		return "redirect:/hr/reglist";
 	}
 	
 	@RequestMapping(value = "/batch", method = RequestMethod.POST)
-	public String hrBatchPost(MemberVO vo, @RequestParam("checkgroup") int[] employee_no_List, @ModelAttribute("ad_identify") String ad_identify) {
+	public String hrBatchPost(MemberVO vo, @RequestParam("checkgroup") int[] employee_no_List, @RequestParam("ad_identify") String ad_identify) {
 		logger.debug("/hr/Batch 호출 -> hrBatchPost() 실행");
 		for(int i : employee_no_List) {
 			vo.setEmployee_no(i);

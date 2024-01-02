@@ -12,7 +12,7 @@
 		</div>		
 		<div class="row">
 			<div class="card-body mx-5 px-0 pt-0 col-lg-3">
-				<div class="table-responsive p-0 mt-5">
+				<div class="table-responsive p-0 mt-4">
 		 			<form action="/hr/batch" id="batch-form" method="post">
 						<table id="hr-table" class="table table-hover mb-0">
 							<thead>
@@ -72,66 +72,70 @@
 					</ul>
 				</div>
 			</div>			
-			<div id="infoCard" class="card col-lg-5 my-4 me-5 border" >
+			<div id="infoCard" class="card col-lg-5 my-4 me-5 border h-100" >
 				<div class="d-flex card-header pt-4 pb-2">
 					<h3 class="mx-auto">사원 정보</h3>
 				</div>
 				<hr class="horizontal dark m-2">
 				<div class="card-body p-4">					
-					<div class="position-absolute bottom-5 start-50 translate-middle-x w-90 h-75 overflow-hidden bg-primary z-index-3" id="overlay"></div>
+					<div class="card card-frame position-absolute top-50 start-50 translate-middle w-90 h-75 overflow-hidden bg-gradient-light z-index-3" id="overlay">
+						<div class="card-body align-items-center d-flex">
+							<label class="m-auto fs-4">처리할 신청 정보를 클릭해주세요</label>
+						</div>
+					</div>
 					<div id="overlay-toggle">
-					<div class="user-container d-flex align-items-center">
-						<img class="img-thumbnail mb-4 me-4 max-width-200 w-25" alt="회원사진" id="photo_paths">
-						<div class="user-info d-flex w-100">
-							<table class="table">
+						<div class="user-container d-flex text-center align-items-center">
+							<img class="img-thumbnail mb-4 me-4 max-width-200 w-25" alt="회원사진" id="photo_paths">
+							<div class="user-info d-flex w-100">
+								<table class="table">
+									<tr>
+										<th class="fs-5">사번</th>
+										<td class="fs-5" id="employee_no"></td>
+									</tr>
+									<tr>
+										<th class="fs-5">이름</th>
+										<td class="fs-5" id="name"></td>
+									</tr>
+									<tr>
+										<th class="fs-5">아이디</th>
+										<td class="fs-5" id="id"></td>
+									</tr>
+								</table>
+							</div>
+						</div>
+						<div id="tableContainer" class="modal-body">
+							<table id="view-table" class="table">
 								<tr>
-									<th class="fs-5">사번</th>
-									<td class="fs-5" id="employee_no"></td>
+									<th class="fs-5">이메일</th>
+									<td class="fs-5" id="email"></td>
 								</tr>
 								<tr>
-									<th class="fs-5">이름</th>
-									<td class="fs-5" id="name"></td>
+									<th class="fs-5">연락처</th>
+									<td class="fs-5" id="contact"></td>
 								</tr>
 								<tr>
-									<th class="fs-5">아이디</th>
-									<td class="fs-5" id="id"></td>
+									<th class="fs-5">주소</th>
+									<td class="fs-5" id="address"></td>
+								</tr>
+								<tr>
+									<th class="fs-5">신청일</th>
+									<td class="fs-5" id="regdate"></td>
 								</tr>
 							</table>
+							
+							<form id="edit-form" method="post">
+								<input type="hidden" name="employee_no" id="employee_no-forSubmit">
+								<input type="hidden" name="ad_identify" id="ad_identify-forSubmit">
+						  	</form>
 						</div>
-					</div>
-					<div id="tableContainer" class="modal-body">
-						<table id="view-table" class="table">
-							<tr>
-								<th class="fs-5">이메일</th>
-								<td class="fs-5" id="email"></td>
-							</tr>
-							<tr>
-								<th class="fs-5">연락처</th>
-								<td class="fs-5" id="contact"></td>
-							</tr>
-							<tr>
-								<th class="fs-5">주소</th>
-								<td class="fs-5" id="address"></td>
-							</tr>
-							<tr>
-								<th class="fs-5">신청일</th>
-								<td class="fs-5" id="regdate"></td>
-							</tr>
-						</table>
-						
-						<form id="edit-form" method="post">
-							<input type="hidden" name="employee_no" id="employee_no-forSubmit">
-							<input type="hidden" name="ad_identify" id="ad_identify-forSubmit">
-					  	</form>
-					</div>
-					<div class="row d-flex justify-content-center py-3">
-						<div class="col-lg-3 col-sm-6 col-12">
-							<button class="btn bg-gradient-success fs-6 w-100 mb-0 toast-btn" id="accessbtn" type="button" data-target="successToast">승인</button>
+						<div class="row d-flex justify-content-center py-3">
+							<div class="col-lg-3 col-sm-6 col-12">
+								<button class="btn bg-gradient-success fs-6 w-100 mb-0 toast-btn" id="accessbtn" type="button" data-target="successToast">승인</button>
+							</div>
+							<div class="col-lg-3 col-sm-6 col-12">
+								<button class="btn bg-gradient-danger fs-6 w-100 mb-0 toast-btn" id="deniedbtn" type="button" data-target="dangerToast">거부</button>
+							</div>
 						</div>
-						<div class="col-lg-3 col-sm-6 col-12">
-							<button class="btn bg-gradient-danger fs-6 w-100 mb-0 toast-btn" id="deniedbtn" type="button" data-target="dangerToast">거부</button>
-						</div>
-					</div>
 					</div>
 				</div>
 			</div>
@@ -148,7 +152,7 @@
 		
 		var infoCard = document.getElementById("infoCard");
 		
-		$("#overlay-toggle").addClass("d-none");	
+		$("#overlay-toggle").addClass("d-none");
 				
 		$("#hr-table").on("click", "tr td:not(:first-child)", function(event) {
 	        var value = $(this).closest("tr").find("td.identify-no").text();
@@ -159,6 +163,7 @@
 				success : function(data) {
 					$("#overlay-toggle").removeClass("d-none");
 					$("#overlay").addClass("d-none");
+					
 					$('#photo_paths').attr('src', data.photo_paths).attr('width', '100');
 					$("#employee_no").text(data.employee_no);
 					$("#employee_no-forSubmit").val(data.employee_no);
@@ -198,7 +203,7 @@
 		function accessDeniedAlert(select, batch){
 			swal({
 				  title: "정말 "+(select=="access"?"승인":select=="denied"?"거부":"")+" 하시겠습니까?",
-				  text: "정말로?",
+				  text: "진짜??",
 				  icon: "warning",
 				  buttons: true,
 				  dangerMode: true,

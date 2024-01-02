@@ -162,19 +162,27 @@
 							</tr>
 							<tr>
 								<th class="fs-5">이메일</th>
-								<td class="fs-6"><input type="email" name="email" id="email-input" required="required"></td>
+								<td class="input-group input-group-dynamic">
+									<input class="fs-6 p-0 form-control" type="email" name="email" id="email-input" required="required">
+								</td>
 							</tr>
 							<tr>
 								<th class="fs-5">내선번호</th>
-								<td class="fs-6"><input type="tel" name="extension_no" id="extension_no-input" required="required"></td>
+								<td class="input-group input-group-dynamic">
+									<input class="fs-6 p-0 form-control" type="tel" name="extension_no" id="extension_no-input" required="required">
+								</td>
 							</tr>
 							<tr>
 								<th class="fs-5">연락처</th>
-								<td class="fs-6" ><input type="tel" name="contact" id="contact-input" required="required"></td>
+								<td class="input-group input-group-dynamic" >
+									<input class="fs-6 p-0 form-control" type="tel" name="contact" id="contact-input" required="required">
+								</td>
 							</tr>
 							<tr>
 								<th class="fs-5">주소</th>
-								<td class="fs-6"><input type="text" name="address" id="address-input" required="required"></td>
+								<td class="input-group input-group-dynamic">
+									<input class="fs-6 p-0 form-control" type="text" name="address" id="address-input" required="required">
+								</td>
 							</tr>
 							<tr>
 								<th class="fs-5">재직상태</th>

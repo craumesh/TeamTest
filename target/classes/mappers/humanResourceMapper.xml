@@ -15,7 +15,7 @@
 	<select id="selectHrList" resultType="MemberVO">
   		SELECT * 
   		FROM member  		
-  		WHERE active = '승인'
+  		WHERE active='승인'
   		ORDER BY employee_no desc,regdate desc
   		LIMIT #{startPage},#{pageSize}
   	</select>
@@ -25,7 +25,7 @@
 	  		SELECT COUNT(*)
 	  		FROM member
 	  		WHERE employee_no>0
-	  		AND active = '승인'
+	  		AND active='승인'
   		]]>
   	</select>
   	
@@ -44,9 +44,10 @@
 	<select id="selectSearchList" resultType="MemberVO" parameterType="map">
 	    SELECT *
 	    FROM member
-	    WHERE employee_no=#{searchword}
-	    OR name LIKE CONCAT('%', #{searchword}, '%')
+	    WHERE active='승인'
+	    AND (name LIKE CONCAT('%', #{searchword}, '%')
 	    OR position_name LIKE CONCAT('%', #{searchword}, '%')
+	    OR employee_no=#{searchword})
 	    ORDER BY employee_no DESC, regdate DESC
 	    LIMIT #{cri.startPage}, #{cri.pageSize}
 	</select>
@@ -55,17 +56,18 @@
   		<![CDATA[
 	  		SELECT COUNT(*)
 	  		FROM member
-		    WHERE employee_no=#{searchword}
-		    OR name LIKE CONCAT('%', #{searchword}, '%')
-		    OR position_name LIKE CONCAT('%', #{searchword}, '%')
+		    WHERE active='승인'
 		    AND employee_no>0
+		    AND (employee_no=#{searchword}
+		    OR name LIKE CONCAT('%', #{searchword}, '%')
+		    OR position_name LIKE CONCAT('%', #{searchword}, '%'))
   		]]>
   	</select>
   	
   	<select id="selectHrRegList" resultType="MemberVO">
   		SELECT * 
   		FROM member
-  		WHERE active = '대기'
+  		WHERE active='대기'
   		ORDER BY employee_no desc,regdate desc
   		LIMIT #{startPage},#{pageSize}
   	</select>
@@ -75,7 +77,7 @@
 	  		SELECT COUNT(*)
 	  		FROM member
 	  		WHERE employee_no>0
-	  		AND active = '대기'
+	  		AND active='대기'
   		]]>
   	</select>
   	
