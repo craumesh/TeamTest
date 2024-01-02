@@ -21,6 +21,8 @@ public interface HumanResourceService {
 	
 	public List<MemberVO> getHrRegList(Criteria cri);
 	
+	public int getRegCount();
+	
 	public void setHrRegActive(MemberVO vo);
 	
 	public void deniedHrReg(MemberVO vo);

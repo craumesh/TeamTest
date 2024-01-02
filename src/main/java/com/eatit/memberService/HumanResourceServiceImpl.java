@@ -63,6 +63,13 @@ public class HumanResourceServiceImpl implements HumanResourceService {
 	}
 
 	@Override
+	public int getRegCount() {
+		// TODO Auto-generated method stub
+		logger.debug("Service(getRegCount) -> DAO 호출");
+		return hrDAO.getRegCount();
+	}
+
+	@Override
 	public void setHrRegActive(MemberVO vo) {
 		logger.debug("Service(setHrRegActive) -> DAO 호출");
 		hrDAO.updateHrRegActive(vo);

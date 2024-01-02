@@ -11,41 +11,48 @@
 			</div>
 		</div>		
 		<div class="row">
-			<div class="card-body mx-5 px-0 pb-4 col-lg-3">
+			<div class="card-body mx-5 px-0 pt-0 col-lg-3">
 				<div class="table-responsive p-0 mt-5">
-					<table id="hr-table" class="table table-hover mb-0">
-						<thead>
-							<tr>
-								<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2"><input type="checkbox"></th>
-								<th class="text-center font-weight-bolder col-2">사원번호</th>
-								<th class="text-center font-weight-bolder col-1">아이디</th>
-								<th class="text-center font-weight-bolder col-1">이름</th>
-								<th class="text-center font-weight-bolder col-3">이메일</th>
-								<th class="text-center font-weight-bolder col-3">연락처</th>
-							</tr>
-						</thead>
-		 				<tbody id="employeeTableBody">
-							<c:forEach var="vo" items="${list}">
-								<tr class="memList">
-									<td class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2 py-3"><input type="checkbox"></td>
-									<td class="text-center identify-no">${vo.employee_no}</td>
-									<td class="text-center">${vo.id}</td>
-									<td class="text-center">${vo.name}</td>
-									<td class="text-center">${vo.email}</td>
-									<td class="text-center">${vo.contact}</td>
+		 			<form action="/hr/batch" id="batch-form" method="post">
+						<table id="hr-table" class="table table-hover mb-0">
+							<thead>
+								<tr>
+									<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+										<input type="checkbox" id="selectAll">
+									</th>
+									<th class="text-center font-weight-bolder col-2">사원번호</th>
+									<th class="text-center font-weight-bolder col-1">아이디</th>
+									<th class="text-center font-weight-bolder col-1">이름</th>
+									<th class="text-center font-weight-bolder col-3">이메일</th>
+									<th class="text-center font-weight-bolder col-3">연락처</th>
 								</tr>
-							</c:forEach>
-						</tbody>
-					</table>
+							</thead>
+			 				<tbody id="employeeTableBody">
+								<c:forEach var="vo" items="${list}">
+									<tr class="memList">
+										<td class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2 py-3">
+											<input type="checkbox" class="checkbox" name="checkgroup" value="${vo.employee_no}">
+										</td>
+										<td class="text-center identify-no">${vo.employee_no}</td>
+										<td class="text-center">${vo.id}</td>
+										<td class="text-center">${vo.name}</td>
+										<td class="text-center">${vo.email}</td>
+										<td class="text-center">${vo.contact}</td>
+									</tr>
+								</c:forEach>
+							</tbody>
+						</table>
+						<input type="hidden" name="ad_identify" id="batchad_identify-forSubmit">
+					</form>
 				</div>
 				<div class="col-lg-auto mt-2">
 					<div class="row d-flex">
 						<div class="col-lg-4 col-sm-6 col-12">${pageVO.startPage } / ${pageVO.endPage } of 총 개수</div>
 						<div class="col-lg-2 col-sm-6 col-6 ms-auto">
-							<button class="btn bg-gradient-success fs-6 w-100 mb-0 toast-btn px-2" id="selectaccessbtn" type="button" data-target="successToast">선택 승인</button>
+							<button class="btn bg-gradient-success fs-6 w-100 mb-0 toast-btn px-2" id="batchaccessbtn" type="button" data-target="successToast">선택 승인</button>
 						</div>
 						<div class="col-lg-2 col-sm-6 col-6">
-							<button class="btn bg-gradient-danger fs-6 w-100 mb-0 toast-btn px-2" id="selectdeniedbtn" type="button" data-target="dangerToast">선택 거부</button>
+							<button class="btn bg-gradient-danger fs-6 w-100 mb-0 toast-btn px-2" id="batchdeniedbtn" type="button" data-target="dangerToast">선택 거부</button>
 						</div>
 					</div>
 				</div>
@@ -65,12 +72,14 @@
 					</ul>
 				</div>
 			</div>			
-			<div id="Modal" class="card col-lg-5 my-auto me-5 border" >
+			<div id="infoCard" class="card col-lg-5 my-4 me-5 border" >
 				<div class="d-flex card-header pt-4 pb-2">
 					<h3 class="mx-auto">사원 정보</h3>
 				</div>
 				<hr class="horizontal dark m-2">
-				<div class="card-body p-4">
+				<div class="card-body p-4">					
+					<div class="position-absolute bottom-5 start-50 translate-middle-x w-90 h-75 overflow-hidden bg-primary z-index-3" id="overlay"></div>
+					<div id="overlay-toggle">
 					<div class="user-container d-flex align-items-center">
 						<img class="img-thumbnail mb-4 me-4 max-width-200 w-25" alt="회원사진" id="photo_paths">
 						<div class="user-info d-flex w-100">
@@ -123,6 +132,7 @@
 							<button class="btn bg-gradient-danger fs-6 w-100 mb-0 toast-btn" id="deniedbtn" type="button" data-target="dangerToast">거부</button>
 						</div>
 					</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -130,14 +140,15 @@
 </div>
 <!-- 본문 종료 -->
 
-
 <%@ include file="../include/footer.jsp"%>
 <%@ include file="../include/js.jsp"%>
 
 <script>
 	$(document).ready(function() {
 		
-		var modal = document.getElementById("Modal");
+		var infoCard = document.getElementById("infoCard");
+		
+		$("#overlay-toggle").addClass("d-none");	
 				
 		$("#hr-table").on("click", "tr td:not(:first-child)", function(event) {
 	        var value = $(this).closest("tr").find("td.identify-no").text();
@@ -146,6 +157,8 @@
 				method : 'GET',
 				dataType: 'json',
 				success : function(data) {
+					$("#overlay-toggle").removeClass("d-none");
+					$("#overlay").addClass("d-none");
 					$('#photo_paths').attr('src', data.photo_paths).attr('width', '100');
 					$("#employee_no").text(data.employee_no);
 					$("#employee_no-forSubmit").val(data.employee_no);
@@ -162,30 +175,29 @@
 			});
 	    });
 		
-		$("#accessbtn").click(function(){
-			swal({
-				  title: "정말 승인하시겠습니까?",
-				  text: "정말로?",
-				  icon: "warning",
-				  buttons: true,
-				  dangerMode: true,
-				})
-				.then((willDelete) => {
-				  if (willDelete) {
-					swal("고마워요!", {icon: "success"}).then(function(){
-						$("#employee_no-forSubmit").val($("#employee_no").text());
-						$("#ad_identify-forSubmit").val("access");
-						$("#edit-form").submit();                
-					});							
-				  } else {
-				    swal("너무해요!");
-				  }
-			});    
+		$('#selectAll').change(function () {
+            $('.checkbox').prop('checked', $(this).prop('checked'));
+        });
+		
+		$("#accessbtn, #batchaccessbtn").click(function(){
+			if(this.id == "accessbtn") {
+				accessDeniedAlert("access",false);
+			} else if(this.id == "batchaccessbtn") {
+				accessDeniedAlert("access",true);
+			}
 		});	
 		
-		$("#deniedbtn").click(function(){
+		$("#deniedbtn, #batchdeniedbtn").click(function(){
+			if(this.id == "deniedbtn") {
+				accessDeniedAlert("denied",false);
+			} else if(this.id == "batchdeniedbtn") {
+				accessDeniedAlert("denied",true);
+			}
+		});	
+		
+		function accessDeniedAlert(select, batch){
 			swal({
-				  title: "정말 거부하시겠습니까?",
+				  title: "정말 "+(select=="access"?"승인":select=="denied"?"거부":"")+" 하시겠습니까?",
 				  text: "정말로?",
 				  icon: "warning",
 				  buttons: true,
@@ -193,15 +205,20 @@
 				})
 				.then((willDelete) => {
 				  if (willDelete) {
-					swal("너무해요!", {icon: "success"}).then(function(){
-						$("#employee_no-forSubmit").val($("#employee_no").text());
-						$("#ad_identify-forSubmit").val("denied");
-						$("#edit-form").submit();                
+					swal("처리되었습니다!", {icon: "success"}).then(function(){
+						if(batch){
+							$("#batchad_identify-forSubmit").val(select);
+							$("#batch-form").submit();   
+						} else {
+							$("#employee_no-forSubmit").val($("#employee_no").text());
+							$("#ad_identify-forSubmit").val(select);
+							$("#edit-form").submit();							
+						}                
 					});							
 				  } else {
-				    swal("휴!");
+				    swal("취소되었습니다!");
 				  }
-			});    
-		});			
+			});
+		}
 	});
 </script>

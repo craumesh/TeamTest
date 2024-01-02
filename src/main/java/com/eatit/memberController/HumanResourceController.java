@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.eatit.mainDomain.Criteria;
@@ -79,8 +80,9 @@ public class HumanResourceController {
 		logger.debug("/hr/reglist 호출 -> hrRegListGET() 실행");
 		PageVO pageVO = new PageVO();
 		pageVO.setCri(cri);
-		pageVO.setTotalCount(hrService.getTotalCount());
+		pageVO.setTotalCount(hrService.getRegCount());
 		
+		model.addAttribute("listUrl", "reglist");
 		model.addAttribute("pageVO", pageVO);
 		model.addAttribute("list", hrService.getHrRegList(cri));
 	}
@@ -88,12 +90,31 @@ public class HumanResourceController {
 	@RequestMapping(value = "/reglist", method = RequestMethod.POST)
 	public String hrRegListPost(MemberVO vo, @ModelAttribute("ad_identify") String ad_identify) {
 		logger.debug("/hr/reglist 호출 -> hrRegListPOST() 실행");	
+		hrRegProcessing(vo, ad_identify);
+//		if(ad_identify.equals("access")) {
+//			hrService.setHrRegActive(vo);
+//		} else if(ad_identify.equals("denied")) {
+//			hrService.deniedHrReg(vo);
+//		}
+		return "redirect:/hr/reglist";
+	}
+	
+	@RequestMapping(value = "/batch", method = RequestMethod.POST)
+	public String hrBatchPost(MemberVO vo, @RequestParam("checkgroup") int[] employee_no_List, @ModelAttribute("ad_identify") String ad_identify) {
+		logger.debug("/hr/Batch 호출 -> hrBatchPost() 실행");
+		for(int i : employee_no_List) {
+			vo.setEmployee_no(i);
+			hrRegProcessing(vo, ad_identify);			
+		}
+		return "redirect:/hr/reglist";
+	}
+	
+	private void hrRegProcessing(MemberVO vo, String ad_identify) {
 		if(ad_identify.equals("access")) {
 			hrService.setHrRegActive(vo);
 		} else if(ad_identify.equals("denied")) {
 			hrService.deniedHrReg(vo);
 		}
-		return "redirect:/hr/reglist";
 	}
 	
 }	

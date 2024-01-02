@@ -27,9 +27,9 @@
 				<table id="hr-table" class="table table-hover align-items-center mb-0">
 					<thead>
 						<tr>
-							<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2"><input type="checkbox"></th>
 							<th class="text-center font-weight-bolder col-2">사원번호</th>
 							<th class="text-center font-weight-bolder col-1">이름</th>
+							<th class="text-center font-weight-bolder col-1">부서</th>
 							<th class="text-center font-weight-bolder col-1">직책</th>
 							<th class="text-center font-weight-bolder col-4">이메일</th>
 							<th class="text-center font-weight-bolder col-3">내선번호</th>
@@ -40,9 +40,9 @@
 	 				<tbody id="employeeTableBody">
 						<c:forEach var="vo" items="${list}">
 							<tr class="memList">
-								<td class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2 py-3"><input type="checkbox"></td>
 								<td class="text-center identify-no">${vo.employee_no}</td>
 								<td class="text-center">${vo.name}</td>
+								<td class="text-center">${vo.depart_name}</td>
 								<td class="text-center">${vo.position_name}</td>
 								<td class="text-center">${vo.email}</td>
 								<td class="text-center">${vo.extension_no}</td>
@@ -214,7 +214,7 @@
 			location.href = '/hr/searchlist?searchword=' + value;
 		});		
 		
-		$("#hr-table").on("click", "tr td:not(:first-child)", function(event) {
+		$("#hr-table").on("click", "tr td", function(event) {
 	        var value = $(this).closest("tr").find("td.identify-no").text();
 	        $.ajax({
 	            url: '/hr/content?employee_no=' + value,

@@ -14,7 +14,8 @@
 	
 	<select id="selectHrList" resultType="MemberVO">
   		SELECT * 
-  		FROM member
+  		FROM member  		
+  		WHERE active = '승인'
   		ORDER BY employee_no desc,regdate desc
   		LIMIT #{startPage},#{pageSize}
   	</select>
@@ -24,6 +25,7 @@
 	  		SELECT COUNT(*)
 	  		FROM member
 	  		WHERE employee_no>0
+	  		AND active = '승인'
   		]]>
   	</select>
   	
@@ -66,6 +68,15 @@
   		WHERE active = '대기'
   		ORDER BY employee_no desc,regdate desc
   		LIMIT #{startPage},#{pageSize}
+  	</select>
+  	
+  	<select id="regCount" resultType="int">
+  		<![CDATA[
+	  		SELECT COUNT(*)
+	  		FROM member
+	  		WHERE employee_no>0
+	  		AND active = '대기'
+  		]]>
   	</select>
   	
   	<update id="updateHrRegActive">

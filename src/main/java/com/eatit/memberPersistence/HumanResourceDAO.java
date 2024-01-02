@@ -22,6 +22,8 @@ public interface HumanResourceDAO {
 
 	public List<MemberVO> selectHrRegList(Criteria cri);
 	
+	public int getRegCount();	
+	
 	public void updateHrRegActive(MemberVO vo);
 	
 	public void deleteHrRegData(MemberVO vo);
