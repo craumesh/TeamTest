@@ -2,6 +2,8 @@ package com.eatit.orderService;
 
 import java.util.List;
 
+import com.eatit.orderDomain.CartProductVO;
+import com.eatit.orderDomain.CartVO;
 import com.eatit.orderDomain.ProductVO;
 import com.eatit.orderDomain.PurchaseVO;
 
@@ -20,5 +22,9 @@ public interface PurchaseService {
 	public List<ProductVO> productList() throws Exception;
 
 	public List<ProductVO> searchProduct(String query) throws Exception;
+
+	public void addCart(CartProductVO cpvo) throws Exception;
+
+	public List<CartVO> cartList(int employee_no) throws Exception;
 
 }

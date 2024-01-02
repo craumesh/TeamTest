@@ -9,6 +9,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
+import com.eatit.orderDomain.CartProductVO;
+import com.eatit.orderDomain.CartVO;
 import com.eatit.orderDomain.ProductVO;
 import com.eatit.orderDomain.PurchaseVO;
 
@@ -61,6 +63,18 @@ public class PurchaseDAOImpl implements PurchaseDAO {
 	public List<ProductVO> searchProduct(String query) throws Exception {
 		logger.debug("DAO: searchProduct(String query)");
 		return SqlSession.selectList(NAMESPACE + ".searchProduct", query);
+	}
+
+	@Override
+	public void addCart(CartProductVO cpvo) throws Exception {
+		logger.debug("DAO: addCart(CartProductVO cpvo)");
+		SqlSession.insert(NAMESPACE + ".addCart", cpvo);
+	}
+
+	@Override
+	public List<CartVO> getCartList(int employee_no) throws Exception {
+		logger.debug("DAO: getCartList(int member_no)");
+		return SqlSession.selectList(NAMESPACE + ".cartList", employee_no);
 	}
 	
 }

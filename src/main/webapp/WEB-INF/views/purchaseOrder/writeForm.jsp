@@ -1,4 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <%@ include file="../include/header.jsp"%>
 <%@ include file="../include/js.jsp"%>
@@ -113,46 +115,48 @@
 										</tr>
 									</thead>
 									<tbody>
-										<tr>
-											<td class="text-uppercase text-secondary text-s font-weight-bolder opacity-7 ps-2">
-												<div class="form-check form-check-info text-start ps-0">
-													<input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" data-gtm-form-interact-field-id="0">
-												</div>
-											</td>				
-											<td>
-												<div class="d-flex px-2 py-1">
-													<div>
-														<img src="" class="avatar avatar-sm me-3" alt="">
+										<c:forEach var="vo" items="${cartVOList }">
+											<tr>
+												<td class="text-uppercase text-secondary text-s font-weight-bolder opacity-7 ps-2">
+													<div class="form-check form-check-info text-start ps-0">
+														<input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" data-gtm-form-interact-field-id="0">
 													</div>
-													<div class="d-flex flex-column justify-content-center">
-														<h6 class="mb-0 text-sm">제품 이름 출력란</h6>
-													</div>
-												</div>
-											</td>
-											<td class="align-middle text-start text-sm">
-												<span class="text-xs font-weight-bold">XX개</span>
-											</td>
-											<td class="align-middle text-center">
-												<div class="d-flex align-items-center justify-content-center">
-													<span class="me-2 text-xs font-weight-bold">60%</span>
-													<div>
-														<div class="progress">
-															<div class="progress-bar bg-gradient-info" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;"></div>
+												</td>				
+												<td>
+													<div class="d-flex px-2 py-1">
+														<div>
+															<img src="" class="avatar avatar-sm me-3" alt="">
+														</div>
+														<div class="d-flex flex-column justify-content-center">
+															<h6 class="mb-0 text-sm">${vo.product_name }</h6>
 														</div>
 													</div>
-												</div>
-											</td>
-											<td class="align-middle text-center">
-												<a class="btn btn-link text-dark px-3 mb-0" href="./update">
-													<i class="material-icons text-sm me-2">edit</i>
-													Edit
-												</a>
-												<a class="btn btn-link text-danger text-gradient px-3 mb-0" href="./delete">
-													<i class="material-icons text-sm me-2">delete</i>
-													Delete
-												</a>
-											</td>
-										</tr>
+												</td>
+												<td class="align-middle text-start text-sm">
+													<span class="text-xs font-weight-bold">${vo.quantity }개</span>
+												</td>
+												<td class="align-middle text-center">
+													<div class="d-flex align-items-center justify-content-center">
+														<span class="me-2 text-xs font-weight-bold">60%</span>
+														<div>
+															<div class="progress">
+																<div class="progress-bar bg-gradient-info" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;"></div>
+															</div>
+														</div>
+													</div>
+												</td>
+												<td class="align-middle text-center">
+													<a class="btn btn-link text-dark px-3 mb-0" href="./update">
+														<i class="material-icons text-sm me-2">edit</i>
+														Edit
+													</a>
+													<a class="btn btn-link text-danger text-gradient px-3 mb-0" href="./delete">
+														<i class="material-icons text-sm me-2">delete</i>
+														Delete
+													</a>
+												</td>
+											</tr>
+										</c:forEach>
 									</tbody>
 								</table>
 							</div>
