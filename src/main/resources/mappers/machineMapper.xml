@@ -79,8 +79,11 @@
   </select>
   
   <!-- 설비 정보 업데이트 -->
-
-  
+  <update id="machineupdate">
+  UPDATE machine
+  SET machine_status = #{machine_status}, employee_no = (SELECT employee_no FROM member WHERE name = #{name})
+  WHERE machine_code = #{machine_code}
+  </update>
   
   <!--  -->
   

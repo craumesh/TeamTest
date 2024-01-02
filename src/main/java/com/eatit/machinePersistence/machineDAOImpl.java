@@ -55,6 +55,12 @@ private static final String NAMESPACE="com.eatit.mapper.machineMapper";
 		logger.debug("machineinfo() 구문시작");
 		return sqlSession.selectOne(NAMESPACE+ ".machineinfo",code);
 	}
+
+	@Override
+	public int machineupdate(machineVO vo) {
+	 logger.debug("machineupdate 구문시작");
+	 return sqlSession.update(NAMESPACE + ".machineupdate", vo);	
+	}
 	
 	
 	

@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -57,8 +58,6 @@ public class machinecontroller {
 		logger.debug("넘겨받은 날짜 값: " +  date.toString());
 		
 		vo.setInstallation_date(date);
-		
-		/* vo.setInstallation_date(new Timestamp(System.currentTimeMillis())); */
 		mcService.insertmachine(vo);
 		mcService.machinehistory(vo1);
 		logger.debug("/views/machine/machine.jsp 페이지로 이동");
@@ -76,7 +75,22 @@ public class machinecontroller {
 	  return mcService.machineinfo(code);
 	  }
 	 
-	
+	  @RequestMapping(value = "/machineupdate", method = RequestMethod.POST)
+	   public String machineupdatePost(machineVO vo, @RequestParam("employeename") String name, @RequestParam("machineno") int machine_code
+			   ,@RequestParam("status") String status,@RequestParam("machinelocation") String machine_location){
+	      logger.debug("machineupdatePost 실행");
+	      
+	      logger.debug("name : " + name);
+	      logger.debug("machineno : " + machine_code);
+	      vo.setName(name);
+	      vo.setMachine_code(machine_code);
+	      vo.setMachine_status(status);
+	      vo.setMachine_location(machine_location);
+	      logger.debug("vo : "+ vo);
+	      mcService.machineupdate(vo);
+	      
+	      return "redirect:/machine/machine";
+	   }
 	
 	
 	

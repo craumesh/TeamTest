@@ -21,5 +21,8 @@ public interface machineservice {
 	
 	// 설비 정보
 	public machineVO machineinfo(int code);
+	
+	// 설비 업데이트
+	public int machineupdate(machineVO vo);
 
 }

@@ -55,6 +55,12 @@ public class machineserviceImpl implements machineservice {
 		logger.debug("machineinfo() 호출");
 		return mcdao.machineinfo(code);
 	}
+
+	@Override
+	public int machineupdate(machineVO vo) {
+		logger.debug("machineupdate() 호출");
+		return mcdao.machineupdate(vo);
+	}
 	
 	
 	

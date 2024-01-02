@@ -169,7 +169,11 @@
 						<table class="table">
 							<tr>
 								<th class="fs-5 w-50">설비 코드</th>
-								<td class="fs-5 w-50" id="namecode"></td>
+								<td class="fs-5 w-50" id="namecode">
+								</td>
+								<td class="fs-5 w-50" id="machineno" ></td>
+								
+									
 							</tr>
 							<tr>
 								<th class="fs-5">점검일</th>
@@ -198,14 +202,14 @@
 						</tr>
 					</table>
 					
-					<form action="/machine/machine" id="edit-form" method="post">
+					<form action="/machine/machineupdate" id="edit-form" method="post">
 						<input type="hidden" name="employeeno" id="employee_no-forSubmit">
 						<input type="hidden" name="searchword" id="searchword-forSubmit">
 						<table id="edit-table" class="d-none table">
 					    	<tr>
 								<th class="fs-5">설비 상태</th>
 								<td class="fs-6">
-									<select name="status" id="status">
+									<select name="status" id="machine_status">
 										<option value="점검중">점검중</option>
 										<option value="수리중">수리중</option>
 										<option value="고장">고장</option>
@@ -216,12 +220,19 @@
 							<tr>
 								<th class="fs-5">관리자</th>
 								<td class="fs-6">
-									<select name="employeename" id="employeename"></select>
+									<input type="text" name="employeename" id="name">
+									<input type="hidden" name="machineno" id="codemachine">
 								</td>
 							</tr>
 							<tr>
 								<th class="fs-5">위치</th>
-								<td class="fs-6"><input type="text" name="machinelocation" id="machinelocation"></td>
+								<td class="fs-6">
+								<select name="machinelocation" id="machine_location">  
+								<option value="A">A</option>
+								<option value="B">B</option>
+								<option value="C">C</option>
+								<option value="D">D</option>
+								</select></td>
 							</tr>
 					  	</table>
 				  	</form>
@@ -238,6 +249,7 @@
 <script>
 
 $(document).ready(function () {
+	
     $("#hr-table").on("click", "tr", function () {
         // 추출한 machine_code
         var machineCode = $(this).find("td:eq(1)").text().match(/\d+/);
@@ -260,7 +272,7 @@ $(document).ready(function () {
                 $("#name").text(data.machine_name);
                 $("#status").text(data.machine_status);
                 $("#employeename").text(data.name);
-                
+                $("#machineno").val(historyData.machine_code);
                 // formatDate 함수를 AJAX 내부에 직접 정의
                 function formatDate(dateString) {
                     var formattedDate = dateString.replace(/(\d+)월 (\d+), (\d+)/, '$3-$1-$2');
@@ -282,64 +294,64 @@ $(document).ready(function () {
         });
     });
 
-$("#Modal, #closebtn").click(function (e) {
-    if (e.target.id === "Modal" || e.target.id === "closebtn") {
-        $("#Modal").css("display", "none");
-        location.reload();
+
+	$("#editbtn").click(function(){
+		if ($("#edit-table").hasClass("d-none")) {
+			$("#editbtn").text("수정 완료");
+			toggleTable();
+		    getEditInfo();
+		} else {
+			swal({
+				  title: "수정하시겠습니까?",
+				  text: "수정 중 입니다.",
+				  icon: "warning",
+				  buttons: true,
+				  dangerMode: true,
+				})
+				.then((willDelete) => {
+				  if (willDelete) {
+					swal("수정 완료 되었습니다!", {icon: "success"}).then(function(){
+						if($("#searchword").val()){
+							$("#searchword-forSubmit").val($("#searchword").val());
+						}							
+						$("#edit-form").submit();                
+					});							
+				  } else {
+				    swal("수정 취소했습니다!");
+				  }
+			});		    
+		}		    
+});
+$(window).click(function(event){
+	var modal = document.getElementById("Modal");
+	if (event.target == modal) {
+		modal.style.display = "none";
+		location.reload();
+	}
+	
+	if (!$(event.target).closest('.input-group').length) {
+		if (!$("#searchword").val()) {
+       		$(".input-group").removeClass("focused is-focused");
+		}
     }
-});
-});
-$("#editbtn").click(function(){
-	if ($("#edit-table").hasClass("d-none")) {
-		$("#editbtn").text("수정 완료");
-		toggleTable();
-	    getEditInfo();
-	} else {
-		swal({
-			  title: "수정하시겠습니까?",
-			  text: "수정 중 입니다.",
-			  icon: "warning",
-			  buttons: true,
-			  dangerMode: true,
-			})
-			.then((willDelete) => {
-			  if (willDelete) {
-				swal("수정 완료 되었습니다!", {icon: "success"}).then(function(){
-					if($("#searchword").val()){
-						$("#searchword-forSubmit").val($("#searchword").val());
-					}							
-					$("#edit-form").submit();                
-				});							
-			  } else {
-			    swal("수정 취소했습니다!");
-			  }
-		});		    
-	}		    
 });		
+
+$(".input-group").click(function(){
+	$(this).addClass("focused is-focused");
+});
+});	
 		function toggleTable(){
 			$("#view-table").toggleClass("d-none");
   		    $("#edit-table").toggleClass("d-none");			
 				}
 
 		function getEditInfo() {
- 		   getSelected("#status");
-			
-				}
-		
-		function updatePositionNameSelect() {
-		    var selectedValue = $("#status-select").val();
+ 		 $("#machine_status").val($("#status").text());
+ 		 $("#machine_location").val($("#machinelocation").text());
+ 		 $("#name").val($("#employeename").text());
+ 		 $("#codemachine").val($("#machineno").val());
+	}
 
-		    switch (selectedValue) {
-		      case "점검중":
-		        break;
-		      case "수리중":
-		        break;
-		      case "생산중":
-		        break;
-		      case "설치중":
-		        break;
-		    }
-		}
 		
 
 		function openModal() {
