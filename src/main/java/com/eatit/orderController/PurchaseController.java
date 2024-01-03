@@ -3,6 +3,7 @@ package com.eatit.orderController;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.eatit.orderDomain.CartProductVO;
+import com.eatit.orderDomain.CartVO;
 import com.eatit.orderDomain.CartVO;
 import com.eatit.orderDomain.ProductVO;
 import com.eatit.orderDomain.PurchaseVO;
@@ -31,16 +32,17 @@ public class PurchaseController {
 	
 	// 발주 신청 - GET
 	@RequestMapping(value = "/writeForm", method = RequestMethod.GET)
-	public void purchaseWriteFormGET(Model model) throws Exception {
+	public void purchaseWriteFormGET(Model model, HttpSession session) throws Exception {
 		
-		logger.debug("/purchase/writeForm/purchaseWriteFormGET() 호출");
-		logger.debug("/purchase/writeForm.jsp 페이지 이동");
+		logger.debug("Controller: /purchaseOrder/writeForm/purchaseWriteFormGET()");
+		logger.debug("/purchaseOrder/writeForm.jsp 페이지 이동");
 		
-		// 임시 데이터
-		int employee_no = 1;
+		// 로그인 정보 
+		String id = (String)session.getAttribute("id");
+		logger.debug("id: " + id);
 		
 		// 서비스 - 카트 목록 가져오기
-		List<CartVO> cartVOList = pService.cartList(employee_no);
+		List<CartVO> cartVOList = pService.cartList(id);
 		logger.debug("cartVOList: " + cartVOList);
 		
 		// 데이터 전달
@@ -153,7 +155,7 @@ public class PurchaseController {
 	
 	// 상품 추가 - POST
 	@RequestMapping(value = "/addCart", method = RequestMethod.POST)
-	public void addCartPOST(CartProductVO cpvo) throws Exception {
+	public void addCartPOST(CartVO cpvo) throws Exception {
 		
 		logger.debug("Controller: /purchaseOrder/addCartPOST(CartProductVO cpvo)");
 		

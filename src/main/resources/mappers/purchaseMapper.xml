@@ -84,11 +84,11 @@
 	  <!-- 카트 상품 조회 -->
 	  <select id="cartList" resultMap="cartMap">
 	  		<![CDATA[
-	  		SELECT pi.product_name, cp.quantity
-	  		FROM cart_product cp
-	  			JOIN product_information pi ON cp.product_no = pi.product_no
-	  			JOIN cart c ON cp.cart_id = c.cart_id
-	  		WHERE c.employee_no = 1	
+	  		SELECT pi.product_name, c.quantity
+	  		FROM cart c
+	  			JOIN product_information pi ON c.product_no = pi.product_no
+	  			JOIN member m ON c.employee_no = m.employee_no
+	  		WHERE m.id = #{id}	
 	  		]]>
 	  </select>	  
 	  

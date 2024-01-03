@@ -9,7 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
-import com.eatit.orderDomain.CartProductVO;
+import com.eatit.orderDomain.CartVO;
 import com.eatit.orderDomain.CartVO;
 import com.eatit.orderDomain.ProductVO;
 import com.eatit.orderDomain.PurchaseVO;
@@ -66,15 +66,15 @@ public class PurchaseDAOImpl implements PurchaseDAO {
 	}
 
 	@Override
-	public void addCart(CartProductVO cpvo) throws Exception {
+	public void addCart(CartVO cpvo) throws Exception {
 		logger.debug("DAO: addCart(CartProductVO cpvo)");
 		SqlSession.insert(NAMESPACE + ".addCart", cpvo);
 	}
 
 	@Override
-	public List<CartVO> getCartList(int employee_no) throws Exception {
-		logger.debug("DAO: getCartList(int member_no)");
-		return SqlSession.selectList(NAMESPACE + ".cartList", employee_no);
+	public List<CartVO> getCartList(String id) throws Exception {
+		logger.debug("DAO: getCartList(String id)");
+		return SqlSession.selectList(NAMESPACE + ".cartList", id);
 	}
 	
 }

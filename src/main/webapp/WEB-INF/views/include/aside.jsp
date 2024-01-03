@@ -19,12 +19,12 @@
        	  <span class="nav-link text-white " style="cursor: default;">기준정보 관리</span>
 		  <ul class="navbar-nav" id="sm1">
 		    <li class="nav-item">
-		      <a class="nav-link text-white sm-hv" href="${path}/masterdata/BomMain">
+		      <a class="nav-link text-white sm-hv" href="/masterdata/BomMain">
 		        <span class="nav-link-text ms-1">BOM관리</span>
 		      </a>
 		    </li>
 		    <li class="nav-item">
-		      <a class="nav-link text-white sm-hv" href="${path}/masterdata/QualityManagement">
+		      <a class="nav-link text-white sm-hv" href="/masterdata/QualityManagement">
 		        <span class="nav-link-text ms-1">설비정보관리</span>
 		      </a>
 		    </li>
@@ -39,12 +39,12 @@
 		      </a>
 		    </li>
 		    <li class="nav-item">
-		      <a class="nav-link text-white sm-hv" href="${path}/submenu2.html">
+		      <a class="nav-link text-white sm-hv" href="/submenu2.html">
 		        <span class="nav-link-text ms-1">서브메뉴 2</span>
 		      </a>
 		    </li>
 		    <li class="nav-item">
-		      <a class="nav-link text-white sm-hv" href="${path}/submenu3.html">
+		      <a class="nav-link text-white sm-hv" href="/submenu3.html">
 		        <span class="nav-link-text ms-1">서브메뉴 3</span>
 		      </a>
 		    </li>
@@ -59,12 +59,12 @@
 			      </a>
 			    </li>
 			    <li class="nav-item">
-			      <a class="nav-link text-white sm-hv" href="${path}/submenu2.html">
+			      <a class="nav-link text-white sm-hv" href="/submenu2.html">
 			        <span class="nav-link-text ms-1">서브메뉴 2</span>
 			      </a>
 			    </li>
 			    <li class="nav-item">
-			      <a class="nav-link text-white sm-hv" href="${path}/submenu3.html">
+			      <a class="nav-link text-white sm-hv" href="/submenu3.html">
 			        <span class="nav-link-text ms-1">서브메뉴 3</span>
 			      </a>
 			    </li>
@@ -84,7 +84,7 @@
 			      </a>
 			    </li>
 			    <li class="nav-item">
-			      <a class="nav-link text-white sm-hv" href="${path}/submenu3.html">
+			      <a class="nav-link text-white sm-hv" href="/submenu3.html">
 			        <span class="nav-link-text ms-1">서브메뉴 3</span>
 			      </a>
 			    </li>
@@ -104,7 +104,7 @@
 			      </a>
 			    </li>
 			    <li class="nav-item">
-			      <a class="nav-link text-white sm-hv" href="${path}/submenu3.html">
+			      <a class="nav-link text-white sm-hv" href="/submenu3.html">
 			        <span class="nav-link-text ms-1">서브메뉴 3</span>
 			      </a>
 			    </li>
@@ -114,17 +114,17 @@
          <span class="nav-link text-white" style="cursor: default;">인사 관리</span>
  		  <ul class="navbar-nav" id="sm6">
 		    <li class="nav-item">
-		      <a class="nav-link text-white sm-hv" href="${path}/submenu1.html">
+		      <a class="nav-link text-white sm-hv" href="/submenu1.html">
 		        <span class="nav-link-text ms-1">서브메뉴 1</span>
 		      </a>
 		    </li>
 		    <li class="nav-item">
-		      <a class="nav-link text-white sm-hv" href="${path}/submenu2.html">
+		      <a class="nav-link text-white sm-hv" href="/submenu2.html">
 		        <span class="nav-link-text ms-1">서브메뉴 2</span>
 		      </a>
 		    </li>
 		    <li class="nav-item">
-		      <a class="nav-link text-white sm-hv" href="${path}/submenu3.html">
+		      <a class="nav-link text-white sm-hv" href="/submenu3.html">
 		        <span class="nav-link-text ms-1">서브메뉴 3</span>
 		      </a>
 		    </li>

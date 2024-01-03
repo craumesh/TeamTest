@@ -8,7 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import com.eatit.orderDomain.CartProductVO;
+import com.eatit.orderDomain.CartVO;
 import com.eatit.orderDomain.CartVO;
 import com.eatit.orderDomain.ProductVO;
 import com.eatit.orderDomain.PurchaseVO;
@@ -65,15 +65,15 @@ public class PurchaseServiceImpl implements PurchaseService {
 	}
 
 	@Override
-	public void addCart(CartProductVO cpvo) throws Exception {
+	public void addCart(CartVO cpvo) throws Exception {
 		logger.debug("Service: addCart(CartProductVO cpvo)");
 		pdao.addCart(cpvo);
 	}
 
 	@Override
-	public List<CartVO> cartList(int employee_no) throws Exception {
-		logger.debug("Service: cartList(int member_no)");
-		return pdao.getCartList(employee_no);
+	public List<CartVO> cartList(String id) throws Exception {
+		logger.debug("Service: cartList(String id)");
+		return pdao.getCartList(id);
 	}
 		
 }
