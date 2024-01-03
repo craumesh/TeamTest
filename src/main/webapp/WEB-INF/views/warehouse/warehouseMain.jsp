@@ -217,7 +217,7 @@
 					</table>
 					</form>
 				</div>
-				<div>
+				<div class="text-end ">
 	                <button type="button" class="btn bg-gradient-primary" onclick="popup();">창고등록</button>
 	                <button type="button" id="deleteBtn" class="btn bg-gradient-primary" >창고삭제</button>
 	            </div>
@@ -257,7 +257,7 @@ $(document).ready(function(){
 				  title: "정말 삭제하시겠습니까?",
 				  icon: "warning",
 				  buttons: true,
-				  dangerMode: true,
+				  dangerMode: true
 				})
 				.then((willDelete) => {
 				  if (willDelete) {
@@ -272,3 +272,4 @@ $(document).ready(function(){
 	});
 </script>
 <script src="/resources/js/plugins/warehouseMain.js"></script>
+</html>

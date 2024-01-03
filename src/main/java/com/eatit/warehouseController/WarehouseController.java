@@ -29,7 +29,7 @@ public class WarehouseController {
 	private WarehouseService warehouseService;
 	
 	//http://localhost:8088/warehouse/warehouseMain
-	// 창고메인
+////////////////////////////////////////// 창고 메인 페이지 시작 ///////////////////////////////////////
 	@GetMapping(value = "/warehouseMain")
 	public void warehouseMainGET(Model model,@SessionAttribute("no") int no) {
 		logger.debug("C - wareHouseMainGET() 호출");
@@ -118,4 +118,21 @@ public class WarehouseController {
 	public void warehouseStockMainGET() {
 		logger.debug("C - warehouseStockMainGET()");
 	}
+////////////////////////////////////////// 창고 메인 페이지 끝 /////////////////////////////////////////
+	
+	
+////////////////////////////////////////// 재고 페이지 시작 ////////////////////////////////////////////
+	
+	
+	
+	
+	
+	
+	
+	
+	
+////////////////////////////////////////// 재고 페이지 끝 //////////////////////////////////////////////
+	
+	
+	
 }

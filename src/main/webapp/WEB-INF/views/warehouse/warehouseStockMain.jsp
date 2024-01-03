@@ -4,15 +4,15 @@
 <%@ include file="../include/header.jsp"%>
 <!-- 본문 시작 -->
 <div class="col-11 mx-auto">
-	<div class="card my-3 mx-auto pt-5 px-6 pb-2">
-		<div class="card-header p-0 position-relative mx-3 z-index-2">
+	<div class="card my-4 ">
+		<div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
 			<div class="bg-gradient-primary shadow-primary border-radius-lg pt-3 pb-3 pe-3 d-flex">
 				<h3 class="text-white text-capitalize ps-5 align-items-center mb-0 py-1">창고 재고 현황</h3>
 				<div class="ms-md-auto bg-white rounded p-2 d-flex align-items-center">
 					<div class="align-items-center d-flex flex-column">
 						<div class="input-group input-group-outline">
 							<label class="form-label">검색어</label>
-							<input type="text" id="searchWord" name="searchWord" class="form-control">
+							<input type="text" id="searchword" name="searchword" class="form-control" value="${param.searchword }">
 						</div>
 					</div>
 					<div class="align-items-center d-flex flex-column py-1">
@@ -27,9 +27,9 @@
 				<table id="hr-table" class="table table-hover align-items-center mb-0">
 					<thead>
 						<tr>
-							<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2"><input type="checkbox"></th>
 							<th class="text-center font-weight-bolder col-2">사원번호</th>
 							<th class="text-center font-weight-bolder col-1">이름</th>
+							<th class="text-center font-weight-bolder col-1">부서</th>
 							<th class="text-center font-weight-bolder col-1">직책</th>
 							<th class="text-center font-weight-bolder col-4">이메일</th>
 							<th class="text-center font-weight-bolder col-3">내선번호</th>
@@ -37,12 +37,12 @@
 							<th class="text-center font-weight-bolder col-1">재직상태</th>
 						</tr>
 					</thead>
-	 				<tbody>
+	 				<tbody id="employeeTableBody">
 						<c:forEach var="vo" items="${list}">
 							<tr class="memList">
-								<td class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2 py-3"><input type="checkbox"></td>
 								<td class="text-center identify-no">${vo.employee_no}</td>
 								<td class="text-center">${vo.name}</td>
+								<td class="text-center">${vo.depart_name}</td>
 								<td class="text-center">${vo.position_name}</td>
 								<td class="text-center">${vo.email}</td>
 								<td class="text-center">${vo.extension_no}</td>
@@ -62,15 +62,15 @@
 			<div class="col-sm-5">
 				<ul class="pagination">
 					<c:if test="${pageVO.prev }">
-						<li class="page-link link-container"><a href="/hr/list?page=${pageVO.endPage-pageVO.displayPageNum }" class="link"><<</a></li>
+						<li class="page-link link-container"><a href="/hr/${listUrl }?page=${pageVO.endPage-pageVO.displayPageNum }&searchword=${searchword}" class="link"><<</a></li>
 					</c:if>
 					<c:forEach var="i" begin="${pageVO.startPage }" end="${pageVO.endPage }" step="1">
 						<li ${pageVO.cri.page == i ? "class='page-link link-container active'" : "class='page-link link-container'"} >
-							<a href="/hr/list?page=${i }" ${pageVO.cri.page == i ? "class='link-white'" : ""}>${i }</a>
+							<a href="/hr/${listUrl }?page=${i }&searchword=${searchword}" ${pageVO.cri.page == i ? "class='link-white'" : "class=''"}>${i }</a>
 						</li>				
 					</c:forEach>
 					<c:if test="${pageVO.next }">
-						<li class="page-link link-container"><a href="/hr/list?page=${pageVO.startPage+pageVO.displayPageNum }" class="link">>></a></li>
+						<li class="page-link link-container"><a href="/hr/${listUrl }?page=${pageVO.startPage+pageVO.displayPageNum }&searchword=${searchword}" class="link">>></a></li>
 					</c:if>
 				</ul>
 			</div>
@@ -79,10 +79,10 @@
 </div>
 <!-- 본문 종료 -->
 
-<div id="Modal" class="modal top-10 position-absolute">
+<div id="Modal" class="modal top-7 position-absolute h-auto">
 	<div class="modal-dialog">
 		<div class="modal-content">
-			<div class="modal-header">
+			<div class="modal-header py-4">
 				<button id="closebtn" class="btn bg-gradient-primary position-absolute py-1 px-2 mt-2 end-5">X</button>
 				<h3 class="modal-title mx-auto">사원 정보</h3>
 			</div>
@@ -138,8 +138,9 @@
 						</tr>
 					</table>
 					
-					<form id="edit-form" method="post">
+					<form action="/hr/list" id="edit-form" method="post">
 						<input type="hidden" name="employee_no" id="employee_no-forSubmit">
+						<input type="hidden" name="searchword" id="searchword-forSubmit">
 						<table id="edit-table" class="d-none table">
 					    	<tr>
 								<th class="fs-5">부서</th>
@@ -161,19 +162,27 @@
 							</tr>
 							<tr>
 								<th class="fs-5">이메일</th>
-								<td class="fs-6"><input type="email" name="email" id="email-input" required="required"></td>
+								<td class="input-group input-group-dynamic">
+									<input class="fs-6 p-0 form-control" type="email" name="email" id="email-input" required="required">
+								</td>
 							</tr>
 							<tr>
 								<th class="fs-5">내선번호</th>
-								<td class="fs-6"><input type="tel" name="extension_no" id="extension_no-input" required="required"></td>
+								<td class="input-group input-group-dynamic">
+									<input class="fs-6 p-0 form-control" type="tel" name="extension_no" id="extension_no-input" required="required">
+								</td>
 							</tr>
 							<tr>
 								<th class="fs-5">연락처</th>
-								<td class="fs-6" ><input type="tel" name="contact" id="contact-input" required="required"></td>
+								<td class="input-group input-group-dynamic" >
+									<input class="fs-6 p-0 form-control" type="tel" name="contact" id="contact-input" required="required">
+								</td>
 							</tr>
 							<tr>
 								<th class="fs-5">주소</th>
-								<td class="fs-6"><input type="text" name="address" id="address-input" required="required"></td>
+								<td class="input-group input-group-dynamic">
+									<input class="fs-6 p-0 form-control" type="text" name="address" id="address-input" required="required">
+								</td>
 							</tr>
 							<tr>
 								<th class="fs-5">재직상태</th>
@@ -200,23 +209,20 @@
 <%@ include file="../include/js.jsp"%>
 
 <script>
-	var modal = document.getElementById("Modal");
-
 	$(document).ready(function() {
+		
+		var modal = document.getElementById("Modal");
+		
+		if($("#searchword").val()) {
+			$(".input-group").addClass("focused is-focused");
+		}
+		
 		$("#searchbtn").click(function(){
-			$.ajax({
-	            url: '/hr/content?employee_no=' + value,
-				method : 'GET',
-				dataType: 'json',
-				success : function(data) {
-				},
-				error : function(error) {
-					console.log('실패:', error);
-				}
-			});
+			var value = $("#searchword").val();
+			location.href = '/hr/searchlist?searchword=' + value;
 		});		
 		
-		$("#hr-table").on("click", "tr td:not(:first-child)", function(event) {
+		$("#hr-table").on("click", "tr td", function(event) {
 	        var value = $(this).closest("tr").find("td.identify-no").text();
 	        $.ajax({
 	            url: '/hr/content?employee_no=' + value,
@@ -244,15 +250,15 @@
 	    });
 		
 		$("#closebtn").click(function(){
+			var value = $("#searchword").val();
 			modal.style.display = "none";
 			location.reload();
 		});
 		
 		$("#editbtn").click(function(){
 			if ($("#edit-table").hasClass("d-none")) {
-				$("#view-table").toggleClass("d-none");
-			    $("#edit-table").toggleClass("d-none");	
 				$("#editbtn").text("수정 완료");
+				toggleTable();
 			    getEditInfo();
 			    updatePositionNameSelect();
 			} else {
@@ -266,7 +272,9 @@
 					.then((willDelete) => {
 					  if (willDelete) {
 						swal("당신은 정말 잔인한 사람이에요!", {icon: "success"}).then(function(){
-							$("#closebtn").click(); 
+							if($("#searchword").val()){
+								$("#searchword-forSubmit").val($("#searchword").val());
+							}							
 							$("#edit-form").submit();                
 						});							
 					  } else {
@@ -283,7 +291,9 @@
 			}
 			
 			if (!$(event.target).closest('.input-group').length) {
-		        $(".input-group").removeClass("focused is-focused");
+				if (!$("#searchword").val()) {
+		       		$(".input-group").removeClass("focused is-focused");
+				}
 		    }
 		});		
 		
@@ -334,6 +344,11 @@
 	    }
 	}
 	
+	function toggleTable(){
+		$("#view-table").toggleClass("d-none");
+	    $("#edit-table").toggleClass("d-none");			
+	}
+	
 	function addOption(selectElement, value) {
 		var option = $("<option>").text(value).val(value);
 		selectElement.append(option);
@@ -347,6 +362,5 @@
 		if (optionToSelect.length > 0) {
 		    optionToSelect.prop("selected", true);
 	    }
-	}
-	
+	}	
 </script>
