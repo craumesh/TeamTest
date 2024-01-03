@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.eatit.machineDomain.machineVO;
 import com.eatit.machineDomain.machinehistoryVO;
+import com.eatit.mainDomain.Criteria;
 
 public interface machineservice {
 	
@@ -11,7 +12,7 @@ public interface machineservice {
 	public void insertmachine(machineVO vo);
 	
 	// 설비 리스트 조회 동작
-	public List<machineVO> machinelist();
+	public List<machineVO> machinelist(Criteria cri);
 	
 	// 설비 기록
 	public void machinehistory(machinehistoryVO vo);
@@ -24,5 +25,11 @@ public interface machineservice {
 	
 	// 설비 업데이트
 	public int machineupdate(machineVO vo);
+	
+	// 설비 삭제
+	public void machinedelete(machineVO vo);
+	
+	// 페이징 처리 갯수
+	public int totalCount(); 
 
 }

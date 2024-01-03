@@ -51,8 +51,8 @@
 </style>
 <!-- 시작 -->
 <div class="col-11 mx-auto">
-	<div class="card my-3 mx-auto pt-5 px-6 pb-2">
-		<div class="card-header p-0 position-relative mx-3 ">
+	<div class="card my-4">
+		<div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 ">
 			<div class="bg-gradient-primary shadow-primary border-radius-lg pt-3 pb-3 pe-3 d-flex">
 				<h3 class="text-white text-capitalize ps-5 align-items-center mb-0 py-1">설비 관리</h3>
 				<div class="ms-md-auto bg-white rounded p-2 d-flex align-items-center">
@@ -71,6 +71,7 @@
 	
 		<div class="card-body mx-5 px-0 pb-4">
 			<div class="table-responsive p-0">
+				<form action="/machine/delete" method="post" id="checkbox_form">
 				<table id="hr-table" class="table table-hover align-items-center mb-0">
 					<thead>
 						<tr>
@@ -86,7 +87,7 @@
 	 				<tbody id="employeeTableBody">
 						<c:forEach var="ml" items="${machinelist}">
 							<tr class="mllist">
-								<td class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2 py-3"><input type="checkbox"></td>
+								<td class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2 py-3"><input type="checkbox" name="code" value="${ml.machine_code}"></td>
 								<td class="text-center">${ml.machine_name}_${ml.machine_code}</td>
 								<td class="text-center"><span class="badge badge-sm bg-gradient-success">${ml.machine_status}</span></td>
 								<td class="text-center">${ml.name}</td>
@@ -96,63 +97,101 @@
 							</tr>
 						</c:forEach>
 					</tbody>
+		
 				</table>
+		</form>
 			</div>
 		</div>
-
 		<div class="col-6 w-100 text-end">
-		<a class="btn bg-gradient-dark mb-0" onclick="openModal()"><i class="material-icons text-sm"></i>&nbsp;&nbsp;설비 추가</a>
-		<a class="btn bg-gradient-dark mb-0" onclick=""><i class="material-icons text-sm"></i>&nbsp;&nbsp;설비 삭제</a>
+		<button class="btn bg-gradient-danger fs-6 mb-0 py-2 px-3" onclick="openModal()">설비 추가</button>
+		<button class="btn bg-gradient-dark fs-6 mb-0 py-2 px-3" id="delete_btn" >설비 삭제</button>
+		<!-- <a class="btn bg-gradient-dark mb-0" onclick="deleteSelected()"><i class="material-icons text-sm"></i>&nbsp;&nbsp;설비 삭제</a> -->
+		</div>
+		<div class="row">
+			<div class="col-sm-5">
+				<div>Showing ${pageVO.startPage } to ${pageVO.endPage } of 미구현 entries</div>
+			</div>
+			<div class="col-sm-5">
+				<ul class="pagination">
+					<c:if test="${pageVO.prev }">
+						<li class="page-link link-container"><a href="/machine/${listUrl }?page=${pageVO.endPage-pageVO.displayPageNum }&searchword=${searchword}" class="link"><<</a></li>
+					</c:if>
+					<c:forEach var="i" begin="${pageVO.startPage }" end="${pageVO.endPage }" step="1">
+						<li ${pageVO.cri.page == i ? "class='page-link link-container active'" : "class='page-link link-container'"} >
+							<a href="/machine/${listUrl }?page=${i }&searchword=${searchword}" ${pageVO.cri.page == i ? "class='link-white'" : "class=''"}>${i }</a>
+						</li>				
+					</c:forEach>
+					<c:if test="${pageVO.next }">
+						<li class="page-link link-container"><a href="/machine/${listUrl }?page=${pageVO.startPage+pageVO.displayPageNum }&searchword=${searchword}" class="link">>></a></li>
+					</c:if>
+				</ul>
+			</div>
 		</div>
 </div>
 </div>
 <!-- 끝 -->
-
-
-
-
-	<div id="myModal" class="modal top-10 position-absolute">
+<div id="myModal" class="modal top-10 position-absolute z-index-3">
 	<div class="modal-dialog">
-		<div class="modal-content">
-			<span class="close" onclick="closeModal()">&times;</span>
-			<form id="myForm" method="post">
-				<table border="1">
-					<tr>
-						<th>설치 장비</th>
-						<th>작업자</th>
-						<th>설비 설치일</th>
-						<th>설비 위치</th>
-					</tr>
-					<tr>
-						<td><select id="machine_name" name="machine_name" onchange="updateMachineCode()" required>
+		<div class="modal-content w-100">
+			<div class="modal-header">
+				<button id="closebtn" class="btn bg-gradient-primary position-absolute py-1 px-2 mt-2 end-5" onclick="closeModal()">X</button>
+				<h3 class="modal-title mx-auto">설비 추가</h3>
+			</div>
+			<div class="modal-body p-5">
+				<div id="tableContainer">
+				<form action="/machine/machine" id="myForm"  method="post">
+					<table id="updatemachinetable" class="table">
+						<tr>
+							<th class="fs-5 w-50">설치 장비</th>
+							<td><select id="machine_name" name="machine_name" onchange="updateMachineCode()" required>
 								<option value="선택">--선택하세요--</option>
 								<option value="Dough">반죽</option>
 								<option value="Topping">토핑</option>
 								<option value="Oven">오븐</option>
 								<option value="Packaging">포장</option>
 							</select></td>
-						<td><input type="text" id="employee_no" name="employee_no" required>
+						</tr>
+						<tr>
+							<th class="fs-5">관리자</th>
+							<td>
+							<select id="employee_no" name="employee_no"  required>
+								<option value="${no }">${name}</option>
+							</select>
 							<input type="hidden" id="machine_code" name="machine_code" value="${code }">
 						</td>
-						<td><input type="text" id="installation_date" name="installation_date"></td>
-						<td><select id="machine_location" name="machine_location">
+						</tr>
+						<tr>
+							<th class="fs-5">설비 설치일</th>
+							<td><input type="text" id="installation_date" name="installation_date"></td>
+						</tr>
+						<tr>
+							<th class="fs-5">설비 위치</th>
+							<td><select id="machine_location" name="machine_location">
 								<option value="선택">--선택하세요--</option>
 								<option value="A">A</option>
 								<option value="B">B</option>
 								<option value="C">C</option>
 								<option value="D">D</option>
 						</select></td>
-					</tr>
-				</table>
-
-				<input type="submit" value="등록"> <input type="button" onclick="closeModal()" value="취소">
-			</form>
+						</tr>		
+					</table>
+					<div class="text-center">
+					<button id="myForm" class="btn bg-gradient-danger fs-6 mb-0 py-2 px-3">등록</button>
+					<input type="button" class="btn bg-gradient-danger fs-6 mb-0 py-2 px-3" onclick="closeModal()" value="취소">
+					</div>
+					</form>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>
 
+
+
+	
+
 	<!-- 설비 상세보기 -->
-	<div id="Modal" class="modal top-10 position-absolute">
+	<div id="Modal" class="modal top-10 position-absolute z-index-3" >
 	<div class="modal-dialog">
 		<div class="modal-content w-100">
 			<div class="modal-header">
@@ -248,9 +287,9 @@ $(document).ready(function () {
 	
 	
 	
-    $("#hr-table").on("click", "tr", function () {
+    $("#hr-table").on("click", "tr td:not(:first-child)", function () {
         // 추출한 machine_code
-        var machineCode = $(this).find("td:eq(1)").text().match(/\d+/);
+        var machineCode = $(this).closest("tr").find("td:eq(1)").text().match(/\d+/);
 
         $.ajax({
             url: '/machine/machineinfo?machine_code=' + machineCode, 
@@ -389,7 +428,49 @@ $(".input-group").click(function(){
 			    optionToSelect.prop("selected", true);
 		    }
 		}	
+		
+		
+		
+		$("#delete_btn").click(function(event){
+			$("#checkbox_form").submit();
+
+		});
+		
+	
+		
+		
+		
+		
+		
+/* 		function deleteSelected() {
+		    var selectedMachines = [];
 		    
+		    
+		    $("input[type=checkbox]:checked").each(function() {
+		        var machineCode = $(this).closest("tr").find("td:eq(1)").text().match(/\d+/);
+		        if (machineCode) {
+		            selectedMachines.push(parseInt(machineCode[0]));
+		        }
+		    });
+		    
+		    if (selectedMachines.length > 0) {
+		    	console.log(selectedMachines);
+		        $.ajax({
+		            url: '/machine/delete',  
+		            method: 'POST',
+		            data: { selectedMachines: selectedMachines },
+		            success: function () {
+		                location.reload();
+		            },
+		            error: function () {
+		                console.log('삭제 실패');
+		            }
+		        });
+		    } else {
+		        alert('설비를 삭제할 항목을 선택하세요.');
+		    }
+		} */
+		  
 		
 		
 		

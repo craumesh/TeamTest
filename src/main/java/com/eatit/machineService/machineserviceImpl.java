@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.eatit.machineDomain.machineVO;
 import com.eatit.machineDomain.machinehistoryVO;
 import com.eatit.machinePersistence.machineDAO;
+import com.eatit.mainDomain.Criteria;
 
 @Service
 public class machineserviceImpl implements machineservice {
@@ -30,9 +31,9 @@ public class machineserviceImpl implements machineservice {
 	}
 
 	@Override
-	public List<machineVO> machinelist() {
+	public List<machineVO> machinelist(Criteria cri) {
 		logger.debug("machinelist()");
-		return mcdao.getmachinelist();
+		return mcdao.getmachinelist(cri);
 	}
 
 	@Override
@@ -60,6 +61,19 @@ public class machineserviceImpl implements machineservice {
 	public int machineupdate(machineVO vo) {
 		logger.debug("machineupdate() 호출");
 		return mcdao.machineupdate(vo);
+	}
+
+	@Override
+	public void machinedelete(machineVO vo) {
+		logger.debug("machinedelete() 호출");
+		mcdao.machinedelete(vo);
+		
+	}
+
+	@Override
+	public int totalCount() {
+		logger.debug("totalCount() 호출");
+		return mcdao.totalCount();
 	}
 	
 	

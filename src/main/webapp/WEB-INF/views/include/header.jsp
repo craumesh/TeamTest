@@ -4,7 +4,7 @@
 
 <head>
 <meta charset="UTF-8">
- <link rel="icon" type="image/png" href="${path}/resources/img/logo.png">
+ <link rel="icon" type="image/png" href="/resources/img/logo.png">
   <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
   <link href="/resources/css/nucleo-icons.css" rel="stylesheet" />
   <link href="/resources/css/nucleo-svg.css" rel="stylesheet" />

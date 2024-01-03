@@ -73,9 +73,9 @@
   
   <!-- 직책이 설비인 사람 조회 -->
   <select id="member" resultType="com.eatit.memberDomain.MemberVO">
-  select *
-  from member
-  where position_name = '설비' and status = '재직'
+ select employee_no, name
+ from member
+ where position_name ='설비' and status = '재직'; 
   </select>
   
   <!-- 설비 정보 업데이트 -->
@@ -85,9 +85,20 @@
   WHERE machine_code = #{machine_code}
   </update>
   
-  <!--  -->
+  <!-- 설비 삭제 -->
+  <delete id="machinedelete">
+  delete from machine
+  where machine_code = #{machine_code}
+  </delete>
   
-  
+  <!-- 페이징 처리 갯수 -->
+  	<select id="totalCount" resultType="int">
+  		<![CDATA[
+	  		SELECT COUNT(*)
+	  		FROM machine
+	  		WHERE machine_code > 0
+  		]]>
+  	</select>
   
   
   

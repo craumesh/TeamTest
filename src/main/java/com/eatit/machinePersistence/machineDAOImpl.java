@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import com.eatit.machineDomain.machineVO;
 import com.eatit.machineDomain.machinehistoryVO;
+import com.eatit.mainDomain.Criteria;
 
 @Repository
 public class machineDAOImpl implements machineDAO {
@@ -32,7 +33,7 @@ private static final String NAMESPACE="com.eatit.mapper.machineMapper";
 	}
 
 	@Override
-	public List<machineVO> getmachinelist() {
+	public List<machineVO> getmachinelist(Criteria cri) {
 		logger.debug("machinelist()");
 		return sqlSession.selectList(NAMESPACE+ ".getmachinelist");
 	}
@@ -60,6 +61,19 @@ private static final String NAMESPACE="com.eatit.mapper.machineMapper";
 	public int machineupdate(machineVO vo) {
 	 logger.debug("machineupdate 구문시작");
 	 return sqlSession.update(NAMESPACE + ".machineupdate", vo);	
+	}
+
+	@Override
+	public void machinedelete(machineVO vo) {
+		logger.debug("machinedelete 구문시작");
+		sqlSession.delete(NAMESPACE+ ".machinedelete", vo);
+
+	}
+
+	@Override
+	public int totalCount() {
+		logger.debug("totalCount() 호출");
+		return sqlSession.selectOne(NAMESPACE+ ".totalCount");
 	}
 	
 	
