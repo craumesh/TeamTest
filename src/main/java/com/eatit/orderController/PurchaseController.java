@@ -9,13 +9,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.eatit.orderDomain.CartVO;
+import com.eatit.memberDomain.MemberVO;
 import com.eatit.orderDomain.CartVO;
 import com.eatit.orderDomain.ProductVO;
 import com.eatit.orderDomain.PurchaseVO;
@@ -41,12 +40,16 @@ public class PurchaseController {
 		String id = (String)session.getAttribute("id");
 		logger.debug("id: " + id);
 		
-		// 서비스 - 카트 목록 가져오기
+		// 서비스 - 카트 리스트, 회원정보 가져오기
 		List<CartVO> cartVOList = pService.cartList(id);
+		MemberVO memberVO = pService.getMemberInfo(id);
+		
 		logger.debug("cartVOList: " + cartVOList);
+		logger.debug("memberVO: " + memberVO);
 		
 		// 데이터 전달
 		model.addAttribute(cartVOList);
+		model.addAttribute(memberVO);
 	}
 	
 	// 발주 신청 - POST

@@ -28,8 +28,24 @@
 			<collection property="cartList" resultMap="cartMap"></collection>
 	  </resultMap>
 	  
-
-  
+	  <resultMap type="com.eatit.memberDomain.MemberVO" id="memberVO">
+	  		<result property="employee_no" column="employee_no"/>
+	  		<result property="photo_paths" column="photo_paths"/>
+	  		<result property="id" column="id"/>
+	  		<result property="pw" column="pw"/>
+	  		<result property="name" column="name"/>
+	  		<result property="depart_name" column="depart_name"/>
+	  		<result property="position_name" column="position_name"/>
+	  		<result property="email" column="email"/>
+	  		<result property="extension_no" column="extension_no"/>
+	  		<result property="contact" column="contact"/>
+	  		<result property="address" column="address"/>
+	  		<result property="status" column="status"/>
+	  		<result property="active" column="active"/>
+	  		<result property="regdate" column="regdate"/>
+	  		<result property="update" column="update"/>
+	  </resultMap>
+	  
 	  <!-- 발주서 작성 -->
 	  <insert id="insertForm">
 	  		INSERT INTO purchase_order (company_no, member_no, product_no, due_date, comments)
@@ -89,6 +105,15 @@
 	  			JOIN product_information pi ON c.product_no = pi.product_no
 	  			JOIN member m ON c.employee_no = m.employee_no
 	  		WHERE m.id = #{id}	
+	  		]]>
+	  </select>	  
+	  
+	  <!-- 회원 정보 조회 -->
+	  <select id="readMember" resultMap="memberVO">
+	  		<![CDATA[
+	  		SELECT *
+	  		FROM member
+	  		WHERE id = #{id}	
 	  		]]>
 	  </select>	  
 	  

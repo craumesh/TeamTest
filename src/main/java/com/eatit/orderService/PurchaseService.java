@@ -2,7 +2,7 @@ package com.eatit.orderService;
 
 import java.util.List;
 
-import com.eatit.orderDomain.CartVO;
+import com.eatit.memberDomain.MemberVO;
 import com.eatit.orderDomain.CartVO;
 import com.eatit.orderDomain.ProductVO;
 import com.eatit.orderDomain.PurchaseVO;
@@ -26,5 +26,7 @@ public interface PurchaseService {
 	public void addCart(CartVO cpvo) throws Exception;
 
 	public List<CartVO> cartList(String id) throws Exception;
+
+	public MemberVO getMemberInfo(String id) throws Exception;
 
 }

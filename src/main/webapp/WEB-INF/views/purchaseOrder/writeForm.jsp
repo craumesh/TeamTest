@@ -61,11 +61,11 @@
 											<td>
 												<div class="d-flex px-2 py-1">
 													<div>
-														<img src="" class="avatar avatar-sm me-3" alt="">
+														<img src="${memberVO.photo_paths }" class="avatar avatar-sm me-3" alt="">
 													</div>
 													<div class="d-flex flex-column justify-content-center">
-														<h6 class="mb-0 text-sm">신청자 이름 출력란</h6>
-														<p class="text-xs text-secondary mb-0">신청자 전화번호 출력란</p>
+														<h6 class="mb-0 text-sm">${memberVO.name }</h6>
+														<p class="text-xs text-secondary mb-0">${memberVO.contact }</p>
 													</div>
 												</div>
 											</td>
