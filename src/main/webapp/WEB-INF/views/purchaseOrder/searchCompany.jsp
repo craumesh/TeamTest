@@ -52,7 +52,7 @@
 										</td>
 										<td class="align-middle text-center">
 											<div class="d-flex align-items-center justify-content-center">
-												<h6 class="mb-0 text-sm">(${vo.company_zip_code }) ${vo.company_address }, ${vo.company_address_detail }</h6>
+												<h6 class="mb-0 text-sm">(${vo.company_zip_code }) ${vo.company_address } ${vo.company_address_detail }</h6>
 											</div>
 										</td>
 										<td class="align-middle text-center text-md">
@@ -72,28 +72,22 @@
 <script>
 
     function selectCompany(company_no) {
-       
-        // AJAX를 사용하여 서버에 데이터 전송
-        $.ajax({
-            url: "/purchaseOrder/selectCompany",
-            type: "GET",
-            dataType: "json",
-            data: {
-            	company_no: company_no,
-            },
-            success: function (data) {
-                // 성공적으로 처리된 경우의 동작
-                
-            },
-            error: function () {
-                // 실패한 경우의 동작
-              
-            }
-        });
-        
-        window.close();
-        
-    }
+    	   
+    	   $.ajax({
+    	      url: "/purchaseOrder/selectCompany", 
+    	      type: "POST",
+    	      data: { "company_no": company_no },
+    	      success: function(data) {
+    	         alert("거래처가 선택되었습니다.");
+    	         opener.location.reload();
+    	         window.close();
+    	      },
+    	      error: function(error) {
+    	         alert("데이터 전송 중 오류가 발생했습니다.");
+    	      }
+    	   });
+    	   
+    	}
     
 </script>
 

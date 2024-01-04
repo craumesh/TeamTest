@@ -95,5 +95,11 @@ public class PurchaseDAOImpl implements PurchaseDAO {
 		logger.debug("DAO: searchCompany(String query)");
 		return SqlSession.selectList(NAMESPACE + ".searchCompany", query);
 	}
+
+	@Override
+	public CompanyVO getCompanyInfo(int company_no) throws Exception {
+		logger.debug("DAO: getCompanyInfo(company_no)");
+		return SqlSession.selectOne(NAMESPACE + ".getCompanyInfo", company_no);
+	}
 	
 }

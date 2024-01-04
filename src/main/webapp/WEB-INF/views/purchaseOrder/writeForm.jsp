@@ -29,7 +29,6 @@
 		<div class="card-body">
 			<!-- 폼테그 시작  -->
 			<form role="form" method="post">
-			<input type="hidden" name="company_no" value="1">
 				<!-- 거래처 정보 -->
 				<div class="row mb-4">
 					<div class="card">
@@ -52,24 +51,13 @@
 								<table class="table align-items-center mb-0">
 									<thead>
 										<tr>
+											<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">담당자</th>
 											<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">회사 정보</th>
-											<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">매니저</th>
 											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">주소</th>
 										</tr>
 									</thead>
-									<tbody>
+									<tbody>	
 										<tr>
-											<td>
-												<div class="d-flex px-2 py-1">
-													<div>
-														<img src="" class="avatar avatar-sm me-3" alt="">
-													</div>
-													<div class="d-flex flex-column justify-content-center">
-														<h6 class="mb-0 text-sm">거래처 이름 출력란</h6>
-														<p class="text-xs text-secondary mb-0">거래처 전화번호 출력란</p>
-													</div>
-												</div>
-											</td>
 											<td>
 												<input type="hidden" name="employee_no" value="${memberVO.employee_no }">
 												<div class="d-flex px-2 py-1">
@@ -82,13 +70,35 @@
 													</div>
 												</div>
 											</td>
-											<td class="align-middle">
-												<div class="progress-wrapper w-75 mx-auto">
-													<span class="text-xs font-weight-bold">거래처 주소 출력란</span>
-												</div>
-											</td>
+											<!-- 거래처 정보가 입력되지 않았을 때 -->
+											<c:if test="${companyVO == null}">
+												<td class="text-start">
+													<span class="text-sm font-weight-bold">거래처를 선택해 주세요.</span>
+												</td>
+												<td class="text-center">
+													<span class="text-sm font-weight-bold">거래처를 선택해 주세요.</span>
+												</td>
+											</c:if>
+											<!-- 거래처 정보가 입력되었을 때 -->
+											<c:if test="${companyVO != null}">
+											<input type="hidden" name="company_no" value="${companyVO.company_no }">
+												<td>
+													<div class="d-flex px-2 py-1">
+														<div>
+															<img src="${companyVO.photo_paths }" class="avatar avatar-sm me-3" alt="">
+														</div>
+														<div class="d-flex flex-column justify-content-center">
+															<h6 class="mb-0 text-sm">${companyVO.company_name }</h6>
+															<p class="text-xs text-secondary mb-0">${companyVO.company_tel }</p>
+														</div>
+													</div>
+												</td>
+												<td class="text-center">
+													<span class="text-sm font-weight-bold">(${companyVO.company_zip_code }) ${companyVO.company_address } ${companyVO.company_address_detail }</span>
+												</td>
+											</c:if>																					
 										</tr>
-									</tbody>
+									</tbody>									
 								</table>
 							</div>
 						</div>

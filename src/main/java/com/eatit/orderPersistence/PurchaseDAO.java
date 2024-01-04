@@ -34,4 +34,6 @@ public interface PurchaseDAO {
 
 	public List<CompanyVO> searchCompany(String query) throws Exception;
 
+	public CompanyVO getCompanyInfo(int company_no) throws Exception;
+
 }

@@ -119,4 +119,14 @@
 	  		]]>
 	  </select>	   
 	  
+	  <!-- 거래처 정보 조회 -->
+	  <select id="getCompanyInfo" resultMap="companyVO">
+	  		<![CDATA[
+	  		SELECT *
+	  		FROM company
+	  		WHERE company_no = #{company_no}
+	  		]]>
+	  </select>	   
+	  
+	  
   </mapper>

@@ -94,5 +94,11 @@ public class PurchaseServiceImpl implements PurchaseService {
 		logger.debug("Service: searchCompany(String query)");
 		return pdao.searchCompany(query);
 	}
+
+	@Override
+	public CompanyVO selectCompany(int company_no) throws Exception {
+		logger.debug("Service: sselectCompany(company_no)");
+		return pdao.getCompanyInfo(company_no);
+	}
 	
 }

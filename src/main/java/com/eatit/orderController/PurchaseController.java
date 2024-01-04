@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.eatit.masterDataDomain.CompanyVO;
@@ -40,6 +41,17 @@ public class PurchaseController {
 		// 로그인 정보 
 		String id = (String)session.getAttribute("id");
 		logger.debug("id: " + id);
+		
+		// 거래처 선택
+		Integer company_no = (Integer) session.getAttribute("company_no");
+		logger.debug("company_no: " + company_no);
+		CompanyVO companyVO = null;
+		
+		if(company_no != null) {
+			companyVO = pService.selectCompany(company_no);
+			logger.debug("companyVO: " + companyVO);
+			model.addAttribute(companyVO);
+		}
 		
 		// 서비스 - 카트 리스트, 회원정보 가져오기
 		List<CartVO> cartVOList = pService.cartList(id);
@@ -195,4 +207,19 @@ public class PurchaseController {
 		// 데이터 전달
 		model.addAttribute(companyVOList);
 	}
+	
+	// 거래처 선택 
+	@RequestMapping(value = "/selectCompany", method = RequestMethod.POST)
+	@ResponseBody
+	public String selectCompany(@RequestParam(name = "company_no", required = false) Integer company_no, HttpSession session, RedirectAttributes rttr) throws Exception {
+		
+		logger.debug("Controller: /purchaseOrder/selectCompany(company_no)");
+		logger.debug("company_no:" + company_no);
+		
+		// 데이터 저장
+		session.setAttribute("company_no", company_no);
+
+		return "redirect:/purchaseOrder/writeForm";
+	}
+	
 }

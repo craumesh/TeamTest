@@ -34,4 +34,6 @@ public interface PurchaseService {
 
 	public List<CompanyVO> searchCompany(String query) throws Exception;
 
+	public CompanyVO selectCompany(int company_no) throws Exception;
+
 }
