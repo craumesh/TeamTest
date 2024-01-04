@@ -53,7 +53,7 @@ public class machinecontroller {
 		model.addAttribute("machinelist",mcService.machinelist(cri));
 		model.addAttribute("code", mcService.getmachinecode());
 		model.addAttribute("pageVO", pageVO);
-		/* model.addAttribute("listUrl", "list"); */
+		model.addAttribute("listUrl", "machine");
 	
 		// 연결된 뷰페이지로 이동
 		logger.debug("/views/machine/machine.jsp 페이지로 이동");

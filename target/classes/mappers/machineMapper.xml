@@ -50,6 +50,7 @@
   FROM machine as a
   join member as b
   on a.employee_no = b.employee_no
+  LIMIT #{startPage},#{pageSize}
   </select>
   
   <!-- 설비 상세 조회 -->
@@ -99,7 +100,7 @@
 	  		WHERE machine_code > 0
   		]]>
   	</select>
-  
+
   
   
   </mapper>

@@ -35,7 +35,7 @@ private static final String NAMESPACE="com.eatit.mapper.machineMapper";
 	@Override
 	public List<machineVO> getmachinelist(Criteria cri) {
 		logger.debug("machinelist()");
-		return sqlSession.selectList(NAMESPACE+ ".getmachinelist");
+		return sqlSession.selectList(NAMESPACE+ ".getmachinelist",cri);
 	}
 
 	@Override
