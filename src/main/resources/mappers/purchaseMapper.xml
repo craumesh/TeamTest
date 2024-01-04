@@ -48,8 +48,8 @@
 	  
 	  <!-- 발주서 작성 -->
 	  <insert id="insertForm">
-	  		INSERT INTO purchase_order (company_no, member_no, product_no, due_date, comments)
-	  		VALUES (#{company_no}, #{member_no}, #{product_no},#{due_date}, #{comments})
+	  		INSERT INTO purchase_order (company_no, employee_no, product_no, due_date, comments)
+	  		VALUES (#{company_no}, #{employee_no}, #{product_no},#{due_date}, #{comments})
 	  </insert>
 	  
 	  <!-- 내역 조회 -->

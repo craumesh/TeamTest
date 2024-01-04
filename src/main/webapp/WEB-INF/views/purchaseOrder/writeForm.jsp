@@ -64,7 +64,7 @@
 												</div>
 											</td>
 											<td>
-												<input type="hidden" name="member_no" value="${memberVO.employee_no }">
+												<input type="hidden" name="employee_no" value="${memberVO.employee_no }">
 												<div class="d-flex px-2 py-1">
 													<div>
 														<img src="${memberVO.photo_paths }" class="avatar avatar-sm me-3" alt="">

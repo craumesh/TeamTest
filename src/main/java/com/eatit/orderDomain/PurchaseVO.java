@@ -9,7 +9,7 @@ public class PurchaseVO {
 	
 	private Integer order_id;
 	private Integer company_no;
-	private Integer member_no;
+	private Integer employee_no;
 	private Integer product_no;
 	private Timestamp order_date;
 	private String due_date;
