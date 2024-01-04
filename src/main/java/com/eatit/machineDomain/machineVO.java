@@ -20,6 +20,8 @@ public class machineVO {
 	private String machine_location;
 	
 	private String name;
+//	private String use_history;
+//	private Date operating_time;
 	
 	private List<machinehistoryVO> infolist;
 	

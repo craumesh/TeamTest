@@ -1,0 +1,108 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<!DOCTYPE html>
+<%@ include file="../include/header.jsp" %>
+<html>
+
+<div class="col-11 mx-auto">
+	<div class="card my-4">
+		<div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 ">
+			<div class="bg-gradient-primary shadow-primary border-radius-lg pt-3 pb-3 pe-3 d-flex">
+				<h3 class="text-white text-capitalize ps-5 align-items-center mb-0 py-1">생산 관리</h3>
+				<div class="ms-md-auto bg-white rounded p-2 d-flex align-items-center">
+					<div class="align-items-center d-flex flex-column">
+						<div class="input-group input-group-outline">
+							<label class="form-label">검색어</label>
+							<input type="text" id="searchword" name="searchword" class="form-control" value="${param.searchword }">
+						</div>
+					</div>
+					<div class="align-items-center d-flex flex-column py-1">
+						<button id="searchbtn" class="btn btn-outline-primary btn-sm mb-0 py-1 ms-2">검색</button>
+					</div>
+				</div>
+			</div>
+		</div>		
+		<div class="card-body mx-5 px-0 pb-4">
+			<div class="table-responsive p-0">
+				<form action="/machine/delete" method="post" id="checkbox_form">
+				<table id="hr-table" class="table table-hover align-items-center mb-0">
+					<thead>
+						<tr>
+							<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2"></th>
+							<th class="text-center font-weight-bolder col-2">설비 코드</th>
+							<th class="text-center font-weight-bolder col-2">관리자</th>
+							<th class="text-center font-weight-bolder col-3">작동 목적</th>
+							<th class="text-center font-weight-bolder col-3">생산 시작 시간</th>
+							<th class="text-center font-weight-bolder col-3">생산 완료 시간</th>
+							<th class="text-center font-weight-bolder col-1">설비 상태</th>
+						</tr>
+					</thead>
+	 				<tbody id="employeeTableBody">
+						 <c:forEach var="ml" items="${machinelist}">
+							<tr class="mllist">
+								<td class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2 py-3"><input type="checkbox" name="code" value="${ml.machine_code}"></td>
+								<td class="text-center">${ml.machine_name}_${ml.machine_code}</td>
+								<td class="text-center">${ml.name}</td>
+								 <c:forEach var="history" items="${ml.infolist}">
+								<td class="text-center">${history.use_history }</td>	
+								<td class="text-center">${history.operating_time }</td>
+								</c:forEach>
+								<td class="text-center">~~시간 ~~분 ~~초</td>		
+							<td class="text-center"><span class="badge badge-sm bg-gradient-success">${ml.machine_status}</span></td>
+							</tr>
+						</c:forEach>
+					</tbody>
+		
+				</table>
+		</form>
+			</div>
+		</div>
+		<div class="col-6 w-100 text-end">
+		<button class="btn bg-gradient-dark fs-6 mb-0 py-2 px-3" onclick="orderform()">발주서 확인</button>
+		</div>
+		<div class="row">
+			<div class="col-sm-5">
+				<%-- <div>Showing ${pageVO.startPage } to ${pageVO.endPage } of 미구현 entries</div> --%>
+			</div>
+			<div class="col-sm-5">
+				<ul class="pagination">
+					<c:if test="${pageVO.prev }">
+						<li class="page-link link-container"><a href="/production/${listUrl }?page=${pageVO.endPage-pageVO.displayPageNum }&searchword=${searchword}" class="link"><<</a></li>
+					</c:if>
+					<c:forEach var="i" begin="${pageVO.startPage }" end="${pageVO.endPage }" step="1">
+						<li ${pageVO.cri.page == i ? "class='page-link link-container active'" : "class='page-link link-container'"} >
+							<a href="/production/${listUrl }?page=${i }&searchword=${searchword}" ${pageVO.cri.page == i ? "class='link-white'" : "class=''"}>${i }</a>
+						</li>				
+					</c:forEach>
+					<c:if test="${pageVO.next }">
+						<li class="page-link link-container"><a href="/production/${listUrl }?page=${pageVO.startPage+pageVO.displayPageNum }&searchword=${searchword}" class="link">>></a></li>
+					</c:if>
+				</ul>
+			</div>
+		</div>
+</div>
+</div>
+<script type="text/javascript">
+
+
+	function orderform() {
+
+	    var url = "/production/orderform";
+	    window.open(url, "_blank", 'width=850,height=800');
+		}
+			
+
+</script>
+
+
+
+
+
+
+
+
+
+<%@ include file="../include/footer.jsp" %>
+<%@ include file="../include/js.jsp" %>
+</html>

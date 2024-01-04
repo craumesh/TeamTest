@@ -75,13 +75,13 @@
 				<table id="hr-table" class="table table-hover align-items-center mb-0">
 					<thead>
 						<tr>
-							<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2"><input type="checkbox"></th>
+							<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2"></th>
 							<th class="text-center font-weight-bolder col-2">설비 코드</th>
-							<th class="text-center font-weight-bolder col-1">설비 상태</th>
 							<th class="text-center font-weight-bolder col-2">관리자</th>
 							<th class="text-center font-weight-bolder col-2">작동 목적</th>
 							<th class="text-center font-weight-bolder col-3">설비 설치일</th>
 							<th class="text-center font-weight-bolder col-3">설비 위치</th>
+							<th class="text-center font-weight-bolder col-1">설비 상태</th>
 						</tr>
 					</thead>
 	 				<tbody id="employeeTableBody">
@@ -89,11 +89,11 @@
 							<tr class="mllist">
 								<td class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2 py-3"><input type="checkbox" name="code" value="${ml.machine_code}"></td>
 								<td class="text-center">${ml.machine_name}_${ml.machine_code}</td>
-								<td class="text-center"><span class="badge badge-sm bg-gradient-success">${ml.machine_status}</span></td>
 								<td class="text-center">${ml.name}</td>
 								<td class="text-center">${ml.purpose_of_use}</td>
 								<td class="text-center">${ml.installation_date}</td>
 								<td class="text-center">${ml.machine_location}</td>
+								<td class="text-center"><span class="badge badge-sm bg-gradient-success">${ml.machine_status}</span></td>
 							</tr>
 						</c:forEach>
 					</tbody>
@@ -109,7 +109,7 @@
 		</div>
 		<div class="row">
 			<div class="col-sm-5">
-				<div>Showing ${pageVO.startPage } to ${pageVO.endPage } of 미구현 entries</div>
+				<%-- <div>Showing ${pageVO.startPage } to ${pageVO.endPage } of 미구현 entries</div> --%>
 			</div>
 			<div class="col-sm-5">
 				<ul class="pagination">
@@ -145,9 +145,7 @@
 							<th class="fs-5 w-50">설치 장비</th>
 							<td><select id="machine_name" name="machine_name" onchange="updateMachineCode()" required>
 								<option value="선택">--선택하세요--</option>
-								<option value="Dough">반죽</option>
-								<option value="Topping">토핑</option>
-								<option value="Oven">오븐</option>
+								<option value="Production">생산</option>
 								<option value="Packaging">포장</option>
 							</select></td>
 						</tr>
@@ -301,6 +299,8 @@ $(document).ready(function () {
                 for (var i = 0; i < data.infolist.length; i++) {
                     var historyData = data.infolist[i];
                 }
+                
+                // (List)historyData.get(i) = data.infolist[];
                 
                 // 서버에서 받은 데이터를 사용하여 모달에 표시
                 var namecode = data.machine_name + "_" + historyData.machine_code;

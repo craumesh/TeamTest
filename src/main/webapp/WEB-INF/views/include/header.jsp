@@ -33,7 +33,7 @@
 			  </c:when>
 			  <c:otherwise>
 				  <a href="javascript:;" class="nav-link text-body p-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-					<img class="img-profile rounded-circle" src=".${sessionScope.photo }" style="position: relative; top: -3px; border: solid 1px black;">
+					<img class="img-profile rounded-circle" src="${sessionScope.photo }" style="position: relative; top: -3px; border: solid 1px black;">
 					<span class="d-sm-inline d-none" style="font-size: 20px; margin-left: 10px;">${sessionScope.name }</span>
 				  </a>
 				  <ul class="dropdown-menu dropdown-menu-end px-2 py-3 me-sm-n4" aria-labelledby="dropdownMenuButton">

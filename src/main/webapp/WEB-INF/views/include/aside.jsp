@@ -59,8 +59,8 @@
 			      </a>
 			    </li>
 			    <li class="nav-item">
-			      <a class="nav-link text-white sm-hv" href="${path}/submenu2.html">
-			        <span class="nav-link-text ms-1">서브메뉴 2</span>
+			      <a class="nav-link text-white sm-hv" href="/production/production">
+			        <span class="nav-link-text ms-1">생산 관리</span>
 			      </a>
 			    </li>
 			    <li class="nav-item">

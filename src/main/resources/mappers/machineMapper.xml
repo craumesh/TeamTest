@@ -53,7 +53,7 @@
   LIMIT #{startPage},#{pageSize}
   </select>
   
-  <!-- 설비 상세 조회 -->
+  <!-- 특정 설비 상세 조회 -->
   <select id="machineinfo" resultMap="machineVO">
   SELECT *
   FROM machine as a
@@ -64,6 +64,28 @@
   where a.machine_code = #{machine_code}
   </select>
   
+  
+  <!-- 설비 전체 조회 -->
+  <select id="machinelistall" resultMap="machineVO">
+	select a.machine_name, a.machine_code, name, b.use_history, b.operating_time, max(b.machine_update_date) as machine_update_date , machine_status
+	from machine as a
+	join machine_history as b
+	on a.machine_code = b.machine_code
+	join member as c
+	on a.employee_no = c.employee_no
+	group by machine_update_date, machine_code, use_history, b.operating_time
+	ORDER BY
+	CASE
+	WHEN machine_status LIKE '%완료%' THEN 0
+	ELSE 1
+	END,
+	CASE
+	when machine_status LIKE '%생산중%' THEN 0
+	ELSE 1
+	END,
+	machine_status;
+  
+  </select>
   
   <!-- 설비 최신 코드 -->
   <select id="getmachinecode"  resultType="int">

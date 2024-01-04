@@ -11,6 +11,15 @@
 	</appender>
 	
 	<!-- Application Loggers -->
+	<logger name="com.eatit.productionController">
+		<level value="debug" />
+	</logger>
+	<logger name="com.eatit.productionPersistence">
+		<level value="debug" />
+	</logger>
+	<logger name="com.eatit.productionService">
+		<level value="debug" />
+	</logger>
 	<logger name="com.eatit.machineController">
 		<level value="debug" />
 	</logger>
