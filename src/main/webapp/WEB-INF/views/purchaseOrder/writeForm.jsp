@@ -6,10 +6,17 @@
 <%@ include file="../include/js.jsp"%>
 
 <script>
+
+    function openSearchCompany() {
+        // 새 창을 여는 코드
+        window.open('/purchaseOrder/searchCompany', '_blank', 'width=800,height=600');
+    }
+    
     function openSearchProduct() {
         // 새 창을 여는 코드
         window.open('/purchaseOrder/searchProduct', '_blank', 'width=800,height=600');
     }
+    
 </script>
 
 <div class="card my-4">

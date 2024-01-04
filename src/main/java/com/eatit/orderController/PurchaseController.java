@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.eatit.masterDataDomain.CompanyVO;
 import com.eatit.memberDomain.MemberVO;
 import com.eatit.orderDomain.CartVO;
 import com.eatit.orderDomain.ProductVO;
@@ -134,7 +135,7 @@ public class PurchaseController {
 	@RequestMapping(value = "/searchProduct", method = RequestMethod.GET)
 	public void searchProductGET(Model model, @RequestParam(name = "query", required = false) String query) throws Exception {
 		
-		// 서비스 - 기준 정보 상품 가져오기
+		// 리스트 - 기준 정보 상품 리스트 가져오기
 		List<ProductVO> productVOList;
 		
 		if(query != null) {
@@ -166,6 +167,32 @@ public class PurchaseController {
 		
 		// 서비스 - 상품 추가(INSERT)
 		pService.addCart(cpvo);
+	}
+	
+	// 거래처 검색 - GET
+	@RequestMapping(value = "/searchCompany", method = RequestMethod.GET)
+	public void searchCompanyGET(Model model, @RequestParam(name = "query", required = false) String query) throws Exception {
 		
+		// 리스트 - 기준 정보 거래처 리스트 가져오기
+		List<CompanyVO> companyVOList;
+		
+		if(query != null) {
+			// 검색어가 입력되었을 때
+			logger.debug("Controller: /purchaseOrder/searchProductGET(query)");
+			logger.debug("searchProduct?query.jsp");
+			logger.debug("query: " + query);
+			companyVOList = pService.searchCompany(query);
+		}else {
+			// 검색어가 입력되지 않았을 때, 새로 창을 열었을 때
+			logger.debug("Controller: /purchaseOrder/searchProductGET()");
+			logger.debug("searchProduct.jsp");
+			companyVOList = pService.getCompanyList();
+		}
+		
+		// 조회된 데이터 확인
+		logger.debug("companyVOList: " + companyVOList);
+		
+		// 데이터 전달
+		model.addAttribute(companyVOList);
 	}
 }

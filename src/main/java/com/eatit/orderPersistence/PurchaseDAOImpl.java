@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
+import com.eatit.masterDataDomain.CompanyVO;
 import com.eatit.memberDomain.MemberVO;
 import com.eatit.orderDomain.CartVO;
 import com.eatit.orderDomain.ProductVO;
@@ -81,6 +82,18 @@ public class PurchaseDAOImpl implements PurchaseDAO {
 	public MemberVO readMember(String id) throws Exception {
 		logger.debug("DAO: readMember(String id)");
 		return SqlSession.selectOne(NAMESPACE + ".readMember", id);
+	}
+
+	@Override
+	public List<CompanyVO> getCompanyList() throws Exception {
+		logger.debug("DAO: getCompanyList()");
+		return SqlSession.selectList(NAMESPACE + ".getCompanyList");
+	}
+
+	@Override
+	public List<CompanyVO> searchCompany(String query) throws Exception {
+		logger.debug("DAO: searchCompany(String query)");
+		return SqlSession.selectList(NAMESPACE + ".searchCompany", query);
 	}
 	
 }

@@ -2,6 +2,7 @@ package com.eatit.orderPersistence;
 
 import java.util.List;
 
+import com.eatit.masterDataDomain.CompanyVO;
 import com.eatit.memberDomain.MemberVO;
 import com.eatit.orderDomain.CartVO;
 import com.eatit.orderDomain.ProductVO;
@@ -28,5 +29,9 @@ public interface PurchaseDAO {
 	public List<CartVO> getCartList(String id) throws Exception;
 
 	public MemberVO readMember(String id) throws Exception;
+
+	public List<CompanyVO> getCompanyList() throws Exception;
+
+	public List<CompanyVO> searchCompany(String query) throws Exception;
 
 }
