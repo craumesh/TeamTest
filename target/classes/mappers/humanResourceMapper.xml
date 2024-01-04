@@ -46,7 +46,9 @@
 	    FROM member
 	    WHERE active='승인'
 	    AND (name LIKE CONCAT('%', #{searchword}, '%')
+	    OR depart_name LIKE CONCAT('%', #{searchword}, '%')
 	    OR position_name LIKE CONCAT('%', #{searchword}, '%')
+	    OR status LIKE CONCAT('%', #{searchword}, '%')
 	    OR employee_no=#{searchword})
 	    ORDER BY employee_no DESC, regdate DESC
 	    LIMIT #{cri.startPage}, #{cri.pageSize}
@@ -60,7 +62,9 @@
 		    AND employee_no>0
 		    AND (employee_no=#{searchword}
 		    OR name LIKE CONCAT('%', #{searchword}, '%')
-		    OR position_name LIKE CONCAT('%', #{searchword}, '%'))
+		    OR depart_name LIKE CONCAT('%', #{searchword}, '%')
+		    OR position_name LIKE CONCAT('%', #{searchword}, '%')
+		    OR status LIKE CONCAT('%', #{searchword}, '%'))
   		]]>
   	</select>
   	
