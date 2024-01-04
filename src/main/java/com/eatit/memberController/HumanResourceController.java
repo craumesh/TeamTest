@@ -58,7 +58,9 @@ public class HumanResourceController {
 	}
 	
 	@RequestMapping(value = "/searchlist", method = RequestMethod.GET)
-	public String searchListGET(Model model, Map<String, Object> params, Criteria cri, @ModelAttribute("searchword") String searchword) {
+	public String searchListGET(Model model, Map<String, Object> params, Criteria cri,
+		@ModelAttribute("searchword") String searchword, @RequestParam("searchfilter") String searchfilter) {
+		
 		logger.debug("/hr/searchlist 호출 -> searchListGET() 실행");
 		PageVO pageVO = new PageVO();
 		pageVO.setCri(cri);
@@ -66,11 +68,12 @@ public class HumanResourceController {
 		
 		params.put("cri", cri);
 		params.put("searchword", searchword);
+		params.put("searchfilter", searchfilter);
 		
 		model.addAttribute("searchword",searchword);
 		model.addAttribute("listUrl", "searchlist");
 		model.addAttribute("pageVO", pageVO);
-		model.addAttribute("list",hrService.getSearchList(params,cri, searchword));		
+		model.addAttribute("list",hrService.getSearchList(params));		
 		return "/hr/list";
 	}
 	

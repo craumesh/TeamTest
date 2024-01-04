@@ -15,7 +15,7 @@ public interface HumanResourceService {
 	
 	public void editHrContent(MemberVO vo);
 	
-	public List<MemberVO> getSearchList(Map<String, Object> params, Criteria cri, String searchword);
+	public List<MemberVO> getSearchList(Map<String, Object> params);
 	
 	public int getSearchCount(String searchword);
 	

@@ -6,24 +6,25 @@
 <div class="col-12">
 	<div class="card my-4 mx-4">
 		<div class="card-header position-relative p-0 mt-n4 mx-3 z-index-2">
-			<div class="bg-gradient-primary shadow-primary border-radius-lg pt-3 pb-3 pe-3 d-flex align-items-center">
+			<div class="bg-gradient-primary shadow-primary border-radius-lg py-3 pe-3 d-flex align-items-center">
 				<h3 class="text-white text-capitalize ps-5 my-2 py-1">인사 정보 테이블</h3>
 				<form action="/hr/searchlist" id="search-form" class="ms-md-auto bg-white rounded p-2 mb-0 d-flex align-items-center">
 					<div class="align-items-center d-flex flex-column mx-1">	
 						<div class="input-group input-group-outline">
 							<label class="form-label">검색어</label>
 							<input type="text" id="searchword" name="searchword" class="form-control" value="${param.searchword }">
+							<input type="hidden" id="searchfilter" name="searchfilter" value="${param.searchfilter }">
 						</div>
 					</div>					
 					<div class="align-items-center d-flex flex-column py-1 ct-example">
-						<button type="button" id="searchbtn" class="btn btn-outline-primary mb-0 py-2 mx-1">검색</button>
+						<button type="button" id="searchbtn" class="btn btn-outline-primary mb-0 py-2 mx-1 fs-6">검색</button>
 					</div>
 				</form>
 			</div>
 		</div>		
 	
 		<div class="card-body mx-5 px-0 pb-4">
-			<div class="table-responsive p-0">
+			<div class="p-0">
 				<table id="hr-table" class="table table-hover align-items-center mb-0">
 					<thead>
 						<tr>
@@ -31,23 +32,36 @@
 							<th class="text-center font-weight-bolder col-1">이름</th>
 							<th class="text-center font-weight-bolder col-1">부서</th>
 							<th class="text-center font-weight-bolder col-1">직책</th>
-							<th class="text-center font-weight-bolder col-4">이메일</th>
-							<th class="text-center font-weight-bolder col-3">내선번호</th>
+							<th class="text-center font-weight-bolder col-3">이메일</th>
+							<th class="text-center font-weight-bolder col-2">내선번호</th>
 							<th class="text-center font-weight-bolder col-3">연락처</th>
-							<th class="text-center font-weight-bolder col-1">재직상태</th>
+							<th class="text-center font-weight-bolder col-1">
+								<div class="dropdown">
+									<button class="btn btn-outline-secondary dropdown-toggle mb-0 fs-6" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+										<span id="dropdown-selected">전체</span>
+									</button>
+									<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+										<li><a class="dropdown-item">전체</a></li>
+										<li><a class="dropdown-item">재직</a></li>
+										<li><a class="dropdown-item">휴가</a></li>
+										<li><a class="dropdown-item">휴직</a></li>
+										<li><a class="dropdown-item">퇴직</a></li>
+									</ul>
+								</div>
+							</th>
 						</tr>
 					</thead>
 	 				<tbody id="employeeTableBody">
 						<c:forEach var="vo" items="${list}">
 							<tr class="memList">
-								<td class="text-center py-3 identify-no">${vo.employee_no}</td>
-								<td class="text-center py-3">${vo.name}</td>
-								<td class="text-center py-3">${vo.depart_name}</td>
-								<td class="text-center py-3">${vo.position_name}</td>
-								<td class="text-center py-3">${vo.email}</td>
-								<td class="text-center py-3">${vo.extension_no}</td>
-								<td class="text-center py-3">${vo.contact}</td>
-								<td class="text-center py-3"><span class="badge badge-sm bg-gradient-success">${vo.status}</span></td>
+								<td class="text-center py-2-3 identify-no">${vo.employee_no}</td>
+								<td class="text-center py-2-3">${vo.name}</td>
+								<td class="text-center py-2-3">${vo.depart_name}</td>
+								<td class="text-center py-2-3">${vo.position_name}</td>
+								<td class="text-center py-2-3">${vo.email}</td>
+								<td class="text-center py-2-3">${vo.extension_no}</td>
+								<td class="text-center py-2-3">${vo.contact}</td>
+								<td class="text-center py-2-3"><span class="badge badge-sm bg-gradient-success">${vo.status}</span></td>
 							</tr>
 						</c:forEach>
 					</tbody>
@@ -57,7 +71,7 @@
 		
 		<div class="row">
 			<div class="col-sm-5">
-				<div class="ms-6">Showing ${pageVO.startPage } to ${pageVO.endPage } of 미구현 entries</div>
+				<div class="ms-6">${pageVO.startPage } / ${pageVO.endPage } of 미구현</div>
 			</div>
 			<div class="col-sm-5 mb-3">
 				<ul class="pagination">
@@ -217,10 +231,12 @@
 			$(".input-group").addClass("focused is-focused");
 		}
 		
+		if('${searchfilter}' != ""){
+			$("#dropdown-selected").text('${searchfilter}');
+		}
+		
 		$("#searchbtn").click(function(){
-			$("#search-form").submit(); 
-			/* var value = $("#searchword").val(); */
-			/* location.href = '/hr/searchlist?searchword=' + value; */
+			$("#search-form").submit();
 		});		
 		
 		$("#hr-table").on("click", "tr td", function(event) {
@@ -305,6 +321,12 @@
 		$("#depart_name-select").on("change", function() {			
 			updatePositionNameSelect();
 		});	
+		
+		$(".dropdown-item").click(function(){
+			$("#dropdown-selected").text($(this).text());
+			$("#searchfilter").val($("#dropdown-selected").text());
+			$("#search-form").submit();
+		});
 	});
 	
 	function getEditInfo() {
