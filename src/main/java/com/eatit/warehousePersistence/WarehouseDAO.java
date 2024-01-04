@@ -39,4 +39,8 @@ public interface WarehouseDAO {
 	
 	// 창고 삭제
 	public void deleteWarehouse(int[] warehouse_no);
+	
+	// 
+	
+	
 }

@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.eatit.memberDomain.MemberVO;
+import com.eatit.memberService.HumanResourceService;
+import com.eatit.warehouseDomain.StockVO;
 import com.eatit.warehouseDomain.WarehouseVO;
 import com.eatit.warehouseService.WarehouseService;
 
@@ -27,6 +30,9 @@ public class WarehouseController {
 	
 	@Inject
 	private WarehouseService warehouseService;
+	
+	@Inject
+	private HumanResourceService hrService;
 	
 	//http://localhost:8088/warehouse/warehouseMain
 ////////////////////////////////////////// 창고 메인 페이지 시작 ///////////////////////////////////////
@@ -111,23 +117,57 @@ public class WarehouseController {
 		logger.debug("C - registClose()");
 	}
 	
-	
-	//http://localhost:8088/warehouse/warehouseStockMain
-	// 창고 재고 페이지
-	@RequestMapping(value = "/warehouseStockMain", method = RequestMethod.GET)
-	public void warehouseStockMainGET() {
-		logger.debug("C - warehouseStockMainGET()");
-	}
 ////////////////////////////////////////// 창고 메인 페이지 끝 /////////////////////////////////////////
+	
 	
 	
 ////////////////////////////////////////// 재고 페이지 시작 ////////////////////////////////////////////
 	
+	//http://localhost:8088/warehouse/warehouseStockMain
+	// 창고 재고 페이지
+	@RequestMapping(value = "/warehouseStockMain", method = RequestMethod.GET)
+	public void warehouseStockMainGET(StockVO stockVO) {
+		logger.debug("C - warehouseStockMainGET()");
+		logger.debug("stockVO"+stockVO);
+		
+	}
 	
 	
 	
 	
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+//	// 페이징
+//	@RequestMapping(value = "/warehouseStockMain", method = RequestMethod.POST)
+//    public String warehouseStockMainPost(MemberVO vo, @ModelAttribute("searchword") String searchword) {
+//        logger.debug("/warehouse/warehouseStockMain 호출 -> warehouseStockMainPost() 실행");
+//        hrService.editHrContent(vo);
+//        if(!searchword.isEmpty()) {
+//            return "redirect:/warehouse/searchlist";
+//        }
+//        return "redirect:/warehouse/warehouseStockMain";
+//    }
 	
 	
 	

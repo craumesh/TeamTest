@@ -1,5 +1,6 @@
 package com.eatit.warehouseService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -8,7 +9,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import com.eatit.machinePersistence.machineDAO;
 import com.eatit.memberDomain.MemberVO;
+import com.eatit.productDomain.MasterdataVO;
+import com.eatit.productPersistence.MasterDataDAO;
+import com.eatit.warehouseDomain.StockVO;
 import com.eatit.warehouseDomain.WarehouseVO;
 import com.eatit.warehousePersistence.WarehouseDAO;
 
@@ -20,6 +25,12 @@ public class WarehouseServiceImpl implements WarehouseService {
 	
 	@Inject
 	private WarehouseDAO warehousedao;
+	
+	@Inject
+	private MasterDataDAO mdDAO;
+	
+	@Inject
+	private machineDAO mDao;
 	
 	@Override
 	// 창고 정보 리스트 가져오기(All)
@@ -95,7 +106,15 @@ public class WarehouseServiceImpl implements WarehouseService {
 		warehousedao.deleteWarehouse(warehouse_no);
 	}
 	
-	
+	//-----------------------------------------------------------------------------------------//
+	@Override
+	// 창고 재고 현황 조회 로직
+	public List<StockVO> getStockList(StockVO stockVO) {
+		
+		
+		
+		return null;
+	}
 	
 	
 	

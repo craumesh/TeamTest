@@ -3,22 +3,22 @@
 
 <%@ include file="../include/header.jsp"%>
 <!-- 본문 시작 -->
-<div class="col-12">
-	<div class="card my-4 mx-4">
-		<div class="card-header position-relative p-0 mt-n4 mx-3 z-index-2">
-			<div class="bg-gradient-primary shadow-primary border-radius-lg pt-3 pb-3 pe-3 d-flex align-items-center">
-				<h3 class="text-white text-capitalize ps-5 my-2 py-1">창고 재고 현황</h3>
-				<form action="/hr/searchlist" id="search-form" class="ms-md-auto bg-white rounded p-2 mb-0 d-flex align-items-center">
-					<div class="align-items-center d-flex flex-column mx-1">	
+<div class="col-11 mx-auto">
+	<div class="card my-4 ">
+		<div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+			<div class="bg-gradient-primary shadow-primary border-radius-lg pt-3 pb-3 pe-3 d-flex">
+				<h3 class="text-white text-capitalize ps-5 align-items-center mb-0 py-1">창고 재고 현황</h3>
+				<div class="ms-md-auto bg-white rounded p-2 d-flex align-items-center">
+					<div class="align-items-center d-flex flex-column">
 						<div class="input-group input-group-outline">
 							<label class="form-label">검색어</label>
 							<input type="text" id="searchword" name="searchword" class="form-control" value="${param.searchword }">
 						</div>
-					</div>					
-					<div class="align-items-center d-flex flex-column py-1 ct-example">
-						<button type="button" id="searchbtn" class="btn btn-outline-primary mb-0 py-2 mx-1">검색</button>
 					</div>
-				</form>
+					<div class="align-items-center d-flex flex-column py-1">
+						<button id="searchbtn" class="btn btn-outline-primary btn-sm mb-0 py-1 ms-2">검색</button>
+					</div>
+				</div>
 			</div>
 		</div>		
 	
@@ -27,26 +27,27 @@
 				<table id="hr-table" class="table table-hover align-items-center mb-0">
 					<thead>
 						<tr>
-							<th class="text-center py-3 font-weight-bolder col-2">식별코드</th>
-							<th class="text-center font-weight-bolder col-1">창고번호</th>
-							<th class="text-center font-weight-bolder col-1">구분</th>
-							<th class="text-center font-weight-bolder col-3">품목이름</th>
-							<th class="text-center font-weight-bolder col-2">재고수량</th>
-							<th class="text-center font-weight-bolder col-2">단위</th>
-							<th class="text-center font-weight-bolder col-3">유통기한</th>
+							<th class="text-center font-weight-bolder col-2">사원번호</th>
+							<th class="text-center font-weight-bolder col-1">이름</th>
+							<th class="text-center font-weight-bolder col-1">부서</th>
+							<th class="text-center font-weight-bolder col-1">직책</th>
+							<th class="text-center font-weight-bolder col-4">이메일</th>
+							<th class="text-center font-weight-bolder col-3">내선번호</th>
+							<th class="text-center font-weight-bolder col-3">연락처</th>
+							<th class="text-center font-weight-bolder col-1">재직상태</th>
 						</tr>
 					</thead>
 	 				<tbody id="employeeTableBody">
 						<c:forEach var="vo" items="${list}">
 							<tr class="memList">
-								<td class="text-center py-3 identify-no">1</td>
-								<td class="text-center py-3">2</td>
-								<td class="text-center py-3">3</td>
-								<td class="text-center py-3">4</td>
-								<td class="text-center py-3">5</td>
-								<td class="text-center py-3">6</td>
-								<td class="text-center py-3">7</td>
-								<%-- <td class="text-center py-3"><span class="badge badge-sm bg-gradient-success">${vo.status}</span></td> --%>
+								<td class="text-center identify-no">${vo.employee_no}</td>
+								<td class="text-center">${vo.name}</td>
+								<td class="text-center">${vo.depart_name}</td>
+								<td class="text-center">${vo.position_name}</td>
+								<td class="text-center">${vo.email}</td>
+								<td class="text-center">${vo.extension_no}</td>
+								<td class="text-center">${vo.contact}</td>
+								<td class="text-center"><span class="badge badge-sm bg-gradient-success">${vo.status}</span></td>
 							</tr>
 						</c:forEach>
 					</tbody>
@@ -56,16 +57,16 @@
 		
 		<div class="row">
 			<div class="col-sm-5">
-				<div class="ms-6">Showing ${pageVO.startPage } to ${pageVO.endPage } of 미구현 entries</div>
+				<div>Showing ${pageVO.startPage } to ${pageVO.endPage } of 미구현 entries</div>
 			</div>
-			<div class="col-sm-5 mb-3">
+			<div class="col-sm-5">
 				<ul class="pagination">
 					<c:if test="${pageVO.prev }">
 						<li class="page-link link-container"><a href="/hr/${listUrl }?page=${pageVO.endPage-pageVO.displayPageNum }&searchword=${searchword}" class="link"><<</a></li>
 					</c:if>
 					<c:forEach var="i" begin="${pageVO.startPage }" end="${pageVO.endPage }" step="1">
-						<li ${pageVO.cri.page == i ? "class='link-container active'" : "class='link-container'"} >
-							<a href="/hr/${listUrl }?page=${i }&searchword=${searchword}" ${pageVO.cri.page == i ? "class='page-link rounded fw-bolder link-white'" : "class='page-link rounded fw-bolder'"}>${i }</a>
+						<li ${pageVO.cri.page == i ? "class='page-link link-container active'" : "class='page-link link-container'"} >
+							<a href="/hr/${listUrl }?page=${i }&searchword=${searchword}" ${pageVO.cri.page == i ? "class='link-white'" : "class=''"}>${i }</a>
 						</li>				
 					</c:forEach>
 					<c:if test="${pageVO.next }">
@@ -217,9 +218,8 @@
 		}
 		
 		$("#searchbtn").click(function(){
-			$("#search-form").submit(); 
-			/* var value = $("#searchword").val(); */
-			/* location.href = '/hr/searchlist?searchword=' + value; */
+			var value = $("#searchword").val();
+			location.href = '/hr/searchlist?searchword=' + value;
 		});		
 		
 		$("#hr-table").on("click", "tr td", function(event) {

@@ -1,6 +1,7 @@
 package com.itwillbs.controller;
 
 import java.sql.Connection;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -12,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.eatit.productPersistence.MasterDataDAO;
 import com.eatit.warehouseDomain.WarehouseVO;
 import com.eatit.warehousePersistence.WarehouseDAO;
 
@@ -26,6 +28,9 @@ public class WarehouseTest {
 	
 	@Inject
 	private WarehouseDAO wdao;
+	
+	@Inject
+	private MasterDataDAO mdDao;
 	
 	@Inject
 	private SqlSession sqlsession;
@@ -50,10 +55,21 @@ public class WarehouseTest {
 //		wdao.deleteWarehouse(vo);
 	}
 	
-	@Test
+//	@Test
 	public void 직책정보테스트() {
 //		wdao.getPositionName();
 		wdao.getMembersOfPosition("미정");
 	}
 
+	
+	@Test
+	public void 테이블정보확인() {
+		try {
+			List mdList = mdDao.getProductList();
+			logger.debug("mdList : " +mdList);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }

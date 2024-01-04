@@ -159,7 +159,7 @@
 		<div class="card my-4 mx-4">
 			<div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
 				<div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-					<h6 class="text-white text-capitalize ps-3">창고 목록</h6>
+					<h6 class="text-white text-capitalize ps-5 fs-3">창고 목록</h6>
 				</div>
 			</div>
 			
@@ -219,7 +219,7 @@
 				</div>
 				<div class="text-end ">
 	                <button type="button" class="btn bg-gradient-primary" onclick="popup();">창고등록</button>
-	                <button type="button" id="deleteBtn" class="btn bg-gradient-primary" >창고삭제</button>
+	                <button type="button" id="deleteBtn" class="btn bg-gradient-primary me-3" >창고삭제</button>
 	            </div>
 			</div>
 		</div>
