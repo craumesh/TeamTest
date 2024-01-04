@@ -23,8 +23,6 @@
 			<!-- 폼테그 시작  -->
 			<form role="form" method="post">
 			<input type="hidden" name="company_no" value="1">
-			<input type="hidden" name="member_no" value="1">
-			<input type="hidden" name="product_no" value="1">
 				<!-- 거래처 정보 -->
 				<div class="row mb-4">
 					<div class="card">
@@ -32,6 +30,13 @@
 							<div class="row">
 								<div class="col-lg-6 col-7">
 									<h6>거래처</h6>
+								</div>
+								<div class="col-lg-6 col-5 my-auto text-end">
+									<div class="dropdown float-lg-end pe-4">
+										<button class="btn btn-dark border-radius-lg p-2 mt-n4 mt-md-0" type="button" onclick="openSearchCompany()">
+											<i class="material-icons p-2">search</i>
+										</button>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -59,6 +64,7 @@
 												</div>
 											</td>
 											<td>
+												<input type="hidden" name="member_no" value="${memberVO.employee_no }">
 												<div class="d-flex px-2 py-1">
 													<div>
 														<img src="${memberVO.photo_paths }" class="avatar avatar-sm me-3" alt="">

@@ -56,7 +56,7 @@ public class PurchaseController {
 	@RequestMapping(value = "/writeForm", method = RequestMethod.POST)
 	public String purchaseWriteFormPOST(PurchaseVO pvo) throws Exception {
 		
-		logger.debug("/purchase/writeForm/purchaseWriteFormPOST() 호출");
+		logger.debug("Controller: /purchaseOrder/writeForm/purchaseWriteFormPOST() 호출");
 		
 		// 전달 정보 저장, 확인
 		logger.debug("pvo: " + pvo);
