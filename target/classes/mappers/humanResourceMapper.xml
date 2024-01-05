@@ -46,16 +46,16 @@
 	    FROM member
 	    WHERE active='승인'
 	    <choose>
-	        <when test="searchfilter == '재직'">
+	        <when test="filter == '재직'">
 	            AND status='재직'
 	        </when>
-	        <when test="searchfilter == '휴가'">
+	        <when test="filter == '휴가'">
 	            AND status='휴가'
 	        </when>
-	        <when test="searchfilter == '휴직'">
+	        <when test="filter == '휴직'">
 	            AND status='휴직'
 	        </when>
-	        <when test="searchfilter == '퇴직'">
+	        <when test="filter == '퇴직'">
 	            AND status='퇴직'
 	        </when>
 	    </choose>
