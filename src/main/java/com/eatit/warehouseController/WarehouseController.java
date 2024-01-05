@@ -20,7 +20,9 @@ import com.eatit.memberDomain.MemberVO;
 import com.eatit.memberService.HumanResourceService;
 import com.eatit.warehouseDomain.StockVO;
 import com.eatit.warehouseDomain.WarehouseVO;
+import com.eatit.warehousePersistence.WarehouseDAOImpl;
 import com.eatit.warehouseService.WarehouseService;
+import com.eatit.warehouseService.WarehouseServiceImpl;
 
 @Controller
 @RequestMapping(value="/warehouse/*")
@@ -129,6 +131,7 @@ public class WarehouseController {
 	public void warehouseStockMainGET(StockVO stockVO) {
 		logger.debug("C - warehouseStockMainGET()");
 		logger.debug("stockVO"+stockVO);
+		
 		
 	}
 	

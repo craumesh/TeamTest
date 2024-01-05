@@ -14,8 +14,10 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.eatit.productPersistence.MasterDataDAO;
+import com.eatit.warehouseDomain.StockVO;
 import com.eatit.warehouseDomain.WarehouseVO;
 import com.eatit.warehousePersistence.WarehouseDAO;
+import com.eatit.warehouseService.WarehouseService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"file:src/main/webapp/WEB-INF/spring/root-context.xml"})
@@ -31,6 +33,9 @@ public class WarehouseTest {
 	
 	@Inject
 	private MasterDataDAO mdDao;
+	
+	@Inject
+	private WarehouseService wService;
 	
 	@Inject
 	private SqlSession sqlsession;
@@ -63,13 +68,10 @@ public class WarehouseTest {
 
 	
 	@Test
-	public void 테이블정보확인() {
-		try {
-			List mdList = mdDao.getProductList();
-			logger.debug("mdList : " +mdList);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	public void 매퍼테스트정보확인() {
+//		wdao.getProductByHistoryNo();
+		// productCode에 코드에 완재품 코드 담아오기
+    	List<StockVO> productByHistoryList = wdao.getStockOfFinishedProduct();
+    	
 	}
 }

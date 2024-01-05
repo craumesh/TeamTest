@@ -77,7 +77,7 @@
 								<td class="fs-6">
 									<div class="input-group input-group-dynamic">
 									    <input type="text" name="category" id="category-input" 
-									    class="form-control" placeholder="구분" aria-label="구분" aria-describedby="basic-addon1">
+									    class="form-control" placeholder="구분" aria-label="구분" aria-describedby="basic-addon1" readonly>
 									</div>
 								</td>
 							</tr>

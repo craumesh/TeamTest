@@ -77,9 +77,13 @@
         </foreach>
   	</delete>
   	
-  	
-  	<select id="">
-  	
+  	<select id="getStockOfFinishedProduct" resultType="">
+  	<![CDATA[
+  		SELECT pi.product_code,ph.warehouse_no, w.category, pi.product_name, products, pi.product_unit, ph.EXPiry_date
+		FROM production_history ph JOIN product_information pi ON ph.product_no = pi.product_no
+						   		   JOIN warehouse w ON ph.warehouse_no = w.warehouse_no;
+	]]>
   	</select>
+  	
   </mapper>	  
   

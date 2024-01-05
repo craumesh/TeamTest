@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import com.eatit.memberDomain.MemberVO;
+import com.eatit.warehouseDomain.StockVO;
 import com.eatit.warehouseDomain.WarehouseVO;
 
 @Repository
@@ -98,6 +99,12 @@ public class WarehouseDAOImpl implements WarehouseDAO {
 		Map<String, Object> paramMap = new HashMap<>();
 		paramMap.put("warehouse_no", warehouse_no);
 		sqlsession.delete(NAMESPACE+"deleteWarehouse",paramMap);
+	}
+
+	@Override
+	// 생산에 해당하는 완재품 정보 리스트 정보 받아오기
+	public List<StockVO> getStockOfFinishedProduct() {
+		return sqlsession.selectList(NAMESPACE+"getProductByHistoryNo");
 	}
 	
 	

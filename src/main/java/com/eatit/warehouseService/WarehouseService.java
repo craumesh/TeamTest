@@ -43,5 +43,5 @@ public interface WarehouseService {
 	
 	//------------------------------------------------------------------------------------//
 	// 창고 재고 현황 조회
-	public List<StockVO> getStockList(StockVO stockVO);
+	public List<StockVO> getStockList();
 }

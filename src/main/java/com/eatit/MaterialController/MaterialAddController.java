@@ -27,7 +27,7 @@ public class MaterialAddController {
             materialService.addMaterial(materialVO);
         } else if ("export".equals(action)) {
             // 출고 처리
-            materialService.exportMaterial(materialVO.getId(), materialVO.getQuantity());
+//            materialService.exportMaterial(materialVO.getMaterial_num(), materialVO.getMaterial_quantity();
         }
         return "redirect:/Material/list"; // 처리 후 원자재 목록 페이지로 리다이렉션
     }
