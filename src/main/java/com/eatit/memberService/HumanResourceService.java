@@ -17,7 +17,7 @@ public interface HumanResourceService {
 	
 	public List<MemberVO> getSearchList(Map<String, Object> params);
 	
-	public int getSearchCount(String searchword);
+	public int getSearchCount(Map<String, Object> params);
 	
 	public List<MemberVO> getHrRegList(Criteria cri);
 	

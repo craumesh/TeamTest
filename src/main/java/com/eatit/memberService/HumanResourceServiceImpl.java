@@ -51,9 +51,9 @@ public class HumanResourceServiceImpl implements HumanResourceService {
 	}
 
 	@Override
-	public int getSearchCount(String searchword) {
+	public int getSearchCount(Map<String, Object> params) {
 		logger.debug("Service(getSearchCount) -> DAO 호출");
-		return hrDAO.getSearchCount(searchword);
+		return hrDAO.getSearchCount(params);
 	}
 
 	@Override

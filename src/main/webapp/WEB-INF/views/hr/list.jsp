@@ -228,7 +228,7 @@
 <script>
 	$(document).ready(function() {
 		
-		var modal = $("#Modal");
+		var modal = document.getElementById("Modal");
 		
 		if($("#searchword").val()) {
 			$(".input-group").addClass("focused is-focused");
@@ -268,7 +268,7 @@
 				    $("#contact").text(data.contact);
 				    $("#address").text(data.address);
 				    $("#status").text(data.status);
-				    modal.css("display", "block");
+				    modal.style.display = "block";
 				},
 				error : function(error) {
 					console.log('실패:', error);
@@ -277,7 +277,7 @@
 	    });
 		
 		$("#closebtn").click(function(){
-			modal.css("display", "none");
+			modal.style.display = "none";
 			location.reload();
 		});
 		

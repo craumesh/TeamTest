@@ -67,11 +67,12 @@ public class HumanResourceController {
 		logger.debug("/hr/searchlist 호출 -> searchListGET() 실행");
 		PageVO pageVO = new PageVO();
 		pageVO.setCri(cri);
-		pageVO.setTotalCount(hrService.getSearchCount(searchword));
 		
 		params.put("cri", cri);
 		params.put("searchword", searchword);
 		params.put("filter", filter);
+		
+		pageVO.setTotalCount(hrService.getSearchCount(params));
 		
 		model.addAttribute("searchword", searchword);
 		model.addAttribute("filter", filter);

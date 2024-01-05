@@ -54,9 +54,9 @@ public class HumanResourceDAOImpl implements HumanResourceDAO {
 	}
 
 	@Override
-	public int getSearchCount(String searchword) {
+	public int getSearchCount(Map<String, Object> params) {
 		logger.debug("DAO(getSearchCount) -> Mapper 호출");
-		return sqlSession.selectOne(NAMESPACE+".searchCount",searchword);
+		return sqlSession.selectOne(NAMESPACE+".searchCount",params);
 	}
 
 	@Override
