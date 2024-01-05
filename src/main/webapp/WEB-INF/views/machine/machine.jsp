@@ -4,68 +4,26 @@
 <!DOCTYPE html>
 <html>
 <%@ include file="../include/header.jsp" %>
-<style>
-/* 모달 스타일 */
-.modal {
-	display: none;
-	position: fixed;
-	z-index: 1;
-	left: 0;
-	top: 0;
-	width: 100%;
-	height: 100%;
-	overflow: auto;
-	background-color: rgba(0, 0, 0, 0.4);
-}
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
-.modal-content {
-	background-color: #fefefe;
-	margin: 5% auto;
-	padding: 20px;
-	border: 1px solid #ddd;
-	border-radius: 5px;
-	width: 50%;
-	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-}
-
-.close {
-	color: #aaa;
-	float: right;
-	font-size: 28px;
-	font-weight: bold;
-	cursor: pointer;
-	position: absolute;
-	right: 20px;
-	top: 20px;
-}
-
-.close:hover, .close:focus {
-	color: black;
-	text-decoration: none;
-	cursor: pointer;
-}
-}
-#machine_info {
-	margin-top: 50px;
-}
-</style>
 <!-- 시작 -->
 <div class="col-11 mx-auto">
 	<div class="card my-4">
 		<div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 ">
 			<div class="bg-gradient-primary shadow-primary border-radius-lg pt-3 pb-3 pe-3 d-flex">
-				<h3 class="text-white text-capitalize ps-5 align-items-center mb-0 py-1">설비 관리</h3>
-				<div class="ms-md-auto bg-white rounded p-2 d-flex align-items-center">
-					<div class="align-items-center d-flex flex-column">
+				<h3 class="text-white text-capitalize ps-5 my-2 py-1">설비 관리</h3>
+				<form action="/hr/searchlist" id="search-form" class="ms-md-auto bg-white rounded p-2 mb-0 d-flex align-items-center">
+					<div class="align-items-center d-flex flex-column mx-1">	
 						<div class="input-group input-group-outline">
 							<label class="form-label">검색어</label>
 							<input type="text" id="searchword" name="searchword" class="form-control" value="${param.searchword }">
+							<input type="hidden" id="filter" name="filter" value="${param.filter }">
 						</div>
+					</div>					
+					<div class="align-items-center d-flex flex-column py-1 ct-example">
+						<button type="button" id="searchbtn" class="btn btn-outline-primary mb-0 py-2 mx-1 fs-6">검색</button>
 					</div>
-					<div class="align-items-center d-flex flex-column py-1">
-						<button id="searchbtn" class="btn btn-outline-primary btn-sm mb-0 py-1 ms-2">검색</button>
-					</div>
-				</div>
+				</form>
 			</div>
 		</div>		
 	
@@ -93,7 +51,7 @@
 								<td class="text-center">${ml.purpose_of_use}</td>
 								<td class="text-center">${ml.installation_date}</td>
 								<td class="text-center">${ml.machine_location}</td>
-								<td class="text-center"><span class="badge badge-sm bg-gradient-success">${ml.machine_status}</span></td>
+								<td class="text-center"><span id="status-badge" class="badge badge-sm bg-gradient-success">${ml.machine_status}</span></td>
 							</tr>
 						</c:forEach>
 					</tbody>
@@ -201,10 +159,10 @@
 					<div class="user-info d-flex w-100">
 						<table class="table">
 							<tr>
-								<th class="fs-5 w-50">설비 코드</th>
-								<td class="fs-5 w-50" id="namecode">
+								<th class="fs-5">설비 코드</th>
+								<td class="fs-5" id="namecode">
 								</td>
-								<td class="fs-5 w-50" id="machineno" ></td>
+								<td class="fs-5" id="machineno" ></td>
 								
 									
 							</tr>
@@ -222,8 +180,8 @@
 				<div id="tableContainer">
 					<table id="view-table" class="table">
 						<tr>
-							<th class="fs-5 w-50">설비 상태</th>
-							<td class="fs-5 w-50" id="status"></td>
+							<th class="fs-5 w-10">설비 상태</th>
+							<td class="fs-5 w-20" id="status"></td>
 						</tr>
 						<tr>
 							<th class="fs-5">관리자</th>
@@ -246,7 +204,9 @@
 										<option value="점검중">점검중</option>
 										<option value="수리중">수리중</option>
 										<option value="고장">고장</option>
-										<option value="설치중">설치중</option>
+										<option value="생산중">생산중</option>
+										<option value="생산 대기">생산 대기</option>
+										<option value="생산 완료">생산 완료</option>
 									</select>
 								</td>
 							</tr>
@@ -311,12 +271,26 @@ $(document).ready(function () {
                 $("#employeename").text(data.name);
                 $("#machineno").val(historyData.machine_code);
                 // formatDate 함수를 AJAX 내부에 직접 정의
+                function formatDate1(dateString) {
+                	var formattedDate = dateString.replace(/(\d+)월 (\d+), (\d+)/, function(match, p1, p2, p3) {
+                        return p3 + '-' + (p1.length === 1 ? '0' + p1 : p1) + '-' + (p2.length === 1 ? '0' + p2 : p2);
+                    });
+                    return formattedDate;
+                }
+                
                 function formatDate(dateString) {
-                    var formattedDate = dateString.replace(/(\d+)월 (\d+), (\d+)/, '$3-$1-$2');
+                    var date = new Date(dateString);
+
+                    var year = date.getFullYear();
+                    var month = (date.getMonth() + 1).toString().padStart(2, '0');
+                    var day = date.getDate().toString().padStart(2, '0');
+
+                    var formattedDate = year + '-' + month + '-' + day;
+
                     return formattedDate;
                 }
                 // formatDate 함수를 사용하여 날짜 형식 변환
-                $("#lastchecktime").text(formatDate(historyData.check_time));
+                $("#lastchecktime").text(formatDate1(historyData.check_time));
                 $("#lastoperatingtime").text(formatDate(historyData.operating_time));
                 $("#installationdate").text(formatDate(data.installation_date));
                 $("#machinelocation").text(data.machine_location);
@@ -429,6 +403,20 @@ $(".input-group").click(function(){
 		    }
 		}	
 		
+		$('table tr').each(function() {
+            var statusText = $(this).find('td:last-child #status-badge').text();
+            console.log("span: " + statusText);
+            switch(statusText){
+            case "생산중": $(this).find('td:last-child #status-badge').addClass("bg-gradient-success"); break; // 초록
+            case "생산 대기": $(this).find('td:last-child #status-badge').addClass("bg-gradient-info"); break;	// 파랑
+            case "생산 완료": $(this).find('td:last-child #status-badge').addClass("bg-gradient-danger"); break;	// 빨강
+            case "수리중": $(this).find('td:last-child #status-badge').addClass("bg-gradient-warning"); break;	// 노랑
+            case "점검중": $(this).find('td:last-child #status-badge').addClass("bg-gradient-warning"); break;	// 노랑
+            case "고장": $(this).find('td:last-child #status-badge').addClass("bg-gradient-dark"); break;	// 회색
+            
+            }
+        });
+		
 		
 		
 		$("#delete_btn").click(function(event){
@@ -440,39 +428,7 @@ $(".input-group").click(function(){
 		
 		
 		
-		
-		
-/* 		function deleteSelected() {
-		    var selectedMachines = [];
-		    
-		    
-		    $("input[type=checkbox]:checked").each(function() {
-		        var machineCode = $(this).closest("tr").find("td:eq(1)").text().match(/\d+/);
-		        if (machineCode) {
-		            selectedMachines.push(parseInt(machineCode[0]));
-		        }
-		    });
-		    
-		    if (selectedMachines.length > 0) {
-		    	console.log(selectedMachines);
-		        $.ajax({
-		            url: '/machine/delete',  
-		            method: 'POST',
-		            data: { selectedMachines: selectedMachines },
-		            success: function () {
-		                location.reload();
-		            },
-		            error: function () {
-		                console.log('삭제 실패');
-		            }
-		        });
-		    } else {
-		        alert('설비를 삭제할 항목을 선택하세요.');
-		    }
-		} */
-		  
-		
-		
+
 		
 	</script>
 

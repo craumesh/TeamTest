@@ -42,9 +42,9 @@ public class productionserviceImpl implements productionservice {
 	}
 
 	@Override
-	public List<machineVO> machinelistall() {
+	public List<machineVO> machinelistall(Criteria cri) {
 		logger.debug("service : machinelistall()");
-		return pddao.machinelistall();
+		return pddao.machinelistall(cri);
 	}
 	
 	

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <%@ include file="../include/header.jsp" %>
 <html>
@@ -29,27 +30,27 @@
 				<table id="hr-table" class="table table-hover align-items-center mb-0">
 					<thead>
 						<tr>
-							<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2"></th>
 							<th class="text-center font-weight-bolder col-2">설비 코드</th>
 							<th class="text-center font-weight-bolder col-2">관리자</th>
-							<th class="text-center font-weight-bolder col-3">작동 목적</th>
+							<th class="text-center font-weight-bolder col-3">마지막 작동</th>
 							<th class="text-center font-weight-bolder col-3">생산 시작 시간</th>
-							<th class="text-center font-weight-bolder col-3">생산 완료 시간</th>
+							<th class="text-center font-weight-bolder col-3">생산 완료 예정 시간</th>
 							<th class="text-center font-weight-bolder col-1">설비 상태</th>
 						</tr>
 					</thead>
 	 				<tbody id="employeeTableBody">
 						 <c:forEach var="ml" items="${machinelist}">
 							<tr class="mllist">
-								<td class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2 py-3"><input type="checkbox" name="code" value="${ml.machine_code}"></td>
 								<td class="text-center">${ml.machine_name}_${ml.machine_code}</td>
 								<td class="text-center">${ml.name}</td>
 								 <c:forEach var="history" items="${ml.infolist}">
 								<td class="text-center">${history.use_history }</td>	
-								<td class="text-center">${history.operating_time }</td>
+								<td class="text-center">
+								<fmt:formatDate value="${history.operating_time}" pattern="MM월 dd일 HH:mm" />
+								</td>
 								</c:forEach>
-								<td class="text-center">~~시간 ~~분 ~~초</td>		
-							<td class="text-center"><span class="badge badge-sm bg-gradient-success">${ml.machine_status}</span></td>
+								<td class="text-center">00시 00분</td>		
+							<td class="text-center"><span id="status-badge" class="badge badge-sm bg-gradient-success">${ml.machine_status}</span></td>
 							</tr>
 						</c:forEach>
 					</tbody>
@@ -63,7 +64,7 @@
 		</div>
 		<div class="row">
 			<div class="col-sm-5">
-				<%-- <div>Showing ${pageVO.startPage } to ${pageVO.endPage } of 미구현 entries</div> --%>
+				
 			</div>
 			<div class="col-sm-5">
 				<ul class="pagination">
@@ -83,26 +84,39 @@
 		</div>
 </div>
 </div>
+<%@ include file="../include/footer.jsp" %>
+<%@ include file="../include/js.jsp" %>
 <script type="text/javascript">
+    
+    
+    function orderform() {
+        var url = "/production/orderform";
+        
+        var screenWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+        var screenHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+        var popupWidth = 850;
+        var popupHeight = 800;
+        var leftPosition = (screenWidth - popupWidth) / 2;
+        var topPosition = (screenHeight - popupHeight) / 2;
 
-
-	function orderform() {
-
-	    var url = "/production/orderform";
-	    window.open(url, "_blank", 'width=850,height=800');
-		}
-			
-
+        window.open(url, "_blank", 'width=' + popupWidth + ',height=' + popupHeight + ',left=' + leftPosition + ',top=' + topPosition);
+    }
+    
+    $(document).ready(function() {
+        $('table tr').each(function() {
+            var statusText = $(this).find('td:last-child #status-badge').text();
+            console.log("span: " + statusText);
+            switch(statusText){
+                case "생산중": $(this).find('td:last-child #status-badge').addClass("bg-gradient-success"); break; // 초록
+                case "생산 대기": $(this).find('td:last-child #status-badge').addClass("bg-gradient-info"); break;	// 파랑
+                case "생산 완료": $(this).find('td:last-child #status-badge').addClass("bg-gradient-danger"); break;	// 빨강
+                case "수리중": $(this).find('td:last-child #status-badge').addClass("bg-gradient-warning"); break;	// 노랑
+                case "점검중": $(this).find('td:last-child #status-badge').addClass("bg-gradient-warning"); break;	// 노랑
+                case "고장": $(this).find('td:last-child #status-badge').addClass("bg-gradient-dark"); break;	// 회색
+            }
+        });
+    });
 </script>
 
 
-
-
-
-
-
-
-
-<%@ include file="../include/footer.jsp" %>
-<%@ include file="../include/js.jsp" %>
 </html>

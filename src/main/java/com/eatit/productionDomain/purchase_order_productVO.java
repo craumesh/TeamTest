@@ -10,5 +10,5 @@ public class purchase_order_productVO {
 	private int product_no;
 	private String state;
 	
-	
+	private String product_name;
 }

@@ -77,5 +77,4 @@ private static final String NAMESPACE="com.eatit.mapper.machineMapper";
 	}
 	
 	
-	
 }

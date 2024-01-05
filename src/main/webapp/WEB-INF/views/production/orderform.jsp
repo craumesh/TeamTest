@@ -29,7 +29,6 @@
 				<table class="table align-items-center mb-0">
 							<thead>
 								<tr>
-									<th></th>
 									<th class="text-center font-weight-bolder col-1">주문 번호</th>
 									<th class="text-center font-weight-bolder col-2">발주 번호</th>
 									<th class="text-center font-weight-bolder col-2">제품명</th>
@@ -40,10 +39,9 @@
 							<tbody id="employeeTableBody">
 						<c:forEach var="ol" items="${orderlist}">
 							<tr class="mllist">
-								<td class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2 py-3"><input type="checkbox" name="code" value="${ml.machine_code}"></td>
 								<td class="text-center">${ol.order_product_id }</td>
 								<td class="text-center">${ol.order_id}</td>
-								<td class="text-center">${ol.product_no}</td>
+								<td class="text-center">${ol.product_name}</td>
 								<td class="text-center">${ol.quantity}</td>
 								<td class="text-center">${ol.state}</td>
 							</tr>

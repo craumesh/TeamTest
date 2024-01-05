@@ -9,7 +9,10 @@
   <!-- 발주서 목록 조회 -->
   <select id="formorderlist" resultType="purchase_order_productVO">
   SELECT * 
-  FROM purchase_order_product
+  FROM purchase_order_product as a
+  join product_information as b
+  on a.product_no = b.product_no
+  where state != '재고 없음'
   LIMIT #{startPage},#{pageSize}
   </select>
   
@@ -30,6 +33,10 @@
 	  		WHERE order_product_id > 0 and state != '재고 없음'
   		]]>
   </select>
+  
+  
+  
+  
   
   
   </mapper>

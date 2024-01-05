@@ -45,9 +45,9 @@ public class productionDAOImpl implements productionDAO{
 	}
 
 	@Override
-	public List<machineVO> machinelistall() {
+	public List<machineVO> machinelistall(Criteria cri) {
 		logger.debug("machinlist()");
-		return sqlSession.selectList(NAMESPACE_machine + ".machinelistall");
+		return sqlSession.selectList(NAMESPACE_machine + ".machinelistall", cri);
 	}
 	
 	

@@ -19,6 +19,6 @@ public interface productionservice {
 	public int formtotalCount();
 	
 	// 설비 전체 조회
-	public List<machineVO> machinelistall();
+	public List<machineVO> machinelistall(Criteria cri);
 	
 }

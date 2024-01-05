@@ -31,4 +31,5 @@ public interface machineDAO {
 	
 	// 페이징 처리 갯수
 	public int totalCount(); 
+
 }

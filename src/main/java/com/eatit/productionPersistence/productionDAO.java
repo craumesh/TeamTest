@@ -19,5 +19,5 @@ public interface productionDAO {
 	public int formtotalCount();
 	
 	// 설비 상세 조회
-	public List<machineVO> machinelistall();
+	public List<machineVO> machinelistall(Criteria cri);
 }

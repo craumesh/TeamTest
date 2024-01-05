@@ -26,10 +26,15 @@ public class productioncontroller {
 	
 	// http://localhost:8088/production/production
 	@RequestMapping(value = "/production", method = RequestMethod.GET)
-	public void productionGET(Model model) {
-		logger.debug("pdService.machinelistall() : " + pdService.machinelistall());
+	public void productionGET(Model model, Criteria cri) {
+		logger.debug("pdService.machinelistall() : " + pdService.machinelistall(cri));
+		PageVO pageVO = new PageVO();
+		pageVO.setCri(cri);
+		pageVO.setTotalCount(pdService.machinetotalCount());
 		
-		model.addAttribute("machinelist",pdService.machinelistall());
+		model.addAttribute("pageVO", pageVO);
+		model.addAttribute("listUrl", "production");
+		model.addAttribute("machinelist",pdService.machinelistall(cri));
 		
 		
 	}

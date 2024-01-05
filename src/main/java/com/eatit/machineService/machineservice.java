@@ -1,12 +1,15 @@
 package com.eatit.machineService;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Future;
 
 import com.eatit.machineDomain.machineVO;
 import com.eatit.machineDomain.machinehistoryVO;
 import com.eatit.mainDomain.Criteria;
 
 public interface machineservice {
+	
 	
 	// 설비 추가 동작
 	public void insertmachine(machineVO vo);
