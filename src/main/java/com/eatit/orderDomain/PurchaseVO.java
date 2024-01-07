@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 public class PurchaseVO {
 	
-	private Integer order_id;
+	private String order_id;
 	private Integer company_no;
 	private Integer employee_no;
 	private Integer product_no;

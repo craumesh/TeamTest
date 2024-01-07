@@ -26,8 +26,8 @@
 	  
 	  <!-- 발주서 작성 -->
 	  <insert id="insertForm">
-	  		INSERT INTO purchase_order (company_no, employee_no, product_no, quantity, due_date, comments)
-	  		VALUES (#{company_no}, #{employee_no}, #{product_no}, #{quantity}, #{due_date}, #{comments})
+	  		INSERT INTO purchase_order (order_id, company_no, employee_no, product_no, quantity, due_date, comments)
+	  		VALUES (CONCAT("OD", DATE_FORMAT(NOW(), "%y%m%d%H%i%s")), #{company_no}, #{employee_no}, #{product_no}, #{quantity}, #{due_date}, #{comments})
 	  </insert>
 	  
 	  <!-- 내역 조회 -->
