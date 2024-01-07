@@ -28,14 +28,12 @@
 								<tr>
 									<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">제품</th>
 									<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">재고량</th>
-									<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">수량</th>
 									<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"></th>
 								</tr>
 							</thead>
 							<tbody>
 								<c:forEach var="vo" items="${productVOList }">
-									
-									<tr>
+									<tr>			
 										<td>
 											<div class="d-flex px-2 py-1">
 												<div>
@@ -56,31 +54,8 @@
 												</div>
 											</div>
 										</td>
-										<td class="align-middle text-center text-sm">
-											<div class="input-group input-group-outline">
-												<input type="number" id="quantity_${vo.product_no}" class="form-control" placeholder="수량을 입력하세요">
-											</div>
-										</td>
-										<td class="align-middle text-center text-md" id="product_${vo.product_no }">
+										<td class="align-middle text-center text-md">
 											<button id="addCart" class="btn btn-primary btn-sm mb-0 py-1 ms-2" onclick="addToCart(${vo.product_no})">선택</button>
-											
-											
-											
-											
-											<input type="hidden" name="product_no_${vo.product_no }" value="${vo.product_no }"/>			
-											<input type="hidden" name="product_code_${vo.product_no }" value="${vo.product_code }"/>									
-											<input type="hidden" name="product_name_${vo.product_no }" value="${vo.product_name }"/>									
-											<input type="hidden" name="product_category_${vo.product_no }" value="${vo.product_category }"/>									
-											<input type="hidden" name="product_category_detail_${vo.product_no }" value="${vo.product_category_detail }"/>									
-											<input type="hidden" name="company_no_${vo.product_no }" value="${vo.company_no }"/>									
-											<input type="hidden" name="product_unit_${vo.product_no }" value="${vo.product_unit }"/>									
-											<input type="hidden" name="product_price_${vo.product_no }" value="${vo.product_price }"/>									
-											<input type="hidden" name="recipe_${vo.product_no }" value="${vo.recipe }"/>									
-										
-										
-										
-										
-										
 										</td>
 									</tr>
 								</c:forEach>
@@ -95,84 +70,31 @@
 
 <script>
 
-//     function addToCart(product_no) {
+    function addToCart(product_no) {
+        // 필요한 정보를 수집
+        var quantity = $("#quantity_" + product_no).val();
 
-//         // 필요한 정보를 수집
-//         var quantity = $("#quantity_" + product_no).val();
-    	
-//         //
-//     	var productVO = {
-//     			"product_no": $("#product_no_" + product_no).val(),
-//                 "product_code": $("#product_code_" + product_no).val(),
-//                 "product_name": $("#product_name_" + product_no).val(),
-//                 "product_category": $("#product_category_" + product_no).val(),
-//                 "product_category_detail": $("#product_category_detail_" + product_no).val(),
-//                 "company_no": $("#company_no_" + product_no).val(),
-//                 "product_unit": $("#product_unit_" + product_no).val(),
-//                 "product_price": $("#product_price_" + product_no).val(),
-//                 "recipe": $("#recipe_" + product_no).val()
-//     	};
-
-//         // AJAX를 사용하여 서버에 데이터 전송
-//         $.ajax({
-//             url: "/purchaseOrder/addCart",
-//             type: "POST",
-//             contentType : "application/json",
-//             data: JSON.stringify(productVO),
-//             success: function (data) {
-//                 // 성공적으로 처리된 경우의 동작
-//                 console.log(data);
-//             },
-//             error: function () {
-//                 // 실패한 경우의 동작
-              
-//             }
-//         });
-        
-//         window.close();
-        
-//     }
-
-
-	function addToCart(product_no) {
-		
-	    // 필요한 정보를 수집
-	    var quantity = $("#quantity_" + product_no).val();
-	    
-	    // product_no에 해당하는 히든 필드의 값을 가져오기
-	    var product_no_value = $("input[name='product_no_" + product_no + "']").val();
-	    var product_code_value = $("input[name='product_code_" + product_no + "']").val();
-	    var product_name_value = $("input[name='product_name_" + product_no + "']").val();
-	    var product_category_detail_value = $("input[name='product_category_detail_" + product_no + "']").val();
-	    var product_price_value = $("input[name='product_price_" + product_no + "']").val();
-	
-	    // productVO에 히든 필드의 값을 추가
-	    var productVO = {
-	        "product_no": product_no_value,
-	        "product_code": product_code_value,
-	        "product_name": product_name_value,
-	        "product_category_detail": product_category_detail_value,
-	        "product_price": product_price_value,
-	        "quantity": quantity
-	    };
-	
-	    // AJAX를 사용하여 서버에 데이터 전송
-	    $.ajax({
-	        url: "/purchaseOrder/addCart",
-	        type: "POST",
-	        contentType: "application/json",
-	        data: JSON.stringify(productVO),
-	        success: function (data) {
-	        	alert(JSON.stringify(data));
-	            console.log(data);
-	            window.opener.addProductData(productVO);
-	        },
-	        error: function (data) {
-	            // 실패한 경우의 동작
-	            console.log(JSON.stringify(data));
-	        }
-	    });
-	}
+        // AJAX를 사용하여 서버에 데이터 전송
+        $.ajax({
+            url: "/purchaseOrder/selectProduct",
+            type: "POST",
+            data: {
+            	product_no: product_no,
+            	quantity: quantity
+            },
+            success: function (data) {
+                // 성공적으로 처리된 경우의 동작
+                alert('성공');
+            	window.opener.selectProduct(data);
+            	window.close();         
+            },
+            error: function () {
+                // 실패한 경우의 동작
+            	alert('실패');
+            }
+        });
+     
+    }
     
 </script>
 

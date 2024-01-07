@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import com.eatit.masterDataDomain.CompanyVO;
 import com.eatit.memberDomain.MemberVO;
-import com.eatit.orderDomain.CartVO;
 import com.eatit.orderDomain.ProductVO;
 import com.eatit.orderDomain.PurchaseVO;
 import com.eatit.orderPersistence.PurchaseDAO;
@@ -66,18 +65,6 @@ public class PurchaseServiceImpl implements PurchaseService {
 	}
 
 	@Override
-	public void addCart(CartVO cpvo) throws Exception {
-		logger.debug("Service: addCart(CartProductVO cpvo)");
-		pdao.addCart(cpvo);
-	}
-
-	@Override
-	public List<CartVO> cartList(String id) throws Exception {
-		logger.debug("Service: cartList(String id)");
-		return pdao.getCartList(id);
-	}
-
-	@Override
 	public MemberVO getMemberInfo(String id) throws Exception {
 		logger.debug("Service: getMemberInfo(String id)");
 		return pdao.readMember(id);
@@ -99,6 +86,12 @@ public class PurchaseServiceImpl implements PurchaseService {
 	public CompanyVO selectCompany(int company_no) throws Exception {
 		logger.debug("Service: sselectCompany(company_no)");
 		return pdao.getCompanyInfo(company_no);
+	}
+
+	@Override
+	public ProductVO findProduct(Integer product_no) throws Exception {
+		logger.debug("Service: findProduct(product_no)");
+		return pdao.selectProduct(product_no);
 	}
 	
 }

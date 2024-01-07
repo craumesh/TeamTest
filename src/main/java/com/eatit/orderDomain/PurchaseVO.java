@@ -16,6 +16,7 @@ public class PurchaseVO {
 	private String comments;
 	private String order_status;
 	private Timestamp update_date;
-	private int delete_status; 
+	private Integer delete_status; 
+	private Integer quantity; 
 	
 }

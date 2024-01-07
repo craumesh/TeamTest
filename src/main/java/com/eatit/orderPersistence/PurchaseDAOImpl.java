@@ -11,7 +11,6 @@ import org.springframework.stereotype.Repository;
 
 import com.eatit.masterDataDomain.CompanyVO;
 import com.eatit.memberDomain.MemberVO;
-import com.eatit.orderDomain.CartVO;
 import com.eatit.orderDomain.ProductVO;
 import com.eatit.orderDomain.PurchaseVO;
 
@@ -67,18 +66,6 @@ public class PurchaseDAOImpl implements PurchaseDAO {
 	}
 
 	@Override
-	public void addCart(CartVO cpvo) throws Exception {
-		logger.debug("DAO: addCart(CartProductVO cpvo)");
-		SqlSession.insert(NAMESPACE + ".addCart", cpvo);
-	}
-
-	@Override
-	public List<CartVO> getCartList(String id) throws Exception {
-		logger.debug("DAO: getCartList(String id)");
-		return SqlSession.selectList(NAMESPACE + ".cartList", id);
-	}
-
-	@Override
 	public MemberVO readMember(String id) throws Exception {
 		logger.debug("DAO: readMember(String id)");
 		return SqlSession.selectOne(NAMESPACE + ".readMember", id);
@@ -100,6 +87,12 @@ public class PurchaseDAOImpl implements PurchaseDAO {
 	public CompanyVO getCompanyInfo(int company_no) throws Exception {
 		logger.debug("DAO: getCompanyInfo(company_no)");
 		return SqlSession.selectOne(NAMESPACE + ".getCompanyInfo", company_no);
+	}
+
+	@Override
+	public ProductVO selectProduct(Integer product_no) throws Exception {
+		logger.debug("DAO: selectProduct(product_no)");
+		return SqlSession.selectOne(NAMESPACE + ".selectProduct", product_no);
 	}
 	
 }

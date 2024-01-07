@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.eatit.masterDataDomain.CompanyVO;
 import com.eatit.memberDomain.MemberVO;
-import com.eatit.orderDomain.CartVO;
 import com.eatit.orderDomain.ProductVO;
 import com.eatit.orderDomain.PurchaseVO;
 
@@ -24,10 +23,6 @@ public interface PurchaseService {
 
 	public List<ProductVO> searchProduct(String query) throws Exception;
 
-	public void addCart(CartVO cpvo) throws Exception;
-
-	public List<CartVO> cartList(String id) throws Exception;
-
 	public MemberVO getMemberInfo(String id) throws Exception;
 
 	public List<CompanyVO> getCompanyList() throws Exception;
@@ -35,5 +30,7 @@ public interface PurchaseService {
 	public List<CompanyVO> searchCompany(String query) throws Exception;
 
 	public CompanyVO selectCompany(int company_no) throws Exception;
+
+	public ProductVO findProduct(Integer product_no) throws Exception;
 
 }

@@ -7,34 +7,27 @@
   
 	  <!-- 테이블 데이터 매핑 -->
 	  <resultMap type="com.eatit.orderDomain.ProductVO" id="productMap">
-	  		<id property="product_no" column="product_no"/>
 	  		<result property="product_no" column="product_no"/>
 	  		<result property="product_code" column="product_code"/>
 	  		<result property="product_name" column="product_name"/>
+	  		<result property="product_category" column="product_category"/>
 	  		<result property="product_category_detail" column="product_category_detail"/>
+	  		<result property="company_no" column="company_no"/>
+	  		<result property="product_unit" column="product_unit"/>
 	  		<result property="product_price" column="product_price"/>
+	  		<result property="expiry_date" column="expiry_date"/>
 
 			<collection property="productList" resultMap="productMap"></collection>
 	  </resultMap>
-	  
-	  <resultMap type="com.eatit.orderDomain.CartVO" id="cartMap">
-	  		<result property="cart_id" column="cart_id"/>
-	  		<result property="employee_no" column="employee_no"/>
-	  		<result property="create_date" column="create_date"/>
-	  		<result property="product_no" column="product_no"/>
-	  		<result property="quantity" column="quantity"/>
-	  		<result property="product_name" column="product_name"/>
 
-			<collection property="cartList" resultMap="cartMap"></collection>
-	  </resultMap>
 	  
 	  <resultMap type="com.eatit.memberDomain.MemberVO" id="memberVO"/>
 	  <resultMap type="com.eatit.masterDataDomain.CompanyVO" id="companyVO"/>
 	  
 	  <!-- 발주서 작성 -->
 	  <insert id="insertForm">
-	  		INSERT INTO purchase_order (company_no, employee_no, product_no, due_date, comments)
-	  		VALUES (#{company_no}, #{employee_no}, #{product_no},#{due_date}, #{comments})
+	  		INSERT INTO purchase_order (company_no, employee_no, product_no, quantity, due_date, comments)
+	  		VALUES (#{company_no}, #{employee_no}, #{product_no}, #{quantity}, #{due_date}, #{comments})
 	  </insert>
 	  
 	  <!-- 내역 조회 -->
@@ -77,22 +70,14 @@
 	  </select>
 	  
 	  <!-- 상품 추가 -->
-	  <insert id="addCart">
-	  		INSERT INTO cart_product (product_no, quantity, cart_id)
-	  		VALUES (#{product_no}, #{quantity}, 1)
-	  </insert>	  
-	  
-	  <!-- 카트 상품 조회 -->
-	  <select id="cartList" resultMap="cartMap">
+	  <select id="selectProduct" resultType="productVO">
 	  		<![CDATA[
-	  		SELECT pi.product_name, c.quantity
-	  		FROM cart c
-	  			JOIN product_information pi ON c.product_no = pi.product_no
-	  			JOIN member m ON c.employee_no = m.employee_no
-	  		WHERE m.id = #{id}	
+			SELECT *
+	  		FROM product_information
+	  		WHERE product_no = #{product_no}
 	  		]]>
 	  </select>	  
-	  
+
 	  <!-- 회원 정보 조회 -->
 	  <select id="readMember" resultMap="memberVO">
 	  		<![CDATA[
@@ -126,7 +111,6 @@
 	  		FROM company
 	  		WHERE company_no = #{company_no}
 	  		]]>
-	  </select>	   
-	  
+	  </select>	     
 	  
   </mapper>

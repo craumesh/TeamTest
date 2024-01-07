@@ -1,5 +1,6 @@
 package com.eatit.orderDomain;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import lombok.Data;
@@ -22,6 +23,7 @@ public class ProductVO {
 	private String product_unit;
 	private String product_price;
 	private String recipe;
+	private Timestamp expiry_date;
 
 	private Integer quantity;
 	

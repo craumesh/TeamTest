@@ -63,7 +63,7 @@
 														<img src="" id="companyImg" class="avatar avatar-sm me-3" alt="">
 													</div>
 													<div class="d-flex flex-column justify-content-center">
-														<h6 class="mb-0 text-sm" id="company_name">거래처를 선택해주세요.</h6>
+														<h6 class="mb-0 text-sm" id="company_name">거래처를 선택하세요.</h6>
 														<p class="text-xs text-secondary mb-0" id="companyTel"></p>
 													</div>
 												</div>
@@ -100,41 +100,45 @@
 								<table class="table align-items-center mb-0">
 									<thead>
 										<tr>
-											<th class="text-uppercase text-secondary text-s font-weight-bolder opacity-7 ps-2">
-												<div class="form-check form-check-info text-start ps-0">
-													<input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" data-gtm-form-interact-field-id="0">
-												</div>
-											</th>
 											<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">제품</th>
 											<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">수량</th>
+											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">금액</th>
 											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">재고량</th>
-											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">수정/삭제</th>
 										</tr>
-									</thead>
-									
-									
-									
-									
-									
-									<tbody id="productTable">
-										
-										<tr>
-										
-										
-										
-
-											
-											
-											
-											
+									</thead>	
+									<tbody>
+										<tr>			
+											<td>
+											<input type="hidden" id="product_no" name="product_no" value="">
+												<div class="d-flex px-2 py-1">
+													<div>
+														<img src="" class="avatar avatar-sm me-3" alt="">
+													</div>
+													<div class="d-flex flex-column justify-content-center">
+														<h6 class="mb-0 text-sm" id="prdName">상품을 선택하세요.</h6>
+													</div>
+												</div>
+											</td>
+											<td class="align-middle text-center text-sm">
+												<div class="input-group input-group-outline">
+													<input type="number" name="quantity" class="form-control d-flex" placeholder="수량을 입력하세요">
+												</div>
+											</td>
+											<td class="align-middle text-center">
+												<span class="text-secondary text-xs font-weight-bold">100,000원</span>
+											</td>
+											<td class="align-middle text-center">
+												<div class="d-flex align-items-center justify-content-center">
+													<span class="me-2 text-xs font-weight-bold" id="prdInv"></span>
+													<div>
+														<div class="progress">
+															<div class="progress-bar bg-gradient-info" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
+														</div>
+													</div>
+												</div>
+											</td>
 										</tr>
-								
-									</tbody>
-									
-									
-									
-									
-									
+									</tbody>						
 								</table>
 							</div>
 						</div>
@@ -194,6 +198,12 @@
         $("#companyImg").html(data.photo_paths);
         $("#companyTel").html(data.company_tel);
         $("#companyAddress").html(address);
+    }
+    
+    function selectProduct(data) {
+ 
+    	$("#product_no").val(data.product_no);
+        $("#prdName").html(data.product_name);
     }
 
 </script>

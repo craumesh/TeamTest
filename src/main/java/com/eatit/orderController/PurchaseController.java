@@ -17,7 +17,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.eatit.masterDataDomain.CompanyVO;
 import com.eatit.memberDomain.MemberVO;
-import com.eatit.orderDomain.CartVO;
 import com.eatit.orderDomain.ProductVO;
 import com.eatit.orderDomain.PurchaseVO;
 import com.eatit.orderService.PurchaseService;
@@ -42,15 +41,11 @@ public class PurchaseController {
 		String id = (String)session.getAttribute("id");
 		logger.debug("id: " + id);
 		
-		// 서비스 - 카트 리스트, 회원정보 가져오기
-		List<CartVO> cartVOList = pService.cartList(id);
+		// 서비스 - , 회원정보 가져오기
 		MemberVO memberVO = pService.getMemberInfo(id);
-		
-		logger.debug("cartVOList: " + cartVOList);
 		logger.debug("memberVO: " + memberVO);
 		
 		// 데이터 전달
-		model.addAttribute(cartVOList);
 		model.addAttribute(memberVO);
 	}
 	
@@ -159,15 +154,17 @@ public class PurchaseController {
 	}
 	
 	// 상품 추가 - POST
-	@RequestMapping(value = "/addCart", method = RequestMethod.POST)
-	public void addCartPOST(CartVO cpvo) throws Exception {
+	@RequestMapping(value = "/selectProduct", method = RequestMethod.POST)
+	@ResponseBody
+	public ProductVO selectProductPOST(@RequestParam(name = "product_no", required = false) Integer product_no) throws Exception {
 		
-		logger.debug("Controller: /purchaseOrder/addCartPOST(CartProductVO cpvo)");
+		logger.debug("Controller: /purchaseOrder/selectProductPOST(product_no)");
 		
-		logger.debug("cpvo: " + cpvo);
-		
-		// 서비스 - 상품 추가(INSERT)
-		pService.addCart(cpvo);
+		// 서비스
+		ProductVO productVO = pService.findProduct(product_no);
+		logger.debug("productVO: " + productVO);
+	
+		return productVO;
 	}
 	
 	// 거래처 검색 - GET
@@ -197,10 +194,10 @@ public class PurchaseController {
 		model.addAttribute(companyVOList);
 	}
 	
-	// 거래처 선택 
+	// 거래처 선택 - POST
 	@RequestMapping(value = "/selectCompany", method = RequestMethod.POST)
 	@ResponseBody
-	public CompanyVO selectCompany(@RequestParam(name = "company_no", required = false) Integer company_no) throws Exception {
+	public CompanyVO selectCompanyPOST(@RequestParam(name = "company_no", required = false) Integer company_no) throws Exception {
 		
 		logger.debug("Controller: /purchaseOrder/selectCompany(company_no)");
 		logger.debug("company_no:" + company_no);
