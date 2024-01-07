@@ -159,7 +159,7 @@
 		<div class="card my-4 mx-4">
 			<div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
 				<div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-					<h6 class="text-white text-capitalize ps-5 fs-3">창고 목록</h6>
+					<h6 class="text-white text-capitalize ps-5 fs-3">창고 입출고 관리</h6>
 				</div>
 			</div>
 			
@@ -173,43 +173,54 @@
 								<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ">
 									<input type="checkbox" id="cbx_chkAll">
 								</th>
-								<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">창고번호</th>
-								<th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">구분</th>
-								<th class="text-center text-secondary text-xxs font-weight-bolder opacity-7 ">창고명</th>
-								<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">관리자</th>
-								<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">사용여부</th>
-								<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">상세정보</th>
+								<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">식별코드</th>
+								<th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">창고번호</th>
+								<th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">입출고 구분</th>
+								<th class="text-center text-secondary text-xxs font-weight-bolder opacity-7 ">카테고리</th>
+								<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">품목이름</th>
+								<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">입출고 수량</th>
+								<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">단위</th>
+								<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">가격(만원)</th>
+								<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">유통기한</th>
+								<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">입출고일</th>
 							</tr>
 						</thead>
 						
 						<tbody>
-							<c:forEach var="warehouseListMain" items="${warehouseListMain}">
+							<c:forEach var="stockInfoList" items="${stockInfoList}">
 								<tr>
 									<td class="text-uppercase text-secondary text-xxs font-weight-bold opacity-7" style="padding: 0.75rem 1.5rem;">
-										<input type="checkbox" name="chk" value="${warehouseListMain.warehouse_no}">
+										<input type="checkbox" name="chk" value="${stockInfoList.history_no}">
 									</td>
 									<td class="text-center">
-                      					<span class="text-secondary text-xs font-weight-bold">${warehouseListMain.warehouse_no}</span>
+                      					<span class="text-secondary text-xs font-weight-bold">${stockInfoList.identify_code}</span>
                      				</td>
 									<td class="text-center">
-                      					<span class="text-secondary text-xs font-weight-bold">${warehouseListMain.category}</span>
+                      					<span class="text-secondary text-xs font-weight-bold">${stockInfoList.warehouse_no}</span>
 			                        </td>
 									<td class="text-center">
-				                        <span class="text-secondary text-xs font-weight-bold">${warehouseListMain.warehouse_name}</span>
+                      					<span class="text-secondary text-xs font-weight-bold">${stockInfoList.io_classification}</span>
+			                        </td>
+									<td class="text-center">
+				                        <span class="text-secondary text-xs font-weight-bold">${stockInfoList.category}</span>
                       				</td>
 									<td class="text-center">
-										<span class="text-secondary text-xs font-weight-bold">${warehouseListMain.name}</span>
+										<span class="text-secondary text-xs font-weight-bold">${stockInfoList.name}</span>
 									</td>
 									<td class="text-center text-sm">
-			                        	<span class="badge badge-sm bg-gradient-success">${warehouseListMain.use_status}</span>
+			                        	<span class="text-secondary text-xs font-weight-bold">${stockInfoList.io_quantities}</span>
 			                      	</td>
 									<td class="text-center text-sm">
-									<!--상세내역 모달버튼 시작  -->
-			                        	<button type="button" class="btn warehouseDetailBtn" data-toggle="modal" data-target="#warehouseModal"
-							   	   		   		value="${warehouseListMain.warehouse_no}" style="margin-bottom : 0; font-size: 15px">
-							   	   			<span class="text-secondary text-xs font-weight-bold" >+</span>
-							   	   		</button>
-									<!--상세내역 모달버튼 끝  -->
+			                        	<span class="text-secondary text-xs font-weight-bold">${stockInfoList.unit}</span>
+			                      	</td>
+									<td class="text-center text-sm">
+			                        	<span class="text-secondary text-xs font-weight-bold">${stockInfoList.price}</span>
+			                      	</td>
+									<td class="text-center text-sm">
+			                        	<span class="text-secondary text-xs font-weight-bold">${stockInfoList.expiry_date}</span>
+			                      	</td>
+									<td class="text-center text-sm">
+			                        	<span class="text-secondary text-xs font-weight-bold">${stockInfoList.io_date}</span>
 			                      	</td>
 								</tr>
 							</c:forEach>
@@ -218,8 +229,8 @@
 					</form>
 				</div>
 				<div class="text-end ">
-	                <button type="button" class="btn bg-gradient-dark" onclick="popup();">창고등록</button>
-	                <button type="button" id="deleteBtn" class="btn bg-gradient-dark me-3" >창고삭제</button>
+	                <button type="button" class="btn bg-gradient-dark" onclick="popup();">승인</button>
+	                <button type="button" id="deleteBtn" class="btn bg-gradient-dark me-3" >취소</button>
 	            </div>
 			</div>
 		</div>

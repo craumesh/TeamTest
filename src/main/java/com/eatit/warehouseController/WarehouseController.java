@@ -3,6 +3,7 @@ package com.eatit.warehouseController;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,7 +19,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.eatit.memberDomain.MemberVO;
 import com.eatit.memberService.HumanResourceService;
-import com.eatit.warehouseDomain.StockVO;
+import com.eatit.warehouseDomain.StockInfoVO;
 import com.eatit.warehouseDomain.WarehouseVO;
 import com.eatit.warehousePersistence.WarehouseDAOImpl;
 import com.eatit.warehouseService.WarehouseService;
@@ -39,7 +40,7 @@ public class WarehouseController {
 	//http://localhost:8088/warehouse/warehouseMain
 ////////////////////////////////////////// 창고 메인 페이지 시작 ///////////////////////////////////////
 	@GetMapping(value = "/warehouseMain")
-	public void warehouseMainGET(Model model,@SessionAttribute("no") int no) {
+	public void warehouseMainGET(Model model,@SessionAttribute("no") int no, HttpSession session) {
 		logger.debug("C - wareHouseMainGET() 호출");
 		// ID 세션값 저장 확인
 //		logger.debug("no : "+no);
@@ -55,6 +56,9 @@ public class WarehouseController {
 		// 서비스 - 직책 정보 가져오기
 		List<String> positionName = warehouseService.memberGetPositionName();
 //		logger.debug("@_@"+positionName);
+		
+//		// 새로고침 제어시 필요
+//		session.setAttribute("getStockInfoList", true);
 		
 		// 데이터를 연결된 뷰페이지로 전달
 		model.addAttribute("warehouseListMain", warehouseListMain);
@@ -120,19 +124,31 @@ public class WarehouseController {
 	}
 	
 ////////////////////////////////////////// 창고 메인 페이지 끝 /////////////////////////////////////////
+
 	
 	
 	
 ////////////////////////////////////////// 재고 페이지 시작 ////////////////////////////////////////////
 	
+	@GetMapping(value = "/stockInfo")
+	public void StockInfo(Model model) {
+		logger.debug("C - stockInfo()");
+		List<StockInfoVO> stockInfoList = warehouseService.getStockList();
+		logger.debug("stockInfoList : "+stockInfoList);
+		
+		
+		
+		model.addAttribute("stockInfoList", stockInfoList);
+	}
+	
 	//http://localhost:8088/warehouse/warehouseStockMain
 	// 창고 재고 페이지
 	@RequestMapping(value = "/warehouseStockMain", method = RequestMethod.GET)
-	public void warehouseStockMainGET(StockVO stockVO) {
+	public void warehouseStockMainGET(StockInfoVO stockVO,HttpSession session) {
 		logger.debug("C - warehouseStockMainGET()");
-		logger.debug("stockVO"+stockVO);
 		
-		
+		// 새로고침 제어시 필요
+//		session.setAttribute("getStockInfoList", true);
 	}
 	
 	

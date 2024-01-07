@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import com.eatit.memberDomain.MemberVO;
-import com.eatit.warehouseDomain.StockVO;
+import com.eatit.warehouseDomain.StockInfoVO;
 import com.eatit.warehouseDomain.WarehouseVO;
 
 @Repository
@@ -28,7 +28,6 @@ public class WarehouseDAOImpl implements WarehouseDAO {
 	@Override
 	// 창고 정보 모두 가져오기
 	public List<WarehouseVO> getWarehouseListAll() {
-		logger.debug("DAO - getWarehouseListAll() 호출");
 		return sqlsession.selectList(NAMESPACE+"getWarehouseListAll");
 	}
 
@@ -59,30 +58,24 @@ public class WarehouseDAOImpl implements WarehouseDAO {
 	@Override
 	// 창고 정보 가져오기(main)
 	public List<WarehouseVO> getWarehouseListMain() {
-		logger.debug("DAO - getWarehouseListAll() 호출");
 		return sqlsession.selectList(NAMESPACE+"getWarehouseMainList");
 	}
 
 	@Override
 	// 특정 창고 정보 가져오기 - ajax
 	public WarehouseVO getWarehouseInfo(WarehouseVO vo) {
-		logger.debug("DAO - getWarehouseInfo(WarehouseVO vo)");
-		logger.debug("DAO vo : "+vo);
-		logger.debug("DAO 전달해주는 vo : "+sqlsession.selectOne(NAMESPACE+"getWarehouseInfo", vo));
 		return sqlsession.selectOne(NAMESPACE+"getWarehouseInfo", vo);
 	}
 
 	@Override
 	// 특정 창고 정보 가져오기(세션 아이디에 해당하는 회원정보)
 	public MemberVO getWarehouseInfo(int no) {
-		logger.debug("DAO - getWarehouseInfo(int no)");
 		return sqlsession.selectOne(NAMESPACE+"getWarehouseAdminInfo", no);
 	}
 
 	@Override
 	// 창고 등록
 	public void insertWarehouse(WarehouseVO vo) {
-		logger.debug("DAO - insertWarehouse(WarehouseVO vo)");
 		sqlsession.insert(NAMESPACE+"insertWarehouse", vo);
 	}
 	
@@ -102,9 +95,15 @@ public class WarehouseDAOImpl implements WarehouseDAO {
 	}
 
 	@Override
-	// 생산에 해당하는 완재품 정보 리스트 정보 받아오기
-	public List<StockVO> getStockOfFinishedProduct() {
-		return sqlsession.selectList(NAMESPACE+"getProductByHistoryNo");
+	// 생산에 해당하는 완재품 정보 리스트 받아오기
+	public List<StockInfoVO> getStockOfFinishedProduct() {
+		return sqlsession.selectList(NAMESPACE+"getStockOfFinishedProduct");
+	}
+
+	@Override
+	// 서비스에서 받아온 완재품 입고 정보를 테이블에 insert
+	public void insertStockInfoList(StockInfoVO vo) {
+		sqlsession.insert(NAMESPACE+"insertStockInfo", vo);
 	}
 	
 	

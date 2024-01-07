@@ -3,7 +3,7 @@ package com.eatit.warehousePersistence;
 import java.util.List;
 
 import com.eatit.memberDomain.MemberVO;
-import com.eatit.warehouseDomain.StockVO;
+import com.eatit.warehouseDomain.StockInfoVO;
 import com.eatit.warehouseDomain.WarehouseVO;
 
 public interface WarehouseDAO {
@@ -42,7 +42,9 @@ public interface WarehouseDAO {
 	public void deleteWarehouse(int[] warehouse_no);
 	
 	// 완재품 정보 리스트 정보 받아오기
-	public List<StockVO> getStockOfFinishedProduct();
+	public List<StockInfoVO> getStockOfFinishedProduct();
 	
+	// 서비스에서 받아온 완재품 입고 정보를 테이블에 insert
+	public void insertStockInfoList(StockInfoVO vo);
 	
 }

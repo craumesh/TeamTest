@@ -53,10 +53,10 @@
   	</select>
   	
   	<!--창고 등록-->
-  	<select id="insertWarehouse" >
+  	<insert id="insertWarehouse" >
   		insert into warehouse(location_name,warehouse_name,category,admin_no,note) 
   		values(#{location_name},#{warehouse_name},#{category},#{admin_no},#{note})
-  	</select>
+  	</insert>
   	
   	<!--창고 수정-->
   	<update id="updateDetailInfo">
@@ -77,13 +77,21 @@
         </foreach>
   	</delete>
   	
-  	<select id="getStockOfFinishedProduct" resultType="">
-  	<![CDATA[
-  		SELECT pi.product_code,ph.warehouse_no, w.category, pi.product_name, products, pi.product_unit, ph.EXPiry_date
-		FROM production_history ph JOIN product_information pi ON ph.product_no = pi.product_no
-						   		   JOIN warehouse w ON ph.warehouse_no = w.warehouse_no;
-	]]>
+  	
+  	<select id="getStockOfFinishedProduct" resultType="com.eatit.warehouseDomain.StockInfoVO">
+  	 <![CDATA[
+            SELECT history_no,mi.code,mi.company_no,ph.warehouse_no,w.category,mi.name,products 'io_quantities',mi.unit,
+                (mi.price * products)/10000 'price',DATE(ph.EXPiry_date) 'expiry_Date',DATE(ph.date_of_manufacture) 'io_Date' 
+            FROM production_history ph 
+            JOIN masterdata_information mi ON ph.product_no = mi.product_no 
+            JOIN warehouse w ON ph.warehouse_no = w.warehouse_no;
+        ]]>
   	</select>
+  	
+  	<insert id="insertStockInfo">
+  		insert into stock_info(identify_code,warehouse_no,io_classification,category,product_name,io_quantities,product_unit,price,expiry_date,io_date)
+  		values(#{identify_code},#{warehouse_no},#{io_classification},#{category},#{name},#{io_quantities},#{unit},#{price},#{expiry_date},#{io_date})
+  	</insert>
   	
   </mapper>	  
   

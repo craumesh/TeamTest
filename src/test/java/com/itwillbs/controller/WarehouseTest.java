@@ -14,7 +14,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.eatit.productPersistence.MasterDataDAO;
-import com.eatit.warehouseDomain.StockVO;
+import com.eatit.warehouseDomain.StockInfoVO;
 import com.eatit.warehouseDomain.WarehouseVO;
 import com.eatit.warehousePersistence.WarehouseDAO;
 import com.eatit.warehouseService.WarehouseService;
@@ -69,9 +69,9 @@ public class WarehouseTest {
 	
 	@Test
 	public void 매퍼테스트정보확인() {
-//		wdao.getProductByHistoryNo();
+		wdao.getStockOfFinishedProduct();
 		// productCode에 코드에 완재품 코드 담아오기
-    	List<StockVO> productByHistoryList = wdao.getStockOfFinishedProduct();
+//    	List<StockVO> productByHistoryList = wdao.getStockOfFinishedProduct();
     	
 	}
 }

@@ -1,6 +1,10 @@
 package com.eatit.warehouseService;
 
+import java.sql.Timestamp;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -13,10 +17,8 @@ import org.springframework.stereotype.Service;
 
 import com.eatit.machinePersistence.machineDAO;
 import com.eatit.memberDomain.MemberVO;
-import com.eatit.productDomain.MasterdataVO;
 import com.eatit.productPersistence.MasterDataDAO;
-import com.eatit.warehouseDomain.ProductType;
-import com.eatit.warehouseDomain.StockVO;
+import com.eatit.warehouseDomain.StockInfoVO;
 import com.eatit.warehouseDomain.WarehouseVO;
 import com.eatit.warehousePersistence.WarehouseDAO;
 
@@ -113,106 +115,116 @@ public class WarehouseServiceImpl implements WarehouseService {
 	
 	//-----------------------------------------------------------------------------------------//
 	@Override
-	// 창고 재고 Lot no 조회 로직
-	// Lot no 생성 규칙 : 품목코드-생산년월일-순번
-	public List<StockVO> getStockList() {
-//	    List<StockVO> stockListFromDB = warehousedao.getStockListFromDB(); // warehousedao에서 데이터 조회
-	    List<StockVO> stockListFromDB = null; // warehousedao에서 데이터 조회
-
-	    List<StockVO> stockListWithLotNumbers = new ArrayList<>();
-
-	    for (StockVO stockVO : stockListFromDB) {
-	        // 기존 StockVO 내용 넣기
-	        StockVO setStockVO = new StockVO();
-	        setStockVO.setIdentify_code(stockVO.getIdentify_code());
-	        setStockVO.setCategory(stockVO.getCategory());
-	        setStockVO.setProduct_name(stockVO.getProduct_name());
-	        setStockVO.setProduct_unit(stockVO.getProduct_unit());
-	        setStockVO.setExpiry_date(stockVO.getExpiry_date());
-	        setStockVO.setIo_classification(stockVO.getIo_classification());
-	        setStockVO.setIo_quantities(stockVO.getIo_quantities());
-	        setStockVO.setUpdate_date(stockVO.getUpdate_date());
-
-	        // Lot 번호 생성 및 추가
-	        String identify_code = generateLotNumber(stockVO.getProduct_name(), determineProductType(stockVO.getCategory()));
+	// 창고 재고 식별 번호 조회 로직
+	// 식별 번호 생성 규칙 : 발주회사번호+품목코드+생산년월일+순번
+	public List<StockInfoVO> getStockList() {
+		// 완재품 - 필요 데이터 리스트 불러오기
+	    List<StockInfoVO> finishedProductStockList = warehousedao.getStockOfFinishedProduct();
+	    logger.debug("@_@식별코드 넣기 전"+finishedProductStockList);
+	    
+	    // 자재 - 필요 데이터 리스트 불러오기
+	    List<StockInfoVO> materialStockList = null;
+//	    logger.debug("@_@식별코드 넣기 전"+materialStockList);
+	    
+	    // 데이터 리스트를 담을 새로운 VO객체
+	    List<StockInfoVO> stockListWithLotNumbers = new ArrayList<>();
+	    
+	    // 필요한 변수 초기화
+	    String finishedProductSeqNumber = null;  // 완제품 순번
+	    String materialSeqNumber = null;  // 자재 순번
+	    String finishedProductCompanyNo = null; // 완제품 회사번호
+	    String materialCompanyNo = null; // 자재 회사번호
+	    
+	    // 완재품 입고 식별번호 생성
+	    for (StockInfoVO stockInfoVO : finishedProductStockList) {
+	    	
+	        // 기존 StockVO에 내용 넣기
+	        StockInfoVO setStockVO = new StockInfoVO();
+	        setStockVO.setHistory_no(stockInfoVO.getHistory_no());
+	        setStockVO.setCode(stockInfoVO.getCode());
+	        setStockVO.setCompany_no(stockInfoVO.getCompany_no());
+	        setStockVO.setWarehouse_no(stockInfoVO.getWarehouse_no());
+	        setStockVO.setIo_classification("입고");
+	        setStockVO.setCategory(stockInfoVO.getCategory());
+	        setStockVO.setName(stockInfoVO.getName());
+	        setStockVO.setIo_quantities(stockInfoVO.getIo_quantities());
+	        setStockVO.setUnit(stockInfoVO.getUnit());
+	        setStockVO.setPrice(stockInfoVO.getPrice());
+	        setStockVO.setExpiry_date(stockInfoVO.getExpiry_date());
+	        setStockVO.setIo_date(stockInfoVO.getIo_date());
+	        
+	    	// 발주회사번호
+	        int companyNo = stockInfoVO.getCompany_no();
+	        String formatCompanyNo = String.format("%03d", companyNo);
+	        finishedProductCompanyNo = formatCompanyNo;
+	        
+	        // 식별번호 날짜 포맷
+	        SimpleDateFormat prodateFormat = new SimpleDateFormat("yyyyMMdd");
+	        String ioDate = prodateFormat.format(stockInfoVO.getIo_date());
+	        
+	        // 순번
+        	//history_no 불러온다
+        	int historyNO =  stockInfoVO.getHistory_no();
+        	//history_no 를 '000+hitory_no'형식으로 만든다
+        	String FormathistoyNo = String.format("%04d", historyNO);
+        	// 완제품 순번에 담는다
+        	finishedProductSeqNumber = FormathistoyNo;
+	        
+	        // 식별 번호 생성 
+	        String identify_code = finishedProductCompanyNo+stockInfoVO.getCode()+ioDate+finishedProductSeqNumber;
 	        setStockVO.setIdentify_code(identify_code);
-
+	        
+//	        warehousedao.insertStockInfoList(setStockVO);
 	        stockListWithLotNumbers.add(setStockVO);
+	        
 	    }
-
+	    
+	    // 자재 입고 식별번호 생성
+//	    for(StockInfoVO stockInfo : materialStockList) {
+	    	
+	    	 // 기존 StockVO에 내용 넣기
+//	        StockInfoVO setStockVO = new StockInfoVO();
+//	        setStockVO.setHistory_no(stockInfoVO.getHistory_no());
+//	        setStockVO.setCode(stockInfoVO.getCode());
+//	        setStockVO.setCompany_no(stockInfoVO.getCompany_no());
+//	        setStockVO.setWarehouse_no(stockInfoVO.getWarehouse_no());
+//	        setStockVO.setIo_classification("입고");
+//	        setStockVO.setCategory(stockInfoVO.getCategory());
+//	        setStockVO.setName(stockInfoVO.getName());
+//	        setStockVO.setIo_quantities(stockInfoVO.getIo_quantities());
+//	        setStockVO.setUnit(stockInfoVO.getUnit());
+//	        setStockVO.setPrice(stockInfoVO.getPrice());
+//	        setStockVO.setExpiry_date(stockInfoVO.getExpiry_date());
+//	        setStockVO.setIo_date(stockInfoVO.getIo_date());
+//	        
+//	    	// 발주회사번호
+//	        int companyNo = stockInfoVO.getCompany_no();
+//	        String formatCompanyNo = String.format("%03d", companyNo);
+//	        finishedProductCompanyNo = formatCompanyNo;
+//	        
+//	        // 날짜 포메팅
+//	        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+//	        String ioDate = dateFormat.format(stockInfoVO.getIo_date());
+//	        
+//	        // 순번
+//        	//history_no 불러온다
+//        	int historyNO =  stockInfoVO.getHistory_no();
+//        	//history_no 를 '000+hitory_no'형식으로 만든다
+//        	String FormathistoyNo = String.format("%04d", historyNO);
+//        	// 완제품 순번에 담는다
+//        	finishedProductSeqNumber = FormathistoyNo;
+//	        
+//	        // 식별 번호 생성 
+//	        String identify_code = finishedProductCompanyNo+stockInfoVO.getCode()+ioDate+finishedProductSeqNumber;
+//	        setStockVO.setIdentify_code(identify_code);
+//	        
+////	        warehousedao.insertStockInfoList(setStockVO);
+//	        stockListWithLotNumbers.add(setStockVO);
+//	    }
+	    
+	    logger.debug("@_@식별코드 넣은 후"+stockListWithLotNumbers);
+	    
 	    return stockListWithLotNumbers;
 	}
-
-	private ProductType determineProductType(String category) {
-	    // 여기에서 카테고리를 기반으로 품목 종류를 결정하는 로직 추가
-	    // 예를 들어, 카테고리가 "완제품"이면 ProductType.FINISHED_GOOD, "자재"이면 ProductType.RAW_MATERIAL 등
-	    return null; // 실제 로직을 추가해야 함
-	}
-	
-	public String generateLotNumber(String productCode, ProductType productType) {
-	    String identify_code;
-	
-	    if (productType == ProductType.완제품) {
-	        identify_code = genGoodsLotNumber();
-	    } else if (productType == ProductType.자재) {
-	        identify_code = genMaterialLotNumber(productCode);
-	    } else {
-	        throw new IllegalArgumentException("Unsupported product type");
-	    }
-	
-	    // 생성된 Lot 번호를 저장하거나 다른 작업을 수행할 수 있음
-	    // lotNumberRepository.saveLotNumber(lotNumber);
-	
-	    return identify_code;
-	}
-    
-    // 완재품 코드 생성
-    public String genGoodsLotNumber() {
-    	// productCode에 코드에 완재품 코드 담아오기
-    	List<StockVO> productByHistoryList = warehousedao.getStockOfFinishedProduct();
-    	
-    	StockVO vo = new StockVO();
-    	
-    	
-    	
-    	
-//        return "" + "-" + genProductionDate() + "-" + genSeqNumber();
-        return null;
-    }
-
-    // 자재 코드 생성
-    private String genMaterialLotNumber(String productCode) {
-    	// productCode에 자재 코드 담아오기
-        return "" + "-" + genProductionDate()+ "-"+genSeqNumber();
-    }
-
-    // 품목 날짜 포메팅
-    private String genProductionDate() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
-        
-        // 
-        return dateFormat.format(new Date());
-    }
-    
-    
-    private int goodsSeqNumber = 1;  // 완제품 순번
-    private int materialSeqNumber = 1;  // 자재 순번
-    
-    private String genSeqNumber() {
-    	ProductType productType = null;
-	    // 순번을 반환하고, 다음에 생성될 순번을 갱신
-	    int seqNumber;
-	
-	    if (productType == ProductType.완제품) {
-	        seqNumber = goodsSeqNumber++;
-	    } else if (productType == ProductType.자재) {
-	        seqNumber = materialSeqNumber++;
-	    } else {
-	        throw new IllegalArgumentException("Unsupported product type");
-	    }
-	    return String.valueOf(seqNumber);
-    }
-	
-	
 	
 }

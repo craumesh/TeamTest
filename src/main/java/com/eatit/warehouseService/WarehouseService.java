@@ -3,7 +3,7 @@ package com.eatit.warehouseService;
 import java.util.List;
 
 import com.eatit.memberDomain.MemberVO;
-import com.eatit.warehouseDomain.StockVO;
+import com.eatit.warehouseDomain.StockInfoVO;
 import com.eatit.warehouseDomain.WarehouseVO;
 
 public interface WarehouseService {
@@ -43,5 +43,5 @@ public interface WarehouseService {
 	
 	//------------------------------------------------------------------------------------//
 	// 창고 재고 현황 조회
-	public List<StockVO> getStockList();
+	public List<StockInfoVO> getStockList();
 }
