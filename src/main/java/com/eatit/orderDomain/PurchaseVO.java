@@ -11,12 +11,17 @@ public class PurchaseVO {
 	private Integer company_no;
 	private Integer employee_no;
 	private Integer product_no;
+	private Integer quantity; 
 	private Timestamp order_date;
 	private String due_date;
 	private String comments;
 	private String order_status;
 	private Timestamp update_date;
 	private Integer delete_status; 
-	private Integer quantity; 
+	
+	// JOIN 데이터
+	private String company_name; 
+	private String company_tel; 
+	private String product_name; 
 	
 }

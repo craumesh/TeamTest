@@ -21,6 +21,7 @@
 	  </resultMap>
 
 	  
+	  <resultMap type="com.eatit.orderDomain.PurchaseVO" id="purchaseVO"/>
 	  <resultMap type="com.eatit.memberDomain.MemberVO" id="memberVO"/>
 	  <resultMap type="com.eatit.masterDataDomain.CompanyVO" id="companyVO"/>
 	  
@@ -31,13 +32,18 @@
 	  </insert>
 	  
 	  <!-- 내역 조회 -->
-	  <select id="list" resultType="PurchaseVO">
-	  		SELECT * FROM purchase_order
+	  <select id="list" resultType="purchaseVO">
+	  		<![CDATA[
+	  		SELECT po.order_id, po.product_no, pi.product_name, po.quantity, po.order_date, po.order_status, c.company_name, c.company_tel
+	  		FROM purchase_order po
+	  			JOIN company c ON po.company_no = c.company_no
+	  			JOIN product_information pi ON po.product_no = pi.product_no
 	  		WHERE delete_status = 0
+	  		]]>
 	  </select>
 	  
 	  <!-- 주문 상세 조회 -->
-	  <select id="readOrder" resultType="PurchaseVO">
+	  <select id="readOrder" resultType="purchaseVO">
 	  		SELECT * FROM purchase_order
 	  		WHERE order_id = #{order_id}
 	  </select>

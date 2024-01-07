@@ -65,14 +65,14 @@
 				                            	<img src="" class="avatar avatar-sm me-3 border-radius-lg" alt="user1">
 				                     		</div>
 				                          	<div class="d-flex flex-column justify-content-center">
-				                           		<h6 class="mb-0 text-sm">${vo.product_no }</h6>
-				                            	<p class="text-xs text-secondary mb-0">quantity: 999개</p>
+				                           		<h6 class="mb-0 text-sm">${vo.product_name }</h6>
+				                            	<p class="text-xs text-secondary mb-0">${vo.quantity }개</p>
 				                        	</div>
 				                    	</div>
 			                        </td>
 									<td>
-				                        <p class="text-xs font-weight-bold mb-0">${vo.company_no }</p>
-				                        <p class="text-xs text-secondary mb-0">member_name: 신청자</p>
+				                        <p class="text-xs font-weight-bold mb-0">${vo.company_name }</p>
+				                        <p class="text-xs text-secondary mb-0">${vo.company_tel }</p>
                       				</td>
 									<td class="align-middle text-center">
 										<span class="text-secondary text-xs font-weight-bold">

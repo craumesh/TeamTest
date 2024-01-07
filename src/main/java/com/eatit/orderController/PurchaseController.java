@@ -68,7 +68,7 @@ public class PurchaseController {
 	}
 	
 	// 발주 내역 조회 - GET
-	@RequestMapping(value = "/orderList", method = RequestMethod.GET)
+	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public String orderListGET(Model model) throws Exception {
 		
 		logger.debug("/purchase/orderListGET() 호출");
@@ -80,7 +80,7 @@ public class PurchaseController {
 		// 데이터 전달
 		model.addAttribute(purchaseVOList);
 		
-		return "/purchaseOrder/orderList";
+		return "/purchaseOrder/list";
 	}
 	
 	// 발주 내역 상세 조회 - GET
