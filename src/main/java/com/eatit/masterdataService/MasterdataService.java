@@ -3,12 +3,15 @@ package com.eatit.masterdataService;
 import java.util.List;
 
 import com.eatit.memberDomain.MemberVO;
+import com.eatit.mainDomain.Criteria;
 import com.eatit.masterdataDomain.MasterdataVO;
 
 public interface MasterdataService {
 	
 	// 창고 정보 리스트 가져오기(All)
-	public List<MasterdataVO> masterdataListAll();
+	public List<MasterdataVO> productListAll(Criteria cri);
+	
+	public int getTotalCount();
 	
 //	// 회원 정보 리스트 가져오기(All)
 //	public List<MemberVO> memberListAll();
@@ -30,10 +33,15 @@ public interface MasterdataService {
 //	
 //	// 창고 등록 할 때 등록페이지에 로그인한 회원 정보 가져오기
 //	public MemberVO masterdataInfo(int no);
-//	
-//	// 창고 등록 
-//	public void masterDataRegist(MasterdataVO vo);
-//	
+
+	
+	public MasterdataVO getCategoryMaxProductCode(MasterdataVO vo);
+	
+	public MasterdataVO getCategoryDetailMaxProductCode(MasterdataVO vo);
+	
+	// 품목 등록 
+	public void productRegist(MasterdataVO vo);
+	
 //	// 창고 수정
 //	public void masterDataUpdate(MasterdataVO vo);
 //	

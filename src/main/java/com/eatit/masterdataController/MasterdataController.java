@@ -17,28 +17,32 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.eatit.masterdataService.MasterdataService;
 import com.eatit.memberDomain.MemberVO;
+import com.eatit.mainDomain.Criteria;
+import com.eatit.mainDomain.PageVO;
 import com.eatit.masterdataDomain.MasterdataVO;
 
 @Controller
-@RequestMapping(value = "/masterdata/*")
+@RequestMapping(value = "/md/*")
 public class MasterdataController {
 	private static final Logger logger = LoggerFactory.getLogger(MasterdataController.class);
 	
 	@Inject
 	MasterdataService mdService;
 	
-	//http://localhost:8088/masterdata/list
-	// 창고메인
-	@GetMapping(value = "/list")
-	public void masterDataMainGET(Model model) {
-		logger.debug("C - masterdataMainGET() 호출");
+	// http://localhost:8088/md/product/list
+	// 품목리스트
+	@RequestMapping(value = "/product/list", method = RequestMethod.GET)
+	public void productListGET(Model model, Criteria cri) {
+		logger.debug("C - productListGET() 호출");
 		// ID 세션값 저장 확인
 //		logger.debug("no : "+no);
 		
 		// 서비스 - 창고 리스트 가져오기
-		List<MasterdataVO> masterDataListMain = mdService.masterdataListAll();
-		logger.debug("@_@"+masterDataListMain);
-//		
+		PageVO pageVO = new PageVO();
+		cri.setPageSize(5);
+		pageVO.setCri(cri);
+		pageVO.setTotalCount(mdService.getTotalCount());
+
 //		// 서비스 - 회원 리스트 가져오기
 //		List<MemberVO> memberList = mdService.memberListAll();
 ////		logger.debug("@_@"+memberList);
@@ -48,7 +52,9 @@ public class MasterdataController {
 ////		logger.debug("@_@"+positionName);
 		
 		// 데이터를 연결된 뷰페이지로 전달
-		model.addAttribute("masterdataListMain", masterDataListMain);
+		model.addAttribute("pageVO", pageVO);
+		model.addAttribute("listUrl", "product/list");
+		model.addAttribute("productList", mdService.productListAll(cri));
 //		model.addAttribute("memberList", memberList);
 //		model.addAttribute("positionName", positionName);
 	}
@@ -65,33 +71,47 @@ public class MasterdataController {
 //      return "redirect:/masterdata/masterdataMain";
 //   }
 //	
-//	// 창고등록
-//	@RequestMapping(value = "/masterdataRegist", method = RequestMethod.GET)
-//	public void masterDataModifyGET(@SessionAttribute("no") int no,Model model) {
-//		logger.debug("C - masterdataModifyGET()");
-//		logger.debug("no : "+ no);
-//		
-//		// 서비스 - 창고 등록 할 때 등록페이지에 로그인한 회원 정보 가져오기
-//		MemberVO masterDataInfo = mdService.masterdataInfo(no);
-//		logger.debug("@_@"+masterDataInfo);
-//		// 데이터를 연결된 뷰페이지로 전달
-//		model.addAttribute("masterdataAdminInfo", masterDataInfo);
-//	}
-//	
-//	@RequestMapping(value = "/masterdataRegist", method = RequestMethod.POST)
-//	public String masterdataModifyPOST(MasterdataVO vo, RedirectAttributes rttr ) {
-//		logger.debug("C - masterdataModifyPOST()");
-//		logger.debug("vo : "+vo);
-//		
-//		// 서비스 - 창고 등록
-//		mdService.masterDataRegist(vo);
-//		
-//		// 메시지 전달
-////		rttr.addFlashAttribute("result", "registOK");
-//		
+	// 품목등록
+	@RequestMapping(value = "/product/regist", method = RequestMethod.GET)
+	public void productRegistGET() {
+		logger.debug("C - productRegistGET()");
+	}
+	
+	@RequestMapping(value = "/product/regist", method = RequestMethod.POST)
+	public void productRegistPOST(MasterdataVO vo, RedirectAttributes rttr ) {
+		logger.debug("C - productRegistPOST()");
+		logger.debug("vo : "+vo);
+		logger.debug("mdService.getCategoryMaxProductCode(vo).getCode() : "+mdService.getCategoryMaxProductCode(vo).getCode());
+		logger.debug("mdService.getCategoryDetailMaxProductCode(vo).getCode() : "+mdService.getCategoryDetailMaxProductCode(vo).getCode());
+		
+		int categoryNum = categoryNumExtract(mdService.getCategoryMaxProductCode(vo).getCode().substring(1))+1;
+		int categoryDetailNum = categoryDetailNumExtract(mdService.getCategoryDetailMaxProductCode(vo).getCode())+1;
+		
+		if(vo.getPhoto_paths().isEmpty()) {
+			vo.setPhoto_paths(null);
+		}
+		
+		logger.debug("categoryNum : "+categoryNum);
+		logger.debug("categoryDetailNum : "+categoryDetailNum);
+		
+		String convertedCode[] = categoryConvertCode(vo).split(",");
+		vo.setCode(convertedCode[0]+categoryNum+convertedCode[1]+categoryDetailNum);
+		
+		logger.debug("vo.getCode() : "+vo.getCode());		
+		
+		mdService.productRegist(vo);
+		
+		// 메시지 전달
+//		rttr.addFlashAttribute("result", "registOK");
+		
 //		return "redirect:/masterdata/registClose";
-//	}
-//	
+	}
+
+	@RequestMapping(value = "/category/list", method = RequestMethod.GET)
+	public void categoryListGET() {
+		logger.debug("C - categoryListGET()");
+	}
+	
 //	// 창고삭제
 //	@RequestMapping(value = "/deletemasterdata", method = RequestMethod.POST)
 //	public String deletemasterdataPOST(@RequestParam("chk") int[] masterdata_no) {
@@ -117,4 +137,53 @@ public class MasterdataController {
 //	public void masterdataStockMainGET() {
 //		logger.debug("C - masterdataStockMainGET()");
 //	}
+	
+	private int categoryNumExtract(String inputStr) {
+        StringBuilder number = new StringBuilder();
+
+        for (char c : inputStr.toCharArray()) {
+            if (Character.isDigit(c)) {
+                number.append(c);
+            } else if (number.length() > 0) {
+                break;
+            }
+        }
+
+        return Integer.parseInt(number.toString());
+    }
+	
+	private int categoryDetailNumExtract(String inputStr) {
+		StringBuilder number = new StringBuilder();
+		
+		for (int i = inputStr.length() - 1; i >= 0; i--) {
+            char c = inputStr.charAt(i);
+            if (Character.isDigit(c)) {
+                number.append(c);
+            } else {
+                break;
+            }
+        }
+		
+		return Integer.parseInt(number.toString());
+	}
+	
+	private String categoryConvertCode(MasterdataVO vo) {
+		String covertedCode="";
+		
+		switch(vo.getCategory()) {
+		case "자재":covertedCode="M,";
+			switch(vo.getCategory_detail()) {
+			case "원자재":covertedCode+="O"; break;
+			case "부자재":covertedCode+="S"; 
+			}
+			break;
+		case "완제품":covertedCode="F,";
+			switch(vo.getCategory_detail()) {
+			case "쿠키":covertedCode+="K"; break;
+			case "케이크":covertedCode+="C"; break;
+			case "마카롱":covertedCode+="L"; 
+			}
+		}
+		return covertedCode;
+	}
 }

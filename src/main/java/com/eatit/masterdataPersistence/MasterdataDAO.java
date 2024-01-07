@@ -3,11 +3,14 @@ package com.eatit.masterdataPersistence;
 import java.util.List;
 
 import com.eatit.memberDomain.MemberVO;
+import com.eatit.mainDomain.Criteria;
 import com.eatit.masterdataDomain.MasterdataVO;
 
 public interface MasterdataDAO {
 	// 창고 정보 모두 가져오기
-	public List<MasterdataVO> getMasterDataListAll();
+	public List<MasterdataVO> getProductListAll(Criteria cri);
+	
+	public int getTotalCount();
 	
 //	// 회원 정보 모두 가져오기
 //	public List<MemberVO> getMemberListAll();
@@ -29,10 +32,15 @@ public interface MasterdataDAO {
 //	
 //	// 특정 창고 정보 가져오기(세션 아이디에 해당하는 회원정보) - ajax
 //	public MemberVO getMasterDataInfo(int no);
-//	
-//	// 창고 등록
-//	public void insertMasterData(MasterdataVO vo);
-//	
+	
+	
+	public MasterdataVO selectMaxCategoryCode(MasterdataVO vo);
+	
+	public MasterdataVO selectMaxCategoryDetailCode(MasterdataVO vo);
+
+	// 창고 등록
+	public void insertProduct(MasterdataVO vo);
+	
 //	// 창고 상세 정보 수정
 //	public void updateDetailInfo(MasterdataVO vo);
 //	

@@ -10,7 +10,10 @@ public class MasterdataVO {
 	private String photo_paths;
 	private String category;
 	private String category_detail;
-	private int company_no;
 	private String unit;
-	private float price;
+	private float price;	
+
+	private int company_no;
+	private String company_name;
+	private String company_manager; 
 }

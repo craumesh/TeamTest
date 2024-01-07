@@ -5,8 +5,43 @@
   
 <mapper namespace="com.eatit.mapper.MdMapper">
 
-  	<select id="getMasterDataListAll" resultType="MasterdataVO">
+  	<select id="selectProductListAll" resultType="MasterdataVO">
   		SELECT * FROM masterdata_information
+  		ORDER BY product_no
+  		LIMIT #{startPage},#{pageSize}
   	</select>
+  	
+  	<select id="totalCount" resultType="int">
+  		<![CDATA[
+	  		SELECT COUNT(*)
+	  		FROM masterdata_information
+	  		WHERE product_no>0
+  		]]>
+  	</select>
+  	
+  	<select id="selectMaxCategoryCode" resultType="MasterdataVO">
+  		SELECT code
+		FROM masterdata_information
+		WHERE category=#{category}
+		AND product_no=
+		(SELECT MAX(product_no)
+		FROM masterdata_information 
+		WHERE category=#{category})
+  	</select>
+  	
+  	<select id="selectMaxCategoryDetailCode" resultType="MasterdataVO">
+  		SELECT code
+		FROM masterdata_information
+		WHERE category_detail=#{category_detail}
+		AND product_no=
+		(SELECT MAX(product_no)
+		FROM masterdata_information 
+		WHERE category_detail=#{category_detail})
+  	</select>  	
+  	
+  	<insert id="insertProduct">
+  		INSERT INTO masterdata_information(code,name,category,category_detail,company_no,unit,price)
+  		VALUES(#{code},#{name},#{category},#{category_detail},#{company_no},#{unit},#{price})
+  	</insert>
 
 </mapper>

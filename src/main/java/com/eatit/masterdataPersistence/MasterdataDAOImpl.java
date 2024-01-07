@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import com.eatit.memberDomain.MemberVO;
+import com.eatit.mainDomain.Criteria;
 import com.eatit.masterdataDomain.MasterdataVO;
 
 @Repository
@@ -25,9 +26,15 @@ public class MasterdataDAOImpl implements MasterdataDAO {
 	
 	@Override
 	// 창고 정보 모두 가져오기
-	public List<MasterdataVO> getMasterDataListAll() {
+	public List<MasterdataVO> getProductListAll(Criteria cri) {
 		logger.debug("DAO - getMasterDataListAll() 호출");
-		return sqlSession.selectList(NAMESPACE+".getMasterDataListAll");
+		return sqlSession.selectList(NAMESPACE+".selectProductListAll",cri);
+	}
+	
+	@Override
+	public int getTotalCount() {
+		logger.debug("DAO(getTotalCount) -> Mapper 호출");
+		return sqlSession.selectOne(NAMESPACE+".totalCount");
 	}
 
 //	@Override
@@ -76,14 +83,26 @@ public class MasterdataDAOImpl implements MasterdataDAO {
 //		logger.debug("DAO - getMasterDataInfo(int no)");
 //		return sqlSession.selectOne(NAMESPACE+"getMasterDataAdminInfo", no);
 //	}
-//
-//	@Override
-//	// 창고 등록
-//	public void insertMasterData(MasterdataVO vo) {
-//		logger.debug("DAO - insertMasterData(MasterDataVO vo)");
-//		sqlSession.insert(NAMESPACE+"insertMasterData", vo);
-//	}
-//	
+
+	@Override
+	public MasterdataVO selectMaxCategoryCode(MasterdataVO vo) {
+		logger.debug("DAO - selectMaxCategoryCode(MasterDataVO vo)");
+		return sqlSession.selectOne(NAMESPACE+".selectMaxCategoryCode", vo);		
+	}
+	
+	@Override
+	public MasterdataVO selectMaxCategoryDetailCode(MasterdataVO vo) {
+		logger.debug("DAO - selectMaxCategoryDetailCode(MasterDataVO vo)");
+		return sqlSession.selectOne(NAMESPACE+".selectMaxCategoryDetailCode", vo);		
+	}
+
+	@Override
+	// 창고 등록
+	public void insertProduct(MasterdataVO vo) {
+		logger.debug("DAO - insertProduct(MasterDataVO vo)");
+		sqlSession.insert(NAMESPACE+".insertProduct", vo);
+	}
+	
 //	@Override
 //	// 창고 수정
 //	public void updateDetailInfo(MasterdataVO vo) {

@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import com.eatit.mainDomain.Criteria;
 import com.eatit.masterdataDomain.MasterdataVO;
 import com.eatit.masterdataPersistence.MasterdataDAO;
 import com.eatit.memberDomain.MemberVO;
@@ -21,9 +22,15 @@ public class MasterdataServiceImpl implements MasterdataService {
 
 	@Override
 	// 창고 정보 리스트 가져오기(All)
-	public List<MasterdataVO> masterdataListAll() {
+	public List<MasterdataVO> productListAll(Criteria cri) {
 		logger.debug("S - masterdataListAll() 호출");
-		return mdDAO.getMasterDataListAll();
+		return mdDAO.getProductListAll(cri);
+	}
+	
+	@Override
+	public int getTotalCount() {
+		logger.debug("Service(getTotalCount) -> DAO 호출");
+		return mdDAO.getTotalCount();
 	}
 
 //	@Override
@@ -70,14 +77,26 @@ public class MasterdataServiceImpl implements MasterdataService {
 //		logger.debug("S - masterdataInfo(int no)");
 //		return mdDAO.getMasterDataInfo(no);
 //	}
-//
-//	@Override
-//	// 창고 등록
-//	public void masterDataRegist(MasterdataVO vo) {
-//		logger.debug("S - masterdataRegist(masterdataVO vo)");
-//		mdDAO.insertMasterData(vo);
-//	}
-//
+
+	@Override
+	public MasterdataVO getCategoryMaxProductCode(MasterdataVO vo) {
+		logger.debug("S - getCategoryMaxProductCode(masterdataVO vo)");
+		return mdDAO.selectMaxCategoryCode(vo);
+	}
+
+	@Override
+	public MasterdataVO getCategoryDetailMaxProductCode(MasterdataVO vo) {
+		logger.debug("S - getCategoryDetailMaxProductCode(masterdataVO vo)");
+		return mdDAO.selectMaxCategoryDetailCode(vo);
+	}
+	
+	@Override
+	// 창고 등록
+	public void productRegist(MasterdataVO vo) {
+		logger.debug("S - productRegist(masterdataVO vo)");
+		mdDAO.insertProduct(vo);
+	}
+
 //	@Override
 //	// 창고 수정
 //	public void masterDataUpdate(MasterdataVO vo) {

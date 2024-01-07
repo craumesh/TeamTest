@@ -159,57 +159,59 @@
 		<div class="card my-4 mx-4">
 			<div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
 				<div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-					<h6 class="text-white text-capitalize ps-3">창고 목록</h6>
+					<h3 class="text-white text-capitalize ps-5">품목 기준 정보</h3>
 				</div>
 			</div>
 			
-			<div class="card-body px-0 pb-2">
+			<div class="card-body px-0 pb-2 mx-5">
 				<div class="table-responsive p-0">
 					<form role="form" method="post">
-					<table class="table align-items-center mb-0">
-					
+					<table class="table align-items-center mb-0">					
 						<thead>
 							<tr>
 								<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ">
 									<input type="checkbox" id="cbx_chkAll">
 								</th>
-								<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">창고번호</th>
-								<th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">구분</th>
-								<th class="text-center text-secondary text-xxs font-weight-bolder opacity-7 ">창고명</th>
-								<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">관리자</th>
-								<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">사용여부</th>
-								<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">상세정보</th>
+								<th class="text-center text-uppercase text-secondary font-weight-bolder opacity-7">상품코드</th>
+								<th class="text-center text-secondary font-weight-bolder opacity-7">상품명</th>
+								<th class="text-center text-secondary font-weight-bolder opacity-7"></th>
+								<th class="text-center text-secondary font-weight-bolder opacity-7 ">대분류</th>
+								<th class="text-center text-secondary font-weight-bolder opacity-7 ">소분류</th>
+								<th class="text-center text-uppercase text-secondary font-weight-bolder opacity-7">기준단위</th>
+								<th class="text-center text-uppercase text-secondary font-weight-bolder opacity-7">단위단가</th>
+								<th class="text-center text-uppercase text-secondary font-weight-bolder opacity-7">거래처</th>
 							</tr>
 						</thead>
 						
 						<tbody>
-							<c:forEach var="mdList" items="${masterdataListMain}">
+							<c:forEach var="productList" items="${productList}">
 								<tr>
 									<td class="text-uppercase text-secondary text-xxs font-weight-bold opacity-7" style="padding: 0.75rem 1.5rem;">
-										<input type="checkbox" name="chk" value="${mdList.product_no}">
+										<input type="checkbox" name="chk" value="${productList.product_no}">
 									</td>
 									<td class="text-center">
-                      					<span class="text-secondary text-xs font-weight-bold">${mdList.code}</span>
+                      					<span class="text-secondary font-weight-bold">${productList.code}</span>
                      				</td>
 									<td class="text-center">
-                      					<span class="text-secondary text-xs font-weight-bold">${mdList.name}</span>
+                      					<span class="text-secondary font-weight-bold">${productList.name}</span>
+			                        </td>
+									<td class="text-center col-1">
+                      					<img alt="상품 이미지" class="w-75" src="${productList.photo_paths}">
 			                        </td>
 									<td class="text-center">
-				                        <span class="text-secondary text-xs font-weight-bold">${mdList.category}</span>
+				                        <span class="text-secondary font-weight-bold">${productList.category}</span>
                       				</td>
 									<td class="text-center">
-										<span class="text-secondary text-xs font-weight-bold">${mdList.category_detail}</span>
+										<span class="text-secondary font-weight-bold">${productList.category_detail}</span>
 									</td>
-									<td class="text-center text-sm">
-			                        	<span class="badge badge-sm bg-gradient-success">${mdList.company_no}</span>
-			                      	</td>
-									<td class="text-center text-sm">
-									<!--상세내역 모달버튼 시작  -->
-			                        	<button type="button" class="btn warehouseDetailBtn" data-toggle="modal" data-target="#warehouseModal"
-							   	   		   		value="${warehouseListMain.warehouse_no}" style="margin-bottom : 0; font-size: 15px">
-							   	   			<span class="text-secondary text-xs font-weight-bold" >+</span>
-							   	   		</button>
-									<!--상세내역 모달버튼 끝  -->
+									<td class="text-center">
+										<span class="text-secondary font-weight-bold">${productList.unit}</span>
+									</td>
+									<td class="text-center">
+										<span class="text-secondary font-weight-bold">${productList.price}</span>
+									</td>
+									<td class="text-center">
+			                        	<span class="text-secondary font-weight-bold">${productList.company_no}</span>
 			                      	</td>
 								</tr>
 							</c:forEach>
@@ -218,8 +220,9 @@
 					</form>
 				</div>
 				<div>
-	                <button type="button" class="btn bg-gradient-primary" onclick="popup();">창고등록</button>
-	                <button type="button" id="deleteBtn" class="btn bg-gradient-primary" >창고삭제</button>
+	                <button type="button" id="categorybtn" class="btn bg-gradient-primary">카테고리</button>
+	                <button type="button" id="registbtn" class="btn bg-gradient-primary">품목등록</button>
+	                <button type="button" id="deleteBtn" class="btn bg-gradient-primary" >품목삭제</button>
 	            </div>
 			</div>
 		</div>
@@ -236,6 +239,18 @@ $(document).ready(function(){
 		$("#cbx_chkAll").click(function() {
 			if ($("#cbx_chkAll").is(":checked")) $("input[name=chk]").prop("checked", true);
 			else $("input[name=chk]").prop("checked", false);
+		});
+		
+		$("#registbtn").click(function(){
+			const width = window.innerWidth/2;
+		    const height = window.innerHeight/0.75;
+
+		    // 현재 창의 중앙 좌표 계산
+		    const left = (window.innerWidth - width) / 2 + window.screenLeft;
+		    const top = (window.innerHeight - height) / 2 + window.screenTop;
+
+		    // 팝업 창 열기
+		    window.open('/warehouse/warehouseRegist', 'popup', width, height, left, top);
 		});
 	
 		// 삭제 버튼 클릭시, 창고 번호를 사용해서 삭제 처리
@@ -271,4 +286,3 @@ $(document).ready(function(){
 		});
 	});
 </script>
-<script src="/resources/js/plugins/warehouseMain.js"></script>
