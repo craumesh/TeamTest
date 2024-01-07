@@ -23,6 +23,8 @@ public class ProductVO {
 	private String product_price;
 	private String recipe;
 
+	private Integer quantity;
+	
 	// 리스트
 	private List<ProductVO> productList;
 	

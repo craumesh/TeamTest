@@ -5,20 +5,6 @@
 <%@ include file="../include/header.jsp"%>
 <%@ include file="../include/js.jsp"%>
 
-<script>
-
-    function openSearchCompany() {
-        // 새 창을 여는 코드
-        window.open('/purchaseOrder/searchCompany', '_blank', 'width=800,height=600');
-    }
-    
-    function openSearchProduct() {
-        // 새 창을 여는 코드
-        window.open('/purchaseOrder/searchProduct', '_blank', 'width=800,height=600');
-    }
-    
-</script>
-
 <div class="card my-4">
 	<div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
 		<div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
@@ -69,34 +55,22 @@
 														<p class="text-xs text-secondary mb-0">${memberVO.contact }</p>
 													</div>
 												</div>
-											</td>
-											<!-- 거래처 정보가 입력되지 않았을 때 -->
-											<c:if test="${companyVO == null}">
-												<td class="text-start">
-													<span class="text-sm font-weight-bold">거래처를 선택해 주세요.</span>
-												</td>
-												<td class="text-center">
-													<span class="text-sm font-weight-bold">거래처를 선택해 주세요.</span>
-												</td>
-											</c:if>
-											<!-- 거래처 정보가 입력되었을 때 -->
-											<c:if test="${companyVO != null}">
-											<input type="hidden" name="company_no" value="${companyVO.company_no }">
-												<td>
-													<div class="d-flex px-2 py-1">
-														<div>
-															<img src="${companyVO.photo_paths }" class="avatar avatar-sm me-3" alt="">
-														</div>
-														<div class="d-flex flex-column justify-content-center">
-															<h6 class="mb-0 text-sm">${companyVO.company_name }</h6>
-															<p class="text-xs text-secondary mb-0">${companyVO.company_tel }</p>
-														</div>
+											</td>								
+											<td>											
+												<input type="hidden" id="company_no" name="company_no" value="${companyVO.company_no }">												
+												<div class="d-flex px-2 py-1">
+													<div>
+														<img src="" id="companyImg" class="avatar avatar-sm me-3" alt="">
 													</div>
-												</td>
-												<td class="text-center">
-													<span class="text-sm font-weight-bold">(${companyVO.company_zip_code }) ${companyVO.company_address } ${companyVO.company_address_detail }</span>
-												</td>
-											</c:if>																					
+													<div class="d-flex flex-column justify-content-center">
+														<h6 class="mb-0 text-sm" id="company_name">거래처를 선택해주세요.</h6>
+														<p class="text-xs text-secondary mb-0" id="companyTel"></p>
+													</div>
+												</div>
+											</td>
+											<td class="text-center">
+												<h6 class="text-sm font-weight-bold pt-3" id="companyAddress"></h6>
+											</td>																						
 										</tr>
 									</tbody>									
 								</table>
@@ -137,50 +111,30 @@
 											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">수정/삭제</th>
 										</tr>
 									</thead>
-									<tbody>
-										<c:forEach var="vo" items="${cartVOList }">
-											<tr>
-												<td class="text-uppercase text-secondary text-s font-weight-bolder opacity-7 ps-2">
-													<div class="form-check form-check-info text-start ps-0">
-														<input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" data-gtm-form-interact-field-id="0">
-													</div>
-												</td>				
-												<td>
-													<div class="d-flex px-2 py-1">
-														<div>
-															<img src="" class="avatar avatar-sm me-3" alt="">
-														</div>
-														<div class="d-flex flex-column justify-content-center">
-															<h6 class="mb-0 text-sm">${vo.product_name }</h6>
-														</div>
-													</div>
-												</td>
-												<td class="align-middle text-start text-sm">
-													<span class="text-xs font-weight-bold">${vo.quantity }개</span>
-												</td>
-												<td class="align-middle text-center">
-													<div class="d-flex align-items-center justify-content-center">
-														<span class="me-2 text-xs font-weight-bold">60%</span>
-														<div>
-															<div class="progress">
-																<div class="progress-bar bg-gradient-info" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;"></div>
-															</div>
-														</div>
-													</div>
-												</td>
-												<td class="align-middle text-center">
-													<a class="btn btn-link text-dark px-3 mb-0" href="./update">
-														<i class="material-icons text-sm me-2">edit</i>
-														Edit
-													</a>
-													<a class="btn btn-link text-danger text-gradient px-3 mb-0" href="./delete">
-														<i class="material-icons text-sm me-2">delete</i>
-														Delete
-													</a>
-												</td>
-											</tr>
-										</c:forEach>
+									
+									
+									
+									
+									
+									<tbody id="productTable">
+										
+										<tr>
+										
+										
+										
+
+											
+											
+											
+											
+										</tr>
+								
 									</tbody>
+									
+									
+									
+									
+									
 								</table>
 							</div>
 						</div>
@@ -217,3 +171,29 @@
 </div>
 
 <%@ include file="../include/footer.jsp"%>
+
+<script>
+
+	// 거래처 검색창 
+    function openSearchCompany() {
+        window.open('/purchaseOrder/searchCompany', '_blank', 'width=800,height=600');
+    }
+
+    // 상품 검색창
+    function openSearchProduct() {
+        window.open('/purchaseOrder/searchProduct', '_blank', 'width=800,height=600');
+    }
+    
+    // 거래처 변경
+    function updateCompanyInfo(data) {
+
+    	var address = "(" + data.company_zip_code + ") " + data.company_address + " " + data.company_address_detail;
+
+        $("#company_no").val(data.company_no);
+        $("#company_name").html(data.company_name);
+        $("#companyImg").html(data.photo_paths);
+        $("#companyTel").html(data.company_tel);
+        $("#companyAddress").html(address);
+    }
+
+</script>

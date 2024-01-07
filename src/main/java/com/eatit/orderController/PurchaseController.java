@@ -42,17 +42,6 @@ public class PurchaseController {
 		String id = (String)session.getAttribute("id");
 		logger.debug("id: " + id);
 		
-		// 거래처 선택
-		Integer company_no = (Integer) session.getAttribute("company_no");
-		logger.debug("company_no: " + company_no);
-		CompanyVO companyVO = null;
-		
-		if(company_no != null) {
-			companyVO = pService.selectCompany(company_no);
-			logger.debug("companyVO: " + companyVO);
-			model.addAttribute(companyVO);
-		}
-		
 		// 서비스 - 카트 리스트, 회원정보 가져오기
 		List<CartVO> cartVOList = pService.cartList(id);
 		MemberVO memberVO = pService.getMemberInfo(id);
@@ -211,15 +200,15 @@ public class PurchaseController {
 	// 거래처 선택 
 	@RequestMapping(value = "/selectCompany", method = RequestMethod.POST)
 	@ResponseBody
-	public String selectCompany(@RequestParam(name = "company_no", required = false) Integer company_no, HttpSession session, RedirectAttributes rttr) throws Exception {
+	public CompanyVO selectCompany(@RequestParam(name = "company_no", required = false) Integer company_no) throws Exception {
 		
 		logger.debug("Controller: /purchaseOrder/selectCompany(company_no)");
 		logger.debug("company_no:" + company_no);
 		
 		// 데이터 저장
-		session.setAttribute("company_no", company_no);
-
-		return "redirect:/purchaseOrder/writeForm";
+		CompanyVO companyVO = pService.selectCompany(company_no);
+		
+		return companyVO;
 	}
-	
+
 }
