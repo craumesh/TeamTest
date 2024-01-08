@@ -80,14 +80,23 @@
             	product_no: product_no,
             },
             success: function (data) {
-                // 성공적으로 처리된 경우의 동작
-                alert('성공');
-            	window.opener.selectProduct(data);
-            	window.close();         
+            	swal({
+					title: "상품이 선택되었습니다.",
+					text: "상품: " + data.product_name,
+					icon: "success",
+					buttons: "선택",
+   				}).then(function(){
+					window.opener.selectProduct(data);
+					window.close();   
+   				})	
             },
             error: function () {
-                // 실패한 경우의 동작
-            	alert('실패');
+            	swal({
+					title: "상품이 선택에 실패했습니다.",
+					text: "상품: " + data.product_name,
+					icon: "error",
+					buttons: "실패",
+   				})
             }
         });
      

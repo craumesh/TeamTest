@@ -151,10 +151,10 @@
 							<div class="row">
 								<div class="col-lg-6 col-7">
 									<h6>희망 납기일</h6>
-								</div>
-								<div class="input-group input-group-outline mb-3">
-									<input class="form-control" type="date" name="due_date">
-								</div>
+								</div>								
+								<div class="input-group input-group-static my-3 is-filled">
+									<input type="date" name="due_date" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)" data-gtm-form-interact-field-id="2">
+								</div>								
 								<div class="col-lg-6 col-7">
 									<h6>요청사항</h6>
 								</div>

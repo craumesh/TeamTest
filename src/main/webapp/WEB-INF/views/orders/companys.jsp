@@ -84,12 +84,24 @@
             	"company_no": company_no,  
             },
             success: function(data) {
-                alert("거래처가 선택되었습니다.");
-                window.opener.updateCompanyInfo(data);
-                window.close();
+            	swal({
+					title: "거래처가 선택되었습니다.",
+					text: "거래처: " + data.company_name,
+					icon: "success",
+					buttons: "선택",
+				}).then(function(){
+	                window.opener.updateCompanyInfo(data);
+	                window.close();			 
+  				})		
+            	
             },
             error: function(error) {
-                alert("데이터 전송 중 오류가 발생했습니다.");
+            	swal({
+					title: "상품이 선택에 실패했습니다.",
+					text: "상품: " + data.product_name,
+					icon: "error",
+					buttons: "실패",
+   				})
             }
         });
     }
