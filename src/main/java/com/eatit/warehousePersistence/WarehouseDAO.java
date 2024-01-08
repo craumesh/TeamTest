@@ -41,8 +41,17 @@ public interface WarehouseDAO {
 	// 창고 삭제
 	public void deleteWarehouse(int[] warehouse_no);
 	
+	// 입출고 정보 테이블 모두 조회
+	public List<StockInfoVO> getStockInfo();
+	
+	// 식별코드에 해당하는 입출고 정보 갯수
+	public int countIdentifyCode(String identifyCode);
+	
 	// 완재품 정보 리스트 정보 받아오기
 	public List<StockInfoVO> getStockOfFinishedProduct();
+	
+	// 완재품 정보 리스트 정보 받아오기
+	public List<StockInfoVO> getStockOfMaterial();
 	
 	// 서비스에서 받아온 완재품 입고 정보를 테이블에 insert
 	public void insertStockInfoList(StockInfoVO vo);

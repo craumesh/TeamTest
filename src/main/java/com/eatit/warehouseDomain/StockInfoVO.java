@@ -1,5 +1,6 @@
 package com.eatit.warehouseDomain;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 
 import lombok.Data;
@@ -17,7 +18,7 @@ public class StockInfoVO {
 	private int io_quantities;				// 입출고수량
 	private String unit;					// 단위
 	private float price;					// 가격
-	private Timestamp expiry_date;			// 유통기한
+	private Date expiry_date;				// 유통기한
 	private Timestamp io_date;				// 입출고일
-	
+	private String status;					// 승인 상태
 }

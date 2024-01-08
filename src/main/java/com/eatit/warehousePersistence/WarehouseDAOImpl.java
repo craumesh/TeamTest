@@ -88,16 +88,35 @@ public class WarehouseDAOImpl implements WarehouseDAO {
 	@Override
 	// 창고 삭제
 	public void deleteWarehouse(int[] warehouse_no) {
-		logger.debug("DAO - deleteWarehouse(WarehouseVO vo)");
 		Map<String, Object> paramMap = new HashMap<>();
 		paramMap.put("warehouse_no", warehouse_no);
 		sqlsession.delete(NAMESPACE+"deleteWarehouse",paramMap);
 	}
 
 	@Override
+	// 입출고 정보 테이블 모두 조회
+	public List<StockInfoVO> getStockInfo() {
+		logger.debug("dao - "+sqlsession.selectList(NAMESPACE+"getStockInfo"));
+		return sqlsession.selectList(NAMESPACE+"getStockInfo");
+	}
+	
+	// 식별코드에 해당하는 입출고 정보 갯수
+	@Override
+	public int countIdentifyCode(String identifyCode) {
+		return sqlsession.selectOne(NAMESPACE+"countIdentifyCode",identifyCode);
+	}
+
+	@Override
 	// 생산에 해당하는 완재품 정보 리스트 받아오기
 	public List<StockInfoVO> getStockOfFinishedProduct() {
 		return sqlsession.selectList(NAMESPACE+"getStockOfFinishedProduct");
+	}
+
+
+	@Override
+	// 자재입고에 해당하는 완재품 정보 리스트 받아오기
+	public List<StockInfoVO> getStockOfMaterial() {
+		return sqlsession.selectList(NAMESPACE+"getStockOfMaterial");
 	}
 
 	@Override

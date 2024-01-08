@@ -69,9 +69,10 @@ public class WarehouseTest {
 	
 	@Test
 	public void 매퍼테스트정보확인() {
-		wdao.getStockOfFinishedProduct();
-		// productCode에 코드에 완재품 코드 담아오기
-//    	List<StockVO> productByHistoryList = wdao.getStockOfFinishedProduct();
+//		wdao.getStockOfFinishedProduct();
+//		wdao.getStockOfMaterial();
+//		wdao.countIdentifyCode("001M1O120240105000");
+		wdao.getStockInfo();
     	
 	}
 }

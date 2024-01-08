@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -57,8 +58,8 @@ public class WarehouseController {
 		List<String> positionName = warehouseService.memberGetPositionName();
 //		logger.debug("@_@"+positionName);
 		
-//		// 새로고침 제어시 필요
-//		session.setAttribute("getStockInfoList", true);
+		// 새로고침 제어시 필요
+		session.setAttribute("getStockInfoList", true);
 		
 		// 데이터를 연결된 뷰페이지로 전달
 		model.addAttribute("warehouseListMain", warehouseListMain);
@@ -131,15 +132,25 @@ public class WarehouseController {
 ////////////////////////////////////////// 재고 페이지 시작 ////////////////////////////////////////////
 	
 	@GetMapping(value = "/stockInfo")
-	public void StockInfo(Model model) {
-		logger.debug("C - stockInfo()");
-		List<StockInfoVO> stockInfoList = warehouseService.getStockList();
+	public void stockInfoGET(Model model) {
+		logger.debug("C - stockInfoGET()");
+		
+		List<StockInfoVO> stockInfoList = warehouseService.getStockInfoList();
+		
 		logger.debug("stockInfoList : "+stockInfoList);
-		
-		
 		
 		model.addAttribute("stockInfoList", stockInfoList);
 	}
+	
+	@PostMapping(value = "/processStockInfo")
+	public String stockInfoPOST(@RequestParam("chk") String[] identifyCode) {
+		logger.debug("C - stockInfoPOST()");
+		
+		
+		
+		return "redirect:/warehouse/stockInfo";
+	}
+	
 	
 	//http://localhost:8088/warehouse/warehouseStockMain
 	// 창고 재고 페이지
@@ -150,6 +161,8 @@ public class WarehouseController {
 		// 새로고침 제어시 필요
 //		session.setAttribute("getStockInfoList", true);
 	}
+	
+	
 	
 	
 	

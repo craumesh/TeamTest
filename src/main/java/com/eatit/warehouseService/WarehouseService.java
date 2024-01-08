@@ -42,6 +42,9 @@ public interface WarehouseService {
 	public void deleteWarehouse(int[] warehouse_no);
 	
 	//------------------------------------------------------------------------------------//
-	// 창고 재고 현황 조회
-	public List<StockInfoVO> getStockList();
+	// 창고 재고 정보 현황 조회
+	public void getStockList();
+	
+	// 창고 재고 정보
+	public List<StockInfoVO> getStockInfoList();
 }

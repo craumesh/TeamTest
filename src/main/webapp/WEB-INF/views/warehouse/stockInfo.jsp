@@ -183,6 +183,7 @@
 								<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">가격(만원)</th>
 								<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">유통기한</th>
 								<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">입출고일</th>
+								<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">처리상태</th>
 							</tr>
 						</thead>
 						
@@ -190,7 +191,7 @@
 							<c:forEach var="stockInfoList" items="${stockInfoList}">
 								<tr>
 									<td class="text-uppercase text-secondary text-xxs font-weight-bold opacity-7" style="padding: 0.75rem 1.5rem;">
-										<input type="checkbox" name="chk" value="${stockInfoList.history_no}">
+										<input type="checkbox" name="chk" value="${stockInfoList.identify_code}">
 									</td>
 									<td class="text-center">
                       					<span class="text-secondary text-xs font-weight-bold">${stockInfoList.identify_code}</span>
@@ -222,6 +223,9 @@
 									<td class="text-center text-sm">
 			                        	<span class="text-secondary text-xs font-weight-bold">${stockInfoList.io_date}</span>
 			                      	</td>
+									<td class="text-center text-sm">
+			                        	<span class="badge badge-sm bg-gradient-info">${stockInfoList.status}</span>
+			                      	</td>
 								</tr>
 							</c:forEach>
 						</tbody>	
@@ -229,7 +233,7 @@
 					</form>
 				</div>
 				<div class="text-end ">
-	                <button type="button" class="btn bg-gradient-dark" onclick="popup();">승인</button>
+	                <button type="button" id="allowBtn" class="btn bg-gradient-dark">승인</button>
 	                <button type="button" id="deleteBtn" class="btn bg-gradient-dark me-3" >취소</button>
 	            </div>
 			</div>
@@ -248,14 +252,14 @@ $(document).ready(function(){
 			if ($("#cbx_chkAll").is(":checked")) $("input[name=chk]").prop("checked", true);
 			else $("input[name=chk]").prop("checked", false);
 		});
-	
-		// 삭제 버튼 클릭시, 창고 번호를 사용해서 삭제 처리
-		$("#deleteBtn").click(function(){
+		
+		// 승인 버튼 클릭시, 식별코드를 사용해서 승인 처리
+		$("#allowBtn").click(function(){
 			var chkboxes = $("input[name='chk']:checked");
 			
 			 if (chkboxes.length === 0) {
 		            swal({
-		                title: "삭제할 창고를 선택해주세요",
+		                title: "처리할 사항을 선택해주세요",
 		                icon: "warning",
 		                buttons:{
 		                    confirm: true
@@ -265,21 +269,55 @@ $(document).ready(function(){
 		        }
 			
 			swal({
-				  title: "정말 삭제하시겠습니까?",
+				  title: "정말 승인하시겠습니까?",
 				  icon: "warning",
 				  buttons: true,
 				  dangerMode: true
 				})
 				.then((willDelete) => {
 				  if (willDelete) {
-					swal("삭제 완료", {icon: "success"}).then(function(){
+					swal("승인 완료", {icon: "success"}).then(function(){
 						$("#closebtn").click();
-						formObj.attr("action","/warehouse/deleteWarehouse");
+						formObj.attr("action","/warehouse/processStockInfo");
 						formObj.submit();
 					});							
 				  }
 			});	
 		});
+		
+		// 삭제 버튼 클릭시, 창고 번호를 사용해서 삭제 처리
+		$("#deleteBtn").click(function(){
+			var chkboxes = $("input[name='chk']:checked");
+			
+			 if (chkboxes.length === 0) {
+		            swal({
+		                title: "처리할 사항을 선택해주세요",
+		                icon: "warning",
+		                buttons:{
+		                    confirm: true
+		                }
+		            });
+		            return;
+		        }
+			
+			swal({
+				  title: "승인 취소하시겠습니까?",
+				  icon: "warning",
+				  buttons: true,
+				  dangerMode: true
+				})
+				.then((willDelete) => {
+				  if (willDelete) {
+					swal("승인 취소 완료", {icon: "success"}).then(function(){
+						$("#closebtn").click();
+						formObj.attr("action","/warehouse/updateStockInfo");
+						formObj.submit();
+					});							
+				  }
+			});	
+		});
+		
+		
 	});
 </script>
 <script src="/resources/js/plugins/warehouseMain.js"></script>
