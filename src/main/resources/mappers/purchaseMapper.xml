@@ -27,19 +27,19 @@
 	  
 	  <!-- 발주서 작성 -->
 	  <insert id="insertForm">
-	  		INSERT INTO purchase_order (company_no, employee_no, product_no, quantity, due_date, comments)
+	  		INSERT INTO orders (company_no, employee_no, product_no, quantity, due_date, comments)
 	  		VALUES (#{company_no}, #{employee_no}, #{product_no}, #{quantity}, #{due_date}, #{comments})
 	  </insert>
 	  
 	  <!-- 내역 조회 -->
 	  <select id="list" resultType="purchaseVO">
 	  		<![CDATA[
-	  		SELECT po.order_id, po.product_no, pi.product_name, po.quantity, po.order_date, po.order_status, c.company_name, c.company_tel
-	  		FROM purchase_order po
-	  			JOIN company c ON po.company_no = c.company_no
-	  			JOIN product_information pi ON po.product_no = pi.product_no
+	  		SELECT o.order_id, o.product_no, pi.product_name, o.quantity, o.order_date, o.order_status, c.company_name, c.company_tel
+	  		FROM orders o
+	  			JOIN company c ON o.company_no = c.company_no
+	  			JOIN product_information pi ON o.product_no = pi.product_no
 	  		WHERE delete_status = 0
-	  		ORDER BY po.order_date DESC
+	  		ORDER BY o.order_date DESC
 	  		LIMIT #{startPage}, #{pageSize}
 	  		]]>
 	  </select>
@@ -48,7 +48,7 @@
 	  <select id="selectOrder" resultType="purchaseVO">
 	  		<![CDATA[
 	  		SELECT o.*, pi.product_name, m.name, c.company_name, c.company_tel, c.company_address, c.company_address_detail
-	  		FROM purchase_order o
+	  		FROM orders o
 	  			JOIN product_information pi ON o.product_no = pi.product_no
 	  			JOIN member m ON o.employee_no = m.employee_no
 	  			JOIN company c ON o.company_no = c.company_no
@@ -58,13 +58,13 @@
 	  
 	  <!-- 발주서 수정 -->
 	  <update id="updateForm">
-	  		UPDATE purchase_order SET due_date = #{due_date}, comments = #{comments}, update_date = NOW()
+	  		UPDATE orders SET due_date = #{due_date}, comments = #{comments}, update_date = NOW()
 	  		WHERE order_id = #{order_id} 
 	  </update>
 	  
 	  <!-- 발주서 삭제 -->
 	  <update id="deleteForm">
-	  		UPDATE purchase_order SET order_status = "취소", update_date = NOW(), delete_status = 1
+	  		UPDATE orders SET order_status = "취소", update_date = NOW(), delete_status = 1
 	  		WHERE order_id = #{order_id}
 	  </update>
 	  
@@ -131,7 +131,7 @@
 	  <select id="totalCount" resultType="int">
 	  		<![CDATA[
 	  		SELECT COUNT(*)
-	  		FROM purchase_order
+	  		FROM orders
 	  		WHERE delete_status = 0
 	  		]]>
 	  </select>
