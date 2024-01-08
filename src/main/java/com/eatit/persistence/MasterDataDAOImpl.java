@@ -84,6 +84,26 @@ public class MasterDataDAOImpl implements MasterDataDAO{
 
 	    return sqlSession.selectList(NAMESPACE + ".searchProducts", paramMap);
 	}
+	@Override
+	public List<ProductVO> getMIMList() throws Exception {
+		
+		return sqlSession.selectList(NAMESPACE+".getMIMList");
+	}
+	@Override
+	public void MIMInsert(ProductVO pvo) throws Exception {
+		
+		sqlSession.insert(NAMESPACE+".insertMIM",pvo);
+	}
+	@Override
+	public int MIMUpdate(ProductVO pvo) throws Exception {
+	    
+		  return sqlSession.update(NAMESPACE+".updateMIM",pvo);    		   
+	}
+	@Override
+	public void deleteMIM(int product_no) throws Exception {
+		
+		sqlSession.delete(NAMESPACE+".deleteMIM",product_no);
+	}
 	
 	
 

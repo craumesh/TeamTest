@@ -26,6 +26,12 @@
     WHERE pi.product_category = '완제품'
 </select>
 
+
+<select id="getMIMList" resultType="ProductVO">
+  select * from product_information
+  where product_category='원자재'
+</select>
+
 	<insert id="insertProduct">
 		insert into
 		product_information(product_code,product_name,product_category_detail,company_no,product_unit,product_price,product_category,expiry_date)
@@ -37,6 +43,13 @@
 		INSERT INTO recipe (product_code,recipe)
 		VALUES (#{product_code},#{recipe});
 	</insert>
+	
+	<insert id="insertMIM">
+		insert into
+		product_information(product_code,product_name,product_category_detail,company_no,product_unit,product_price,product_category,expiry_date)
+		values(#{product_code},#{product_name},#{product_category_detail},#{company_no},#{product_unit},#{product_price},'원자재',#{expiry_date})
+	</insert>
+	
 
 	<update id="updateProduct">
 		update product_information
@@ -54,6 +67,24 @@
 		expiry_date = #{expiry_date}
 		where product_no = #{product_no};
 	</update>
+	<update id="updateMIM">
+		update product_information
+		set product_code =
+		#{product_code},
+		product_name = #{product_name},
+		product_category =
+		COALESCE(#{product_category}, product_category, '원자재'),
+		product_category_detail = #{product_category_detail},
+		company_no =
+		#{company_no},
+		product_unit = #{product_unit},
+		product_price =
+		#{product_price},
+		expiry_date = #{expiry_date}
+		where product_no = #{product_no};
+	</update>
+	
+	
 
 	<update id="updateRecipe">
 		UPDATE recipe
@@ -72,6 +103,13 @@
 		where product_no =
 		#{product_no}
 	</delete>
+	<delete id="deleteMIM">
+		delete from product_information
+		where product_no =
+		#{product_no}
+	</delete>
+	
+	
  
  <select id="MdListPage" resultType="ProductVO" resultMap="product">
   SELECT pi.*, r.*

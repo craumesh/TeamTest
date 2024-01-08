@@ -71,6 +71,34 @@ public class MasterDataServiceImpl implements MasterDataService {
 		logger.debug("searchProducts(String keyword)");
 		return mddao.searchProducts(keyword);
 	}
+
+
+	@Override
+	public List<ProductVO> getMIMList() throws Exception {
+		
+		return mddao.getMIMList();
+	}
+
+
+	@Override
+	public void MIMInsert(ProductVO pvo) throws Exception {
+		
+		mddao.MIMInsert(pvo);
+	}
+
+
+	@Override
+	public int MIMUpdate(ProductVO pvo) throws Exception {
+		
+		return mddao.MIMUpdate(pvo);
+	}
+
+
+	@Override
+	public void MIMDelete(int product_no) throws Exception {
+		mddao.deleteMIM(product_no);
+		
+	}
    
 }
 

@@ -31,6 +31,22 @@ public interface MasterDataService {
 
 
 
+	public List<ProductVO> getMIMList() throws Exception;
+
+
+
+	public void MIMInsert(ProductVO pvo)throws Exception;
+
+
+
+	public int MIMUpdate(ProductVO pvo) throws Exception;
+
+
+
+	public void MIMDelete(int product_no)throws Exception;
+
+
+
 	
 
 }

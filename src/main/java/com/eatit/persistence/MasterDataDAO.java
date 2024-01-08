@@ -20,5 +20,13 @@ public interface MasterDataDAO {
   public int getProductCount() throws Exception;
 
 public List<ProductVO> searchProducts(String keyword) throws Exception;
+
+public List<ProductVO> getMIMList()throws Exception;
+
+public void MIMInsert(ProductVO pvo)throws Exception;
+
+public int MIMUpdate(ProductVO pvo)throws Exception;
+
+public void deleteMIM(int product_no)throws Exception;
 }
 

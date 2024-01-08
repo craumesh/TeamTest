@@ -45,6 +45,16 @@ public class MasterDataController {
        
        return "redirect:/masterdata/PIM";
  }
+   //원자재정보등록컨트롤러
+   @RequestMapping(value = "/MIMinsert",method = RequestMethod.POST)
+ 	public String MIMPOST(ProductVO pvo) throws Exception {
+	   logger.debug("pvo"+pvo);
+	   
+	   
+       mdService.MIMInsert(pvo);
+       
+       return "redirect:/masterdata/MIM";
+ }
    //품목정보수정컨트롤러
    @RequestMapping(value="/masterdata/PIMedit",method = RequestMethod.POST)
    public String PIMedit(ProductVO pvo)throws Exception {
@@ -56,6 +66,19 @@ public class MasterDataController {
 	   
 	   return "redirect:/masterdata/PIM";
    }
+ //원자재정보수정컨트롤러
+   @RequestMapping(value="/masterdata/MIMedit",method = RequestMethod.POST)
+   public String MIMedit(ProductVO pvo)throws Exception {
+	   logger.debug("pvo"+pvo);
+	   int result = mdService.MIMUpdate(pvo);
+	   logger.debug("/update form ->updatePOST()");
+	   
+	   
+	   
+	   return "redirect:/masterdata/MIM";
+   }
+   
+   
    
  //품목정보삭제컨트롤러
    @RequestMapping(value="/masterdata/PIMdelete",method = RequestMethod.POST)
@@ -65,6 +88,15 @@ public class MasterDataController {
 	 		   
 	   
 	   return "redirect:/masterdata/PIM";
+   }
+ //원자재정보삭제컨트롤러
+   @RequestMapping(value="/masterdata/MIMdelete",method = RequestMethod.POST)
+   public String MIMdelete(@RequestParam("product_no") int product_no)throws Exception {
+	   
+	   mdService.MIMDelete(product_no);
+	 		   
+	   
+	   return "redirect:/masterdata/MIM";
    }
    
    //PIM페이징처리
@@ -79,6 +111,7 @@ public class MasterDataController {
 	 PageVO pageVO = new PageVO();
 	 pageVO.setCri(cri);
 	 pageVO.setTotalCount(mdService.totalProductCount());
+	 model.addAttribute("listURL", "PIM");
 	 model.addAttribute("pageVO", pageVO);
 	 model.addAttribute("productList", productList);
 	 return "/masterdata/PIM";
@@ -102,8 +135,8 @@ public class MasterDataController {
    //MIM 메인페이지리스트
    @RequestMapping(value="/MIM",method=RequestMethod.GET)
    public String materialListGET(Model model) throws Exception {
-	  List<ProductVO> productList = mdService.ProductList();
-	  model.addAttribute("productList", productList);
+	  List<ProductVO> getMIMList = mdService.getMIMList();
+	  model.addAttribute("getMIMList", getMIMList);
 	  return "/masterdata/MIM";
    }
    //QIM 메인페이지리스트
