@@ -73,12 +73,15 @@ public class MasterdataController {
 //	
 	// 품목등록
 	@RequestMapping(value = "/product/regist", method = RequestMethod.GET)
-	public void productRegistGET() {
-		logger.debug("C - productRegistGET()");
+	public void productRegistGET(Model model) {
+		logger.debug("C - productRegistGET()1234");
+		List<MasterdataVO> list = mdService.companyListAll();
+		logger.debug("list : "+list);
+		model.addAttribute("list", list);
 	}
 	
 	@RequestMapping(value = "/product/regist", method = RequestMethod.POST)
-	public void productRegistPOST(MasterdataVO vo, RedirectAttributes rttr ) {
+	public String productRegistPOST(MasterdataVO vo, RedirectAttributes rttr ) {
 		logger.debug("C - productRegistPOST()");
 		logger.debug("vo : "+vo);
 		logger.debug("mdService.getCategoryMaxProductCode(vo).getCode() : "+mdService.getCategoryMaxProductCode(vo).getCode());
@@ -104,7 +107,7 @@ public class MasterdataController {
 		// 메시지 전달
 //		rttr.addFlashAttribute("result", "registOK");
 		
-//		return "redirect:/masterdata/registClose";
+		return "redirect:/md/product/registClose";
 	}
 
 	@RequestMapping(value = "/category/list", method = RequestMethod.GET)
@@ -124,11 +127,11 @@ public class MasterdataController {
 //		return "redirect:/masterdata/masterdataMain";
 //	}
 //	
-//	// 등록 후 창닫기 전용 페이지
-//	@GetMapping(value = "/registClose")
-//	public void registClose() {
-//		logger.debug("C - registClose()");
-//	}
+	// 등록 후 창닫기 전용 페이지
+	@RequestMapping(value = "/product/registClose", method = RequestMethod.GET)
+	public void registClose() {
+		logger.debug("C - registClose()");
+	}
 //	
 //	
 //	//http://localhost:8088/masterdata/masterdataStockMain

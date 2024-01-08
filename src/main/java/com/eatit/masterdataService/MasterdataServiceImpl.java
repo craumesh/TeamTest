@@ -32,6 +32,13 @@ public class MasterdataServiceImpl implements MasterdataService {
 		logger.debug("Service(getTotalCount) -> DAO 호출");
 		return mdDAO.getTotalCount();
 	}
+	
+	@Override
+	// 거래처 정보 가져오기
+	public List<MasterdataVO> companyListAll() {
+		logger.debug("Service(companyListAll) -> DAO 호출");
+		return mdDAO.selectCompanyList();
+	}
 
 //	@Override
 //	// 회원 정보 리스트 가져오기(All)
@@ -57,12 +64,7 @@ public class MasterdataServiceImpl implements MasterdataService {
 //		return mdDAO.getMemberInfoByName(name);
 //	}
 //
-//	@Override
-//	// 창고 정보 가져오기(main)
-//	public List<MasterdataVO> masterDataListMain() {
-//		logger.debug("S - masterdataListMain() 호출");
-//		return mdDAO.getMasterDataListMain();
-//	}
+
 //
 //	@Override
 //	// 특정 창고 정보 가져오기 - ajax
@@ -91,7 +93,7 @@ public class MasterdataServiceImpl implements MasterdataService {
 	}
 	
 	@Override
-	// 창고 등록
+	// 품목 등록
 	public void productRegist(MasterdataVO vo) {
 		logger.debug("S - productRegist(masterdataVO vo)");
 		mdDAO.insertProduct(vo);

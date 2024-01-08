@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <%@ include file="../../include/js.jsp"%>
 <head>
@@ -50,6 +51,9 @@
 												<div class="d-flex px-2 py-1">
 													<div class="input-group input-group-dynamic d-flex flex-column justify-content-center">
 														<select class="form-control" id="company_name">
+															<c:forEach var="list" items="${list }">
+																<option value="${list.company_no }">${list.company_name }</option>
+															</c:forEach>
 														</select>
 													</div>
 												</div>

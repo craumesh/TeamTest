@@ -12,6 +12,9 @@ public interface MasterdataDAO {
 	
 	public int getTotalCount();
 	
+	// 거래처 정보 가져오기
+	public List<MasterdataVO> selectCompanyList();
+	
 //	// 회원 정보 모두 가져오기
 //	public List<MemberVO> getMemberListAll();
 //	
@@ -24,9 +27,6 @@ public interface MasterdataDAO {
 //	// 이름에 해당하는 회원정보 리스트 가져오기 - ajax
 //	public List<MemberVO> getMemberInfoByName(String name);
 //	
-//	// 창고 정보 가져오기(main)
-//	public List<MasterdataVO> getMasterDataListMain();
-//	
 //	// 특정 창고 정보 가져오기
 //	public MasterdataVO getMasterDataInfo(MasterdataVO vo);
 //	
@@ -38,7 +38,7 @@ public interface MasterdataDAO {
 	
 	public MasterdataVO selectMaxCategoryDetailCode(MasterdataVO vo);
 
-	// 창고 등록
+	// 품목 등록
 	public void insertProduct(MasterdataVO vo);
 	
 //	// 창고 상세 정보 수정

@@ -13,6 +13,9 @@ public interface MasterdataService {
 	
 	public int getTotalCount();
 	
+	// 창고 정보 가져오기(main)
+	public List<MasterdataVO> companyListAll();
+	
 //	// 회원 정보 리스트 가져오기(All)
 //	public List<MemberVO> memberListAll();
 //	
@@ -25,8 +28,6 @@ public interface MasterdataService {
 //	// 이름에 해당하는 회원정보 리스트 가져오기 - ajax
 //	public List<MemberVO> getMemberInfoByName(String name);
 //	
-//	// 창고 정보 가져오기(main)
-//	public List<MasterdataVO> masterDataListMain();
 //	
 //	// 특정 창고 정보 가져오기 - ajax
 //	public MasterdataVO masterDataInfo(MasterdataVO vo);

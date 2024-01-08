@@ -25,7 +25,7 @@ public class MasterdataDAOImpl implements MasterdataDAO {
 	private static final String NAMESPACE = "com.eatit.mapper.MdMapper";
 	
 	@Override
-	// 창고 정보 모두 가져오기
+	// 품목 모두 가져오기
 	public List<MasterdataVO> getProductListAll(Criteria cri) {
 		logger.debug("DAO - getMasterDataListAll() 호출");
 		return sqlSession.selectList(NAMESPACE+".selectProductListAll",cri);
@@ -37,6 +37,12 @@ public class MasterdataDAOImpl implements MasterdataDAO {
 		return sqlSession.selectOne(NAMESPACE+".totalCount");
 	}
 
+	@Override
+	public List<MasterdataVO> selectCompanyList() {
+		logger.debug("DAO(getCompanyList) -> Mapper 호출");
+		return sqlSession.selectList(NAMESPACE+".selectCompanyList");
+	}
+	
 //	@Override
 //	// 회원 정보 모두 가져오기
 //	public List<MemberVO> getMemberListAll() {

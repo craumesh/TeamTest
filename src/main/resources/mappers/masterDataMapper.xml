@@ -19,6 +19,11 @@
   		]]>
   	</select>
   	
+  	<select id="selectCompanyList" resultType="MasterdataVO">
+  		SELECT * FROM company
+  		ORDER BY company_no
+  	</select>
+  	
   	<select id="selectMaxCategoryCode" resultType="MasterdataVO">
   		SELECT code
 		FROM masterdata_information
