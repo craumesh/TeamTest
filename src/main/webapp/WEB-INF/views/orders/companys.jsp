@@ -78,7 +78,7 @@
     function selectCompany(company_no) {
     	
         $.ajax({
-            url: "/orders/selectCompany", 
+            url: "/orders/companySelect", 
             type: "POST",
             data: { 
             	"company_no": company_no,  

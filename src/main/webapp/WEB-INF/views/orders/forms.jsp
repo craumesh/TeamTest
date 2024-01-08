@@ -180,12 +180,12 @@
 
 	// 거래처 검색창 
     function openSearchCompany() {
-        window.open('/orders/searchCompany', '_blank', 'width=800,height=600');
+        window.open('/orders/companys', '_blank', 'width=800,height=600');
     }
 
     // 상품 검색창
     function openSearchProduct() {
-        window.open('/orders/searchProduct', '_blank', 'width=800,height=600');
+        window.open('/orders/products', '_blank', 'width=800,height=600');
     }
     
     // 거래처 변경
@@ -201,7 +201,6 @@
     }
     
     function selectProduct(data) {
- 
     	$("#product_no").val(data.product_no);
         $("#prdName").html(data.product_name);
     }

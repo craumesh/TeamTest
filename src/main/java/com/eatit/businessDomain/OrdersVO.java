@@ -5,7 +5,7 @@ import java.sql.Timestamp;
 import lombok.Data;
 
 @Data
-public class PurchaseVO {
+public class OrdersVO {
 	
 	private String order_id;
 	private Integer company_no;

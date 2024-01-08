@@ -71,16 +71,13 @@
 <script>
 
     function addToCart(product_no) {
-        // 필요한 정보를 수집
-        var quantity = $("#quantity_" + product_no).val();
 
         // AJAX를 사용하여 서버에 데이터 전송
         $.ajax({
-            url: "/orders/selectProduct",
+            url: "/orders/productSelect",
             type: "POST",
             data: {
             	product_no: product_no,
-            	quantity: quantity
             },
             success: function (data) {
                 // 성공적으로 처리된 경우의 동작

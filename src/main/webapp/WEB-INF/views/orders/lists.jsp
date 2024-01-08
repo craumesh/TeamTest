@@ -1,15 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-
 <%@ include file="../include/header.jsp"%>
 <%@ include file="../include/js.jsp"%>
-
 	<div class="col-12">
 		<div class="card my-4">		
 			<div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">				
 				<div class="bg-gradient-primary shadow-primary border-radius-lg pt-3 pb-3 pe-3 d-flex">			
-					<h6 class="text-white text-capitalize pt-3 ps-3">발주 내역</h6>					
+					<h3 class="text-white text-capitalize ps-5 align-items-center mt-2 py-1">주문 내역</h3>					
 					<form action="/orders/searchlist" id="search-form" class="ms-md-auto bg-white rounded p-2 mb-0 d-flex align-items-center">
 						<div class="align-items-center d-flex flex-column mx-1">	
 							<div class="input-group input-group-outline">
@@ -26,8 +24,8 @@
 			</div>			
 			<div class="card-body px-0 pb-2">	
 				<div class="text-end pe-4 pb-3">
-					<a class="btn bg-gradient-dark mb-0" href="/orders/orderForm">
-						<i class="material-icons text-sm">add</i> 발주서 작성하기
+					<a class="btn bg-gradient-dark mb-0" href="/orders/forms">
+						<i class="material-icons text-sm">add</i> 주문서 작성하기
 					</a>
 				</div>	
 				<div class="table-responsive p-0">
@@ -39,15 +37,15 @@
 										<input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" data-gtm-form-interact-field-id="0">
 									</div>
 								</th>
-								<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">발주 번호</th>
+								<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">주문 번호</th>
 								<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">제품 정보</th>
 								<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">지점 정보</th>
-								<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">발주 일자</th>
+								<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">주문 일자</th>
 								<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">처리 상태</th>
 							</tr>
 						</thead>					
 						<tbody>
-							<c:forEach var="vo" items="${purchaseVOList }">
+							<c:forEach var="vo" items="${ordersVOList }">
 								<tr>
 									<td class="text-uppercase text-secondary text-s font-weight-bolder opacity-7 ps-2">
 										<div class="form-check form-check-info text-start ps-0">
@@ -55,7 +53,7 @@
 										</div>
 									</td>
 									<td class="align-middle text-center identify-no">
-                      					<a href="/purchaseOrder/orderDetail?order_id=${vo.order_id }">
+                      					<a href="/orders/orderDetail?order_id=${vo.order_id }">
                       						<span class="text-secondary font-weight-bold">${vo.order_id }</span>
                       					</a>                  						
                      				</td>
@@ -108,12 +106,9 @@
 						</c:if>
 					</ul>
 				</div>
-			</div>
-			
-			
+			</div>		
 		</div>
 	</div>
-	
 	<!-- 모달창 -->
 	<div id="Modal" class="modal top-7 position-absolute h-auto">
 		<div class="modal-dialog">
@@ -177,7 +172,6 @@
 			</div>
 		</div>
 	</div>
-
 <%@ include file="../include/footer.jsp"%>
 
 <script>
