@@ -70,12 +70,14 @@ public class OrdersController {
 	
 	// 주문 신청 - POST
 	@RequestMapping(value = "/forms", method = RequestMethod.POST)
-	public String orderAddPOST(OrdersVO ovo) throws Exception {
+	public String orderAddPOST(OrdersVO ovo, RedirectAttributes rttr) throws Exception {
 		
 		logger.debug("Controller: /orders/forms/orderAddPOST(ovo) 호출");
 		
 		// 서비스 - 신청서 작성 동작 호출(INSERT)
 		oService.addOrder(ovo);
+		
+		rttr.addFlashAttribute("result", "CREATEOK");
 		
 		// 페이지 이동
 		return "redirect:/orders/lists";

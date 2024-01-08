@@ -14,7 +14,7 @@
 	<div class="card-body px-0 pb-2">
 		<div class="card-body">
 			<!-- 폼테그 시작  -->
-			<form role="form" method="post">
+			<form role="form" method="post" name="fr" onsubmit="return check()">
 				<!-- 거래처 정보 -->
 				<div class="row mb-4">
 					<div class="card">
@@ -203,6 +203,94 @@
     function selectProduct(data) {
     	$("#product_no").val(data.product_no);
         $("#prdName").html(data.product_name);
+    }
+    
+    // 유효성 검사
+    function check() {
+    	
+    	var company_no = document.fr.company_no.value;
+    	var product_no = document.fr.product_no.value;
+    	var quantity = document.fr.quantity.value;
+    	var due_date = document.fr.due_date.value;
+    	var inputDate = new Date(due_date);
+    	var today = new Date();
+		today.setHours(0, 0, 0, 0);
+		var nextMonth = new Date();
+		nextMonth.setMonth(nextMonth.getMonth() + 1);
+    	
+    	if(company_no == "") {
+    		swal({
+				title: "거래처가 선택되지 않았습니다.",
+				icon: "error",
+				buttons: "실패",
+			}).then(function(){
+				openSearchCompany();				                
+			})
+    		return false;
+    	}
+    	
+    	if(product_no == "") {
+    		swal({
+				title: "상품이 선택되지 않았습니다.",
+				icon: "error",
+				buttons: "실패",
+			}).then(function(){
+				openSearchProduct();				                
+			})
+    		return false;
+    	}
+    	
+    	if(quantity == "") {
+    		swal({
+				title: "수량이 입력되지 않았습니다.",
+				icon: "error",
+				buttons: "실패",
+			}).then(function(){
+				document.fr.quantity.focus();                
+			})
+    		return false;
+    	}else if(quantity < 0) {
+    		swal({
+				title: "1개 이상 주문이 가능합니다.",
+				icon: "error",
+				buttons: "실패",
+			}).then(function(){
+				document.fr.quantity.focus();                
+			})
+    		return false;
+    	}
+    	
+    	if(due_date == "") {
+    		swal({
+				title: "희망 납기일이 선택되지 않았습니다.",
+				icon: "error",
+				buttons: "실패",
+			}).then(function(){
+				document.fr.due_date.focus();                				                
+			})
+    		return false;
+    	}else if(inputDate < today) {
+    		swal({
+				title: "희망 납기일이 잘못 입력되었습니다.",
+				text: "과거 날짜는 입력할 수 없습니다!",
+				icon: "error",
+				buttons: "실패",
+			}).then(function(){
+				document.fr.due_date.focus();                
+			})
+    		return false;
+    	}else if(inputDate > nextMonth) {
+    		swal({
+				title: "희망 납기일이 잘못 입력되었습니다.",
+				text: "금일부터 한 달 동안만 신청이 가능합니다.",
+				icon: "error",
+				buttons: "실패",
+			}).then(function(){
+				document.fr.due_date.focus();                
+			})
+    		return false;
+    	}
+    	
     }
 
 </script>

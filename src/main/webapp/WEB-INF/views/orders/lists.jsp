@@ -249,5 +249,15 @@
 		});	
 				
 	});
+	
+	var result = "${result}";
+	
+	if(result == "CREATEOK"){
+		swal({
+			title: "주문이 정상적으로 처리되었습니다.",
+			icon: "success",
+			buttons: "확인",
+			});
+	}
 
 </script>
