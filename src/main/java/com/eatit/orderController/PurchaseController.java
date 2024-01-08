@@ -64,7 +64,7 @@ public class PurchaseController {
 		
 		// 페이지 이동
 		logger.debug("/purchase/orderList 페이지 이동");
-		return "redirect:/purchaseOrder/orderList";
+		return "redirect:/purchaseOrder/list";
 	}
 	
 	// 발주 내역 조회 - GET
@@ -83,21 +83,21 @@ public class PurchaseController {
 		return "/purchaseOrder/list";
 	}
 	
-	// 발주 내역 상세 조회 - GET
-	@RequestMapping(value = "/orderDetail", method = RequestMethod.GET)
-	public void orderDetailGET(@RequestParam("order_id")int order_id, Model model) throws Exception {
-		
-		logger.debug("/purchase/orderDetailGET() 호출");
-		
-		// 전달 정보 저장(order_id)
-		logger.debug("order_id: " + order_id);
-		
-		// 서비스 - 주문 번호에 해당하는 주문 상세 내역 조회
-		PurchaseVO purchaseVO = pService.getOrderDetail(order_id);
-		
-		// 페이지 이동 시 정보 전달
-		model.addAttribute(purchaseVO);
-	}
+//	// 발주 내역 상세 조회 - GET
+//	@RequestMapping(value = "/orderDetail", method = RequestMethod.GET)
+//	public void orderDetailGET(@RequestParam("order_id")int order_id, Model model) throws Exception {
+//		
+//		logger.debug("/purchase/orderDetailGET() 호출");
+//		
+//		// 전달 정보 저장(order_id)
+//		logger.debug("order_id: " + order_id);
+//		
+//		// 서비스 - 주문 번호에 해당하는 주문 상세 내역 조회
+//		PurchaseVO purchaseVO = pService.getOrderDetail(order_id);
+//		
+//		// 페이지 이동 시 정보 전달
+//		model.addAttribute(purchaseVO);
+//	}
 	
 	// 발주서 수정 - POST
 	@RequestMapping(value = "/editForm", method = RequestMethod.POST)
@@ -206,6 +206,16 @@ public class PurchaseController {
 		CompanyVO companyVO = pService.selectCompany(company_no);
 		
 		return companyVO;
+	}
+	
+	// 주문 내역 상세
+	@RequestMapping(value = "/detail", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public PurchaseVO orderDetailGET(@RequestParam("order_id")Integer order_id) throws Exception {
+		
+		logger.debug("Controller: /purchaseOrder/orderDetailGET(PurchaseVO)");
+		
+		return pService.getOrderDetail(order_id);
 	}
 
 }

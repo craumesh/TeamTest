@@ -13,7 +13,7 @@ public interface PurchaseService {
 
 	public List<PurchaseVO> orderList() throws Exception;
 
-	public PurchaseVO getOrderDetail(int order_id) throws Exception;
+	public PurchaseVO getOrderDetail(Integer order_id) throws Exception;
 
 	public int editForm(PurchaseVO pvo) throws Exception;
 

@@ -37,9 +37,9 @@ public class PurchaseDAOImpl implements PurchaseDAO {
 	}
 
 	@Override
-	public PurchaseVO getOrderDetail(int order_id) throws Exception {
-		logger.debug("DAO: getOrderDetail(int order_id)");
-		return SqlSession.selectOne(NAMESPACE + ".readOrder", order_id);
+	public PurchaseVO getOrderDetail(Integer order_id) throws Exception {
+		logger.debug("DAO: getOrderDetail(order_id)");
+		return SqlSession.selectOne(NAMESPACE + ".selectOrder", order_id);
 	}
 
 	@Override

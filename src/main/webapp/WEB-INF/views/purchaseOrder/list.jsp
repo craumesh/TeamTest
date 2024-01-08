@@ -30,7 +30,7 @@
 					</a>
 				</div>	
 				<div class="table-responsive p-0">
-					<table class="table align-items-center mb-0">					
+					<table id="order-table" class="table align-items-center mb-0">					
 						<thead>
 							<tr>
 								<th class="text-uppercase text-secondary text-s font-weight-bolder opacity-7 ps-2">
@@ -43,7 +43,6 @@
 								<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">지점 정보</th>
 								<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">발주 일자</th>
 								<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">처리 상태</th>
-								<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">수정/삭제</th>
 							</tr>
 						</thead>					
 						<tbody>
@@ -82,16 +81,6 @@
 									<td class="align-middle text-center text-sm">
 			                        	<span class="badge badge-sm bg-gradient-success">${vo.order_status }</span>
 			                      	</td>
-									<td class="align-middle text-center">
-										<a class="btn btn-link text-dark px-3 mb-0" href="/purchaseOrder/orderDetail?order_id=${vo.order_id }">
-											<i class="material-icons text-sm me-2">edit</i>
-											Edit
-										</a>
-										<a class="btn btn-link text-danger text-gradient px-3 mb-0" href="./delete">
-											<i class="material-icons text-sm me-2">delete</i>
-											Delete
-										</a>
-									</td>
 								</tr>
 							</c:forEach>
 						</tbody>												
@@ -100,5 +89,111 @@
 			</div>
 		</div>
 	</div>
+	
+	<!-- 모달창 -->
+	<div id="Modal" class="modal top-7 position-absolute h-auto">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header py-4">
+					<button id="closebtn" class="btn bg-gradient-primary position-absolute py-1 px-2 mt-2 end-5">X</button>
+					<h3 class="modal-title mx-auto">주문 정보</h3>
+				</div>
+				<div class="modal-body p-5">
+					<div class="user-container d-flex align-items-center">
+						<img class="img-thumbnail mb-4 me-4 max-width-200 w-30" alt="상품사진" id="photo_paths">
+						<div class="user-info d-flex w-100">
+							<table class="table">
+								<tr>
+									<th class="fs-5">주문번호</th>
+									<td class="fs-5" id="order_id"></td>
+								</tr>
+								<tr>
+									<th class="fs-5">상품이름</th>
+									<td class="fs-5" id="product_name"></td>
+								</tr>
+								<tr>
+									<th class="fs-5">수량</th>
+									<td class="fs-5" id="quantity"></td>
+								</tr>
+							</table>
+						</div>
+					</div>	
+					<div id="tableContainer" class="modal-body">
+						<table id="view-table" class="table">
+							<tr>
+								<th class="fs-5">담당자</th>
+								<td class="fs-5" id="member_name"></td>
+							</tr>
+							<tr>
+								<th class="fs-5">거래처</th>
+								<td class="fs-5" id="company_name"></td>
+							</tr>
+							<tr>
+								<th class="fs-5">거래처 번호</th>
+								<td class="fs-5" id="company_tel"></td>
+							</tr>
+							<tr>
+								<th class="fs-5">거래처 주소</th>
+								<td class="fs-5" id="company_address"></td>
+							</tr>
+							<tr>
+								<th class="fs-5">요청사항</th>
+								<td class="fs-5" id="comments"></td>
+							</tr>
+							<tr>
+								<th class="fs-5">납기일</th>
+								<td class="fs-5" id="due_date"></td>
+							</tr>
+						</table>
+					</div>			
+					<div class="text-center">
+						<button id="editbtn" class="btn bg-gradient-danger fs-6 mb-0 py-2 px-3">주문 수정</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
 <%@ include file="../include/footer.jsp"%>
+
+<script>
+
+	$(document).ready(function() {
+	
+		var modal = document.getElementById("Modal");
+		
+		$("#order-table").on("click", "tr td", function(event) {
+			
+	        var value = $(this).closest("tr").find("td.identify-no").text();
+
+	        $.ajax({
+	            url: '/purchaseOrder/detail?order_id=' + value,
+				method : 'GET',
+				dataType: 'json',
+				success : function(data) {
+					$('#photo_paths').attr('src', data.photo_paths).attr('width', '100');
+					$("#order_id").text(data.order_id);
+					$("#product_name").text(data.product_name);
+				    $("#quantity").text(data.quantity);
+				    $("#member_name").text(data.name);
+				    $("#company_name").text(data.company_name);
+				    $("#company_tel").text(data.company_tel);
+				    $("#company_address").text(data.company_address + ", " + data.company_address_detail);
+				    $("#comments").text(data.comments);
+				    $("#due_date").text(data.due_date);
+				    modal.style.display = "block";
+				},
+				error : function(error) {
+					console.log('실패:', error);
+				}
+			});
+	    });
+		
+		$("#closebtn").click(function(){
+			modal.style.display = "none";
+			location.reload();
+		});
+				
+	});
+
+</script>

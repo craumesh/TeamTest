@@ -13,7 +13,7 @@ public interface PurchaseDAO {
 
 	public List<PurchaseVO> getOrderList() throws Exception;
 
-	public PurchaseVO getOrderDetail(int order_id) throws Exception;
+	public PurchaseVO getOrderDetail(Integer order_id) throws Exception;
 
 	public int updateForm(PurchaseVO pvo) throws Exception;
 

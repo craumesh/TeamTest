@@ -23,5 +23,9 @@ public class PurchaseVO {
 	private String company_name; 
 	private String company_tel; 
 	private String product_name; 
+	private String photo_paths; 
+	private String name; 
+	private String company_address; 
+	private String company_address_detail; 
 	
 }

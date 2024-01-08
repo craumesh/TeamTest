@@ -35,7 +35,7 @@ public class PurchaseServiceImpl implements PurchaseService {
 	}
 
 	@Override
-	public PurchaseVO getOrderDetail(int order_id) throws Exception {
+	public PurchaseVO getOrderDetail(Integer order_id) throws Exception {
 		logger.debug("Service: getOrderDetail(int order_id)");
 		return pdao.getOrderDetail(order_id);
 	}

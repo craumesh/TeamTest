@@ -27,8 +27,8 @@
 	  
 	  <!-- 발주서 작성 -->
 	  <insert id="insertForm">
-	  		INSERT INTO purchase_order (order_id, company_no, employee_no, product_no, quantity, due_date, comments)
-	  		VALUES (CONCAT("OD", DATE_FORMAT(NOW(), "%y%m%d%H%i%s")), #{company_no}, #{employee_no}, #{product_no}, #{quantity}, #{due_date}, #{comments})
+	  		INSERT INTO purchase_order (company_no, employee_no, product_no, quantity, due_date, comments)
+	  		VALUES (#{company_no}, #{employee_no}, #{product_no}, #{quantity}, #{due_date}, #{comments})
 	  </insert>
 	  
 	  <!-- 내역 조회 -->
@@ -43,9 +43,15 @@
 	  </select>
 	  
 	  <!-- 주문 상세 조회 -->
-	  <select id="readOrder" resultType="purchaseVO">
-	  		SELECT * FROM purchase_order
+	  <select id="selectOrder" resultType="purchaseVO">
+	  		<![CDATA[
+	  		SELECT o.*, pi.product_name, m.name, c.company_name, c.company_tel, c.company_address, c.company_address_detail
+	  		FROM purchase_order o
+	  			JOIN product_information pi ON o.product_no = pi.product_no
+	  			JOIN member m ON o.employee_no = m.employee_no
+	  			JOIN company c ON o.company_no = c.company_no
 	  		WHERE order_id = #{order_id}
+	  		]]>
 	  </select>
 	  
 	  <!-- 발주서 수정 -->
