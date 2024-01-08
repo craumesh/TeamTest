@@ -76,7 +76,7 @@
 
         // AJAX를 사용하여 서버에 데이터 전송
         $.ajax({
-            url: "/purchaseOrder/selectProduct",
+            url: "/orders/selectProduct",
             type: "POST",
             data: {
             	product_no: product_no,

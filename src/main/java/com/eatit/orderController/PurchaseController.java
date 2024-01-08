@@ -22,7 +22,7 @@ import com.eatit.orderDomain.PurchaseVO;
 import com.eatit.orderService.PurchaseService;
 
 @Controller
-@RequestMapping(value = "/purchaseOrder/*")
+@RequestMapping(value = "/orders/*")
 public class PurchaseController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(PurchaseController.class);
@@ -31,11 +31,11 @@ public class PurchaseController {
 	private PurchaseService pService;
 	
 	// 발주 신청 - GET
-	@RequestMapping(value = "/writeForm", method = RequestMethod.GET)
+	@RequestMapping(value = "/orderForm", method = RequestMethod.GET)
 	public void purchaseWriteFormGET(Model model, HttpSession session) throws Exception {
 		
-		logger.debug("Controller: /purchaseOrder/writeForm/purchaseWriteFormGET()");
-		logger.debug("/purchaseOrder/writeForm.jsp 페이지 이동");
+		logger.debug("Controller: /orders/writeForm/purchaseWriteFormGET()");
+		logger.debug("/orders/writeForm.jsp 페이지 이동");
 		
 		// 로그인 정보 
 		String id = (String)session.getAttribute("id");
@@ -50,10 +50,10 @@ public class PurchaseController {
 	}
 	
 	// 발주 신청 - POST
-	@RequestMapping(value = "/writeForm", method = RequestMethod.POST)
+	@RequestMapping(value = "/orderForm", method = RequestMethod.POST)
 	public String purchaseWriteFormPOST(PurchaseVO pvo) throws Exception {
 		
-		logger.debug("Controller: /purchaseOrder/writeForm/purchaseWriteFormPOST() 호출");
+		logger.debug("Controller: /orders/writeForm/purchaseWriteFormPOST() 호출");
 		
 		// 전달 정보 저장, 확인
 		logger.debug("pvo: " + pvo);
@@ -63,15 +63,15 @@ public class PurchaseController {
 		logger.debug("신청서 작성 완료");
 		
 		// 페이지 이동
-		logger.debug("/purchase/orderList 페이지 이동");
-		return "redirect:/purchaseOrder/list";
+		logger.debug("/orders/orderList 페이지 이동");
+		return "redirect:/orders/list";
 	}
 	
 	// 발주 내역 조회 - GET
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public String orderListGET(Model model) throws Exception {
 		
-		logger.debug("/purchase/orderListGET() 호출");
+		logger.debug("/orders/orderListGET() 호출");
 		
 		// 서비스 - DB에서 저장된 신청 내역 가져오기(SELECT)
 		List<PurchaseVO> purchaseVOList = pService.orderList();
@@ -80,7 +80,7 @@ public class PurchaseController {
 		// 데이터 전달
 		model.addAttribute(purchaseVOList);
 		
-		return "/purchaseOrder/list";
+		return "/orders/list";
 	}
 	
 //	// 발주 내역 상세 조회 - GET
@@ -103,7 +103,7 @@ public class PurchaseController {
 	@RequestMapping(value = "/editForm", method = RequestMethod.POST)
 	public String editFormPOST(PurchaseVO pvo, RedirectAttributes rttr) throws Exception {
 		
-		logger.debug("/purchase/editFormPOST() 호출");
+		logger.debug("/orders/editFormPOST() 호출");
 		
 		// 수정할 정보 확인
 		logger.debug("pvo: " + pvo);
@@ -112,19 +112,19 @@ public class PurchaseController {
 		pService.editForm(pvo);
 		rttr.addFlashAttribute("result", "modifyOK");
 		
-		return "redirect:/purchaseOrder/orderList";
+		return "redirect:/orders/orderList";
 	}
 	
 	// 발주서 삭제 - POST
 	@RequestMapping(value = "/cancelForm", method = RequestMethod.POST)
 	public String cancelFormPOST(@RequestParam("order_id")int order_id) throws Exception {
 		
-		logger.debug("/purchase/cancelFormPOST() 호출");
+		logger.debug("/orders/cancelFormPOST() 호출");
 		
 		// 서비스 - 발주서 삭제 동작 호출(DELETE)
 		pService.cancelForm(order_id);
 		
-		return "redirect:/purchaseOrder/orderList";
+		return "redirect:/orders/orderList";
 	}
 	
 	// 상품 검색 - GET
@@ -136,13 +136,13 @@ public class PurchaseController {
 		
 		if(query != null) {
 			// 검색어가 입력되었을 때
-			logger.debug("Controller: /purchaseOrder/searchProductGET(query)");
+			logger.debug("Controller: /orders/searchProductGET(query)");
 			logger.debug("searchProduct?query.jsp");
 			logger.debug("query: " + query);
 			productVOList = pService.searchProduct(query);
 		}else {
 			// 검색어가 입력되지 않았을 때, 새로 창을 열었을 때
-			logger.debug("Controller: /purchaseOrder/searchProductGET()");
+			logger.debug("Controller: /orders/searchProductGET()");
 			logger.debug("searchProduct.jsp");
 			productVOList = pService.productList();
 		}
@@ -158,7 +158,7 @@ public class PurchaseController {
 	@ResponseBody
 	public ProductVO selectProductPOST(@RequestParam(name = "product_no", required = false) Integer product_no) throws Exception {
 		
-		logger.debug("Controller: /purchaseOrder/selectProductPOST(product_no)");
+		logger.debug("Controller: /orders/selectProductPOST(product_no)");
 		
 		// 서비스
 		ProductVO productVO = pService.findProduct(product_no);
@@ -176,13 +176,13 @@ public class PurchaseController {
 		
 		if(query != null) {
 			// 검색어가 입력되었을 때
-			logger.debug("Controller: /purchaseOrder/searchProductGET(query)");
+			logger.debug("Controller: /orders/searchProductGET(query)");
 			logger.debug("searchProduct?query.jsp");
 			logger.debug("query: " + query);
 			companyVOList = pService.searchCompany(query);
 		}else {
 			// 검색어가 입력되지 않았을 때, 새로 창을 열었을 때
-			logger.debug("Controller: /purchaseOrder/searchProductGET()");
+			logger.debug("Controller: /orders/searchProductGET()");
 			logger.debug("searchProduct.jsp");
 			companyVOList = pService.getCompanyList();
 		}
@@ -199,7 +199,7 @@ public class PurchaseController {
 	@ResponseBody
 	public CompanyVO selectCompanyPOST(@RequestParam(name = "company_no", required = false) Integer company_no) throws Exception {
 		
-		logger.debug("Controller: /purchaseOrder/selectCompany(company_no)");
+		logger.debug("Controller: /orders/selectCompany(company_no)");
 		logger.debug("company_no:" + company_no);
 		
 		// 데이터 저장
@@ -213,7 +213,7 @@ public class PurchaseController {
 	@ResponseBody
 	public PurchaseVO orderDetailGET(@RequestParam("order_id")Integer order_id) throws Exception {
 		
-		logger.debug("Controller: /purchaseOrder/orderDetailGET(PurchaseVO)");
+		logger.debug("Controller: /orders/orderDetailGET(PurchaseVO)");
 		
 		return pService.getOrderDetail(order_id);
 	}

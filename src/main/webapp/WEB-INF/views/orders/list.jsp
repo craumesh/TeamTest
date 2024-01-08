@@ -25,7 +25,7 @@
 			</div>			
 			<div class="card-body px-0 pb-2">	
 				<div class="text-end pe-4 pb-3">
-					<a class="btn bg-gradient-dark mb-0" href="/purchaseOrder/writeForm">
+					<a class="btn bg-gradient-dark mb-0" href="/orders/orderForm">
 						<i class="material-icons text-sm">add</i> 발주서 작성하기
 					</a>
 				</div>	
@@ -167,7 +167,7 @@
 	        var value = $(this).closest("tr").find("td.identify-no").text();
 
 	        $.ajax({
-	            url: '/purchaseOrder/detail?order_id=' + value,
+	            url: '/orders/detail?order_id=' + value,
 				method : 'GET',
 				dataType: 'json',
 				success : function(data) {
