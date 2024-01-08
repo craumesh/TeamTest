@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.eatit.mainDomain.Criteria;
+import com.eatit.mainDomain.PageVO;
 import com.eatit.masterDataDomain.CompanyVO;
 import com.eatit.memberDomain.MemberVO;
 import com.eatit.orderDomain.ProductVO;
@@ -69,35 +71,22 @@ public class PurchaseController {
 	
 	// 발주 내역 조회 - GET
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public String orderListGET(Model model) throws Exception {
+	public void orderListGET(Model model, Criteria cri) throws Exception {
 		
-		logger.debug("/orders/orderListGET() 호출");
+		logger.debug("Controller: /orders/list/orderListGET() 호출");
+		PageVO pageVO = new PageVO();
+		pageVO.setCri(cri);
+		pageVO.setTotalCount(pService.getTotalCount());
 		
 		// 서비스 - DB에서 저장된 신청 내역 가져오기(SELECT)
-		List<PurchaseVO> purchaseVOList = pService.orderList();
+		List<PurchaseVO> purchaseVOList = pService.orderList(cri);
 		logger.debug("orderList: " + purchaseVOList);
 		
 		// 데이터 전달
 		model.addAttribute(purchaseVOList);
-		
-		return "/orders/list";
+		model.addAttribute("pageVO", pageVO);
+		model.addAttribute("listUrl", "list");
 	}
-	
-//	// 발주 내역 상세 조회 - GET
-//	@RequestMapping(value = "/orderDetail", method = RequestMethod.GET)
-//	public void orderDetailGET(@RequestParam("order_id")int order_id, Model model) throws Exception {
-//		
-//		logger.debug("/purchase/orderDetailGET() 호출");
-//		
-//		// 전달 정보 저장(order_id)
-//		logger.debug("order_id: " + order_id);
-//		
-//		// 서비스 - 주문 번호에 해당하는 주문 상세 내역 조회
-//		PurchaseVO purchaseVO = pService.getOrderDetail(order_id);
-//		
-//		// 페이지 이동 시 정보 전달
-//		model.addAttribute(purchaseVO);
-//	}
 	
 	// 발주서 수정 - POST
 	@RequestMapping(value = "/editForm", method = RequestMethod.POST)

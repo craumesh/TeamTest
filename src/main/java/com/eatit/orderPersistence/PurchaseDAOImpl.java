@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
+import com.eatit.mainDomain.Criteria;
 import com.eatit.masterDataDomain.CompanyVO;
 import com.eatit.memberDomain.MemberVO;
 import com.eatit.orderDomain.ProductVO;
@@ -31,9 +32,9 @@ public class PurchaseDAOImpl implements PurchaseDAO {
 	}
 
 	@Override
-	public List<PurchaseVO> getOrderList() throws Exception {
+	public List<PurchaseVO> getOrderList(Criteria cri) throws Exception {
 		logger.debug("DAO: getOrderList()");
-		return SqlSession.selectList(NAMESPACE + ".list");
+		return SqlSession.selectList(NAMESPACE + ".list", cri);
 	}
 
 	@Override
@@ -93,6 +94,12 @@ public class PurchaseDAOImpl implements PurchaseDAO {
 	public ProductVO selectProduct(Integer product_no) throws Exception {
 		logger.debug("DAO: selectProduct(product_no)");
 		return SqlSession.selectOne(NAMESPACE + ".selectProduct", product_no);
+	}
+
+	@Override
+	public int getTotalCount() throws Exception {
+		logger.debug("DAO: getTotalCount()");
+		return SqlSession.selectOne(NAMESPACE + ".totalCount");
 	}
 	
 }

@@ -2,6 +2,7 @@ package com.eatit.orderService;
 
 import java.util.List;
 
+import com.eatit.mainDomain.Criteria;
 import com.eatit.masterDataDomain.CompanyVO;
 import com.eatit.memberDomain.MemberVO;
 import com.eatit.orderDomain.ProductVO;
@@ -11,7 +12,7 @@ public interface PurchaseService {
 
 	public void createPurchaseOrder(PurchaseVO pvo) throws Exception;
 
-	public List<PurchaseVO> orderList() throws Exception;
+	public List<PurchaseVO> orderList(Criteria cri) throws Exception;
 
 	public PurchaseVO getOrderDetail(Integer order_id) throws Exception;
 
@@ -32,5 +33,7 @@ public interface PurchaseService {
 	public CompanyVO selectCompany(int company_no) throws Exception;
 
 	public ProductVO findProduct(Integer product_no) throws Exception;
+
+	public int getTotalCount() throws Exception;
 
 }

@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import com.eatit.mainDomain.Criteria;
 import com.eatit.masterDataDomain.CompanyVO;
 import com.eatit.memberDomain.MemberVO;
 import com.eatit.orderDomain.ProductVO;
@@ -29,9 +30,9 @@ public class PurchaseServiceImpl implements PurchaseService {
 	}
 
 	@Override
-	public List<PurchaseVO> orderList() throws Exception {
+	public List<PurchaseVO> orderList(Criteria cri) throws Exception {
 		logger.debug("Service: orderList()");
-		return pdao.getOrderList();
+		return pdao.getOrderList(cri);
 	}
 
 	@Override
@@ -92,6 +93,12 @@ public class PurchaseServiceImpl implements PurchaseService {
 	public ProductVO findProduct(Integer product_no) throws Exception {
 		logger.debug("Service: findProduct(product_no)");
 		return pdao.selectProduct(product_no);
+	}
+
+	@Override
+	public int getTotalCount() throws Exception {
+		logger.debug("Service: getTotalCount()");
+		return pdao.getTotalCount();
 	}
 	
 }

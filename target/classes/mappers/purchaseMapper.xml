@@ -39,6 +39,7 @@
 	  			JOIN company c ON po.company_no = c.company_no
 	  			JOIN product_information pi ON po.product_no = pi.product_no
 	  		WHERE delete_status = 0
+	  		LIMIT #{startPage}, #{pageSize}
 	  		]]>
 	  </select>
 	  
@@ -125,4 +126,12 @@
 	  		]]>
 	  </select>	     
 	  
+	  <!-- 전체 신청 개수 -->
+	  <select id="totalCount" resultType="int">
+	  		<![CDATA[
+	  		SELECT COUNT(*)
+	  		FROM purchase_order
+	  		WHERE delete_status = 0
+	  		]]>
+	  </select>
   </mapper>

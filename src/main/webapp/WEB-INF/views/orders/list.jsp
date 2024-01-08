@@ -87,6 +87,30 @@
 					</table>
 				</div>
 			</div>
+			
+			
+			<div class="row">
+				<div class="col-sm-5">
+					<div class="ms-6">${pageVO.startPage } / ${pageVO.endPage }</div>
+				</div>
+				<div class="col-sm-5 mb-3">
+					<ul class="pagination">
+						<c:if test="${pageVO.prev }">
+							<li class="page-link link-container"><a href="/orders/${listUrl }?page=${pageVO.endPage-pageVO.displayPageNum }&filter=${filter}&searchword=${searchword}" class="link"><<</a></li>
+						</c:if>
+						<c:forEach var="i" begin="${pageVO.startPage }" end="${pageVO.endPage }" step="1">
+							<li ${pageVO.cri.page == i ? "class='link-container active'" : "class='link-container'"} >
+								<a href="/orders/${listUrl }?page=${i }&filter=${filter}&searchword=${searchword}" ${pageVO.cri.page == i ? "class='page-link rounded fw-bolder link-white'" : "class='page-link rounded fw-bolder'"}>${i }</a>
+							</li>				
+						</c:forEach>
+						<c:if test="${pageVO.next }">
+							<li class="page-link link-container"><a href="/orders/${listUrl }?page=${pageVO.startPage+pageVO.displayPageNum }&filter=${filter}&searchword=${searchword}" class="link">>></a></li>
+						</c:if>
+					</ul>
+				</div>
+			</div>
+			
+			
 		</div>
 	</div>
 	
