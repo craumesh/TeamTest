@@ -1,12 +1,12 @@
-package com.eatit.orderService;
+package com.eatit.businessService;
 
 import java.util.List;
 
+import com.eatit.businessDomain.ProductVO;
+import com.eatit.businessDomain.PurchaseVO;
 import com.eatit.mainDomain.Criteria;
 import com.eatit.masterDataDomain.CompanyVO;
 import com.eatit.memberDomain.MemberVO;
-import com.eatit.orderDomain.ProductVO;
-import com.eatit.orderDomain.PurchaseVO;
 
 public interface PurchaseService {
 

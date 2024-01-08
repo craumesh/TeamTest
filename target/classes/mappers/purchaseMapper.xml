@@ -6,7 +6,7 @@
   <mapper namespace="com.eatit.mapper.PurchaseMapper">
   
 	  <!-- 테이블 데이터 매핑 -->
-	  <resultMap type="com.eatit.orderDomain.ProductVO" id="productMap">
+	  <resultMap type="com.eatit.businessDomain.ProductVO" id="productMap">
 	  		<result property="product_no" column="product_no"/>
 	  		<result property="product_code" column="product_code"/>
 	  		<result property="product_name" column="product_name"/>
@@ -21,7 +21,7 @@
 	  </resultMap>
 
 	  
-	  <resultMap type="com.eatit.orderDomain.PurchaseVO" id="purchaseVO"/>
+	  <resultMap type="com.eatit.businessDomain.PurchaseVO" id="purchaseVO"/>
 	  <resultMap type="com.eatit.memberDomain.MemberVO" id="memberVO"/>
 	  <resultMap type="com.eatit.masterDataDomain.CompanyVO" id="companyVO"/>
 	  

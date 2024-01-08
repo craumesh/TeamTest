@@ -1,4 +1,4 @@
-package com.eatit.orderService;
+package com.eatit.businessService;
 
 import java.util.List;
 
@@ -8,12 +8,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import com.eatit.businessDomain.ProductVO;
+import com.eatit.businessDomain.PurchaseVO;
+import com.eatit.businessPersistence.PurchaseDAO;
 import com.eatit.mainDomain.Criteria;
 import com.eatit.masterDataDomain.CompanyVO;
 import com.eatit.memberDomain.MemberVO;
-import com.eatit.orderDomain.ProductVO;
-import com.eatit.orderDomain.PurchaseVO;
-import com.eatit.orderPersistence.PurchaseDAO;
 
 @Service
 public class PurchaseServiceImpl implements PurchaseService {

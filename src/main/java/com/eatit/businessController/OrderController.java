@@ -1,4 +1,4 @@
-package com.eatit.orderController;
+package com.eatit.businessController;
 
 import java.util.List;
 
@@ -15,19 +15,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.eatit.businessDomain.ProductVO;
+import com.eatit.businessDomain.PurchaseVO;
+import com.eatit.businessService.PurchaseService;
 import com.eatit.mainDomain.Criteria;
 import com.eatit.mainDomain.PageVO;
 import com.eatit.masterDataDomain.CompanyVO;
 import com.eatit.memberDomain.MemberVO;
-import com.eatit.orderDomain.ProductVO;
-import com.eatit.orderDomain.PurchaseVO;
-import com.eatit.orderService.PurchaseService;
 
 @Controller
 @RequestMapping(value = "/orders/*")
-public class PurchaseController {
+public class OrderController {
 	
-	private static final Logger logger = LoggerFactory.getLogger(PurchaseController.class);
+	private static final Logger logger = LoggerFactory.getLogger(OrderController.class);
 	
 	@Inject
 	private PurchaseService pService;

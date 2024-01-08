@@ -1,4 +1,4 @@
-package com.eatit.orderPersistence;
+package com.eatit.businessPersistence;
 
 import java.util.List;
 
@@ -9,11 +9,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
+import com.eatit.businessDomain.ProductVO;
+import com.eatit.businessDomain.PurchaseVO;
 import com.eatit.mainDomain.Criteria;
 import com.eatit.masterDataDomain.CompanyVO;
 import com.eatit.memberDomain.MemberVO;
-import com.eatit.orderDomain.ProductVO;
-import com.eatit.orderDomain.PurchaseVO;
 
 @Repository
 public class PurchaseDAOImpl implements PurchaseDAO {

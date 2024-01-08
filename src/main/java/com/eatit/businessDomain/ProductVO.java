@@ -1,4 +1,4 @@
-package com.eatit.orderDomain;
+package com.eatit.businessDomain;
 
 import java.sql.Timestamp;
 import java.util.List;
