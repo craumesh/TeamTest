@@ -10,17 +10,18 @@
 			<div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">				
 				<div class="bg-gradient-primary shadow-primary border-radius-lg pt-3 pb-3 pe-3 d-flex">			
 					<h6 class="text-white text-capitalize pt-3 ps-3">발주 내역</h6>					
-					<div class="ms-md-auto bg-white rounded p-2 d-flex align-items-center">	
-						<div class="align-items-center d-flex flex-column">					
-							<div class="input-group input-group-outline">							
-								<label class="form-label">Type here...</label>
-                   				<input type="text" class="form-control">							
-							</div>						
-						</div>						
-						<div class="align-items-center d-flex flex-column py-1">						
-							<a class="btn btn-outline-primary btn-sm mb-0 py-1 ms-2" target="_blank" href="">검색</a>						
-						</div>										
-					</div>					
+					<form action="/orders/searchlist" id="search-form" class="ms-md-auto bg-white rounded p-2 mb-0 d-flex align-items-center">
+						<div class="align-items-center d-flex flex-column mx-1">	
+							<div class="input-group input-group-outline">
+								<label class="form-label">검색어</label>
+								<input type="text" id="searchword" name="searchword" class="form-control" value="${param.searchword }">
+								<input type="hidden" id="filter" name="filter" value="${param.filter }">
+							</div>
+						</div>					
+						<div class="align-items-center d-flex flex-column py-1 ct-example">
+							<button type="button" id="searchbtn" class="btn btn-outline-primary mb-0 py-2 mx-1 fs-6">검색</button>
+						</div>
+					</form>			
 				</div>				
 			</div>			
 			<div class="card-body px-0 pb-2">	
@@ -87,8 +88,7 @@
 					</table>
 				</div>
 			</div>
-			
-			
+			<!-- 페이징 처리 -->			
 			<div class="row">
 				<div class="col-sm-5">
 					<div class="ms-6">${pageVO.startPage } / ${pageVO.endPage }</div>
@@ -186,6 +186,15 @@
 	
 		var modal = document.getElementById("Modal");
 		
+		if($("#searchword").val()) {
+			$(".input-group").addClass("focused is-focused");
+		}
+		
+		$("#searchbtn").click(function(){
+			var value = $("#searchword").val();
+			location.href = '/orders/searchlist?searchword=' + value;
+		});	
+		
 		$("#order-table").on("click", "tr td", function(event) {
 			
 	        var value = $(this).closest("tr").find("td.identify-no").text();
@@ -217,6 +226,33 @@
 			modal.style.display = "none";
 			location.reload();
 		});
+		
+		$("#closebtn").click(function(){
+			var value = $("#searchword").val();
+			modal.style.display = "none";
+			location.reload();
+		});
+		
+		$(window).click(function(event){
+			if (event.target == modal) {
+				modal.style.display = "none";
+				location.reload();
+			}
+			
+			if (!$(event.target).closest('.input-group').length) {
+				if (!$("#searchword").val()) {
+		       		$(".input-group").removeClass("focused is-focused");
+				}
+		    }
+		});		
+		
+		$(".input-group").click(function(){
+			$(this).addClass("focused is-focused");
+		});
+		
+		$("#depart_name-select").on("change", function() {			
+			updatePositionNameSelect();
+		});	
 				
 	});
 

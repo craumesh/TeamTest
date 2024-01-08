@@ -39,6 +39,7 @@
 	  			JOIN company c ON po.company_no = c.company_no
 	  			JOIN product_information pi ON po.product_no = pi.product_no
 	  		WHERE delete_status = 0
+	  		ORDER BY po.order_date DESC
 	  		LIMIT #{startPage}, #{pageSize}
 	  		]]>
 	  </select>
