@@ -1,8 +1,9 @@
 package com.eatit.warehouseService;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -23,8 +24,6 @@ public class WarehouseServiceImpl implements WarehouseService {
 	
 	private static final Logger logger = LoggerFactory.getLogger(WarehouseServiceImpl.class);
 	
-	
-	// 다른 서비스나 리포지토리 주입 및 필요한 설정들...
 	@Inject
 	private WarehouseDAO warehousedao;
 	
@@ -119,7 +118,7 @@ public class WarehouseServiceImpl implements WarehouseService {
 	    
 	    // 자재 - 필요 데이터 리스트 불러오기
 	    List<StockInfoVO> materialStockList = warehousedao.getStockOfMaterial();
-	    logger.debug("자재 - 식별코드 넣기 전"+materialStockList);
+//	    logger.debug("자재 - 식별코드 넣기 전"+materialStockList);
 	    
 	    // 필요한 변수 초기화
 	    String finishedProductCompanyNo = null; // 완제품 회사번호
@@ -223,6 +222,23 @@ public class WarehouseServiceImpl implements WarehouseService {
 	public List<StockInfoVO> getStockInfoList() {
 		getStockList();
 		return warehousedao.getStockInfo();
+	}
+
+	@Override
+	public void stockApprovalProcess(String[] identifyCode,StockInfoVO vo) {
+		Map<String, Object> idCodeMap = new HashMap<>();
+		idCodeMap.put("identifyCode", identifyCode);
+		
+		int countStock = warehousedao.countStock();
+		// 창고에 들어 있지 않은 품목 경우 -> insert 후 update(상태 변경) 
+		if(countStock == 0) {
+			
+		}
+		
+		// 창고에 이미 들어가 있는 품목의 경우 -> update(수량 반영 및 상태 변경)
+		if (countStock > 0) {
+			
+		}
 	}
 	
 	

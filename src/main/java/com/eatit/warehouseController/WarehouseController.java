@@ -127,8 +127,6 @@ public class WarehouseController {
 ////////////////////////////////////////// 창고 메인 페이지 끝 /////////////////////////////////////////
 
 	
-	
-	
 ////////////////////////////////////////// 재고 페이지 시작 ////////////////////////////////////////////
 	
 	@GetMapping(value = "/stockInfo")
@@ -142,8 +140,8 @@ public class WarehouseController {
 		model.addAttribute("stockInfoList", stockInfoList);
 	}
 	
-	@PostMapping(value = "/processStockInfo")
-	public String stockInfoPOST(@RequestParam("chk") String[] identifyCode) {
+	@PostMapping(value = "/stockApprovalProcess")
+	public String stockInfoPOST(@RequestParam("chk") String[] identifyCode,StockInfoVO vo) {
 		logger.debug("C - stockInfoPOST()");
 		
 		

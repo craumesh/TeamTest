@@ -100,8 +100,8 @@ public class WarehouseDAOImpl implements WarehouseDAO {
 		return sqlsession.selectList(NAMESPACE+"getStockInfo");
 	}
 	
-	// 식별코드에 해당하는 입출고 정보 갯수
 	@Override
+	// 식별코드에 해당하는 입출고 정보 갯수(식별코드 존재 여부에 사용)
 	public int countIdentifyCode(String identifyCode) {
 		return sqlsession.selectOne(NAMESPACE+"countIdentifyCode",identifyCode);
 	}
@@ -124,7 +124,12 @@ public class WarehouseDAOImpl implements WarehouseDAO {
 	public void insertStockInfoList(StockInfoVO vo) {
 		sqlsession.insert(NAMESPACE+"insertStockInfo", vo);
 	}
-	
+
+	@Override
+	// 창고재고 정보 갯수(창고 재고 존재 여부에 사용)
+	public int countStock() {
+		return sqlsession.selectOne(NAMESPACE+"countStock");
+	}
 	
 	
 	

@@ -174,5 +174,10 @@
   		values(#{identify_code},#{warehouse_no},#{io_classification},#{category},#{name},#{io_quantities},#{unit},#{price},#{expiry_date},#{io_date})
   	</insert>
   	
+  	<select id="countStock" resultType="int">
+  		SELECT COUNT(*) 
+  		FROM stock 
+  	</select>
+  	
   </mapper>	  
   

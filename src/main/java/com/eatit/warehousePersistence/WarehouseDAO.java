@@ -44,7 +44,7 @@ public interface WarehouseDAO {
 	// 입출고 정보 테이블 모두 조회
 	public List<StockInfoVO> getStockInfo();
 	
-	// 식별코드에 해당하는 입출고 정보 갯수
+	// 식별코드에 해당하는 입출고 정보 갯수(식별코드 존재 여부에 사용)
 	public int countIdentifyCode(String identifyCode);
 	
 	// 완재품 정보 리스트 정보 받아오기
@@ -56,4 +56,6 @@ public interface WarehouseDAO {
 	// 서비스에서 받아온 완재품 입고 정보를 테이블에 insert
 	public void insertStockInfoList(StockInfoVO vo);
 	
+	// 창고재고 정보 갯수(창고 재고 존재 여부에 사용)
+	public int countStock();
 }

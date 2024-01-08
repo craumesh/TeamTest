@@ -234,7 +234,7 @@
 				</div>
 				<div class="text-end ">
 	                <button type="button" id="allowBtn" class="btn bg-gradient-dark">승인</button>
-	                <button type="button" id="deleteBtn" class="btn bg-gradient-dark me-3" >취소</button>
+	                <button type="button" id="cancelBtn" class="btn bg-gradient-dark me-3" >취소</button>
 	            </div>
 			</div>
 		</div>
@@ -286,7 +286,7 @@ $(document).ready(function(){
 		});
 		
 		// 삭제 버튼 클릭시, 창고 번호를 사용해서 삭제 처리
-		$("#deleteBtn").click(function(){
+		$("#cancelBtn").click(function(){
 			var chkboxes = $("input[name='chk']:checked");
 			
 			 if (chkboxes.length === 0) {

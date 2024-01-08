@@ -2,6 +2,8 @@ package com.eatit.warehouseService;
 
 import java.util.List;
 
+import org.springframework.web.bind.annotation.RequestParam;
+
 import com.eatit.memberDomain.MemberVO;
 import com.eatit.warehouseDomain.StockInfoVO;
 import com.eatit.warehouseDomain.WarehouseVO;
@@ -42,9 +44,12 @@ public interface WarehouseService {
 	public void deleteWarehouse(int[] warehouse_no);
 	
 	//------------------------------------------------------------------------------------//
-	// 창고 재고 정보 현황 조회
+	// 창고 재고 정보 현황에 필요한 정보 조회
 	public void getStockList();
 	
 	// 창고 재고 정보
 	public List<StockInfoVO> getStockInfoList();
+	
+	// 창고 승인 처리
+	public void stockApprovalProcess(String[] identifyCode,StockInfoVO vo);
 }
