@@ -1,4 +1,4 @@
-package com.eatit.productDomain;
+package com.eatit.masterdataDomain;
 
 import java.sql.Date;
 
@@ -16,5 +16,11 @@ public class MasterdataVO {
    private String product_price;
    private Date expiry_date;
    private String recipe;
+   private int quality_no;
+   private String product_visual;
+   private String taste;
+   private String scent;
+   private String texture;
+   private String measure;
    
 }

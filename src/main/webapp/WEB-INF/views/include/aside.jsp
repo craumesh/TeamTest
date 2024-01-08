@@ -24,7 +24,7 @@
 		      </a>
 		    </li>
 		    <li class="nav-item">
-		      <a class="nav-link text-white sm-hv" href="${path}/masterdata/QualityManagement">
+		      <a class="nav-link text-white sm-hv" href="${path}/masterdata/FIM">
 		        <span class="nav-link-text ms-1">설비정보관리</span>
 		      </a>
 		    </li>

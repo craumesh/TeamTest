@@ -47,7 +47,7 @@
 
 .fixed-size-textarea {
 	resize: none; /* 드래그에 의한 크기 조정을 막습니다. */
-	width: 500px; /* 가로 크기를 조절할 수 있습니다. */
+	width: 900px; /* 가로 크기를 조절할 수 있습니다. */
 	height: 150px; /* 세로 크기를 조절할 수 있습니다. */
 }
 </style>
@@ -57,8 +57,8 @@
 		<div class="card-header position-relative p-0 mt-n4 mx-3 z-index-2">
 			<div
 				class="bg-gradient-primary shadow-primary border-radius-lg py-3 pe-3 d-flex align-items-center">
-				<h3 class="text-white text-capitalize ps-5 my-2 py-1">품목 정보 관리</h3>
-				<form action="/masterdata/search"
+				<h3 class="text-white text-capitalize ps-5 my-2 py-1">설비 정보 관리</h3>
+				<form action="/masterdata/FIMsearch"
 					class="ms-md-auto bg-white rounded p-2 mb-0 d-flex align-items-center"
 					method="GET">
 					<div class="align-items-center d-flex flex-column mx-1">
@@ -83,54 +83,49 @@
 					<thead>
 						<tr>
 							
-							<th class="text-center py-3 font-weight-bolder col-2">품목정보번호</th>
-							<th class="text-center font-weight-bolder col-1">품목코드</th>
-							<th class="text-center font-weight-bolder col-1">품목이름</th>
-							<th class="text-center font-weight-bolder col-1">품목카테고리(대)</th>
-							<th class="text-center font-weight-bolder col-3">품목카테고리(소)</th>
-							<th class="text-center font-weight-bolder col-2">거래처번호</th>
-							<th class="text-center font-weight-bolder col-3">단위</th>
-							<th class="text-center font-weight-bolder col-3">납품 단가</th>	
-							<th class="text-center font-weight-bolder col-3">레시피</th>
+							<th class="text-center py-3 font-weight-bolder col-2">설비번호</th>
+							<th class="text-center font-weight-bolder col-1">설비이름</th>
+							<th class="text-center font-weight-bolder col-1">설비상태</th>
+							<th class="text-center font-weight-bolder col-1">관리자번호</th>
+							<th class="text-center font-weight-bolder col-1">사용목적</th>
+							<th class="text-center font-weight-bolder col-3">설치날짜</th>
+							<th class="text-center font-weight-bolder col-2">설비위치</th>
+							 
+							 
 							<th class="text-center font-weight-bolder col-1">
+							
 
 
 								<ul class="navbar-nav  justify-content-end">
 									<li class="nav-item d-flex align-items-center"><span
 										class="d-sm-inline d-none"><button
-												onclick="openModal()" class="btn btn-success">품목정보등록</button>
-												
-												</span>
-												</li>
-												
+												onclick="openModal()" class="btn btn-success">설비정보등록</button></span></li>
 								</ul>
 
 
-							
+							</th>
 						</tr>
 					</thead>
 					<tbody id="productTableBody">
-						<c:forEach var="product" items="${productList}">
+						<c:forEach var="product" items="${FIMList}">
 							<tr>
-							   
-								<td class="text-center py-2-3 identify-no">${product.product_no}</td>
-								<td class="text-center py-2-3">${product.product_code}</td>
-								<td class="text-center py-2-3">${product.product_name}</td>
-								<td class="text-center py-2-3">${product.product_category}</td>
-								<td class="text-center py-2-3">${product.product_category_detail}</td>
-								<td class="text-center py-2-3">${product.company_no}</td>
-								<td class="text-center py-2-3">${product.product_unit}</td>
-								<td class="text-center py-2-3">${product.product_price}</td>								
-								<td class="text-center py-2-3">${product.recipe }</td>
+							    
+								<td class="text-center py-2-3 identify-no">${product.machine_code}</td>
+								<td class="text-center py-2-3">${product.machine_name}</td>
+								<td class="text-center"><span class="badge badge-sm bg-gradient-success">${product.machine_status}</span></td>
+								<td class="text-center py-2-3">${product.employee_no}</td>
+								<td class="text-center py-2-3">${product.purpose_of_use}</td>
+								<td class="text-center py-2-3">${product.installation_date}</td>
+								<td class="text-center py-2-3">${product.machine_location}</td>
+								
 								<td class="text-center py-2-3">
 									<button onclick="openEditModal(event)"
-										class="btn btn-secondary">품목정보수정</button>
+										class="btn btn-secondary">설비정보수정</button>
 
-									<form action="/masterdata/PIMdelete" method="post">
-										<input type="hidden" name="product_no"
-											value="${product.product_no}"> <input type="hidden"
-											name="product_code" value="${product.product_code}">
-										<button type="submit" class="btn btn-dark">품목정보삭제</button>
+									<form action="/masterdata/FIMdelete" method="post">
+										<input type="hidden" name="machine_code"
+											value="${product.machine_code}"> 
+										<button type="submit" class="btn btn-dark">설비정보삭제</button>
 									</form>
 								</td>
 							</tr>
@@ -139,7 +134,8 @@
 				</table>
 			</div>
 		</div>
-
+		
+		
 		<c:if test="${not empty referer}">
 			<a href="${referer}" class="btn btn-primary">뒤로 가기</a>
 		</c:if>
@@ -181,13 +177,6 @@
 </div>
 <!-- 본문 종료 -->
 
-<div id="deleteModal" class="modal">
-  <div class="modal-content">
-    <p>정말 삭제하시겠습니까?</p>
-    <button onclick="deleteItems()">확인</button>
-  </div>
-</div>
-
 
 <%@ include file="../include/footer.jsp"%>
 <%@ include file="../include/js.jsp"%>
@@ -199,72 +188,67 @@
 			<button id="closebtn"
 				class="btn bg-gradient-primary position-absolute py-1 px-2 mt-2 end-5"
 				onclick="closeModal()">X</button>
-			<h3 class="modal-title mx-auto">품목정보 등록</h3>
+			<h3 class="modal-title mx-auto">설비정보 등록</h3>
 		</div>
 		<div class="modal-body p-5">
 
 			<div id="tableContainer" class="modal-body">
-				<form id="myForm" method="post" action="/masterdata/PIMinsert">
+				<form id="myForm" method="post" action="/masterdata/FIMinsert">
 					<table id="view-table" class="table">
 						<tbody>
 
+							
 							<tr>
-								<th class="fs-5">품목코드</th>
-								<td class="fs-5" id="depart_name"><input type="text"
-									name="product_code" class="form-control"></td>
+								<th class="fs-5">설비이름</th>
+								<td class="fs-5" id="position_name"><select
+									name="machine_name" class="form-select">
+										<option value="Production">Production</option>
+										<option value="Packaging">Packaging</option>										
+								</select></td>
 							</tr>
 							<tr>
-								<th class="fs-5">품목이름</th>
-								<td class="fs-5" id="position_name"><input type="text"
-									name="product_name" class="form-control"></td>
-							</tr>
-							<tr>
-								<th class="fs-5">품목카테고리</th>
+								<th class="fs-5">설비상태</th>
 								<td class="fs-5" id="email"><select
-									name="product_category_detail" class="form-select">
-										<option value="쿠키">쿠키</option>
-										<option value="케이크">케이크</option>
-										<option value="커피">커피</option>
+									name="machine_status" class="form-select">
+										<option value="고장">고장</option>
+										<option value="생산대기">생산대기</option>
+										<option value="생산중">생산중</option>
+										<option value="수리중">수리중</option>
+										<option value="점검중">점검중</option>
+										<option value="준비중">준비중</option>
 								</select></td>
 							</tr>
 							<tr>
-								<th class="fs-5">거래처코드</th>
+								<th class="fs-5">관리자번호</th>
 								<td class="fs-5" id="extension_no"><input type="text"
-									name="company_no" class="form-control"></td>
+									name="employee_no" class="form-control"></td>
 							</tr>
 							<tr>
-								<th class="fs-5">단위</th>
-								<td class="fs-5" id="contact"><select name="product_unit"
-									class="form-select">
-
-
-
-										<option value="g">g</option>
-										<option value="kg">kg</option>
-										<option value="mL">mL</option>
-
+								<th class="fs-5">작동목적</th>
+								<td class="fs-5" id="contact"> <input type="text"
+									name="purpose_of_use" class="form-control"></td>
+							</tr>
+							<tr>
+								<th class="fs-5">설치일</th>
+								<td class="fs-5" id="address"><input type="date"
+									name="installation_date" class="form-control"></td>
+							</tr>
+							<tr>
+								<th class="fs-5">설비위치</th>
+								<td class="fs-5" id="status"><select
+									name="machine_location" class="form-select">
+										<option value="A">A</option>
+										<option value="B">B</option>
+										<option value="C">C</option>
+										<option value="D">D</option>																			
 								</select></td>
 							</tr>
-							<tr>
-								<th class="fs-5">납품단가</th>
-								<td class="fs-5" id="address"><input type="text"
-									name="product_price" class="form-control"></td>
-							</tr>
-							<tr>
-								<th class="fs-5">유통기한</th>
-								<td class="fs-5" id="status"><input type="date"
-									name="expiry_date" class="form-control"></td>
-							</tr>
-							<tr>
-								<th class="fs-5">레시피</th>
-								<td class="fs-5" id="status"><textarea name="recipe"
-										class="fixed-size-textarea"></textarea></td>
-							</tr>
+							
 						</tbody>
 					</table>
 					<div class="text-center">
 						<button id="editbtn"
-							class="btn bg-gradient-danger fs-6 mb-0 py-2 px-3" type="submit">품목정보
+							class="btn bg-gradient-danger fs-6 mb-0 py-2 px-3" type="submit">설비정보
 							등록</button>
 					</div>
 
@@ -283,75 +267,69 @@
 			<button id="closebtn"
 				class="btn bg-gradient-primary position-absolute py-1 px-2 mt-2 end-5"
 				onclick="closeEditModal()">X</button>
-			<h3 class="modal-title mx-auto">품목정보 수정</h3>
+			<h3 class="modal-title mx-auto">설비정보 수정</h3>
 		</div>
 		<div class="modal-body p-5">
 
 			<div id="tableContainer" class="modal-body">
-				<form id="editForm" method="post" action="/masterdata/PIMedit">
+				<form id="editForm" method="post" action="/masterdata/FIMedit">
 					<table id="view-table" class="table">
 						<tbody>
+						
+							
 							<tr>
-								<td><input type="hidden" name="product_no"
-									value="product_no"></td>
-							</tr>
-							<tr>
-								<th class="fs-5">품목코드</th>
+								<th class="fs-5">설비번호</th>
 								<td class="fs-5" id="depart_name"><input type="text"
-									name="product_code" class="form-control"></td>
+									name="machine_code" class="form-control" readonly="readonly"></td>
 							</tr>
 							<tr>
-								<th class="fs-5">품목이름</th>
+								<th class="fs-5">설비이름</th>
 								<td class="fs-5" id="position_name"><input type="text"
-									name="product_name" class="form-control"></td>
+									name="machine_name" class="form-control"></td>
 							</tr>
 							<tr>
-								<th class="fs-5">품목카테고리</th>
+								<th class="fs-5">설비상태</th>
 								<td class="fs-5" id="email"><select
-									name="product_category_detail" class="form-select">
-										<option value="쿠키">쿠키</option>
-										<option value="케이크">케이크</option>
-										<option value="커피">커피</option>
+									name="machine_status" class="form-select">
+										<option value="고장">고장</option>
+										<option value="생산대기">생산대기</option>
+										<option value="생산중">생산중</option>
+										<option value="수리중">수리중</option>
+										<option value="점검중">점검중</option>
+										<option value="준비중">준비중</option>
 								</select></td>
 							</tr>
 							<tr>
-								<th class="fs-5">거래처코드</th>
+								<th class="fs-5">관리자번호</th>
 								<td class="fs-5" id="extension_no"><input type="text"
-									name="company_no" class="form-control"></td>
+									name="employee_no" class="form-control"></td>
 							</tr>
+							
 							<tr>
-								<th class="fs-5">단위</th>
-								<td class="fs-5" id="contact"><select name="product_unit"
-									class="form-select">
-
-
-
-										<option value="g">g</option>
-										<option value="kg">kg</option>
-										<option value="mL">mL</option>
-
-								</select></td>
-							</tr>
-							<tr>
-								<th class="fs-5">납품단가</th>
+								<th class="fs-5">작동목적</th>
 								<td class="fs-5" id="address"><input type="text"
-									name="product_price" class="form-control"></td>
+									name="purpose_of_use" class="form-control"></td>
 							</tr>
 							<tr>
-								<th class="fs-5">유통기한</th>
+								<th class="fs-5">설치날짜</th>
 								<td class="fs-5" id="status"><input type="date"
-									name="expiry_date" class="form-control"></td>
+									name="installation_date" class="form-control"></td>
 							</tr>
 							<tr>
-								<th class="fs-5">레시피</th>
-								<td class="fs-5" id="status"><textarea name="recipe"
-										class="fixed-size-textarea"></textarea></td>
+								<th class="fs-5">설비위치</th>
+								<td class="fs-5" id="status"><select
+									name="machine_location" class="form-select">
+										<option value="A">A</option>
+										<option value="B">B</option>
+										<option value="C">C</option>
+										<option value="D">D</option>	
+								</select></td>
 							</tr>
 						</tbody>
 					</table>
 					<div class="text-center">
 						<button id="editbtn"
-							class="btn bg-gradient-danger fs-6 mb-0 py-2 px-3" type="submit">정보
+							class="btn bg-gradient-danger fs-6 mb-0 py-2 px-3" type="submit">설비정보
 							수정</button>
 					</div>
 
@@ -377,53 +355,6 @@
     </script>
 </c:if>
 
-<script>
-function confirmDelete() {
-  const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-  const checkedItems = Array.from(checkboxes).filter(checkbox => checkbox.checked);
-
-  if (checkedItems.length > 0) {
-    const productNumbers = [];
-    const productCodes = [];
-    const identifyNoCells = document.querySelectorAll('.identify-no'); // 수정한 부분
-
-    checkedItems.forEach(item => {
-      const row = item.parentElement.parentElement;
-      const indexOfRow = Array.from(row.parentNode.children).indexOf(row); // 행 인덱스
-
-      if (identifyNoCells[indexOfRow]) {
-        const productNo = identifyNoCells[indexOfRow].textContent.trim(); // 수정한 부분
-        const productCode = row.querySelector('.product-code-column').textContent.trim();
-
-        productNumbers.push(productNo);
-        productCodes.push(productCode);
-      }
-    });
-
-    fetch('/masterdata/PIMAlldelete', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        product_no: productNumbers,
-        product_code: productCodes
-      })
-    })
-    .then(response => {
-      if (response.ok) {
-        window.location.href = '/PIM';
-      } else {
-        console.error('Error deleting items');
-      }
-    })
-    .catch(error => {
-      console.error('Error:', error);
-    });
-  } else {
-    alert('선택된 항목이 없습니다.');
-  }
-}
 
 
 <script>
@@ -469,13 +400,13 @@ function goToPageWithKeyword(page) {
 
 <script>
     document.addEventListener('DOMContentLoaded', () => {
-        const deleteForms = document.querySelectorAll('form[action="/masterdata/PIMdelete"]');
+        const deleteForms = document.querySelectorAll('form[action="/masterdata/FIMdelete"]');
 
         deleteForms.forEach(form => {
             form.addEventListener('submit', function(event) {
                 event.preventDefault(); // 기본 제출 동작 막기
 
-                const product_no = this.querySelector('input[name="product_no"]').value;
+                const machine_code = this.querySelector('input[name="machine_code"]').value;
 
                 swal({
                     title: '품목정보 삭제',
@@ -498,18 +429,7 @@ function goToPageWithKeyword(page) {
     });
 </script>
 
-<script>
-    function openRecipeInput() {
-        // 입력을 위한 텍스트 창 보이기
-        const recipeInput = document.getElementById('recipeInput');
-        const userInput = prompt('레시피를 입력하세요:');
-        
-        // 사용자가 입력한 레시피를 텍스트 창에 설정
-        if (userInput !== null) {
-            recipeInput.value = userInput;
-        }
-    }
-</script>
+
 
 
 
@@ -528,28 +448,25 @@ function goToPageWithKeyword(page) {
         const selectedRow = event.target.closest('tr');
 
         // 각 셀의 데이터를 가져와 변수에 저장합니다.
-        const productNo = selectedRow.cells[0].innerText;
-        const productCode = selectedRow.cells[1].innerText;
-        const productName = selectedRow.cells[2].innerText;
-        const productCategory = selectedRow.cells[3].innerText;
-        const productCategoryDetail = selectedRow.cells[4].innerText;
-        const companyNo = selectedRow.cells[5].innerText;
-        const productUnit = selectedRow.cells[6].innerText;
-        const productPrice = selectedRow.cells[7].innerText;
-        const expiryDate = selectedRow.cells[8].innerText;
-        const recipe = selectedRow.cells[9].innerText;
+       
+        const machineCode = selectedRow.cells[0].innerText;
+        const machineName = selectedRow.cells[1].innerText;
+        const machineStatus = selectedRow.cells[2].innerText;
+        const employeeNo = selectedRow.cells[3].innerText;
+        const purposeUse = selectedRow.cells[4].innerText;
+        const installDate = selectedRow.cells[5].innerText;
+        const machineLoca = selectedRow.cells[6].innerText;
+        
 
         // 가져온 데이터를 수정 모달에 넣어줍니다.
         document.getElementById("editModal").style.display = "block";
-        document.querySelector('#editForm [name="product_no"]').value = productNo;
-        document.querySelector('#editForm [name="product_code"]').value = productCode;
-        document.querySelector('#editForm [name="product_name"]').value = productName;
-        document.querySelector('#editForm [name="product_category_detail"]').value = productCategoryDetail;
-        document.querySelector('#editForm [name="company_no"]').value = companyNo;
-        document.querySelector('#editForm [name="product_unit"]').value = productUnit;
-        document.querySelector('#editForm [name="product_price"]').value = productPrice;
-        document.querySelector('#editForm [name="expiry_date"]').value = expiryDate;        
-        document.querySelector('#editForm [name="recipe"]').value = recipe;
+        document.querySelector('#editForm [name="machine_code"]').value = machineCode;
+        document.querySelector('#editForm [name="machine_name"]').value = machineName;
+        document.querySelector('#editForm [name="machine_status"]').value = machineStatus;
+        document.querySelector('#editForm [name="employee_no"]').value = employeeNo;
+        document.querySelector('#editForm [name="purpose_of_use"]').value = purposeUse;
+        document.querySelector('#editForm [name="installation_date"]').value = installDate;
+        document.querySelector('#editForm [name="machine_location"]').value = machineLoca;
         
        
         
@@ -571,33 +488,40 @@ function goToPageWithKeyword(page) {
         return true;
     }
 
-    document.getElementById('myForm').addEventListener('submit', function (event) {
-    	 event.preventDefault(); // 기본 제출 동작 방지
+    document.getElementById('myForm').addEventListener('submit', function(event) {
+        event.preventDefault(); // 기본 제출 동작 방지
 
- 	    if (!validateForm('myForm')) {
- 	        // 폼이 유효하지 않은 경우
- 	        swal('입력하지 않은 칸이 있습니다!', '', 'warning');
- 	        return;
- 	    }
+        if (!validateForm('myForm')) {
+            // 폼이 유효하지 않은 경우
+            swal('입력하지 않은 칸이 있습니다!', '', 'warning');
+            return;
+        }
 
- 	    // 유효한 경우 SweetAlert로 사용자에게 확인 요청
- 	    swal({
- 	        title: '품목정보 등록',
- 	        text: '정말 등록하시겠습니까? 한 번 더 정보를 확인해 주세요',
- 	        icon: 'info',
- 	        buttons: true,
- 	        dangerMode: false,
- 	    })
- 	    .then((willSubmit) => {
- 	        if (willSubmit) {
- 	            swal('등록이 성공적으로 완료됐습니다!', '', 'success')
- 	            .then(() => {
- 	                event.target.submit(); // 확인을 누르면 submit 실행
- 	            });
- 	        } else {
- 	            swal('등록 취소', '등록이 취소되었습니다.', 'info');
- 	        }
- 	    });
+        // 숫자만 입력되도록 유효성 검사
+        const employeeNo = document.getElementsByName('employee_no')[0].value;
+        if (!/^\d+$/.test(employeeNo)) {
+            swal('관리자 번호란에는 숫자만 입력할 수 있습니다!', '', 'warning');
+            return;
+        }
+
+        // 유효한 경우 SweetAlert로 사용자에게 확인 요청
+        swal({
+                title: '설비정보 등록',
+                text: '정말 등록하시겠습니까? 한 번 더 정보를 확인해 주세요',
+                icon: 'info',
+                buttons: true,
+                dangerMode: false,
+            })
+            .then((willSubmit) => {
+                if (willSubmit) {
+                    swal('등록이 성공적으로 완료됐습니다!', '', 'success')
+                        .then(() => {
+                            event.target.submit(); // 확인을 누르면 submit 실행
+                        });
+                } else {
+                    swal('등록 취소', '등록이 취소되었습니다.', 'info');
+                }
+            });
     });
 
     document.getElementById('editForm').addEventListener('submit', function (event) {
