@@ -13,5 +13,4 @@ public class productionVO {
 	private int recipe_no;
 	private Date production_time;
 	
-
 }

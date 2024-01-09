@@ -39,18 +39,15 @@ public class productioncontroller {
 		
 	}
 	
-	@RequestMapping(value = "/orderform", method = RequestMethod.GET)
-	public void orderform(Model model,Criteria cri) {
-		logger.debug("orderform() 새창 열기");
-		PageVO pageVO = new PageVO();
-		pageVO.setCri(cri);
-		pageVO.setTotalCount(pdService.formtotalCount());
-		
-		
-		model.addAttribute("pageVO", pageVO);
-		model.addAttribute("orderlist", pdService.formorderlist(cri));
-		model.addAttribute("listUrl", "orderform");
-		
+	@RequestMapping(value = "/request", method = RequestMethod.GET)
+	public void proGET() {
+		logger.debug("requestGET() 페이지 이동");
+	}
+	
+	
+	@RequestMapping(value = "/status", method = RequestMethod.GET)
+	public void statusGET() {
+		logger.debug("proGET() 페이지 이동");
 	}
 	
 	

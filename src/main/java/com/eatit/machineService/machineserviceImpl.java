@@ -77,6 +77,15 @@ public class machineserviceImpl implements machineservice {
         return mcdao.totalCount();
     }
 
+	@Override
+	public void machinedeleteupdate(machineVO vo) {
+		logger.debug("machinedeleteupdate() 호출");
+		mcdao.machinedeleteupdate(vo);
+		
+	}
+
+    
+    
 }
 	
 

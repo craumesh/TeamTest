@@ -37,15 +37,11 @@
 								</tr>
 							</thead>
 							<tbody id="employeeTableBody">
-						<c:forEach var="ol" items="${orderlist}">
+						
 							<tr class="mllist">
-								<td class="text-center">${ol.order_product_id }</td>
-								<td class="text-center">${ol.order_id}</td>
-								<td class="text-center">${ol.name}</td>
-								<td class="text-center">${ol.quantity}</td>
-								<td class="text-center">${ol.state}</td>
+							
 							</tr>
-						</c:forEach>
+						
 					</tbody>
 						</table>
 		</form>
@@ -57,21 +53,6 @@
 		<div class="row">
 			<div class="col-sm-5">
 				
-			</div>
-			<div class="col-sm-5">
-				<ul class="pagination">
-					<c:if test="${pageVO.prev }">
-						<li class="page-link link-container"><a href="/machine/${listUrl }?page=${pageVO.endPage-pageVO.displayPageNum }&searchword=${searchword}" class="link"><<</a></li>
-					</c:if>
-					<c:forEach var="i" begin="${pageVO.startPage }" end="${pageVO.endPage }" step="1">
-						<li ${pageVO.cri.page == i ? "class='page-link link-container active'" : "class='page-link link-container'"} >
-							<a href="/machine/${listUrl }?page=${i }&searchword=${searchword}" ${pageVO.cri.page == i ? "class='link-white'" : "class=''"}>${i }</a>
-						</li>				
-					</c:forEach>
-					<c:if test="${pageVO.next }">
-						<li class="page-link link-container"><a href="/machine/${listUrl }?page=${pageVO.startPage+pageVO.displayPageNum }&searchword=${searchword}" class="link">>></a></li>
-					</c:if>
-				</ul>
 			</div>
 		</div>
 </div>

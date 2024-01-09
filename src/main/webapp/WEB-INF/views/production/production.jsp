@@ -49,9 +49,12 @@
 								<fmt:formatDate value="${history.operating_time}" pattern="MM월 dd일 HH:mm" />
 								</td>
 								</c:forEach>
-								<td class="text-center">00시 00분</td>		
-							<td class="text-center"><span id="status-badge" class="badge badge-sm bg-gradient-success">${ml.machine_status}</span></td>
-							</tr>
+								<td class="text-center">00시 00분</td>
+									<td><span id="status-badge"
+										class="badge badge-sm bg-gradient-success"
+										onclick="openStatusWindow('${ml.machine_code}', '/production/status')">
+											${ml.machine_status} </span></td>
+								</tr>
 						</c:forEach>
 					</tbody>
 		
@@ -60,7 +63,8 @@
 			</div>
 		</div>
 		<div class="col-6 w-100 text-end">
-		<button class="btn bg-gradient-dark fs-6 mb-0 py-2 px-3" onclick="orderform()">발주서 확인</button>
+		<button class="btn bg-gradient-dark fs-6 mb-0 py-2 px-3" onclick="새창열기('/production/orderform')">발주서 확인</button>
+        <button class="btn bg-gradient-dark fs-6 mb-0 py-2 px-3" onclick="새창열기('/production/request')">자재 요청</button>
 		</div>
 		<div class="row">
 			<div class="col-sm-5">
@@ -84,14 +88,36 @@
 		</div>
 </div>
 </div>
+
+
+
 <%@ include file="../include/footer.jsp" %>
 <%@ include file="../include/js.jsp" %>
 <script type="text/javascript">
     
     
-    function orderform() {
-        var url = "/production/orderform";
-        
+   
+    
+$(document).ready(function() {
+    $('table tr').each(function() {
+        var statusBadge = $(this).find('td:last-child #status-badge');
+        var statusText = statusBadge.text().trim(); // 텍스트 앞뒤 공백 제거
+        console.log("span: " + statusText);
+
+        switch(statusText){
+            case "생산중": statusBadge.addClass("bg-gradient-success"); break; // 초록
+            case "생산 대기": statusBadge.addClass("bg-gradient-info"); break; // 파랑
+            case "생산 완료": statusBadge.addClass("bg-gradient-danger"); break; // 빨강
+            case "수리중": statusBadge.addClass("bg-gradient-warning"); break; // 노랑
+            case "점검중": statusBadge.addClass("bg-gradient-warning"); break; // 노랑
+            case "고장": statusBadge.addClass("bg-gradient-dark"); break; // 회색
+            default: console.log("Unknown status: " + statusText);
+        }
+    });
+});
+    
+    
+    function 새창열기(url) {
         var screenWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
         var screenHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
         var popupWidth = 850;
@@ -101,21 +127,17 @@
 
         window.open(url, "_blank", 'width=' + popupWidth + ',height=' + popupHeight + ',left=' + leftPosition + ',top=' + topPosition);
     }
+
+    function openStatusWindow(machineCode, url) {
+        var fullUrl = url + '?code=' + machineCode;
+        새창열기(fullUrl);
+    }
     
-    $(document).ready(function() {
-        $('table tr').each(function() {
-            var statusText = $(this).find('td:last-child #status-badge').text();
-            console.log("span: " + statusText);
-            switch(statusText){
-                case "생산중": $(this).find('td:last-child #status-badge').addClass("bg-gradient-success"); break; // 초록
-                case "생산 대기": $(this).find('td:last-child #status-badge').addClass("bg-gradient-info"); break;	// 파랑
-                case "생산 완료": $(this).find('td:last-child #status-badge').addClass("bg-gradient-danger"); break;	// 빨강
-                case "수리중": $(this).find('td:last-child #status-badge').addClass("bg-gradient-warning"); break;	// 노랑
-                case "점검중": $(this).find('td:last-child #status-badge').addClass("bg-gradient-warning"); break;	// 노랑
-                case "고장": $(this).find('td:last-child #status-badge').addClass("bg-gradient-dark"); break;	// 회색
-            }
-        });
-    });
+    
+    
+    
+    
+    
 </script>
 
 

@@ -110,7 +110,8 @@ public class machinecontroller {
 		  for(int i : machine_code) {
 			  logger.debug("machine_code : " + i);  
 				vo.setMachine_code(i);	
-				mcService.machinedelete(vo);
+			/* mcService.machinedelete(vo); */
+				mcService.machinedeleteupdate(vo);
 			
 	 }
 		  return "redirect:/machine/machine";

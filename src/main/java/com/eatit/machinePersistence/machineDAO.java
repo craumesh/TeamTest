@@ -28,6 +28,7 @@ public interface machineDAO {
 	
 	// 설비 삭제
 	public void machinedelete(machineVO vo);
+	public void machinedeleteupdate(machineVO vo);
 	
 	// 페이징 처리 갯수
 	public int totalCount(); 

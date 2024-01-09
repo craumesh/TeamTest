@@ -180,7 +180,7 @@
 				<div id="tableContainer">
 					<table id="view-table" class="table">
 						<tr>
-							<th class="fs-5 w-10">설비 상태</th>
+							<th class="fs-5 w-7">설비 상태</th>
 							<td class="fs-5 w-20" id="status"></td>
 						</tr>
 						<tr>
@@ -419,9 +419,40 @@ $(".input-group").click(function(){
 		
 		
 		
-		$("#delete_btn").click(function(event){
-			$("#checkbox_form").submit();
+		$("#delete_btn").click(function (event) {
+		    var selectedCount = $('input[name="code"]:checked').length;
 
+		    if (selectedCount === 0) {
+		        
+		        swal({
+		            title: "알림",
+		            text: "삭제할 설비를 선택하세요.",
+		            icon: "warning",
+		            button: "확인"
+		        });
+		        event.preventDefault();
+		    } else {
+		        
+		        swal({
+		            title: "삭제 확인",
+		            text: "선택한 설비를 삭제하시겠습니까?",
+		            icon: "warning",
+		            buttons: true,
+		            dangerMode: true,
+		        }).then((willDelete) => {
+		            if (willDelete) {
+		                // 삭제 확인 시 폼 제출
+		                swal("선택한 설비가 삭제되었습니다.", {
+		                    icon: "success",
+		                    buttons: false,
+		                    timer: 1500
+		                });
+		                $("#checkbox_form").submit();
+		            } else {
+		                // 삭제 취소 시 아무 동작 없음
+		            }
+		        });
+		    }
 		});
 		
 	

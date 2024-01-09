@@ -75,6 +75,13 @@ private static final String NAMESPACE="com.eatit.mapper.machineMapper";
 		logger.debug("totalCount() 호출");
 		return sqlSession.selectOne(NAMESPACE+ ".totalCount");
 	}
+
+	@Override
+	public void machinedeleteupdate(machineVO vo) {
+		logger.debug("machinedeleteupdate() 호출");
+		sqlSession.update(NAMESPACE+ ".machinedeleteupdate",vo);
+		
+	}
 	
 	
 }
