@@ -48,7 +48,7 @@ public class OrdersController {
 		
 		// 데이터 전달
 		model.addAttribute(pageVO);
-		model.addAttribute("listUrl", "list");
+		model.addAttribute("listsUrl", "lists");
 		model.addAttribute(ordersVOList);
 	}
 	
