@@ -7,17 +7,18 @@
   
 	  <!-- 테이블 데이터 매핑 -->
 	  <resultMap type="com.eatit.businessDomain.ProductVO" id="productMap">
-	  		<result property="product_no" column="product_no"/>
-	  		<result property="product_code" column="product_code"/>
-	  		<result property="product_name" column="product_name"/>
-	  		<result property="product_category" column="product_category"/>
-	  		<result property="product_category_detail" column="product_category_detail"/>
-	  		<result property="company_no" column="company_no"/>
-	  		<result property="product_unit" column="product_unit"/>
-	  		<result property="product_price" column="product_price"/>
-	  		<result property="expiry_date" column="expiry_date"/>
-
-			<collection property="productList" resultMap="productMap"></collection>
+	  		<result property="product_no" column="product_no"/>  
+	  		<result property="code" column="code"/>  
+	  		<result property="product_name" column="name"/>  
+	  		<result property="photo_paths" column="photo_paths"/>  
+	  		<result property="category" column="category"/>  
+	  		<result property="category_detail" column="category_detail"/>  
+	  		<result property="company_no" column="company_no"/>  
+	  		<result property="unit" column="unit"/>  
+	  		<result property="unit_quantity" column="unit_quantity"/>  
+	  		<result property="price" column="price"/>  
+	  		
+ 			<collection property="productList" resultMap="productMap"></collection>
 	  </resultMap>
 
 	  
@@ -28,11 +29,11 @@
 	  <!-- 전체 내역 조회 -->
 	  <select id="selectOrderlist" resultType="ordersVO">
 	  		<![CDATA[
-		  		SELECT o.*, pi.product_name, c.company_name, c.company_tel
+		  		SELECT o.*, mi.name "product_name", c.company_name, c.company_tel
 		  		FROM orders o
 		  			JOIN company c ON o.company_no = c.company_no
-		  			JOIN product_information pi ON o.product_no = pi.product_no
-		  		WHERE delete_status = 0
+		  			JOIN masterdata_information mi ON o.product_no = mi.product_no
+		  		WHERE o.delete_status = 0
 		  		ORDER BY o.order_date DESC
 		  		LIMIT #{startPage}, #{pageSize}
 	  		]]>
@@ -41,13 +42,13 @@
 	  <!-- 검색 내역 조회 -->
 	  <select id="findOrderList" resultType="ordersVO" parameterType="map">
 	  		<![CDATA[
-	  			SELECT o.*, pi.product_name, c.company_name, c.company_tel
+	  			SELECT o.*, mi.name "product_name", c.company_name, c.company_tel
 		  		FROM orders o
 		  			JOIN company c ON o.company_no = c.company_no
-		  			JOIN product_information pi ON o.product_no = pi.product_no
+		  			JOIN masterdata_information mi ON o.product_no = mi.product_no
 		  		WHERE delete_status = 0
 		  		AND (
-			  			pi.product_name LIKE CONCAT('%', #{query}, '%')
+			  			mi.name LIKE CONCAT('%', #{query}, '%')
 			  			OR c.company_name LIKE CONCAT('%', #{query}, '%')
 			  			OR o.order_status LIKE CONCAT('%', #{query}, '%')
 		  			)
@@ -71,10 +72,10 @@
 		  		SELECT COUNT(*)
 		  		FROM orders o
 		  			JOIN company c ON o.company_no = c.company_no
-		  			JOIN product_information pi ON o.product_no = pi.product_no
+		  			JOIN masterdata_information mi ON o.product_no = mi.product_no
 		  		WHERE delete_status = 0
 		  		AND (
-		  				pi.product_name LIKE CONCAT('%', #{query}, '%')
+		  				mi.name LIKE CONCAT('%', #{query}, '%')
 			  			OR c.company_name LIKE CONCAT('%', #{query}, '%')
 			  			OR o.order_status LIKE CONCAT('%', #{query}, '%')
 		  			)
@@ -101,9 +102,9 @@
 	  <!-- 주문 상세 조회 -->
 	  <select id="selectOrderDetail" resultType="ordersVO">
 	  		<![CDATA[
-		  		SELECT o.*, pi.product_name, m.name, c.company_name, c.company_tel, c.company_address, c.company_address_detail
+		  		SELECT o.*, mi.name "product_name", m.name, c.company_name, c.company_tel, c.company_address, c.company_address_detail
 		  		FROM orders o
-		  			JOIN product_information pi ON o.product_no = pi.product_no
+		  			JOIN masterdata_information mi ON o.product_no = mi.product_no
 		  			JOIN member m ON o.employee_no = m.employee_no
 		  			JOIN company c ON o.company_no = c.company_no
 		  		WHERE o.order_id = #{order_id}
@@ -140,7 +141,8 @@
 	  <select id="selectProductList" resultMap="productMap">
 	  		<![CDATA[
 		  		SELECT *
-		  		FROM product_information
+		  		FROM masterdata_information
+		  		WHERE category = "완제품"
 		  	]]>
 	  </select>
 	  
@@ -148,16 +150,17 @@
 	  <select id="findProduct" resultMap="productMap">
 	  		<![CDATA[
 		  		SELECT *
-		  		FROM product_information
-		  		WHERE product_name LIKE CONCAT('%', #{query}, '%')
+		  		FROM masterdata_information
+		  		WHERE name LIKE CONCAT('%', #{query}, '%')
+		  		AND category = "완제품"
 	  		]]>
 	  </select>
 	  
 	  <!-- 상품 선택 -->
 	  <select id="selectProduct" resultType="productVO">
 	  		<![CDATA[
-				SELECT *
-		  		FROM product_information
+				SELECT *, name "product_name"
+		  		FROM masterdata_information
 		  		WHERE product_no = #{product_no}
 	  		]]>
 	  </select>	  

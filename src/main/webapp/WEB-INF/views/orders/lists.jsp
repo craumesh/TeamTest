@@ -198,6 +198,7 @@
 				method : 'GET',
 				dataType: 'json',
 				success : function(data) {
+					console.log(data);
 					$('#photo_paths').attr('src', data.photo_paths).attr('width', '100');
 					$("#order_id").text(data.order_id);
 					$("#product_name").text(data.product_name);

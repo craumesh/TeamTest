@@ -15,15 +15,15 @@ import lombok.ToString;
 public class ProductVO {
 
 	private int product_no;
-	private String product_code;
+	private String code;
 	private String product_name;
-	private String product_category;
-	private String product_category_detail;
+	private String photo_paths;
+	private String category;
+	private String category_detail;
 	private String company_no;
-	private String product_unit;
-	private String product_price;
-	private String recipe;
-	private Timestamp expiry_date;
+	private String unit;
+	private String unit_quantity;
+	private String price;
 
 	private Integer quantity;
 	

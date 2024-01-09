@@ -167,6 +167,8 @@ public class OrdersController {
 		// 서비스
 		ProductVO productVO = oService.selectProduct(product_no);
 		
+		logger.debug("productVO: " + productVO);
+		
 		return productVO;
 	} 
 	
