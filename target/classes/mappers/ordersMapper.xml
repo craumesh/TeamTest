@@ -33,7 +33,9 @@
 		  		FROM orders o
 		  			JOIN company c ON o.company_no = c.company_no
 		  			JOIN masterdata_information mi ON o.product_no = mi.product_no
-		  			LEFT JOIN stock s ON mi.name = s.product_name
+		  			LEFT JOIN (SELECT product_code, SUM(quantity) AS quantity
+		  					   FROM stock
+		  					   GROUP BY product_code) s ON mi.code = s.product_code
 		  		WHERE o.delete_status = 0
 		  		ORDER BY o.order_date DESC
 		  		LIMIT #{startPage}, #{pageSize}
@@ -47,7 +49,9 @@
 		  		FROM orders o
 		  			JOIN company c ON o.company_no = c.company_no
 		  			JOIN masterdata_information mi ON o.product_no = mi.product_no
-		  			LEFT JOIN stock s ON mi.name = s.product_name
+		  			LEFT JOIN (SELECT product_code, SUM(quantity) AS quantity
+		  					   FROM stock
+		  					   GROUP BY product_code) s ON mi.code = s.product_code
 		  		WHERE delete_status = 0
 		  		AND (
 			  			mi.name LIKE CONCAT('%', #{query}, '%')
