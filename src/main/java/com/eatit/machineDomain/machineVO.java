@@ -18,6 +18,7 @@ public class machineVO {
 	private String purpose_of_use;
 	private Date installation_date;
 	private String machine_location;
+	private int order_id;
 	
 	private String name;
 //	private String use_history;

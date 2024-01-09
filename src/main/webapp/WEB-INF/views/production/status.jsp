@@ -8,18 +8,12 @@
 	<div class="card my-4">
 		<div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 ">
 			<div class="bg-gradient-primary shadow-primary border-radius-lg pt-3 pb-3 pe-3 d-flex">
-				<h3 class="text-white text-capitalize ps-5 align-items-center mb-0 py-1">발주 목록</h3>
-				<div class="ms-md-auto bg-white rounded p-2 d-flex align-items-center">
+				<h3 class="text-white text-capitalize ps-5 align-items-center mb-0 py-1"> ${machineCode } </h3>
 					<div class="align-items-center d-flex flex-column">
 						<div class="input-group input-group-outline">
-							<label class="form-label">검색어</label>
-							<input type="text" id="searchword" name="searchword" class="form-control" value="${param.searchword }">
 						</div>
 					</div>
-					<div class="align-items-center d-flex flex-column py-1">
-						<button id="searchbtn" class="btn btn-outline-primary btn-sm mb-0 py-1 ms-2">검색</button>
-					</div>
-				</div>
+				
 			</div>
 		</div>		
 	
@@ -29,26 +23,37 @@
 				<table class="table align-items-center mb-0">
 							<thead>
 								<tr>
-									<th class="text-center font-weight-bolder col-1">주문 번호</th>
-									<th class="text-center font-weight-bolder col-2">발주 번호</th>
-									<th class="text-center font-weight-bolder col-2">제품명</th>
-									<th class="text-center font-weight-bolder col-1">수량</th>
-									<th class="text-center font-weight-bolder col-1">상태</th>
+									<th class="text-center font-weight-bolder col-1"> status </th>
 								</tr>
 							</thead>
-							<tbody id="employeeTableBody">
-						
-							<tr class="mllist">
-							
+							<tbody id="statusTableBody">
+							<tr>
+							<th> 생산 번호 :  </th>
+							<td> OOOOO </td>
 							</tr>
-						
+							
+							<tr>
+							<th> 생산 제품 :  </th>
+							<td> OOOOO </td>
+							</tr>
+							
+							<tr>
+							<th> 생산 수량 :  </th>
+							<td> OOOOO EA </td>
+							</tr>
+							
+							<tr>
+							<th> 생산 완료 시간 :  </th>
+							<td> OO : OO </td>
+							</tr>
 					</tbody>
 						</table>
 		</form>
 			</div>
 		</div>
-		<div class="col-6 w-100 text-end">
-		
+		<div class="col-6 w-100 text-end">		
+		<button class="btn bg-gradient-dark fs-6 mb-0 py-2 px-3" onclick="">생산 완료</button>
+		<button class="btn bg-gradient-dark fs-6 mb-0 py-2 px-3" onclick="closeWindow()">닫기</button>
 		</div>
 		<div class="row">
 			<div class="col-sm-5">
@@ -61,7 +66,9 @@
 <%@ include file="../include/footer.jsp"%>
 
 <script>
-
+function closeWindow() {
+    window.close();
+}
     
     
 </script>
