@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 
 import com.eatit.memberDomain.MemberVO;
 import com.eatit.warehouseDomain.StockInfoVO;
+import com.eatit.warehouseDomain.StockVO;
 import com.eatit.warehouseDomain.WarehouseVO;
 
 @Repository
@@ -96,10 +97,24 @@ public class WarehouseDAOImpl implements WarehouseDAO {
 	@Override
 	// 입출고 정보 테이블 모두 조회
 	public List<StockInfoVO> getStockInfo() {
-		logger.debug("dao - "+sqlsession.selectList(NAMESPACE+"getStockInfo"));
+//		logger.debug("dao - "+sqlsession.selectList(NAMESPACE+"getStockInfo"));
 		return sqlsession.selectList(NAMESPACE+"getStockInfo");
 	}
 	
+//	@Override
+	// 특정 식별 코드 테이블 조회
+	public List<StockInfoVO> getStockInfoByIdentifyCode1(String[] identifyCode) {
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("identifyCode", identifyCode);
+		return sqlsession.selectList(NAMESPACE+"getStockInfoByIdentifyCode", paramMap);
+	}
+
+	@Override
+	// 특정 식별 코드 정보 조회
+	public StockInfoVO getStockInfoByIdentifyCode(StockInfoVO infoVO) {
+		return sqlsession.selectOne(NAMESPACE+"getStockInfoByIdentifyCode", infoVO);
+	}
+
 	@Override
 	// 식별코드에 해당하는 입출고 정보 갯수(식별코드 존재 여부에 사용)
 	public int countIdentifyCode(String identifyCode) {
@@ -111,7 +126,6 @@ public class WarehouseDAOImpl implements WarehouseDAO {
 	public List<StockInfoVO> getStockOfFinishedProduct() {
 		return sqlsession.selectList(NAMESPACE+"getStockOfFinishedProduct");
 	}
-
 
 	@Override
 	// 자재입고에 해당하는 완재품 정보 리스트 받아오기
@@ -125,10 +139,44 @@ public class WarehouseDAOImpl implements WarehouseDAO {
 		sqlsession.insert(NAMESPACE+"insertStockInfo", vo);
 	}
 
+//	@Override
+	// 창고재고 로우 갯수(창고 재고 존재 여부에 사용)
+	public int countStock1(String[] productCode) {
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("productCode", productCode);
+		return sqlsession.selectOne(NAMESPACE+"countStock1",paramMap);
+	}
+	
 	@Override
-	// 창고재고 정보 갯수(창고 재고 존재 여부에 사용)
-	public int countStock() {
-		return sqlsession.selectOne(NAMESPACE+"countStock");
+	// 해당 식별번호에 대한 품목 이름 가져오기
+	public int countStock(StockInfoVO infoVO) {
+		return sqlsession.selectOne(NAMESPACE+"countStock", infoVO);
+	}
+
+	@Override
+	// 창고 테이블에 insert
+	public void insertStockInfoIntoStock(StockVO vo) {
+		sqlsession.insert(NAMESPACE+"insertStock", vo);
+	}
+	
+	@Override
+	// 창고 정보 테이블 승인 후 update
+	public void updateStockInfoStatusWhenApprovalSuccess(StockVO vo) {
+		sqlsession.insert(NAMESPACE+"updateStockInfoStatusWhenApprovalSuccess",vo);
+	}
+	
+	@Override
+	// 창고 입출고 선택한 요소 배열로 받아서 Map에 넣고 update
+	public void updateStockInfoStatusWhenCancel(String[] identifyCode) {
+		Map<String,Object> idCodeMap = new HashMap<String, Object>();
+		idCodeMap.put("identifyCode", identifyCode);
+		sqlsession.update(NAMESPACE+"updateStockInfoStatusWhencancel", idCodeMap);
+	}
+
+	@Override
+	// 창고 조회
+	public List<StockVO> getStockList() {
+		return sqlsession.selectList(NAMESPACE+"getStockList");
 	}
 	
 	

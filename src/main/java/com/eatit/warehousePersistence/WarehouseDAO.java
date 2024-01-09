@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.eatit.memberDomain.MemberVO;
 import com.eatit.warehouseDomain.StockInfoVO;
+import com.eatit.warehouseDomain.StockVO;
 import com.eatit.warehouseDomain.WarehouseVO;
 
 public interface WarehouseDAO {
@@ -44,6 +45,9 @@ public interface WarehouseDAO {
 	// 입출고 정보 테이블 모두 조회
 	public List<StockInfoVO> getStockInfo();
 	
+	// 특정 식별 코드 정보 조회
+	public StockInfoVO getStockInfoByIdentifyCode(StockInfoVO infoVO);
+	
 	// 식별코드에 해당하는 입출고 정보 갯수(식별코드 존재 여부에 사용)
 	public int countIdentifyCode(String identifyCode);
 	
@@ -56,6 +60,19 @@ public interface WarehouseDAO {
 	// 서비스에서 받아온 완재품 입고 정보를 테이블에 insert
 	public void insertStockInfoList(StockInfoVO vo);
 	
-	// 창고재고 정보 갯수(창고 재고 존재 여부에 사용)
-	public int countStock();
+	// 창고재고 로우 갯수(창고 재고 존재 여부에 사용)
+	public int countStock(StockInfoVO infoVO);
+	
+	// 창고 입출고 테이블의 정보를 창고 테이블 insert
+	public void insertStockInfoIntoStock(StockVO vo);
+	
+	// 창고 정보 테이블 승인 후 update
+	public void updateStockInfoStatusWhenApprovalSuccess(StockVO vo);
+	
+	// 창고 입출고 선택한 요소 배열로 받아서 Map에 넣고 update
+	public void updateStockInfoStatusWhenCancel(String[] identifyCode);
+	
+	// 창고 조회
+	public List<StockVO> getStockList();
+	
 }

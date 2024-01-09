@@ -1,7 +1,9 @@
 package com.itwillbs.controller;
 
 import java.sql.Connection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -72,7 +74,17 @@ public class WarehouseTest {
 //		wdao.getStockOfFinishedProduct();
 //		wdao.getStockOfMaterial();
 //		wdao.countIdentifyCode("001M1O120240105000");
-		wdao.getStockInfo();
+//		wdao.getStockInfo();
+		String[] id = {"F6C5","M10S6"};
+//		wdao.countStock(id);
+		
+		String[] map = {"002F5C4202401090016","001M7O4202401080015"};
+		
+		Map<String, Object> testMap = new HashMap();
+		testMap.put("identifyCode", map);
+		
+//		wdao.getStockInfoByIdentifyCode(map);
+//		wdao.getStockInfoByIdentifyCode("002F2K1202401090017");
     	
 	}
 }

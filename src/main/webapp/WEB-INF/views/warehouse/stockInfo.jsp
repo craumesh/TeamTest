@@ -167,23 +167,23 @@
 				<div class="table-responsive p-0">
 					<form role="form" method="post">
 					<table class="table align-items-center mb-0">
-					
 						<thead>
 							<tr>
-								<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ">
+								<th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ">
 									<input type="checkbox" id="cbx_chkAll">
 								</th>
-								<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">식별코드</th>
-								<th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">창고번호</th>
-								<th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">입출고 구분</th>
-								<th class="text-center text-secondary text-xxs font-weight-bolder opacity-7 ">카테고리</th>
-								<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">품목이름</th>
-								<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">입출고 수량</th>
-								<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">단위</th>
-								<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">가격(만원)</th>
-								<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">유통기한</th>
-								<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">입출고일</th>
-								<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">처리상태</th>
+								<th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">식별코드</th>
+								<th class="text-center text-secondary text-xs font-weight-bolder opacity-7">창고번호</th>
+								<th class="text-center text-secondary text-xs font-weight-bolder opacity-7">입출고 구분</th>
+								<th class="text-center text-secondary text-xs font-weight-bolder opacity-7 ">카테고리</th>
+								<th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">품목이름</th>
+								<th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">입출고 수량</th>
+								<th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">단위</th>
+								<th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">가격(만원)</th>
+								<th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">유통기한</th>
+								<th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">입출고일</th>
+								<th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">처리상태</th>
+								<th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7"></th>
 							</tr>
 						</thead>
 						
@@ -224,17 +224,20 @@
 			                        	<span class="text-secondary text-xs font-weight-bold">${stockInfoList.io_date}</span>
 			                      	</td>
 									<td class="text-center text-sm">
-			                        	<span class="badge badge-sm bg-gradient-info">${stockInfoList.status}</span>
+			                        	<span id="status" class="badge badge-sm bg-gradient-success">${stockInfoList.status}</span>
+			                      	</td>
+									<td class="text-center text-sm">
+			                        	<button type="button" class="btn bg-gradient-dark mb-0 py-0 allowBtn" >승인</button>
 			                      	</td>
 								</tr>
 							</c:forEach>
 						</tbody>	
 					</table>
+					<input type="hidden" name="identify_code" id="identify_code_for_submit">
 					</form>
 				</div>
 				<div class="text-end ">
-	                <button type="button" id="allowBtn" class="btn bg-gradient-dark">승인</button>
-	                <button type="button" id="cancelBtn" class="btn bg-gradient-dark me-3" >취소</button>
+	                <button type="button" id="cancelBtn" class="btn bg-gradient-dark py-2 me-3" >취소</button>
 	            </div>
 			</div>
 		</div>
@@ -254,36 +257,37 @@ $(document).ready(function(){
 		});
 		
 		// 승인 버튼 클릭시, 식별코드를 사용해서 승인 처리
-		$("#allowBtn").click(function(){
-			var chkboxes = $("input[name='chk']:checked");
-			
-			 if (chkboxes.length === 0) {
-		            swal({
-		                title: "처리할 사항을 선택해주세요",
-		                icon: "warning",
-		                buttons:{
-		                    confirm: true
-		                }
-		            });
-		            return;
-		        }
-			
-			swal({
-				  title: "정말 승인하시겠습니까?",
-				  icon: "warning",
-				  buttons: true,
-				  dangerMode: true
-				})
-				.then((willDelete) => {
-				  if (willDelete) {
-					swal("승인 완료", {icon: "success"}).then(function(){
-						$("#closebtn").click();
-						formObj.attr("action","/warehouse/processStockInfo");
-						formObj.submit();
-					});							
-				  }
-			});	
-		});
+		 $(".allowBtn").click(function(){
+		       var row = $(this).closest("tr");
+		       var identifyCode = row.find("input[name='chk']").val();
+		       var statusVal = row.find("span[id='status']").text();
+		
+		       if (statusVal === "대기중") {
+		           swal({
+		               title: "승인하시겠습니까?",
+		               icon: "info",
+		               buttons: true,
+		               dangerMode: true
+		           }).then((willApprove) => {
+		               if (willApprove) {
+		                   swal("승인 완료", {icon: "success"}).then(function(){
+		                       $("#closebtn").click();
+		                       formObj.find("#identify_code_for_submit").val(identifyCode);
+		                       formObj.attr("action", "/warehouse/stockApprovalProcess");
+		                       formObj.submit();
+		                   });
+		               }
+		           });
+		       } else {
+		           swal({
+		               title: "이미 처리된 요청사항입니다",
+		               icon: "error",
+		               buttons: {
+		                   confirm: true
+		               }
+		           });
+		       }
+		   });
 		
 		// 삭제 버튼 클릭시, 창고 번호를 사용해서 삭제 처리
 		$("#cancelBtn").click(function(){
@@ -310,15 +314,15 @@ $(document).ready(function(){
 				  if (willDelete) {
 					swal("승인 취소 완료", {icon: "success"}).then(function(){
 						$("#closebtn").click();
-						formObj.attr("action","/warehouse/updateStockInfo");
+						formObj.attr("action","/warehouse/cancelStockInfo");
 						formObj.submit();
 					});							
 				  }
 			});	
 		});
 		
-		
 	});
+	
 </script>
 <script src="/resources/js/plugins/warehouseMain.js"></script>
 </html>

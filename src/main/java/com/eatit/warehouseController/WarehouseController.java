@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -21,6 +22,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.eatit.memberDomain.MemberVO;
 import com.eatit.memberService.HumanResourceService;
 import com.eatit.warehouseDomain.StockInfoVO;
+import com.eatit.warehouseDomain.StockVO;
 import com.eatit.warehouseDomain.WarehouseVO;
 import com.eatit.warehousePersistence.WarehouseDAOImpl;
 import com.eatit.warehouseService.WarehouseService;
@@ -38,8 +40,8 @@ public class WarehouseController {
 	@Inject
 	private HumanResourceService hrService;
 	
-	//http://localhost:8088/warehouse/warehouseMain
 ////////////////////////////////////////// 창고 메인 페이지 시작 ///////////////////////////////////////
+	//http://localhost:8088/warehouse/warehouseMain
 	@GetMapping(value = "/warehouseMain")
 	public void warehouseMainGET(Model model,@SessionAttribute("no") int no, HttpSession session) {
 		logger.debug("C - wareHouseMainGET() 호출");
@@ -100,9 +102,6 @@ public class WarehouseController {
 		// 서비스 - 창고 등록
 		warehouseService.warehouseRegist(vo);
 		
-		// 메시지 전달
-//		rttr.addFlashAttribute("result", "registOK");
-		
 		return "redirect:/warehouse/registClose";
 	}
 	
@@ -129,36 +128,50 @@ public class WarehouseController {
 	
 ////////////////////////////////////////// 재고 페이지 시작 ////////////////////////////////////////////
 	
+	//http://localhost:8088/warehouse/warehouseStockMain
+	// 창고 재고 페이지
+	@RequestMapping(value = "/warehouseStockMain", method = RequestMethod.GET)
+	public void warehouseStockMainGET(StockInfoVO stockVO,Model model) {
+		logger.debug("C - warehouseStockMainGET()");
+		
+		List<StockVO> stockList = warehouseService.stockListALL();
+		logger.debug("stockList " +stockList);
+		
+		model.addAttribute("stockList", stockList);
+		
+	}
+	
 	@GetMapping(value = "/stockInfo")
 	public void stockInfoGET(Model model) {
-		logger.debug("C - stockInfoGET()");
+//		logger.debug("C - stockInfoGET()");
 		
 		List<StockInfoVO> stockInfoList = warehouseService.getStockInfoList();
-		
-		logger.debug("stockInfoList : "+stockInfoList);
+//		logger.debug("stockInfoList : "+stockInfoList);
 		
 		model.addAttribute("stockInfoList", stockInfoList);
 	}
 	
 	@PostMapping(value = "/stockApprovalProcess")
-	public String stockInfoPOST(@RequestParam("chk") String[] identifyCode,StockInfoVO vo) {
+	public String stockInfoApprovalProcess(StockInfoVO infoVO) {
+//	    logger.debug("C - stockInfoPOST()");
+//	    logger.debug("infoVO: " + infoVO);
+	    
+	    warehouseService.stockApprovalProcess(infoVO);
+
+	    return "redirect:/warehouse/stockInfo";
+	}
+	
+	@PostMapping(value = "/cancelStockInfo")
+	public String cancelStockInfo(@RequestParam("chk") String[] identifyCode) {
 		logger.debug("C - stockInfoPOST()");
 		
-		
+		warehouseService.stockCancelProcess(identifyCode);
 		
 		return "redirect:/warehouse/stockInfo";
 	}
 	
 	
-	//http://localhost:8088/warehouse/warehouseStockMain
-	// 창고 재고 페이지
-	@RequestMapping(value = "/warehouseStockMain", method = RequestMethod.GET)
-	public void warehouseStockMainGET(StockInfoVO stockVO,HttpSession session) {
-		logger.debug("C - warehouseStockMainGET()");
-		
-		// 새로고침 제어시 필요
-//		session.setAttribute("getStockInfoList", true);
-	}
+	
 	
 	
 	

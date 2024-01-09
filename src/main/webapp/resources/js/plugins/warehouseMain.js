@@ -195,6 +195,24 @@ $(document).ready(function() {
     	});
     }
     
-    
+    // 상태 변경
+//    $('table tr').each(function() {
+//        var statusText = $(this).find('#status').text();
+//        console.log('Status Text:', statusText);
+//        switch(statusText){
+//        case "대기중": $(this).find('#status').addClass("bg-gradient-info"); break;   // 파랑
+//        case "승인": $(this).find('#status').addClass("bg-gradient-success"); break; // 초록
+//        case "취소": $(this).find('#status').addClass("bg-gradient-danger"); break;   // 빨강
+//        }
+//    });
+    $('table tr').each(function() {
+        var statusText = $(this).find('#status').text().trim().toLowerCase();
+        console.log("span: " + statusText);
+        switch(statusText){
+        case "승인": $(this).find('#status').addClass("bg-gradient-success"); break;
+        case "대기중": $(this).find('#status').addClass("bg-gradient-info"); break;
+        case "취소": $(this).find('#status').addClass("bg-gradient-danger"); break;
+        }
+    });
 });
 /////////////////////////// 상세 페이지(모달) //////////////////////////

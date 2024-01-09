@@ -27,7 +27,7 @@
 				<table id="hr-table" class="table table-hover align-items-center mb-0">
 					<thead>
 						<tr>
-							<th class="text-center py-3 font-weight-bolder col-2">식별코드</th>
+							<th class="text-center py-3 font-weight-bolder col-2">품목코드</th>
 							<th class="text-center font-weight-bolder col-1">창고번호</th>
 							<th class="text-center font-weight-bolder col-1">구분</th>
 							<th class="text-center font-weight-bolder col-3">품목이름</th>
@@ -37,15 +37,15 @@
 						</tr>
 					</thead>
 	 				<tbody id="employeeTableBody">
-						<c:forEach var="vo" items="${list}">
+						<c:forEach var="vo" items="${stockList}">
 							<tr class="memList">
-								<td class="text-center py-3 identify-no">1</td>
-								<td class="text-center py-3">2</td>
-								<td class="text-center py-3">3</td>
-								<td class="text-center py-3">4</td>
-								<td class="text-center py-3">5</td>
-								<td class="text-center py-3">6</td>
-								<td class="text-center py-3">7</td>
+								<td class="text-center py-3 identify-no">${vo.product_code}</td>
+								<td class="text-center py-3">${vo.warehouse_no}</td>
+								<td class="text-center py-3">${vo.category}</td>
+								<td class="text-center py-3">${vo.product_name}</td>
+								<td class="text-center py-3">${vo.quantity}</td>
+								<td class="text-center py-3">${vo.product_unit}</td>
+								<td class="text-center py-3">${vo.expiry_date}</td>
 								<%-- <td class="text-center py-3"><span class="badge badge-sm bg-gradient-success">${vo.status}</span></td> --%>
 							</tr>
 						</c:forEach>

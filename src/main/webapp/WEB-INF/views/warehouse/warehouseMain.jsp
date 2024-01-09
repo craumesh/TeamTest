@@ -173,12 +173,12 @@
 								<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ">
 									<input type="checkbox" id="cbx_chkAll">
 								</th>
-								<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">창고번호</th>
-								<th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">구분</th>
-								<th class="text-center text-secondary text-xxs font-weight-bolder opacity-7 ">창고명</th>
-								<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">관리자</th>
-								<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">사용여부</th>
-								<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">상세정보</th>
+								<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 fs-6">창고번호</th>
+								<th class="text-center text-secondary text-xxs font-weight-bolder opacity-7 fs-6">구분</th>
+								<th class="text-center text-secondary text-xxs font-weight-bolder opacity-7 fs-6">창고명</th>
+								<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 fs-6">관리자</th>
+								<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 fs-6">사용여부</th>
+								<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 fs-6">상세정보</th>
 							</tr>
 						</thead>
 						
@@ -218,8 +218,8 @@
 					</form>
 				</div>
 				<div class="text-end ">
-	                <button type="button" class="btn bg-gradient-dark" onclick="popup();">창고등록</button>
-	                <button type="button" id="deleteBtn" class="btn bg-gradient-dark me-3" >창고삭제</button>
+	                <button type="button" class="btn bg-gradient-dark py-2" onclick="popup();">창고등록</button>
+	                <button type="button" id="deleteBtn" class="btn bg-gradient-dark py-2 me-3" >창고삭제</button>
 	            </div>
 			</div>
 		</div>

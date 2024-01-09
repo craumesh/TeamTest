@@ -6,29 +6,37 @@
   <mapper namespace="com.eatit.mapper.warehouseMapper">
   	<!--창고 정보 리스트 조회 -->
   	<select id="getWarehouseListAll" resultType="WarehouseVO">
-  		select * from warehouse
+  		SELECT * FROM warehouse
   	</select>
   	
   	<!--회원 정보 리스트 조회 -->
   	<select id="getMemberListAll" resultType="com.eatit.memberDomain.MemberVO">
-  		select * from member
+  		SELECT * FROM member
   	</select>
   	
   	<!--직책 정보 가져오기(Ajax)-->
 	<select id="getPositionName" resultType="String">
-		select position_name
-		from member
-		group by position_name
+		SELECT position_name
+		FROM member
+		GROUP BY position_name
 	</select>
 	
 	<!--직책에 해당하는 회원이름 리스트 가져오기(Ajax)-->
 	<select id="getMembersOfPosition" resultType="String">
-		select name from member where position_name =#{position_name}
+		SELECT 
+			name 
+		FROM member 
+		WHERE position_name =#{position_name}
 	</select>
 	
 	<!--이름에 해당하는 회원정보 리스트 가져오기(Ajax)-->
 	<select id="getMemberInfoByName" resultType="com.eatit.memberDomain.MemberVO">
-		select name, contact, email from member where name =#{name}
+		SELECT 
+			name, 
+			contact, 
+			email 
+		FROM member 
+		WHERE name =#{name}
 	</select>
 	  	
   	<!--창고 정보 리스트 조회(main) -->
@@ -42,13 +50,13 @@
   			m.name,
   			use_status 
 		FROM warehouse w JOIN member m
-		on w.admin_no=m.employee_no
-		order by warehouse_no asc
+		ON w.admin_no=m.employee_no
+		ORDER BY warehouse_no asc
   	</select>
   	
   	<!--특정 창고 정보 조회(Ajax)-->
   	<select id="getWarehouseInfo" resultType="WarehouseVO">
-  		select 
+  		SELECT 
   			warehouse_no, 
   			location_name, 
   			warehouse_name, 
@@ -61,44 +69,50 @@
   			name, 
   			contact, 
   			email  
-  		from warehouse w join member m
-  		on w.admin_no = m.employee_no
-  		where warehouse_no = #{warehouse_no}
+  		FROM warehouse w join member m
+  		ON w.admin_no = m.employee_no
+  		WHERE warehouse_no = #{warehouse_no}
   	</select>
   	
   	<!--세션 아이디에 해당하는 회원정보-->
   	<select id="getWarehouseAdminInfo" resultType="com.eatit.memberDomain.MemberVO">
-  		select employee_no, name, contact, email from member where employee_no = #{no} 
+  		SELECT 
+  			employee_no, 
+  			name, 
+  			contact, 
+  			email 
+		FROM member 
+		WHERE employee_no = #{no} 
   	</select>
   	
   	<!--창고 등록-->
   	<insert id="insertWarehouse" >
-  		insert into warehouse(location_name,warehouse_name,category,admin_no,note) 
-  		values(#{location_name},#{warehouse_name},#{category},#{admin_no},#{note})
+  		INSERT INTO warehouse(location_name,warehouse_name,category,admin_no,note) 
+  		VALUES(#{location_name},#{warehouse_name},#{category},#{admin_no},#{note})
   	</insert>
   	
   	<!--창고 수정-->
   	<update id="updateDetailInfo">
   	<![CDATA[
-  		update warehouse 
-  		set 
+  		UPDATE warehouse 
+  		SET 
   			category=#{category},
   			warehouse_name=#{warehouse_name},
   			note=#{note},
-  			updater=(select name 
-  					 from member 
-  					 where employee_no = #{admin_no}), 
+  			updater=(SELECT name 
+  					 FROM member 
+  					 WHERE employee_no = #{admin_no}), 
 			updatedate=now(),
-  			admin_no=(select employee_no 
-  					  from member 
-  					  where name = #{name})  
-  		where warehouse_no = #{warehouse_no}
+  			admin_no=(SELECT employee_no 
+  					  FROM member 
+  					  WHERE name = #{name})  
+  		WHERE warehouse_no = #{warehouse_no}
   	]]>
   	</update>
   	
   	<!--창고 삭제-->
   	<delete id="deleteWarehouse" parameterType="java.util.Map">
-  		delete from warehouse where warehouse_no in
+  		DELETE FROM warehouse WHERE warehouse_no IN
   		 <foreach collection="warehouse_no" item="no" open="(" separator="," close=")">
             #{no}
         </foreach>
@@ -163,6 +177,44 @@
   		FROM stock_info
   	</select>
   	
+  	<!-- 특정 품목 stock_info 테이블 조회  -->
+  	<select id="getStockInfoByIdentifyCode1" parameterType="java.util.Map" resultType="com.eatit.warehouseDomain.StockInfoVO">
+  		SELECT  
+  			identify_code,
+  			warehouse_no,
+  			io_classification,
+  			category,
+  			product_name 'name',
+  			io_quantities,
+  			product_unit 'unit',
+  			price,
+  			expiry_date,
+  			io_date,
+  			status 
+  		FROM stock_info
+  		WHERE identify_code IN
+  			<foreach collection="identifyCode" item="code" open="(" separator="," close=")">
+  				#{code}
+  			</foreach>
+  	</select>
+  	
+  	<select id="getStockInfoByIdentifyCode" resultType="com.eatit.warehouseDomain.StockInfoVO">
+  		SELECT  
+  			identify_code,
+  			warehouse_no,
+  			io_classification,
+  			category,
+  			product_name 'name',
+  			io_quantities,
+  			product_unit 'unit',
+  			price,
+  			expiry_date,
+  			io_date,
+  			status 
+  		FROM stock_info
+  		WHERE identify_code = #{identify_code}
+  	</select>
+  	
   	<select id="countIdentifyCode" resultType="int">
   		SELECT COUNT(*) 
   		FROM stock_info 
@@ -170,14 +222,51 @@
   	</select>
   	
   	<insert id="insertStockInfo">
-  		insert into stock_info(identify_code,warehouse_no,io_classification,category,product_name,io_quantities,product_unit,price,expiry_date,io_date)
-  		values(#{identify_code},#{warehouse_no},#{io_classification},#{category},#{name},#{io_quantities},#{unit},#{price},#{expiry_date},#{io_date})
+  		INSERT INTO stock_info(identify_code,warehouse_no,io_classification,category,product_name,io_quantities,product_unit,price,expiry_date,io_date)
+  		VALUES(#{identify_code},#{warehouse_no},#{io_classification},#{category},#{name},#{io_quantities},#{unit},#{price},#{expiry_date},#{io_date})
   	</insert>
+  	
+  	<select id="countStock1" parameterType="java.util.Map" resultType="int">
+  		SELECT COUNT(*) 
+  		FROM stock
+  		WHERE product_code IN
+  			<foreach collection="productCode" item="code" open="(" separator="," close=")">
+  				#{code}
+  			</foreach>
+  	</select>
   	
   	<select id="countStock" resultType="int">
   		SELECT COUNT(*) 
-  		FROM stock 
+  		FROM stock
+  		WHERE product_code = #{code}
   	</select>
+  	
+  	<!--Stock-->
+	<select id="getStockList" resultType="com.eatit.warehouseDomain.StockVO">
+		SELECT * 
+		FROM stock
+		ORDER BY expiry_date;
+	</select>
+	
+	<insert id="insertStock">
+		INSERT INTO stock(product_code,warehouse_no,category,product_name,product_unit,expiry_date,quantity) 
+		VALUES(#{product_code},#{warehouse_no},#{category},#{product_name},#{product_unit},#{expiry_date},#{quantity})
+	</insert> 
+	
+	<update id="updateStockInfoStatusWhenApprovalSuccess">
+		UPDATE stock_info 
+		SET status ='승인' 
+		WHERE identify_code = #{identify_code}  
+	</update>
+	
+	<update id="updateStockInfoStatusWhencancel" parameterType="java.util.Map">
+  		UPDATE stock_info 
+  		SET status ='취소' 
+  		WHERE identify_code IN
+  			<foreach collection="identifyCode" item="code" open="(" separator="," close=")">
+  				#{code}
+  			</foreach>
+  	</update>
   	
   </mapper>	  
   

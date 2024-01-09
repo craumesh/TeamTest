@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.eatit.memberDomain.MemberVO;
 import com.eatit.warehouseDomain.StockInfoVO;
+import com.eatit.warehouseDomain.StockVO;
 import com.eatit.warehouseDomain.WarehouseVO;
 
 public interface WarehouseService {
@@ -51,5 +52,11 @@ public interface WarehouseService {
 	public List<StockInfoVO> getStockInfoList();
 	
 	// 창고 승인 처리
-	public void stockApprovalProcess(String[] identifyCode,StockInfoVO vo);
+	public void stockApprovalProcess(StockInfoVO infoVO);
+	
+	// 창고 취소 처리
+	public void stockCancelProcess(String[] identifyCode);
+	
+	// 창고 조회
+	public List<StockVO> stockListALL(); 
 }

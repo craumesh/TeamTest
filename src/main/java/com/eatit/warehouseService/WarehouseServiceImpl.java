@@ -15,6 +15,7 @@ import com.eatit.machinePersistence.machineDAO;
 import com.eatit.memberDomain.MemberVO;
 import com.eatit.productPersistence.MasterDataDAO;
 import com.eatit.warehouseDomain.StockInfoVO;
+import com.eatit.warehouseDomain.StockVO;
 import com.eatit.warehouseDomain.WarehouseVO;
 import com.eatit.warehousePersistence.WarehouseDAO;
 
@@ -162,7 +163,7 @@ public class WarehouseServiceImpl implements WarehouseService {
         	finishedProductSeqNumber = FormathistoyNo;
 	        
 	        // 식별 번호 생성 
-	        String identify_code = finishedProductCompanyNo+finishedProductStockInfoVO.getCode()+ioDate+finishedProductSeqNumber;
+	        String identify_code = finishedProductCompanyNo+finishedProductStockInfoVO.getCode()+"-"+ioDate+finishedProductSeqNumber;
 	        setStockVO.setIdentify_code(identify_code);
 	        
 	        // 존재하지 않으면(같은 이름의 identify_code가 0개일 때) stock_info 테이블에 insert
@@ -208,7 +209,7 @@ public class WarehouseServiceImpl implements WarehouseService {
         	materialSeqNumber = FormathistoyNo;
 	        
 	        // 식별 번호 생성 
-	        String identify_code = materialCompanyNo+materialStockInfo.getCode()+ioDate+materialSeqNumber;
+	        String identify_code = materialCompanyNo+materialStockInfo.getCode()+"-"+ioDate+materialSeqNumber;
 	        setStockVO.setIdentify_code(identify_code);
 	        
 	        // 존재하지 않으면(같은 이름의 identify_code가 0개일 때) stock_info 테이블에 insert
@@ -225,20 +226,54 @@ public class WarehouseServiceImpl implements WarehouseService {
 	}
 
 	@Override
-	public void stockApprovalProcess(String[] identifyCode,StockInfoVO vo) {
-		Map<String, Object> idCodeMap = new HashMap<>();
-		idCodeMap.put("identifyCode", identifyCode);
+	public void stockApprovalProcess(StockInfoVO infoVO) {
 		
-		int countStock = warehousedao.countStock();
-		// 창고에 들어 있지 않은 품목 경우 -> insert 후 update(상태 변경) 
-		if(countStock == 0) {
-			
-		}
+		// 식별코드에 해당하는 재고 입출고 정보 불러오기
+		StockInfoVO stockInfoVO = warehousedao.getStockInfoByIdentifyCode(infoVO);
+//		logger.debug("stockInfoVO : "+stockInfoVO);
 		
-		// 창고에 이미 들어가 있는 품목의 경우 -> update(수량 반영 및 상태 변경)
-		if (countStock > 0) {
-			
-		}
+		// 제품코드 추출
+		String idCode = infoVO.getIdentify_code();
+		String[] idCodeList = idCode.split("-");
+		String resultIdCode = idCodeList[0].substring(3);
+//		logger.debug("resultIdCode"+resultIdCode);
+		infoVO.setCode(resultIdCode);
+		stockInfoVO.setCode(resultIdCode);
+//		logger.debug("서비스 -infoVO : "+infoVO);
+		logger.debug("stockInfoVO : "+stockInfoVO);
+		
+		
+		// 식별코드에 대한 품목이름이 재고에 몇개 있는지 카운트 -> 개수 존재 여부에 따라 로직 처리(로직이 아깝다ㅠㅠ)
+		// -> 유통기한이 다른 상품은 상품이 같더라도 다른 상품이라 조건 따질 필요없이 바로 insert
+//		int countStock = warehousedao.countStock(infoVO);
+//		logger.debug("countStock :"+countStock);
+		
+		// StockInfoVO에 불러온 정보를 StockVO에 넣음
+		StockVO vo = new StockVO();
+		vo.setProduct_code(stockInfoVO.getCode());
+		vo.setIdentify_code(stockInfoVO.getIdentify_code());
+		vo.setWarehouse_no(stockInfoVO.getWarehouse_no());
+		vo.setCategory(stockInfoVO.getCategory());
+		vo.setProduct_name(stockInfoVO.getName());
+		vo.setProduct_unit(stockInfoVO.getUnit());
+		vo.setExpiry_date(stockInfoVO.getExpiry_date());
+		vo.setQuantity(stockInfoVO.getIo_quantities());
+		
+		// insert 후 상태 update
+		warehousedao.insertStockInfoIntoStock(vo);
+		warehousedao.updateStockInfoStatusWhenApprovalSuccess(vo);
+	}
+
+	@Override
+	// 창고 취소 처리
+	public void stockCancelProcess(String[] identifyCode) {
+		warehousedao.updateStockInfoStatusWhenCancel(identifyCode);
+	}
+
+	@Override
+	// 창고 조회
+	public List<StockVO> stockListALL() {
+		return warehousedao.getStockList();
 	}
 	
 	
