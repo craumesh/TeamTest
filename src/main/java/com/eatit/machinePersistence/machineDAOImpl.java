@@ -82,6 +82,12 @@ private static final String NAMESPACE="com.eatit.mapper.machineMapper";
 		sqlSession.update(NAMESPACE+ ".machinedeleteupdate",vo);
 		
 	}
+
+	@Override
+	public machineVO productstatus(int code) {
+		logger.debug("productstatus() 호출");
+		return sqlSession.selectOne(NAMESPACE+ ".productstatus", code);
+	}
 	
 	
 }

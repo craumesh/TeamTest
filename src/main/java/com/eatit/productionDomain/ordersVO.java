@@ -6,7 +6,7 @@ import java.sql.Timestamp;
 import lombok.Data;
 
 @Data
-public class purchase_orderVO {
+public class ordersVO {
 	private int order_id;
 	private int company_no;
 	private int employee_no;
@@ -18,6 +18,5 @@ public class purchase_orderVO {
 	private String order_status;
 	private Date update_date;
 	private int delete_status;
-	
-	private String name;
+
 }

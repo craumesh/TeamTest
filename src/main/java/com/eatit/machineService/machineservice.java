@@ -35,5 +35,8 @@ public interface machineservice {
 	
 	// 페이징 처리 갯수
 	public int totalCount(); 
+	
+	// 생산 상세 조회
+	public machineVO productstatus(int code);
 
 }

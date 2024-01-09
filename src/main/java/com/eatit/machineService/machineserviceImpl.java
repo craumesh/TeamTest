@@ -84,6 +84,12 @@ public class machineserviceImpl implements machineservice {
 		
 	}
 
+	@Override
+	public machineVO productstatus(int code) {
+		logger.debug("productstatus() 호출");
+		return mcdao.productstatus(code);
+	}
+
     
     
 }

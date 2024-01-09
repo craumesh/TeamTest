@@ -1,6 +1,7 @@
 package com.eatit.machineDomain;
 
 import java.sql.Date;
+import java.sql.Time;
 import java.sql.Timestamp;
 
 
@@ -19,6 +20,7 @@ public class machinehistoryVO {
 	private int employee_no;
 	private String machine_update;
 	private Timestamp machine_update_date;
+	private Time product_time;
 
 	
 }

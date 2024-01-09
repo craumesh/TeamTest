@@ -34,7 +34,7 @@
 							<th class="text-center font-weight-bolder col-2">관리자</th>
 							<th class="text-center font-weight-bolder col-3">마지막 작동</th>
 							<th class="text-center font-weight-bolder col-3">생산 시작 시간</th>
-							<th class="text-center font-weight-bolder col-3">생산 완료 예정 시간</th>
+							<th class="text-center font-weight-bolder col-3">생산 완료</th>
 							<th class="text-center font-weight-bolder col-1">설비 상태</th>
 						</tr>
 					</thead>
@@ -48,9 +48,9 @@
 								<td class="text-center">
 								<fmt:formatDate value="${history.operating_time}" pattern="MM월 dd일 HH:mm" />
 								</td>
+								<td class="text-center">${history.product_time != null ? history.product_time : "00:00:00"}</td>
 								</c:forEach>
-								<td class="text-center">00시 00분</td>
-									<td><span id="status-badge"
+									<td class="text-center"><span id="status-badge"
 										class="badge badge-sm bg-gradient-success"
 										onclick="openStatusWindow('${ml.machine_code}', '/production/status')">
 											${ml.machine_status} </span></td>
@@ -63,8 +63,8 @@
 			</div>
 		</div>
 		<div class="col-6 w-100 text-end">
-		<button class="btn bg-gradient-dark fs-6 mb-0 py-2 px-3" onclick="새창열기('/production/orderform')">발주서 확인</button>
-        <button class="btn bg-gradient-dark fs-6 mb-0 py-2 px-3" onclick="새창열기('/production/request')">자재 요청</button>
+		<button class="btn bg-gradient-dark fs-6 mb-0 py-2 px-3 me-3" onclick="새창열기('/production/orderform')">발주서 확인</button>
+        <button class="btn bg-gradient-dark fs-6 mb-0 py-2 px-3 me-3" onclick="새창열기('/production/request')">자재 요청</button>
 		</div>
 		<div class="row">
 			<div class="col-sm-5">

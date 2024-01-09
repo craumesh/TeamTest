@@ -33,4 +33,6 @@ public interface machineDAO {
 	// 페이징 처리 갯수
 	public int totalCount(); 
 
+	// 생산 리스트 조회
+	public machineVO productstatus(int code);
 }

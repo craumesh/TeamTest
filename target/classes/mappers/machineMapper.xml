@@ -16,10 +16,13 @@
   	<result property="machine_location" column="machine_location"/>
   	<result property="order_id" column="order_id"/>
   	<result property="name" column="name"/>
-  	<collection property="infolist" resultMap="machinehistoryVO">
-  	</collection>
+  	<collection property="infolist" resultMap="machinehistoryVO"></collection>
+  	<collection property="ordersVOlist" resultMap="ordersVO"></collection>
+  	<collection property="masterdataVOlist" resultMap="masterdata_informationVO"></collection>
+  	<collection property="recipeVOlist" resultMap="recipeVO"></collection>
   </resultMap>
   
+  <!-- machinehistoryVO -->
 <resultMap type="com.eatit.machineDomain.machinehistoryVO" id="machinehistoryVO">
   	<result property="history_no" column="history_no"/>
   	<result property="machine_code" column="machine_code"/>
@@ -30,7 +33,44 @@
   	<result property="employee_no" column="employee_no"/>
   	<result property="machine_update" column="machine_update"/>
   	<result property="machine_update_date" column="machine_update_date"/>
+  	<result property="product_time" column="product_time"/>
 </resultMap>  
+
+<!-- ordersVO -->
+<resultMap type="com.eatit.productionDomain.ordersVO" id="ordersVO">
+  	<result property="order_id" column="order_id"/>
+  	<result property="company_no" column="company_no"/>
+  	<result property="employee_no" column="employee_no"/>
+  	<result property="quantity" column="quantity"/>
+  	<result property="quantity" column="quantity"/>
+  	<result property="order_date" column="order_date"/>
+  	<result property="due_date" column="due_date"/>
+  	<result property="comments" column="comments"/>
+  	<result property="order_status" column="order_status"/>
+  	<result property="update_date" column="update_date"/>
+  	<result property="delete_status" column="delete_status"/>
+</resultMap>  
+
+<!-- masterdata_informationVO -->
+<resultMap type="com.eatit.productionDomain.masterdata_informationVO" id="masterdata_informationVO">
+  	<result property="product_no" column="product_no"/>
+  	<result property="code" column="code"/>
+  	<result property="photo_paths" column="photo_paths"/>
+  	<result property="category" column="category"/>
+  	<result property="category_detail" column="category_detail"/>
+  	<result property="company_no" column="company_no"/>
+  	<result property="unit" column="unit"/>
+  	<result property="unit_quantity" column="unit_quantity"/>
+  	<result property="price" column="price"/>
+</resultMap>  
+
+<!-- recipeVO -->
+<resultMap type="com.eatit.productionDomain.recipeVO" id="recipeVO">
+  	<result property="recipe_no" column="recipe_no"/>
+  	<result property="code" column="code"/>
+  	<result property="recipe" column="recipe"/>
+</resultMap>  
+
 
 
   <!-- 설비 추가  -->
@@ -86,7 +126,7 @@
   JOIN (
   SELECT machine_code, MAX(machine_update_date) AS machine_update_date, MAX(use_history) AS use_history, MAX(operating_time) AS operating_time
   FROM machine_history
-  WHERE machine_update != '삭제'
+  WHERE machine_update != '삭제' 
   GROUP BY machine_code
   ) AS b ON a.machine_code = b.machine_code 
   GROUP BY a.machine_code, a.machine_name, c.name, b.use_history, b.operating_time, a.machine_status  
@@ -149,6 +189,25 @@
 	  		WHERE machine_code > 0
   		]]>
   	</select>
+  	
+  <!-- 특정 설비 상세 조회 + 생산정보 조회-->
+  <select id="productstatus" resultMap="machineVO">
+ <!--  SELECT a.machine_code, a.machine_name, a.machine_status,a.order_id, b.operating_time, d.company_no, d.product_no, e.code, e.name, f.recipe -->
+  select *
+  FROM machine as a
+  JOIN machine_history as b 
+  ON a.machine_code = b.machine_code
+  join orders as d
+  on a.order_id = d.order_id
+  join masterdata_information as e
+  on d.product_no = e.product_no
+  join recipe as f
+  on e.code = f.code
+  where a.machine_code = #{machine_code}
+  ORDER BY machine_update_date DESC
+  LIMIT 1;
+  </select>
+
 
   
   

@@ -10,8 +10,8 @@ import org.springframework.stereotype.Service;
 
 import com.eatit.machineDomain.machineVO;
 import com.eatit.mainDomain.Criteria;
+import com.eatit.productionDomain.ordersVO;
 import com.eatit.productionDomain.productionVO;
-import com.eatit.productionDomain.purchase_orderVO;
 import com.eatit.productionPersistence.productionDAO;
 
 @Service

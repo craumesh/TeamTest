@@ -255,14 +255,12 @@ $(document).ready(function () {
             data: { machineCode: machineCode ? parseInt(machineCode[0]) : 0 },
             dataType: 'json',
             success: function (data) {
-                // infolist의 각 항목을 순회
+
                 for (var i = 0; i < data.infolist.length; i++) {
                     var historyData = data.infolist[i];
                 }
-                
-                // (List)historyData.get(i) = data.infolist[];
-                
-                // 서버에서 받은 데이터를 사용하여 모달에 표시
+
+
                 var namecode = data.machine_name + "_" + historyData.machine_code;
                 $("#namecode").text(namecode);
                 $("#code").text(historyData.machine_code);
@@ -270,7 +268,7 @@ $(document).ready(function () {
                 $("#status").text(data.machine_status);
                 $("#employeename").text(data.name);
                 $("#machineno").val(historyData.machine_code);
-                // formatDate 함수를 AJAX 내부에 직접 정의
+
                 function formatDate1(dateString) {
                 	var formattedDate = dateString.replace(/(\d+)월 (\d+), (\d+)/, function(match, p1, p2, p3) {
                         return p3 + '-' + (p1.length === 1 ? '0' + p1 : p1) + '-' + (p2.length === 1 ? '0' + p2 : p2);
@@ -289,14 +287,14 @@ $(document).ready(function () {
 
                     return formattedDate;
                 }
-                // formatDate 함수를 사용하여 날짜 형식 변환
+       
                 $("#lastchecktime").text(formatDate1(historyData.check_time));
                 $("#lastoperatingtime").text(formatDate(historyData.operating_time));
                 $("#installationdate").text(formatDate(data.installation_date));
                 $("#machinelocation").text(data.machine_location);
 				
                 console.log(data);
-                // 모달 열기
+              
                 document.getElementById("Modal").style.display = "block";
             },
             error: function (error) {
@@ -441,7 +439,7 @@ $(".input-group").click(function(){
 		            dangerMode: true,
 		        }).then((willDelete) => {
 		            if (willDelete) {
-		                // 삭제 확인 시 폼 제출
+		             
 		                swal("선택한 설비가 삭제되었습니다.", {
 		                    icon: "success",
 		                    buttons: false,
