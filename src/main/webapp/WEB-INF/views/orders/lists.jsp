@@ -38,14 +38,18 @@
 									</div>
 								</th>
 								<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">주문 번호</th>
-								<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">제품 정보</th>
-								<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">지점 정보</th>
+								<th class="text-center text-secondary text-xxs font-weight-bolder opacity-7 w-15">제품 정보</th>
+								<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">재고량</th>
+								<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">거래처 정보</th>
 								<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">주문 일자</th>
+								<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">작업 지시</th>
 								<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">처리 상태</th>
 							</tr>
 						</thead>					
 						<tbody>
 							<c:forEach var="vo" items="${ordersVOList }">
+						
+								
 								<tr>
 									<td class="text-uppercase text-secondary text-s font-weight-bolder opacity-7 ps-2">
 										<div class="form-check form-check-info text-start ps-0">
@@ -58,7 +62,7 @@
                       					</a>                  						
                      				</td>
 									<td>
-				                    	<div class="d-flex px-2 py-1">
+				                    	<div class="d-flex px-2 py-1 ms-5">
 				                        	<div>
 				                            	<img src="" class="avatar avatar-sm me-3 border-radius-lg" alt="user1">
 				                     		</div>
@@ -68,6 +72,16 @@
 				                        	</div>
 				                    	</div>
 			                        </td>
+			                        <td class="align-middle text-center">
+										<div class="d-flex flex-sm-column align-items-center justify-content-center">
+											<span class="me-2 text-xs font-weight-bold" id="prdInv_${vo.order_id}">${vo.io_quantities}ea</span>
+											<div>
+												<div class="progress">
+													<div class="progress-bar bg-gradient-info" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: ${(vo.io_quantities / 100) * 100};"></div>
+												</div>
+											</div>
+										</div>
+									</td>
 									<td>
 				                        <p class="text-xs font-weight-bold mb-0">${vo.company_name }</p>
 				                        <p class="text-xs text-secondary mb-0">${vo.company_tel }</p>
@@ -77,6 +91,9 @@
 									    	<fmt:formatDate value="${vo.order_date}" pattern="yyyy-MM-dd" />
 									    </span>
 									</td>
+									<td class="align-middle text-center text-sm">
+			                        	<span class="badge badge-sm bg-gradient-success">작업 지시</span>
+			                      	</td>
 									<td class="align-middle text-center text-sm">
 			                        	<span class="badge badge-sm bg-gradient-success">${vo.order_status }</span>
 			                      	</td>
@@ -260,5 +277,5 @@
 			buttons: "확인",
 			});
 	}
-
+	
 </script>
