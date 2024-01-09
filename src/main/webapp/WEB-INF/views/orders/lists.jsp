@@ -40,8 +40,8 @@
 								<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">주문 번호</th>
 								<th class="text-center text-secondary text-xxs font-weight-bolder opacity-7 w-15">제품 정보</th>
 								<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">재고량</th>
-								<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">거래처 정보</th>
 								<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">주문 일자</th>
+								<th class="text-center text-secondary text-xxs font-weight-bolder opacity-7 ps-2">거래처 정보</th>
 								<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">작업 지시</th>
 								<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">처리 상태</th>
 							</tr>
@@ -56,12 +56,12 @@
 											<input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" data-gtm-form-interact-field-id="0">
 										</div>
 									</td>
-									<td class="align-middle text-center identify-no">
-                      					<a href="/orders/orderDetail?order_id=${vo.order_id }">
-                      						<span class="text-secondary font-weight-bold">${vo.order_id }</span>
+									<td class="align-middle text-center identify-no modal-act">
+                      					<a>
+                   							<span class="text-secondary font-weight-bold">${vo.order_id }</span>
                       					</a>                  						
                      				</td>
-									<td>
+									<td class="modal-act">
 				                    	<div class="d-flex px-2 py-1 ms-5">
 				                        	<div>
 				                            	<img src="" class="avatar avatar-sm me-3 border-radius-lg" alt="user1">
@@ -72,30 +72,42 @@
 				                        	</div>
 				                    	</div>
 			                        </td>
-			                        <td class="align-middle text-center">
+			                        <td class="align-middle text-center modal-act">
 										<div class="d-flex flex-sm-column align-items-center justify-content-center">
-											<span class="me-2 text-xs font-weight-bold" id="prdInv_${vo.order_id}">${vo.io_quantities}ea</span>
+											<span class="me-2 text-xs font-weight-bold" id="prdInv_${vo.order_id}">${vo.stock_quantity}</span>
 											<div>
 												<div class="progress">
-													<div class="progress-bar bg-gradient-info" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: ${(vo.io_quantities / 100) * 100};"></div>
+													<div class="progress-bar bg-gradient-info" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: ${(vo.stock_quantity / 100) * 100};"></div>
 												</div>
 											</div>
 										</div>
 									</td>
-									<td>
-				                        <p class="text-xs font-weight-bold mb-0">${vo.company_name }</p>
-				                        <p class="text-xs text-secondary mb-0">${vo.company_tel }</p>
-                      				</td>
-									<td class="align-middle text-center">
+									<td class="align-middle text-center modal-act">
 										<span class="text-secondary text-xs font-weight-bold">
 									    	<fmt:formatDate value="${vo.order_date}" pattern="yyyy-MM-dd" />
 									    </span>
 									</td>
+									<td class="align-middle text-center modal-act">
+				                        <p class="text-xs font-weight-bold mb-0">${vo.company_name }</p>
+				                        <p class="text-xs text-secondary mb-0">${vo.company_tel }</p>
+                      				</td>
+                      				
+                      				<c:choose>
+							            <c:when test="${vo.quantity < vo.stock_quantity}">
+							                <td class="align-middle text-center text-sm">
+							                    <button class="btn bg-gradient-info fs-6 mb-0 py-1 px-3" onclick="openDeliveryForm()">출고 요청</button>
+							                </td>
+							            </c:when>
+							            <c:otherwise>
+							                <td class="align-middle text-center text-xs">
+							                    <button class="btn bg-gradient-warning fs-6 mb-0 py-1 px-3" onclick="openProductionRequest()">생산 요청</button>
+							                </td>
+							            </c:otherwise>
+							        </c:choose>
+			                      	
+			                      	
 									<td class="align-middle text-center text-sm">
-			                        	<span class="badge badge-sm bg-gradient-success">작업 지시</span>
-			                      	</td>
-									<td class="align-middle text-center text-sm">
-			                        	<span class="badge badge-sm bg-gradient-success">${vo.order_status }</span>
+			                        	<span class="badge badge-sm bg-gradient-success fs-6 mb-0 py-2 px-3">${vo.order_status }</span>
 			                      	</td>
 								</tr>
 							</c:forEach>
@@ -206,10 +218,10 @@
 			location.href = '/orders/lists?query=' + value;
 		});	
 		
-		$("#order-table").on("click", "tr td", function(event) {
+		$("#order-table").on("click", "tr td.modal-act", function(event) {
 			
-	        var value = $(this).closest("tr").find("td.identify-no").text();
-
+		    var value = $(this).closest("tr").find("td.identify-no").text();
+			
 	        $.ajax({
 	            url: '/orders/detail?order_id=' + value,
 				method : 'GET',
@@ -232,23 +244,21 @@
 					console.log('실패:', error);
 				}
 			});
+		        
 	    });
 		
 		$("#closebtn").click(function(){
 			modal.style.display = "none";
-			location.reload();
 		});
 		
 		$("#closebtn").click(function(){
 			var value = $("#query").val();
 			modal.style.display = "none";
-			location.reload();
 		});
 		
 		$(window).click(function(event){
 			if (event.target == modal) {
 				modal.style.display = "none";
-				location.reload();
 			}
 			
 			if (!$(event.target).closest('.input-group').length) {
@@ -277,5 +287,15 @@
 			buttons: "확인",
 			});
 	}
+	
+	// 배송 요청
+    function openDeliveryForm() {
+        window.open('/deliverys/forms', '_blank', 'width=800,height=600');
+    }
+	
+	// 생산 요청
+    function openProductionRequest() {
+        window.open('/생산 지시/페이지', '_blank', 'width=800,height=600');
+    }
 	
 </script>

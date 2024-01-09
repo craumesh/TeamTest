@@ -29,11 +29,11 @@
 	  <!-- 전체 내역 조회 -->
 	  <select id="selectOrderlist" resultType="ordersVO">
 	  		<![CDATA[
-		  		SELECT o.*, mi.name "product_name", c.company_name, c.company_tel, si.io_quantities
+		  		SELECT o.*, mi.name "product_name", c.company_name, c.company_tel, s.quantity "stock_quantity"
 		  		FROM orders o
 		  			JOIN company c ON o.company_no = c.company_no
 		  			JOIN masterdata_information mi ON o.product_no = mi.product_no
-		  			JOIN stock_info si ON mi.name = si.product_name
+		  			LEFT JOIN stock s ON mi.name = s.product_name
 		  		WHERE o.delete_status = 0
 		  		ORDER BY o.order_date DESC
 		  		LIMIT #{startPage}, #{pageSize}
@@ -43,10 +43,11 @@
 	  <!-- 검색 내역 조회 -->
 	  <select id="findOrderList" resultType="ordersVO" parameterType="map">
 	  		<![CDATA[
-	  			SELECT o.*, mi.name "product_name", c.company_name, c.company_tel
+	  			SELECT o.*, mi.name "product_name", c.company_name, c.company_tel, s.quantity "stock_quantity"
 		  		FROM orders o
 		  			JOIN company c ON o.company_no = c.company_no
 		  			JOIN masterdata_information mi ON o.product_no = mi.product_no
+		  			LEFT JOIN stock s ON mi.name = s.product_name
 		  		WHERE delete_status = 0
 		  		AND (
 			  			mi.name LIKE CONCAT('%', #{query}, '%')

@@ -54,7 +54,7 @@ public class OrdersController {
 			pageVO.setTotalCount(oService.getTotalCount());
 			ordersVOList = oService.getOrderList(cri);
 		}
-		
+
 		// 데이터 전달
 		model.addAttribute(pageVO);
 		model.addAttribute("listsUrl", "lists");
