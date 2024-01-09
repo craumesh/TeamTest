@@ -1,6 +1,7 @@
 package com.eatit.businessPersistence;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -30,6 +31,12 @@ public class OrdersDAOImpl implements OrdersDAO {
 		logger.debug("DAO: selectOrderList(cri)");
 		return SqlSession.selectList(NAMESPACE + ".selectOrderlist", cri);
 	}
+	
+	@Override
+	public List<OrdersVO> findOrderList(Map<String, Object> params) throws Exception {
+		logger.debug("DAO: findOrderList(params)");
+		return SqlSession.selectList(NAMESPACE + ".findOrderList", params);
+	}
 
 	@Override
 	public int getTotalCount() throws Exception {
@@ -37,6 +44,12 @@ public class OrdersDAOImpl implements OrdersDAO {
 		return SqlSession.selectOne(NAMESPACE + ".totalCount");
 	}
 	
+	@Override
+	public int getFindCount(Map<String, Object> params) throws Exception {
+		logger.debug("DAO: getFindCount(params)");
+		return SqlSession.selectOne(NAMESPACE + ".findCount", params);
+	}
+
 	@Override
 	public MemberVO selectMember(String id) throws Exception {
 		logger.debug("DAO: selectMember(id)");

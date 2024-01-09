@@ -8,11 +8,11 @@
 			<div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">				
 				<div class="bg-gradient-primary shadow-primary border-radius-lg pt-3 pb-3 pe-3 d-flex">			
 					<h3 class="text-white text-capitalize ps-5 align-items-center mt-2 py-1">주문 내역</h3>					
-					<form action="/orders/searchlist" id="search-form" class="ms-md-auto bg-white rounded p-2 mb-0 d-flex align-items-center">
+					<form action="/orders/lists" id="search-form" class="ms-md-auto bg-white rounded p-2 mb-0 d-flex align-items-center">
 						<div class="align-items-center d-flex flex-column mx-1">	
 							<div class="input-group input-group-outline">
 								<label class="form-label">검색어</label>
-								<input type="text" id="searchword" name="searchword" class="form-control" value="${param.searchword }">
+								<input type="text" id="query" name="query" class="form-control" value="${param.query }">
 								<input type="hidden" id="filter" name="filter" value="${param.filter }">
 							</div>
 						</div>					
@@ -94,15 +94,15 @@
 				<div class="col-sm-5 mb-3">
 					<ul class="pagination">
 						<c:if test="${pageVO.prev }">
-							<li class="page-link link-container"><a href="/orders/${listsUrl }?page=${pageVO.endPage-pageVO.displayPageNum }&filter=${filter}&searchword=${searchword}" class="link"><<</a></li>
+							<li class="page-link link-container"><a href="/orders/${listsUrl }?page=${pageVO.endPage-pageVO.displayPageNum }&query=${query}&filter=${filter}" class="link"><<</a></li>
 						</c:if>
 						<c:forEach var="i" begin="${pageVO.startPage }" end="${pageVO.endPage }" step="1">
 							<li ${pageVO.cri.page == i ? "class='link-container active'" : "class='link-container'"} >
-								<a href="/orders/${listsUrl }?page=${i }&filter=${filter}&searchword=${searchword}" ${pageVO.cri.page == i ? "class='page-link rounded fw-bolder link-white'" : "class='page-link rounded fw-bolder'"}>${i }</a>
+								<a href="/orders/${listsUrl }?page=${i }&query=${query}&filter=${filter}" ${pageVO.cri.page == i ? "class='page-link rounded fw-bolder link-white'" : "class='page-link rounded fw-bolder'"}>${i }</a>
 							</li>				
 						</c:forEach>
 						<c:if test="${pageVO.next }">
-							<li class="page-link link-container"><a href="/orders/${listsUrl }?page=${pageVO.startPage+pageVO.displayPageNum }&filter=${filter}&searchword=${searchword}" class="link">>></a></li>
+							<li class="page-link link-container"><a href="/orders/${listsUrl }?page=${pageVO.startPage+pageVO.displayPageNum }&query=${query}&filter=${filter}" class="link">>></a></li>
 						</c:if>
 					</ul>
 				</div>
@@ -180,13 +180,13 @@
 	
 		var modal = document.getElementById("Modal");
 		
-		if($("#searchword").val()) {
+		if($("#query").val()) {
 			$(".input-group").addClass("focused is-focused");
 		}
 		
 		$("#searchbtn").click(function(){
-			var value = $("#searchword").val();
-			location.href = '/orders/searchlists?searchword=' + value;
+			var value = $("#query").val();
+			location.href = '/orders/lists?query=' + value;
 		});	
 		
 		$("#order-table").on("click", "tr td", function(event) {
@@ -222,7 +222,7 @@
 		});
 		
 		$("#closebtn").click(function(){
-			var value = $("#searchword").val();
+			var value = $("#query").val();
 			modal.style.display = "none";
 			location.reload();
 		});
@@ -234,7 +234,7 @@
 			}
 			
 			if (!$(event.target).closest('.input-group').length) {
-				if (!$("#searchword").val()) {
+				if (!$("#query").val()) {
 		       		$(".input-group").removeClass("focused is-focused");
 				}
 		    }

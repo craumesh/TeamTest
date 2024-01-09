@@ -1,6 +1,7 @@
 package com.eatit.businessController;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
@@ -34,17 +35,25 @@ public class OrdersController {
 	
 	// 발주 내역 조회 - GET
 	@RequestMapping(value = "/lists", method = RequestMethod.GET)
-	public void orderListGET(Model model, Criteria cri) throws Exception {
+	public void orderListGET(Model model, Criteria cri, @RequestParam(name = "query", required = false) String query, Map<String, Object> params) throws Exception {
 		
 		logger.debug("Controller: /orders/lists/orderListGET(model, cri)");
 		
-		// 페이징 처리
+		List<OrdersVO> ordersVOList;
 		PageVO pageVO = new PageVO();
 		pageVO.setCri(cri);
-		pageVO.setTotalCount(oService.getTotalCount());
 		
-		// 서비스 - 리스트 가져오기
-		List<OrdersVO> ordersVOList = oService.getOrderList(cri);
+		if(query != null) {
+			logger.debug("Controller: /orders/lists/orderListGET(model, query)");
+			params.put("cri", cri);
+			params.put("query", query);
+			pageVO.setTotalCount(oService.getFindCount(params));
+			ordersVOList = oService.findOrderList(params);
+		}else {
+			logger.debug("Controller: /orders/lists/orderListGET(model)");
+			pageVO.setTotalCount(oService.getTotalCount());
+			ordersVOList = oService.getOrderList(cri);
+		}
 		
 		// 데이터 전달
 		model.addAttribute(pageVO);

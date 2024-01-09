@@ -1,6 +1,7 @@
 package com.eatit.businessService;
 
 import java.util.List;
+import java.util.Map;
 
 import com.eatit.businessDomain.ProductVO;
 import com.eatit.businessDomain.OrdersVO;
@@ -12,7 +13,11 @@ public interface OrdersService {
 
 	public List<OrdersVO> getOrderList(Criteria cri) throws Exception; 
 
+	public List<OrdersVO> findOrderList(Map<String, Object> params) throws Exception;
+	
 	public int getTotalCount() throws Exception;
+	
+	public int getFindCount(Map<String, Object> params) throws Exception;
 	
 	public MemberVO getMemberInfo(String id) throws Exception;
 	

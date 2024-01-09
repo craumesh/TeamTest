@@ -25,7 +25,7 @@
 	  <resultMap type="com.eatit.memberDomain.MemberVO" id="memberVO"/>
 	  <resultMap type="com.eatit.masterDataDomain.CompanyVO" id="companyVO"/>
 	  
-	  <!-- 내역 조회 -->
+	  <!-- 전체 내역 조회 -->
 	  <select id="selectOrderlist" resultType="ordersVO">
 	  		<![CDATA[
 		  		SELECT o.*, pi.product_name, c.company_name, c.company_tel
@@ -38,12 +38,46 @@
 	  		]]>
 	  </select>
 	  
-	  <!-- 전체 신청 개수 -->
+	  <!-- 검색 내역 조회 -->
+	  <select id="findOrderList" resultType="ordersVO" parameterType="map">
+	  		<![CDATA[
+	  			SELECT o.*, pi.product_name, c.company_name, c.company_tel
+		  		FROM orders o
+		  			JOIN company c ON o.company_no = c.company_no
+		  			JOIN product_information pi ON o.product_no = pi.product_no
+		  		WHERE delete_status = 0
+		  		AND (
+			  			pi.product_name LIKE CONCAT('%', #{query}, '%')
+			  			OR c.company_name LIKE CONCAT('%', #{query}, '%')
+			  			OR o.order_status LIKE CONCAT('%', #{query}, '%')
+		  			)
+		  		ORDER BY o.order_date DESC
+		  		LIMIT #{cri.startPage}, #{cri.pageSize}
+	  		]]>
+	  </select>
+	  
+	  <!-- 전체 주문 개수 -->
 	  <select id="totalCount" resultType="int">
 	  		<![CDATA[
 		  		SELECT COUNT(*)
 		  		FROM orders
 		  		WHERE delete_status = 0
+	  		]]>
+	  </select>
+	  
+	  <!-- 검색된 주문 개수 -->
+	  <select id="findCount" resultType="int" parameterType="map">
+	  		<![CDATA[
+		  		SELECT COUNT(*)
+		  		FROM orders o
+		  			JOIN company c ON o.company_no = c.company_no
+		  			JOIN product_information pi ON o.product_no = pi.product_no
+		  		WHERE delete_status = 0
+		  		AND (
+		  				pi.product_name LIKE CONCAT('%', #{query}, '%')
+			  			OR c.company_name LIKE CONCAT('%', #{query}, '%')
+			  			OR o.order_status LIKE CONCAT('%', #{query}, '%')
+		  			)
 	  		]]>
 	  </select>
 	  

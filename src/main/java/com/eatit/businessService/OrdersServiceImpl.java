@@ -1,6 +1,7 @@
 package com.eatit.businessService;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -30,11 +31,23 @@ public class OrdersServiceImpl implements OrdersService {
 	}
 	
 	@Override
+	public List<OrdersVO> findOrderList(Map<String, Object> params) throws Exception {
+		logger.debug("Service: findOrderList(params)");
+		return odao.findOrderList(params);
+	}
+
+	@Override
 	public int getTotalCount() throws Exception {
 		logger.debug("Service: getTotalCount()");
 		return odao.getTotalCount();
 	}
 	
+	@Override
+	public int getFindCount(Map<String, Object> params) throws Exception {
+		logger.debug("Service: getFindCount(params)");
+		return odao.getFindCount(params);
+	}
+
 	@Override
 	public MemberVO getMemberInfo(String id) throws Exception {
 		logger.debug("Service: getMemberInfo(id)");
