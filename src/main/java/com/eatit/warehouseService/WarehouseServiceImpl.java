@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.eatit.machinePersistence.machineDAO;
+import com.eatit.mainDomain.Criteria;
 import com.eatit.memberDomain.MemberVO;
 import com.eatit.productPersistence.MasterDataDAO;
 import com.eatit.warehouseDomain.StockInfoVO;
@@ -218,11 +219,18 @@ public class WarehouseServiceImpl implements WarehouseService {
 	        }
 	    }
 	}
+	
+	@Override
+	public int getTotalCount() {
+		return warehousedao.getTotalCount();
+	}
 
 	@Override
-	public List<StockInfoVO> getStockInfoList() {
+	public List<StockInfoVO> getStockInfoList(Criteria cri) {
+		// 식별번호 생성과 동시에 insert 메서드 호출
 		getStockList();
-		return warehousedao.getStockInfo();
+		// 리스트 불러오기
+		return warehousedao.getStockInfo(cri);
 	}
 
 	@Override
@@ -243,11 +251,7 @@ public class WarehouseServiceImpl implements WarehouseService {
 		logger.debug("stockInfoVO : "+stockInfoVO);
 		
 		
-		// 식별코드에 대한 품목이름이 재고에 몇개 있는지 카운트 -> 개수 존재 여부에 따라 로직 처리(로직이 아깝다ㅠㅠ)
-		// -> 유통기한이 다른 상품은 상품이 같더라도 다른 상품이라 조건 따질 필요없이 바로 insert
-//		int countStock = warehousedao.countStock(infoVO);
-//		logger.debug("countStock :"+countStock);
-		
+		// -> 유통기한이 다른 상품은 상품이 같더라도 다른 상품이라 조건 따질 필요없이 바로 insert(현재 로직)
 		// StockInfoVO에 불러온 정보를 StockVO에 넣음
 		StockVO vo = new StockVO();
 		vo.setProduct_code(stockInfoVO.getCode());
@@ -258,10 +262,23 @@ public class WarehouseServiceImpl implements WarehouseService {
 		vo.setProduct_unit(stockInfoVO.getUnit());
 		vo.setExpiry_date(stockInfoVO.getExpiry_date());
 		vo.setQuantity(stockInfoVO.getIo_quantities());
+		logger.debug("vo :" +vo);
 		
 		// insert 후 상태 update
 		warehousedao.insertStockInfoIntoStock(vo);
 		warehousedao.updateStockInfoStatusWhenApprovalSuccess(vo);
+		
+		// 식별코드에 대한 품목이름이 재고에 몇개 있는지 카운트 -> 개수 존재 여부에 따라 로직 처리
+		int countStock = warehousedao.countStock(infoVO);
+		logger.debug("countStock :"+countStock);
+		// 해당 창고 번호의 사용여부(상태) 조회
+		String warehouseUseStatus = warehousedao.getWarehouseUseStatusByWarehouseNO(vo);
+		logger.debug("warehouseUseStatus :"+warehouseUseStatus);
+		
+		// 창고에 품목이 있고, 창고 상태가 'N'일때만 창고 상태 'Y'로 update
+		if(countStock > 0 && "N".equals(warehouseUseStatus)) {
+			warehousedao.updateWarehouseUseStatus(vo);
+		}
 	}
 
 	@Override

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.eatit.mainDomain.Criteria;
 import com.eatit.memberDomain.MemberVO;
 import com.eatit.warehouseDomain.StockInfoVO;
 import com.eatit.warehouseDomain.StockVO;
@@ -49,7 +50,10 @@ public interface WarehouseService {
 	public void getStockList();
 	
 	// 창고 재고 정보
-	public List<StockInfoVO> getStockInfoList();
+	public List<StockInfoVO> getStockInfoList(Criteria cri);
+	
+	// 창고 재고
+	public int getTotalCount();
 	
 	// 창고 승인 처리
 	public void stockApprovalProcess(StockInfoVO infoVO);

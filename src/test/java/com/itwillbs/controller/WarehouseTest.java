@@ -17,6 +17,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.eatit.productPersistence.MasterDataDAO;
 import com.eatit.warehouseDomain.StockInfoVO;
+import com.eatit.warehouseDomain.StockVO;
 import com.eatit.warehouseDomain.WarehouseVO;
 import com.eatit.warehousePersistence.WarehouseDAO;
 import com.eatit.warehouseService.WarehouseService;
@@ -85,6 +86,10 @@ public class WarehouseTest {
 		
 //		wdao.getStockInfoByIdentifyCode(map);
 //		wdao.getStockInfoByIdentifyCode("002F2K1202401090017");
+		StockVO vo = new StockVO();
+		vo.setWarehouse_no(1);
+		
+		wdao.getWarehouseUseStatusByWarehouseNO(vo);
     	
 	}
 }

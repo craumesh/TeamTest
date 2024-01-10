@@ -2,6 +2,7 @@ package com.eatit.warehousePersistence;
 
 import java.util.List;
 
+import com.eatit.mainDomain.Criteria;
 import com.eatit.memberDomain.MemberVO;
 import com.eatit.warehouseDomain.StockInfoVO;
 import com.eatit.warehouseDomain.StockVO;
@@ -42,8 +43,11 @@ public interface WarehouseDAO {
 	// 창고 삭제
 	public void deleteWarehouse(int[] warehouse_no);
 	
+	// 창고 정보 총갯수
+	public int getTotalCount();
+	
 	// 입출고 정보 테이블 모두 조회
-	public List<StockInfoVO> getStockInfo();
+	public List<StockInfoVO> getStockInfo(Criteria cri);
 	
 	// 특정 식별 코드 정보 조회
 	public StockInfoVO getStockInfoByIdentifyCode(StockInfoVO infoVO);
@@ -71,6 +75,12 @@ public interface WarehouseDAO {
 	
 	// 창고 입출고 선택한 요소 배열로 받아서 Map에 넣고 update
 	public void updateStockInfoStatusWhenCancel(String[] identifyCode);
+	
+	// 창고 번호에 해당하는 사용여부상태 조회
+	public String getWarehouseUseStatusByWarehouseNO(StockVO vo);
+	
+	// 창고 번호에 해당하는 사용여부상태 변경
+	public void updateWarehouseUseStatus(StockVO vo);
 	
 	// 창고 조회
 	public List<StockVO> getStockList();

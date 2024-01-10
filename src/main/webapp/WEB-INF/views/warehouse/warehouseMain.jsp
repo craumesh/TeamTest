@@ -201,7 +201,7 @@
 										<span class="text-secondary text-xs font-weight-bold">${warehouseListMain.name}</span>
 									</td>
 									<td class="text-center text-sm">
-			                        	<span class="badge badge-sm bg-gradient-success">${warehouseListMain.use_status}</span>
+			                        	<span id="wMainStatus" class="badge badge-sm bg-gradient-success">${warehouseListMain.use_status}</span>
 			                      	</td>
 									<td class="text-center text-sm">
 									<!--상세내역 모달버튼 시작  -->
@@ -269,6 +269,17 @@ $(document).ready(function(){
 				  }
 			});	
 		});
+		
+		// 상태 변경
+		 $('table tr').each(function() {
+		        var statusText = $(this).find('#wMainStatus').text();
+//		        console.log('Status Text:', statusText);
+		        switch(statusText){
+		        case "Y": $(this).find('#wMainStatus').addClass("bg-gradient-success"); break; // 초록
+		        case "N": $(this).find('#wMainStatus').addClass("bg-gradient-danger"); break;   // 빨강
+		        }
+		 });
+		
 	});
 </script>
 <script src="/resources/js/plugins/warehouseMain.js"></script>

@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
+import com.eatit.mainDomain.Criteria;
 import com.eatit.memberDomain.MemberVO;
 import com.eatit.warehouseDomain.StockInfoVO;
 import com.eatit.warehouseDomain.StockVO;
@@ -95,10 +96,15 @@ public class WarehouseDAOImpl implements WarehouseDAO {
 	}
 
 	@Override
+	public int getTotalCount() {
+		return sqlsession.selectOne(NAMESPACE+"totalCount");
+	}
+
+	@Override
 	// 입출고 정보 테이블 모두 조회
-	public List<StockInfoVO> getStockInfo() {
+	public List<StockInfoVO> getStockInfo(Criteria cri) {
 //		logger.debug("dao - "+sqlsession.selectList(NAMESPACE+"getStockInfo"));
-		return sqlsession.selectList(NAMESPACE+"getStockInfo");
+		return sqlsession.selectList(NAMESPACE+"getStockInfo",cri);
 	}
 	
 //	@Override
@@ -171,6 +177,18 @@ public class WarehouseDAOImpl implements WarehouseDAO {
 		Map<String,Object> idCodeMap = new HashMap<String, Object>();
 		idCodeMap.put("identifyCode", identifyCode);
 		sqlsession.update(NAMESPACE+"updateStockInfoStatusWhencancel", idCodeMap);
+	}
+	
+	@Override
+	public String getWarehouseUseStatusByWarehouseNO(StockVO vo) {
+//		logger.debug("조회한 창고 상태 : "+sqlsession.selectOne(NAMESPACE+"warehouseUseStatusByWarehouseNO",vo));
+		return sqlsession.selectOne(NAMESPACE+"getwarehouseUseStatusByWarehouseNO",vo);
+	}
+	
+	@Override
+	// 창고 번호에 해당하는 사용여부상태 변경
+	public void updateWarehouseUseStatus(StockVO vo) {
+		sqlsession.update(NAMESPACE+"updateWarehouseUseStatus", vo);
 	}
 
 	@Override

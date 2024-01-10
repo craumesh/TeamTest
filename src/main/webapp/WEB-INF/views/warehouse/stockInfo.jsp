@@ -236,9 +236,29 @@
 					<input type="hidden" name="identify_code" id="identify_code_for_submit">
 					</form>
 				</div>
-				<div class="text-end ">
-	                <button type="button" id="cancelBtn" class="btn bg-gradient-dark py-2 me-3" >취소</button>
-	            </div>
+				<div class="row">
+					<div class="col-sm-5">
+						<div class="ms-6">Showing ${pageVO.startPage } to ${pageVO.endPage } of 미구현 entries</div>
+					</div>
+					<div class="col-sm-6 mb-3">
+						<ul class="pagination">
+							<c:if test="${pageVO.prev }">
+								<li class="page-link link-container"><a href="/hr/${listUrl }?page=${pageVO.endPage-pageVO.displayPageNum }&searchword=${searchword}" class="link"><<</a></li>
+							</c:if>
+							<c:forEach var="i" begin="${pageVO.startPage }" end="${pageVO.endPage }" step="1">
+								<li ${pageVO.cri.page == i ? "class='link-container active'" : "class='link-container'"} >
+									<a href="/hr/${listUrl }?page=${i }&searchword=${searchword}" ${pageVO.cri.page == i ? "class='page-link rounded fw-bolder link-white'" : "class='page-link rounded fw-bolder'"}>${i }</a>
+								</li>				
+							</c:forEach>
+							<c:if test="${pageVO.next }">
+								<li class="page-link link-container"><a href="/hr/${listUrl }?page=${pageVO.startPage+pageVO.displayPageNum }&searchword=${searchword}" class="link">>></a></li>
+							</c:if>
+						</ul>
+					</div>
+					<div class="col-sm-1 text-end ">
+		                <button type="button" id="cancelBtn" class="btn bg-gradient-dark py-2 me-3" >취소</button>
+		            </div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -291,36 +311,59 @@ $(document).ready(function(){
 		
 		// 삭제 버튼 클릭시, 창고 번호를 사용해서 삭제 처리
 		$("#cancelBtn").click(function(){
-			var chkboxes = $("input[name='chk']:checked");
-			
-			 if (chkboxes.length === 0) {
-		            swal({
-		                title: "처리할 사항을 선택해주세요",
-		                icon: "warning",
-		                buttons:{
-		                    confirm: true
-		                }
+		    var chkboxes = $("input[name='chk']:checked");
+		    var statusVal = chkboxes.closest("tr").find("span[id='status']").text();
+		
+		    if (chkboxes.length === 0) {
+		        swal({
+		            title: "처리할 사항을 선택해주세요",
+		            icon: "warning",
+		            buttons: {
+		                confirm: true
+		            }
+		        });
+		        return;
+		    }
+		
+		    if (statusVal.trim() !== "대기중") {
+		        swal({
+		            title: "대기중인 항목만 취소할 수 있습니다",
+		            icon: "warning",
+		            buttons: {
+		                confirm: true
+		            }
+		        });
+		        return;
+		    }
+		
+		    swal({
+		        title: "승인 취소하시겠습니까?",
+		        icon: "warning",
+		        buttons: true,
+		        dangerMode: true
+		    })
+		    .then((willDelete) => {
+		        if (willDelete) {
+		            swal("승인 취소 완료", {icon: "success"}).then(function(){
+		                $("#closebtn").click();
+		                var formObj = $("form[role='form']");
+		                formObj.attr("action", "/warehouse/cancelStockInfo");
+		                formObj.submit();
 		            });
-		            return;
 		        }
-			
-			swal({
-				  title: "승인 취소하시겠습니까?",
-				  icon: "warning",
-				  buttons: true,
-				  dangerMode: true
-				})
-				.then((willDelete) => {
-				  if (willDelete) {
-					swal("승인 취소 완료", {icon: "success"}).then(function(){
-						$("#closebtn").click();
-						formObj.attr("action","/warehouse/cancelStockInfo");
-						formObj.submit();
-					});							
-				  }
-			});	
+		    });
 		});
 		
+		// 상태 변경
+		$('table tr').each(function() {
+	        var statusText = $(this).find('#status').text().trim().toLowerCase();
+//	        console.log("span: " + statusText);
+	        switch(statusText){
+	        case "승인": $(this).find('#status').addClass("bg-gradient-success"); break;
+	        case "대기중": $(this).find('#status').addClass("bg-gradient-info"); break;
+	        case "취소": $(this).find('#status').addClass("bg-gradient-danger"); break;
+	        }
+	    });
 	});
 	
 </script>

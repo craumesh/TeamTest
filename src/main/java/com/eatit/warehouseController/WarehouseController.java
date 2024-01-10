@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.eatit.mainDomain.Criteria;
+import com.eatit.mainDomain.PageVO;
 import com.eatit.memberDomain.MemberVO;
 import com.eatit.memberService.HumanResourceService;
 import com.eatit.warehouseDomain.StockInfoVO;
@@ -142,12 +144,18 @@ public class WarehouseController {
 	}
 	
 	@GetMapping(value = "/stockInfo")
-	public void stockInfoGET(Model model) {
+	public void stockInfoGET(Model model, Criteria cri) {
 //		logger.debug("C - stockInfoGET()");
 		
-		List<StockInfoVO> stockInfoList = warehouseService.getStockInfoList();
-//		logger.debug("stockInfoList : "+stockInfoList);
+		List<StockInfoVO> stockInfoList = warehouseService.getStockInfoList(cri);
 		
+		// 페이징
+		PageVO pageVO = new PageVO();
+		pageVO.setCri(cri);
+		pageVO.setTotalCount(warehouseService.getTotalCount());
+		
+		model.addAttribute("listUrl", "list");
+		model.addAttribute("pageVO", pageVO);
 		model.addAttribute("stockInfoList", stockInfoList);
 	}
 	
@@ -169,50 +177,6 @@ public class WarehouseController {
 		
 		return "redirect:/warehouse/stockInfo";
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-//	// 페이징
-//	@RequestMapping(value = "/warehouseStockMain", method = RequestMethod.POST)
-//    public String warehouseStockMainPost(MemberVO vo, @ModelAttribute("searchword") String searchword) {
-//        logger.debug("/warehouse/warehouseStockMain 호출 -> warehouseStockMainPost() 실행");
-//        hrService.editHrContent(vo);
-//        if(!searchword.isEmpty()) {
-//            return "redirect:/warehouse/searchlist";
-//        }
-//        return "redirect:/warehouse/warehouseStockMain";
-//    }
-	
-	
 	
 ////////////////////////////////////////// 재고 페이지 끝 //////////////////////////////////////////////
 	
