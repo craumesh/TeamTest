@@ -175,7 +175,7 @@
 
     // 상품 검색창
     function openSearchProduct() {
-        window.open('/orders/products', '_blank', 'width=800,height=600');
+        window.open('/orders/products', '_blank', 'width=600,height=710');
     }
     
     // 거래처 변경

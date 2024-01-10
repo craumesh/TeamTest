@@ -146,7 +146,7 @@
 	  </select>	   
 	  
 	  <!-- 검색 거래처 조회 -->
-	  <select id="findCompany" resultMap="companyVO"  parameterType="map">
+	  <select id="findCompany" resultMap="companyVO" parameterType="map">
 	  		SELECT *
 	  		FROM company
 	  		WHERE company_name LIKE CONCAT('%', #{query}, '%')
@@ -164,22 +164,49 @@
 	  		WHERE company_no = #{company_no}
 	  </select>	   
 	    
+	  <!-- 전체 상품 수 조회 -->
+	  <select id="selectCountTotalProduct" resultType="int">
+	  		SELECT COUNT(*)
+	  		FROM masterdata_information
+	  		WHERE category = "완제품"
+	  </select>
+	  
+	  <!-- 검색, 필터 상품 수 조회 -->
+	  <select id="selectCountMatchingProduct" resultType="integer" parameterType="map">
+	  		SELECT COUNT(*)
+	  		FROM masterdata_information
+	  		WHERE category = "완제품"
+	  		<choose>
+			  <when test = "filter == '케이크'"> AND category_detail = '케이크' </when>
+			  <when test = "filter == '쿠키'"> AND category_detail = '쿠키' </when>
+		  	</choose>		
+	  		AND name LIKE CONCAT('%', #{query}, '%')
+	  </select>
+	  
 	  <!-- 전체 상품 조회 -->
-	  <select id="selectProductList" resultMap="productMap">
+	  <select id="selectProductList" resultMap="productMap" parameterType="map">
 			SELECT mi.*, s.quantity "stock_quantity"
 			FROM masterdata_information mi
 				LEFT JOIN (SELECT product_code, SUM(quantity) AS quantity
 						   FROM stock
 						   GROUP BY product_code) s ON mi.code = s.product_code
-			WHERE mi.category = "완제품";
+			WHERE mi.category = "완제품"
+			ORDER BY category_detail ASC
+			LIMIT #{startPage}, #{pageSize}	
 	  </select>
 	  
 	  <!-- 검색 상품 조회 -->
-	  <select id="findProduct" resultMap="productMap">
+	  <select id="findProduct" resultMap="productMap" parameterType="map">
 	  		SELECT *
 	  		FROM masterdata_information
 	  		WHERE name LIKE CONCAT('%', #{query}, '%')
+	  		<choose>
+			  <when test = "filter == '케이크'"> AND category_detail = '케이크' </when>
+			  <when test = "filter == '쿠키'"> AND category_detail = '쿠키' </when>
+		  	</choose>		
 	  		AND category = "완제품"
+	  		ORDER BY category_detail
+	  		LIMIT #{cri.startPage}, #{cri.pageSize}	
 	  </select>
 	  
 	  <!-- 상품 선택 -->

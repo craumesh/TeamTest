@@ -151,23 +151,34 @@ public class OrdersController {
 	
 	// 상품 검색 - GET
 	@RequestMapping(value = "/products", method = RequestMethod.GET)
-	public void productFindGET(Model model, @RequestParam(name = "query", required = false) String query) throws Exception {
+	public void productFindGET(Model model, Criteria cri,
+							   @RequestParam(name = "query", required = false) String query,
+							   @RequestParam(name = "filter", required = false) String filter, 
+							   Map<String, Object> params) throws Exception {
 		
-		// 리스트 - 기준 정보 상품 리스트 가져오기
 		List<ProductVO> productVOList;
+		PageVO pageVO = new PageVO();
+		pageVO.setCri(cri);
 		
-		if(query != null) {
-			// 검색어가 입력되었을 때
-			logger.debug("Controller: /orders/products/productFindGET(model, query)");
-			productVOList = oService.findProduct(query);
-		}else {
+		if(query == null && filter == null) {
 			// 검색어가 입력되지 않았을 때, 새로 창을 열었을 때
 			logger.debug("Controller: /orders/products/productFindGET(model)");
-			productVOList = oService.getProductList();
+			pageVO.setTotalCount(oService.getTotalProductCount());
+			productVOList = oService.getProductList(cri);
+		}else {
+			// 검색어가 입력되었을 때
+			logger.debug("Controller: /orders/products/productFindGET(model, query)");
+			params.put("cri", cri);
+			params.put("query", query);
+			params.put("filter", filter);
+			pageVO.setTotalCount(oService.getMatchingProductCount(params));
+			productVOList = oService.findProduct(params);
 		}
 		
-		logger.debug("productVOList: "+productVOList);
+		logger.debug("productVOList: " + productVOList.size());
 		// 데이터 전달
+		model.addAttribute(pageVO);
+		model.addAttribute("productsUrl", "products");
 		model.addAttribute(productVOList);
 	} 
 	

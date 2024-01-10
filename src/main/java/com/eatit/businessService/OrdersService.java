@@ -35,9 +35,13 @@ public interface OrdersService {
 	
 	public CompanyVO selectCompany(int company_no) throws Exception;
 	
-	public List<ProductVO> getProductList() throws Exception; 
+	public int getTotalProductCount();
 	
-	public List<ProductVO> findProduct(String query) throws Exception;
+	public int getMatchingProductCount(Map<String, Object> params);
+	
+	public List<ProductVO> getProductList(Criteria cri); 
+	
+	public List<ProductVO> findProduct(Map<String, Object> params) throws Exception;
 	
 	public ProductVO selectProduct(Integer product_no) throws Exception;
 	

@@ -35,14 +35,19 @@ public interface OrdersDAO {
 	
 	public CompanyVO selectCompany(Integer company_no) throws Exception;
 	
-	public List<ProductVO> selectProductList() throws Exception;
+	public int selectCountTotalProduct();
 	
-	public List<ProductVO> findProduct(String query) throws Exception;
+	public int selectCountMatchingProduct(Map<String, Object> params);
+	
+	public List<ProductVO> selectProductList(Criteria cri);
+	
+	public List<ProductVO> findProduct(Map<String, Object> params) throws Exception;
 	
 	public ProductVO selectProduct(Integer product_no) throws Exception; 
 	
 	public int updateForm(OrdersVO ovo) throws Exception;
 
 	public int deleteForm(Integer order_id) throws Exception;
+
 
 }

@@ -97,15 +97,27 @@ public class OrdersServiceImpl implements OrdersService {
 	}
 	
 	@Override
-	public List<ProductVO> getProductList() throws Exception {
-		logger.debug("Service: getProductList()");
-		return odao.selectProductList();
+	public int getTotalProductCount() {
+		logger.debug("Service: getTotalProductCount()");
+		return odao.selectCountTotalProduct();
 	}
 
 	@Override
-	public List<ProductVO> findProduct(String query) throws Exception {
-		logger.debug("Service: findProduct(query)");
-		return odao.findProduct(query);
+	public int getMatchingProductCount(Map<String, Object> params) {
+		logger.debug("Service: getMatchingProductCount(params)");
+		return odao.selectCountMatchingProduct(params);
+	}
+
+	@Override
+	public List<ProductVO> getProductList(Criteria cri) {
+		logger.debug("Service: getProductList(cri)");
+		return odao.selectProductList(cri);
+	}
+
+	@Override
+	public List<ProductVO> findProduct(Map<String, Object> params) throws Exception {
+		logger.debug("Service: findProduct(params)");
+		return odao.findProduct(params);
 	} 
 	
 	@Override

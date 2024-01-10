@@ -76,15 +76,15 @@
 				<div class="col-sm-5 mb-3">
 					<ul class="pagination">
 						<c:if test="${pageVO.prev }">
-							<li class="page-link link-container"><a href="/orders/${companysUrl }?page=${pageVO.endPage-pageVO.displayPageNum }&query=${query}&filter=${filter}" class="link"><<</a></li>
+							<li class="page-link link-container"><a href="/orders/${companysUrl }?page=${pageVO.endPage-pageVO.displayPageNum }&query=${query}" class="link"><<</a></li>
 						</c:if>
 						<c:forEach var="i" begin="${pageVO.startPage }" end="${pageVO.endPage }" step="1">
 							<li ${pageVO.cri.page == i ? "class='link-container active'" : "class='link-container'"} >
-								<a href="/orders/${companysUrl }?page=${i }&query=${query}&filter=${filter}" ${pageVO.cri.page == i ? "class='page-link rounded fw-bolder link-white'" : "class='page-link rounded fw-bolder'"}>${i }</a>
+								<a href="/orders/${companysUrl }?page=${i }&query=${query}" ${pageVO.cri.page == i ? "class='page-link rounded fw-bolder link-white'" : "class='page-link rounded fw-bolder'"}>${i }</a>
 							</li>				
 						</c:forEach>
 						<c:if test="${pageVO.next }">
-							<li class="page-link link-container"><a href="/orders/${companysUrl }?page=${pageVO.startPage+pageVO.displayPageNum }&query=${query}&filter=${filter}" class="link">>></a></li>
+							<li class="page-link link-container"><a href="/orders/${companysUrl }?page=${pageVO.startPage+pageVO.displayPageNum }&query=${query} class="link">>></a></li>
 						</c:if>
 					</ul>
 				</div>

@@ -93,15 +93,27 @@ public class OrdersDAOImpl implements OrdersDAO {
 	}
 	
 	@Override
-	public List<ProductVO> selectProductList() throws Exception {
-		logger.debug("DAO: getProductList()");
-		return SqlSession.selectList(NAMESPACE + ".selectProductList");
+	public int selectCountTotalProduct() {
+		logger.debug("DAO: selectCountTotalProduct()");
+		return SqlSession.selectOne(NAMESPACE + ".selectCountTotalProduct");
+	}
+	
+	@Override
+	public int selectCountMatchingProduct(Map<String, Object> params) {
+		logger.debug("DAO: selectCountMatchingProduct(params)");
+		return SqlSession.selectOne(NAMESPACE + ".selectCountMatchingProduct", params);
 	}
 
 	@Override
-	public List<ProductVO> findProduct(String query) throws Exception {
-		logger.debug("DAO: findProduct(query)");
-		return SqlSession.selectList(NAMESPACE + ".findProduct", query);
+	public List<ProductVO> selectProductList(Criteria cri){
+		logger.debug("DAO: getProductList(cri)");
+		return SqlSession.selectList(NAMESPACE + ".selectProductList", cri);
+	}
+
+	@Override
+	public List<ProductVO> findProduct(Map<String, Object> params) throws Exception {
+		logger.debug("DAO: findProduct(params)");
+		return SqlSession.selectList(NAMESPACE + ".findProduct", params);
 	} 
 	
 	@Override
