@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.eatit.businessDomain.ProductVO;
 import com.eatit.businessDomain.OrdersVO;
+import com.eatit.businessDomain.ProductVO;
 import com.eatit.businessService.OrdersService;
 import com.eatit.mainDomain.Criteria;
 import com.eatit.mainDomain.PageVO;
@@ -35,24 +35,26 @@ public class OrdersController {
 	
 	// 발주 내역 조회 - GET
 	@RequestMapping(value = "/lists", method = RequestMethod.GET)
-	public void orderListGET(Model model, Criteria cri, @RequestParam(name = "query", required = false) String query, Map<String, Object> params) throws Exception {
-		
-		logger.debug("Controller: /orders/lists/orderListGET(model, cri)");
-		
+	public void orderListGET(Model model, Criteria cri, 
+							 @RequestParam(name = "query", required = false) String query, 
+							 @RequestParam(name = "filter", required = false) String filter, 
+							 Map<String, Object> params) throws Exception {
+
 		List<OrdersVO> ordersVOList;
 		PageVO pageVO = new PageVO();
 		pageVO.setCri(cri);
 		
-		if(query != null) {
-			logger.debug("Controller: /orders/lists/orderListGET(model, query)");
-			params.put("cri", cri);
-			params.put("query", query);
-			pageVO.setTotalCount(oService.getFindCount(params));
-			ordersVOList = oService.findOrderList(params);
-		}else {
+		if(query == null && filter == null) {
 			logger.debug("Controller: /orders/lists/orderListGET(model)");
 			pageVO.setTotalCount(oService.getTotalCount());
 			ordersVOList = oService.getOrderList(cri);
+		}else {
+			logger.debug("Controller: /orders/lists/orderListGET(model, query, filter)");
+			params.put("cri", cri);
+			params.put("query", query);
+			params.put("filter", filter);
+			pageVO.setTotalCount(oService.getFindCount(params));
+			ordersVOList = oService.findOrderList(params);
 		}
 
 		// 데이터 전달

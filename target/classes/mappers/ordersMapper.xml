@@ -21,154 +21,145 @@
  			<collection property="productList" resultMap="productMap"></collection>
 	  </resultMap>
 
-	  
 	  <resultMap type="com.eatit.businessDomain.OrdersVO" id="ordersVO"/>
 	  <resultMap type="com.eatit.memberDomain.MemberVO" id="memberVO"/>
 	  <resultMap type="com.eatit.masterDataDomain.CompanyVO" id="companyVO"/>
 	  
 	  <!-- 전체 내역 조회 -->
 	  <select id="selectOrderlist" resultType="ordersVO">
-	  		<![CDATA[
-		  		SELECT o.*, mi.name "product_name", c.company_name, c.company_tel, s.quantity "stock_quantity"
-		  		FROM orders o
-		  			JOIN company c ON o.company_no = c.company_no
-		  			JOIN masterdata_information mi ON o.product_no = mi.product_no
-		  			LEFT JOIN (SELECT product_code, SUM(quantity) AS quantity
-		  					   FROM stock
-		  					   GROUP BY product_code) s ON mi.code = s.product_code
-		  		WHERE o.delete_status = 0
-		  		ORDER BY o.order_date DESC
-		  		LIMIT #{startPage}, #{pageSize}
-	  		]]>
+	  		SELECT o.*, mi.name "product_name", c.company_name, c.company_tel, s.quantity "stock_quantity"
+	  		FROM orders o
+	  			JOIN company c ON o.company_no = c.company_no
+	  			JOIN masterdata_information mi ON o.product_no = mi.product_no
+	  			LEFT JOIN (SELECT product_code, SUM(quantity) AS quantity
+	  					   FROM stock
+	  					   GROUP BY product_code) s ON mi.code = s.product_code
+	  		WHERE o.delete_status = 0
+	  		ORDER BY o.order_date DESC
+	  		LIMIT #{startPage}, #{pageSize}
 	  </select>
 	  
 	  <!-- 검색 내역 조회 -->
 	  <select id="findOrderList" resultType="ordersVO" parameterType="map">
-	  		<![CDATA[
-	  			SELECT o.*, mi.name "product_name", c.company_name, c.company_tel, s.quantity "stock_quantity"
-		  		FROM orders o
-		  			JOIN company c ON o.company_no = c.company_no
-		  			JOIN masterdata_information mi ON o.product_no = mi.product_no
-		  			LEFT JOIN (SELECT product_code, SUM(quantity) AS quantity
-		  					   FROM stock
-		  					   GROUP BY product_code) s ON mi.code = s.product_code
-		  		WHERE delete_status = 0
-		  		AND (
-			  			mi.name LIKE CONCAT('%', #{query}, '%')
-			  			OR c.company_name LIKE CONCAT('%', #{query}, '%')
-			  			OR o.order_status LIKE CONCAT('%', #{query}, '%')
-		  			)
-		  		ORDER BY o.order_date DESC
-		  		LIMIT #{cri.startPage}, #{cri.pageSize}
-	  		]]>
-	  </select>
+			SELECT o.*, mi.name "product_name", c.company_name, c.company_tel, s.quantity "stock_quantity"
+			FROM orders o
+				JOIN company c ON o.company_no = c.company_no
+				JOIN masterdata_information mi ON o.product_no = mi.product_no
+				LEFT JOIN (SELECT product_code, SUM(quantity) AS quantity
+						   FROM stock
+						   GROUP BY product_code) s ON mi.code = s.product_code
+			WHERE delete_status = 0	 
+			<choose>
+			  <when test = "filter == '신청완료'"> AND o.order_status = '신청완료' </when>
+			  <when test = "filter == '생산중'"> AND o.order_status = '생산중' </when>
+			  <when test = "filter == '생산완료'"> AND o.order_status = '생산완료' </when>
+			  <when test = "filter == '배송중'"> AND o.order_status = '배송중' </when>
+			  <when test = "filter == '배송완료'"> AND o.order_status = '배송완료' </when>
+			  <when test = "filter == '처리완료'"> AND o.order_status = '처리완료' </when>
+			  <when test = "filter == '취소'"> AND o.order_status = '취소' </when>
+		  </choose>		  		 		
+			AND (
+				 mi.name LIKE CONCAT('%', #{query}, '%')
+				 OR c.company_name LIKE CONCAT('%', #{query}, '%')
+				 OR o.order_status LIKE CONCAT('%', #{query}, '%')
+				 )
+			ORDER BY o.order_date DESC
+			LIMIT #{cri.startPage}, #{cri.pageSize}
+		</select>
 	  
 	  <!-- 전체 주문 개수 -->
 	  <select id="totalCount" resultType="int">
-	  		<![CDATA[
-		  		SELECT COUNT(*)
-		  		FROM orders
-		  		WHERE delete_status = 0
-	  		]]>
+	  		SELECT COUNT(*)
+	  		FROM orders
+	  		WHERE delete_status = 0
 	  </select>
 	  
 	  <!-- 검색된 주문 개수 -->
 	  <select id="findCount" resultType="int" parameterType="map">
-	  		<![CDATA[
-		  		SELECT COUNT(*)
-		  		FROM orders o
-		  			JOIN company c ON o.company_no = c.company_no
-		  			JOIN masterdata_information mi ON o.product_no = mi.product_no
-		  		WHERE delete_status = 0
-		  		AND (
-		  				mi.name LIKE CONCAT('%', #{query}, '%')
-			  			OR c.company_name LIKE CONCAT('%', #{query}, '%')
-			  			OR o.order_status LIKE CONCAT('%', #{query}, '%')
-		  			)
-	  		]]>
+			SELECT COUNT(*)
+			FROM orders o
+				JOIN company c ON o.company_no = c.company_no
+				JOIN masterdata_information mi ON o.product_no = mi.product_no
+			WHERE delete_status = 0	
+			<choose>
+			  <when test = "filter == '신청완료'"> AND o.order_status = '신청완료' </when>
+			  <when test = "filter == '생산중'"> AND o.order_status = '생산중' </when>
+			  <when test = "filter == '생산완료'"> AND o.order_status = '생산완료' </when>
+			  <when test = "filter == '배송중'"> AND o.order_status = '배송중' </when>
+			  <when test = "filter == '배송완료'"> AND o.order_status = '배송완료' </when>
+			  <when test = "filter == '처리완료'"> AND o.order_status = '처리완료' </when>
+			  <when test = "filter == '취소'"> AND o.order_status = '취소' </when>
+		  </choose>		  		  		
+			AND (
+					mi.name LIKE CONCAT('%', #{query}, '%')
+					OR c.company_name LIKE CONCAT('%', #{query}, '%')
+					OR o.order_status LIKE CONCAT('%', #{query}, '%')
+				)
 	  </select>
 	  
 	  <!-- 회원 정보 조회 -->
 	  <select id="selectMember" resultMap="memberVO">
-	  		<![CDATA[
-		  		SELECT *
-		  		FROM member
-		  		WHERE id = #{id}	
-	  		]]>
+	  		SELECT *
+	  		FROM member
+	  		WHERE id = #{id}	
 	  </select>	  
 	  
 	  <!-- 주문서 작성 -->
 	  <insert id="insertOrder">
-	  		<![CDATA[
-		  		INSERT INTO orders (company_no, employee_no, product_no, quantity, due_date, comments)
-		  		VALUES (#{company_no}, #{employee_no}, #{product_no}, #{quantity}, #{due_date}, #{comments})
-	  		]]>
+	  		INSERT INTO orders (company_no, employee_no, product_no, quantity, due_date, comments)
+	  		VALUES (#{company_no}, #{employee_no}, #{product_no}, #{quantity}, #{due_date}, #{comments})
 	  </insert>
 	  
 	  <!-- 주문 상세 조회 -->
 	  <select id="selectOrderDetail" resultType="ordersVO">
-	  		<![CDATA[
-		  		SELECT o.*, mi.name "product_name", m.name, c.company_name, c.company_tel, c.company_address, c.company_address_detail
-		  		FROM orders o
-		  			JOIN masterdata_information mi ON o.product_no = mi.product_no
-		  			JOIN member m ON o.employee_no = m.employee_no
-		  			JOIN company c ON o.company_no = c.company_no
-		  		WHERE o.order_id = #{order_id}
-	  		]]>
+	  		SELECT o.*, mi.name "product_name", m.name, c.company_name, c.company_tel, c.company_address, c.company_address_detail
+	  		FROM orders o
+	  			JOIN masterdata_information mi ON o.product_no = mi.product_no
+	  			JOIN member m ON o.employee_no = m.employee_no
+	  			JOIN company c ON o.company_no = c.company_no
+	  		WHERE o.order_id = #{order_id}
 	  </select>
 	  
 	  <!-- 전체 거래처 조회 -->
 	  <select id="selectCompanyList" resultMap="companyVO">
-	  		<![CDATA[
-		  		SELECT *
-		  		FROM company
-	  		]]>
+	  		SELECT *
+	  		FROM company
 	  </select>	 
 	  
 	  <!-- 검색 거래처 조회 -->
 	  <select id="findCompany" resultMap="companyVO">
-	  		<![CDATA[
-		  		SELECT *
-		  		FROM company
-		  		WHERE company_name LIKE CONCAT('%', #{query}, '%')
-	  		]]>
+	  		SELECT *
+	  		FROM company
+	  		WHERE company_name LIKE CONCAT('%', #{query}, '%')
 	  </select>	   
 	  
 	  <!-- 거래처 선택 -->
 	  <select id="selectCompany" resultMap="companyVO">
-	  		<![CDATA[
-		  		SELECT *
-		  		FROM company
-		  		WHERE company_no = #{company_no}
-	  		]]>
+	  		SELECT *
+	  		FROM company
+	  		WHERE company_no = #{company_no}
 	  </select>	   
 	    
 	  <!-- 전체 상품 조회 -->
 	  <select id="selectProductList" resultMap="productMap">
-	  		<![CDATA[
-		  		SELECT *
-		  		FROM masterdata_information
-		  		WHERE category = "완제품"
-		  	]]>
+	  		SELECT *
+	  		FROM masterdata_information
+	  		WHERE category = "완제품"
 	  </select>
 	  
 	  <!-- 검색 상품 조회 -->
 	  <select id="findProduct" resultMap="productMap">
-	  		<![CDATA[
-		  		SELECT *
-		  		FROM masterdata_information
-		  		WHERE name LIKE CONCAT('%', #{query}, '%')
-		  		AND category = "완제품"
-	  		]]>
+	  		SELECT *
+	  		FROM masterdata_information
+	  		WHERE name LIKE CONCAT('%', #{query}, '%')
+	  		AND category = "완제품"
 	  </select>
 	  
 	  <!-- 상품 선택 -->
 	  <select id="selectProduct" resultType="productVO">
-	  		<![CDATA[
-				SELECT *, name "product_name"
-		  		FROM masterdata_information
-		  		WHERE product_no = #{product_no}
-	  		]]>
+			SELECT *, name "product_name"
+	  		FROM masterdata_information
+	  		WHERE product_no = #{product_no}
 	  </select>	  
 	  
 	  <!-- 발주서 수정 -->
