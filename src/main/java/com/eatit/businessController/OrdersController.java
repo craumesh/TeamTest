@@ -59,7 +59,7 @@ public class OrdersController {
 
 		// 데이터 전달
 		model.addAttribute(pageVO);
-		model.addAttribute("listsUrl", "lists");
+		model.addAttribute("pageUrl", "lists");
 		model.addAttribute(ordersVOList);
 	}
 	
@@ -132,7 +132,7 @@ public class OrdersController {
 		
 		// 데이터 전달
 		model.addAttribute(pageVO);
-		model.addAttribute("companysUrl", "companys");
+		model.addAttribute("pageUrl", "companys");
 		model.addAttribute(companyVOList);
 	}
 	
@@ -178,7 +178,7 @@ public class OrdersController {
 		logger.debug("productVOList: " + productVOList.size());
 		// 데이터 전달
 		model.addAttribute(pageVO);
-		model.addAttribute("productsUrl", "products");
+		model.addAttribute("pageUrl", "products");
 		model.addAttribute(productVOList);
 	} 
 	

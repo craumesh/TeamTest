@@ -113,15 +113,15 @@
 				<div class="col-sm-5 mb-3">
 					<ul class="pagination">
 						<c:if test="${pageVO.prev }">
-							<li class="page-link link-container"><a href="/orders/${productsUrl }?page=${pageVO.endPage-pageVO.displayPageNum }&query=${query}&filter=${filter}" class="link"><<</a></li>
+							<li class="page-link link-container"><a href="/orders/${pageUrl }?page=${pageVO.endPage-pageVO.displayPageNum }&query=${query}&filter=${filter}" class="link"><<</a></li>
 						</c:if>
 						<c:forEach var="i" begin="${pageVO.startPage }" end="${pageVO.endPage }" step="1">
 							<li ${pageVO.cri.page == i ? "class='link-container active'" : "class='link-container'"} >
-								<a href="/orders/${productsUrl }?page=${i }&query=${query}&filter=${filter}" ${pageVO.cri.page == i ? "class='page-link rounded fw-bolder link-white'" : "class='page-link rounded fw-bolder'"}>${i }</a>
+								<a href="/orders/${pageUrl }?page=${i }&query=${query}&filter=${filter}" ${pageVO.cri.page == i ? "class='page-link rounded fw-bolder link-white'" : "class='page-link rounded fw-bolder'"}>${i }</a>
 							</li>				
 						</c:forEach>
 						<c:if test="${pageVO.next }">
-							<li class="page-link link-container"><a href="/orders/${productsUrl }?page=${pageVO.startPage+pageVO.displayPageNum }&query=${query}&filter=${filter}" class="link">>></a></li>
+							<li class="page-link link-container"><a href="/orders/${pageUrl }?page=${pageVO.startPage+pageVO.displayPageNum }&query=${query}&filter=${filter}" class="link">>></a></li>
 						</c:if>
 					</ul>
 				</div>
@@ -178,11 +178,8 @@
 		}
     	
     	$(window).click(function(event){
-			if (event.target == modal) {
-				modal.style.display = "none";
-			}
-			
-			if (!$(event.target).closest('.input-group').length) {
+    		
+			if (!$(event.target).closest('.input-group').length) {				
 				if (!$("#query").val()) {
 		       		$(".input-group").removeClass("focused is-focused");
 				}
@@ -198,10 +195,7 @@
 			$("#filter").val($("#dropdown-selected").text());
 			$("#search-form").submit();
 		});
-    	
-    	
-    	
-    	
+    	  	
     });
 
 </script>

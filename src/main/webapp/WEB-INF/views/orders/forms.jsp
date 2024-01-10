@@ -7,11 +7,16 @@
 
 <div class="card my-4">
 	<div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-		<div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-			<h6 class="text-white text-capitalize ps-3">발주 신청서</h6>
+		<div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-4">
+			<h3 class="text-white text-capitalize ps-5 align-items-center mt-2 py-1">발주 신청서</h3>
 		</div>
 	</div>	
 	<div class="card-body px-0 pb-2">
+		<div class="text-end pe-4 pb-3">
+			<a class="btn bg-gradient-dark mb-0" href="/orders/lists">
+				<i class="material-icons text-sm">more_horiz</i> 목록으로
+			</a>
+		</div>
 		<div class="card-body">
 			<!-- 폼테그 시작  -->
 			<form role="form" method="post" name="fr" onsubmit="return check()">
@@ -125,7 +130,7 @@
 												</div>
 											</td>
 											<td class="align-middle text-center">
-												<span id="outputTotalPrice" class="text-secondary text-xs font-weight-bold">₩--</span>
+												<h6 class="text-sm font-weight-bold pt-3" id="outputTotalPrice">₩--</h6>
 											</td>
 										</tr>
 									</tbody>						
@@ -201,15 +206,24 @@
     }
     
     $(document).ready(function(){
+    	
 	    $("#orderQuantity").on('input', function(e){
 
 	        var quantity = $(this).val();
-	        var price = parseFloat($("#prdPrice").text().replace(/[^0-9.-]+/g, ""));
-	        var formattedTotalPrice = new Intl.NumberFormat('ko-KR', { style: 'currency', currency: 'KRW' }).format(price * quantity);
 
-	        $("#outputTotalPrice").html(formattedTotalPrice);  
+            if (quantity < 0) {
+                alert('수량은 음수일 수 없습니다.');
+                $(this).val(0);
+            }else {
+                var price = parseFloat($("#prdPrice").text().replace(/[^0-9.-]+/g, ""));
+                var formattedTotalPrice = new Intl.NumberFormat('ko-KR', { style: 'currency', currency: 'KRW' }).format(price * quantity);
+
+            	$("#outputTotalPrice").html(formattedTotalPrice);
+            } 
+	    
 	    });
-	});
+	
+    });
     
     // 유효성 검사
     function check() {
