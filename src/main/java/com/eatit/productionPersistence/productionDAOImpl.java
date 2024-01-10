@@ -13,6 +13,7 @@ import com.eatit.machineDomain.machineVO;
 import com.eatit.mainDomain.Criteria;
 import com.eatit.productionDomain.ordersVO;
 import com.eatit.productionDomain.productionVO;
+import com.eatit.productionDomain.productionhistoryVO;
 
 @Repository
 public class productionDAOImpl implements productionDAO{
@@ -43,5 +44,13 @@ public class productionDAOImpl implements productionDAO{
 	
 	
 	
+	
+	@Override
+	public void productionhistory(productionhistoryVO vo) {
+		
+	  sqlSession.insert(NAMESPACE+ ".productionhistory", vo);
+	}
+
+
 	
 }

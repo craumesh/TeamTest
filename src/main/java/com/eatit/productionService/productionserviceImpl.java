@@ -12,6 +12,7 @@ import com.eatit.machineDomain.machineVO;
 import com.eatit.mainDomain.Criteria;
 import com.eatit.productionDomain.ordersVO;
 import com.eatit.productionDomain.productionVO;
+import com.eatit.productionDomain.productionhistoryVO;
 import com.eatit.productionPersistence.productionDAO;
 
 @Service
@@ -36,6 +37,13 @@ public class productionserviceImpl implements productionservice {
 	public List<machineVO> machinelistall(Criteria cri) {
 		logger.debug("service : machinelistall()");
 		return pddao.machinelistall(cri);
+	}
+
+
+	@Override
+	public void productionhistory(productionhistoryVO vo) {
+		logger.debug("service : productionhistory");
+		pddao.productionhistory(vo);
 	}
 	
 	

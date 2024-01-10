@@ -72,13 +72,18 @@
         <div class="modal-content w-100">
             <div class="modal-header">
                 <button id="closebtn" class="btn bg-gradient-primary position-absolute py-1 px-2 mt-2 end-5" onclick="closeModal()">X</button>
-                <h3 class="modal-title mx-auto">설비 추가</h3>
+                <h3 class="modal-title mx-auto">생산 완료</h3>
             </div>
             <div class="modal-body p-5">
                 <div id="tableContainer">
-                    <form action="" id="myForm" method="post">
+                    <form action="/production/production" id="myForm" method="post">
                     <table class="table align-items-center mb-0">
 							<tbody id="statusTableBody">
+							<tr><td>
+							<input type="hidden" name="product_no" value="${status.masterdataVOlist[0].product_no}">
+							<input type="hidden" name="machine_code" value="${infolist.machine_code}">
+							</td></tr>
+							
 							<tr>
 							<th class="text-center fs-5"> 생산 번호 : </th>
 							 <td class="fs-5">${status.ordersVOlist[0].order_id != null ? status.ordersVOlist[0].order_id : "생산중인 제품이 없습니다."}</td>
@@ -91,23 +96,39 @@
 							
 							<tr>
 							<th class="text-center fs-5"> 생산 수량 :  </th>
-							<td class="fs-5"> ${status.ordersVOlist[0].quantity != null ? status.ordersVOlist[0].quantity : "OOOO"} EA </td>
+							<td class="fs-5" style="display: flex; align-items: center; text-align-last: center;">
+							<input class="form-control" style="width: 20%;font-size: 21;" name=production_quantity value="${status.ordersVOlist[0].quantity != null ? status.ordersVOlist[0].quantity : 'OOOO'}">  EA </td>
+							</tr>
+
+							<tr>
+							<th class="text-center fs-5"> 입고 창고 : </th>
+							<td class="fs-5"> 2 </td>
 							</tr>
 							
 							<tr>
-							<th class="text-center fs-5"> 정상 :  </th>
-							 <td class="fs-5">  <input type="number" id="normalInput" maxlength="3" max="${status.ordersVOlist[0].quantity}" oninput="validateInput(this)"> </td>
-							 
+							<th class="text-center fs-5"> 소비 기한 : </th>
+							
+							<td class="fs-5"> 생산일로 부터 ${status.masterdataVOlist[0].EXP_intervar} 일
+							<input type="hidden" class="form-control" name="EXP_intervar" value="${status.masterdataVOlist[0].EXP_intervar }"> 
+							</td>
 							</tr>
 							
 							<tr>
-							<th class="text-center fs-5"> 불량 :  </th>
-							<td class="fs-5"> <input type="text" id="defectiveInput"> </td>
+							<th class="text-center fs-5"> 정상 수량:  </th>
+							 <td class="fs-5">
+							 <input type="number" class="w-50" id="normalInput" name="products" min="0" maxlength="3" max="${status.ordersVOlist[0].quantity}" oninput="validateInput(this)">
+							 </td>
 							</tr>
+							
+							<tr>
+							<th class="text-center fs-5"> 불량 수량:  </th>
+							<td class="fs-5"> <input type="number" class="w-50" min="0" id="defectiveInput" name="defective_product"> </td>
+							</tr>
+							
 					</tbody>
 						</table>
                         <div class="text-center">
-                            <button class="btn bg-gradient-danger fs-6 mb-0 py-2 px-3" onclick="registerEquipment()">등록</button>
+                            <button class="btn bg-gradient-danger fs-6 mb-0 py-2 px-3" onclick="registerEquipment()">생산완료</button>
                             <input type="button" class="btn bg-gradient-danger fs-6 mb-0 py-2 px-3" onclick="closeModal()" value="취소">
                         </div>
                     </form>
@@ -168,8 +189,28 @@
 
 	        updateInputs();
 	    }
-    
-    
+    	
+	    function registerEquipment() {
+	        var formData = new FormData(document.getElementById("myForm"));
+
+	        $.ajax({
+	            type: "POST",
+	            url: "/production/production",
+	            data: formData,
+	            processData: false,
+	            contentType: false,
+	            success: function (response) {
+
+	            	
+	            },
+	            error: function (error) {
+
+	                console.error("에에러:", error);
+	            }
+	        });
+	    }
+
+	   
     
 </script>
 

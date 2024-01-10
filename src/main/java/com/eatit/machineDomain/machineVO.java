@@ -6,7 +6,6 @@ import java.util.List;
 
 import com.eatit.productionDomain.masterdata_informationVO;
 import com.eatit.productionDomain.ordersVO;
-import com.eatit.productionDomain.recipeVO;
 
 import lombok.Data;
 
@@ -30,7 +29,6 @@ public class machineVO {
 	private List<machinehistoryVO> infolist;
 	private List<ordersVO> ordersVOlist;
 	private List<masterdata_informationVO> masterdataVOlist;
-	private List<recipeVO> recipeVOlist;
 	
 }
 

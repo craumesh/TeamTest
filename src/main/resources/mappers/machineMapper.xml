@@ -19,7 +19,6 @@
   	<collection property="infolist" resultMap="machinehistoryVO"></collection>
   	<collection property="ordersVOlist" resultMap="ordersVO"></collection>
   	<collection property="masterdataVOlist" resultMap="masterdata_informationVO"></collection>
-  	<collection property="recipeVOlist" resultMap="recipeVO"></collection>
   </resultMap>
   
   <!-- machinehistoryVO -->
@@ -62,14 +61,11 @@
   	<result property="unit" column="unit"/>
   	<result property="unit_quantity" column="unit_quantity"/>
   	<result property="price" column="price"/>
-</resultMap>  
-
-<!-- recipeVO -->
-<resultMap type="com.eatit.productionDomain.recipeVO" id="recipeVO">
-  	<result property="recipe_no" column="recipe_no"/>
-  	<result property="code" column="code"/>
+  	<result property="EXP_intervar" column="EXP_intervar" />
   	<result property="recipe" column="recipe"/>
 </resultMap>  
+
+
 
 
 
@@ -201,8 +197,6 @@
   on a.order_id = d.order_id
   join masterdata_information as e
   on d.product_no = e.product_no
-  join recipe as f
-  on e.code = f.code
   where a.machine_code = #{machine_code}
   ORDER BY machine_update_date DESC
   LIMIT 1;

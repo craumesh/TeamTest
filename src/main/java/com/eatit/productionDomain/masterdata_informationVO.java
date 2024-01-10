@@ -14,4 +14,6 @@ public class masterdata_informationVO {
 	private String unit;
 	private String unit_quantity;
 	private Float price;
+	private int EXP_intervar;
+	private String recipe;
 }

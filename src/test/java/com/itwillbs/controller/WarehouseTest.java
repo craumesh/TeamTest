@@ -12,6 +12,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.eatit.mainDomain.Criteria;
+import com.eatit.productionPersistence.productionDAO;
+import com.eatit.productionPersistence.productionDAOImpl;
 import com.eatit.warehouseDomain.WarehouseVO;
 import com.eatit.warehousePersistence.WarehouseDAO;
 
@@ -26,6 +29,9 @@ public class WarehouseTest {
 	
 	@Inject
 	private WarehouseDAO wdao;
+	
+	@Inject
+	private productionDAOImpl dDao;
 	
 	@Inject
 	private SqlSession sqlsession;
@@ -50,10 +56,11 @@ public class WarehouseTest {
 //		wdao.deleteWarehouse(vo);
 	}
 	
-	@Test
+//	@Test
 	public void 직책정보테스트() {
 //		wdao.getPositionName();
 		wdao.getMembersOfPosition("미정");
 	}
+
 
 }

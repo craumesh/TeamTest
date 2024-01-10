@@ -26,7 +26,7 @@
 		</div>		
 		<div class="card-body mx-5 px-0 pb-4">
 			<div class="table-responsive p-0">
-				<form action="/machine/delete" method="post" id="checkbox_form">
+				
 				<table id="hr-table" class="table table-hover align-items-center mb-0">
 					<thead>
 						<tr>
@@ -59,7 +59,7 @@
 					</tbody>
 		
 				</table>
-		</form>
+
 			</div>
 		</div>
 		<div class="col-6 w-100 text-end">

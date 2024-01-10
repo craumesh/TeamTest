@@ -16,4 +16,6 @@ public class productionhistoryVO {
 	private Timestamp EXPiry_date;
 	private int machine_code;
 	
+	
+	private int EXP_intervar;
 }

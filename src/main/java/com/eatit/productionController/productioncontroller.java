@@ -8,6 +8,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,6 +19,7 @@ import com.eatit.machineDomain.machineVO;
 import com.eatit.machineService.machineservice;
 import com.eatit.mainDomain.Criteria;
 import com.eatit.mainDomain.PageVO;
+import com.eatit.productionDomain.productionhistoryVO;
 import com.eatit.productionService.productionservice;
 
 @Controller
@@ -46,6 +50,12 @@ public class productioncontroller {
 		
 	}
 	
+	@RequestMapping(value = "/orderform", method = RequestMethod.GET)
+	public void orderform() {
+		
+		logger.debug("orderform() 페이지 이동");
+	}
+	
 	@RequestMapping(value = "/request", method = RequestMethod.GET)
 	public void proGET() {
 		logger.debug("requestGET() 페이지 이동");
@@ -71,6 +81,20 @@ public class productioncontroller {
 	    model.addAttribute("status", status);
 
 	}
+	
+	@RequestMapping(value = "/production", method = RequestMethod.POST)
+	public String productioninfo(productionhistoryVO vo, @RequestParam("EXP_intervar") Integer EXP_intervar) {
+		
+		logger.debug("생산완료");
+		logger.debug("EXP_intervar : " + EXP_intervar);
+		logger.debug("productionhistoryVO : " + vo);
+		
+		vo.setEXP_intervar(EXP_intervar);
+		pdService.productionhistory(vo);
+		
+		return "redirect:/warehouse/registClose";
+	}
+	
 	
 	
 	
