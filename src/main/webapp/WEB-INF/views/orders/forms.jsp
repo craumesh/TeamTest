@@ -101,7 +101,7 @@
 									<thead>
 										<tr>
 											<th class="text-start text-secondary font-weight-bolder col-1">제품</th>
-											<th class="text-center text-secondary font-weight-bolder col-1">수량</th>
+											<th class="text-start text-secondary font-weight-bolder col-1">수량</th>
 											<th class="text-center text-secondary font-weight-bolder col-1">금액</th>
 										</tr>
 									</thead>	

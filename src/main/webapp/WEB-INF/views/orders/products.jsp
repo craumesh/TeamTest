@@ -44,17 +44,40 @@
 					                           		<h6 class="mb-0 text-sm">${vo.product_name }</h6>
 					                        	</div>
 					                    	</div>
-										</td>									
-										<td class="align-middle text-center">
-											<div class="d-flex align-items-center justify-content-center">
-												<span class="me-2 text-xs font-weight-bold">60%</span>
-												<div>
-													<div class="progress">
-														<div class="progress-bar bg-gradient-info" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;"></div>
+										</td>		
+										<c:choose>
+								            <c:when test="${(vo.stock_quantity / 500) * 100 >= 50}">
+								                <td class="align-middle text-center">
+													<div class="d-flex flex-sm-column align-items-center justify-content-center">
+														<span class="me-2 text-xs font-weight-bold">${vo.stock_quantity }EA</span>
+														<div>
+															<div class="progress">
+																<div class="progress-bar bg-gradient-info" id="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: ${(vo.stock_quantity / 500) * 100};"></div>
+															</div>
+														</div>
 													</div>
-												</div>
-											</div>
-										</td>
+												</td>
+								            </c:when>
+								            <c:when test="${(vo.stock_quantity / 500) * 100 == 0}">
+								                <td class="align-middle text-center modal-act">
+													<div class="d-flex flex-sm-column align-items-center justify-content-center">
+														<span class="me-2 text-xs font-weight-bold">재고 없음</span>
+													</div>
+												</td>
+								            </c:when>
+							          	  	<c:otherwise>
+								                <td class="align-middle text-center modal-act">
+													<div class="d-flex flex-sm-column align-items-center justify-content-center">
+														<span class="me-2 text-xs font-weight-bold">${vo.stock_quantity }EA</span>
+														<div>
+															<div class="progress">
+																<div class="progress-bar bg-gradient-warning" id="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: ${(vo.stock_quantity / 500) * 100};"></div>
+															</div>
+														</div>
+													</div>
+												</td>
+							            	</c:otherwise>
+								        </c:choose>	       										
 										<td class="align-middle text-center text-md">
 											<button id="addCart" class="btn btn-primary btn-sm mb-0 py-1 ms-2" onclick="addToCart(${vo.product_no})">선택</button>
 										</td>

@@ -155,6 +155,7 @@ public class OrdersController {
 			productVOList = oService.getProductList();
 		}
 		
+		logger.debug("productVOList: "+productVOList);
 		// 데이터 전달
 		model.addAttribute(productVOList);
 	} 

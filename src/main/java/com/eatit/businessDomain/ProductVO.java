@@ -1,6 +1,5 @@
 package com.eatit.businessDomain;
 
-import java.sql.Timestamp;
 import java.util.List;
 
 import lombok.Data;
@@ -25,7 +24,7 @@ public class ProductVO {
 	private String unit_quantity;
 	private String price;
 
-	private Integer quantity;
+	private Integer stock_quantity;
 	
 	// 리스트
 	private List<ProductVO> productList;

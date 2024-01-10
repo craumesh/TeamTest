@@ -17,6 +17,7 @@
 	  		<result property="unit" column="unit"/>  
 	  		<result property="unit_quantity" column="unit_quantity"/>  
 	  		<result property="price" column="price"/>  
+	  		<result property="stock_quantity" column="stock_quantity"/>  
 	  		
  			<collection property="productList" resultMap="productMap"></collection>
 	  </resultMap>
@@ -142,9 +143,12 @@
 	    
 	  <!-- 전체 상품 조회 -->
 	  <select id="selectProductList" resultMap="productMap">
-	  		SELECT *
-	  		FROM masterdata_information
-	  		WHERE category = "완제품"
+			SELECT mi.*, s.quantity "stock_quantity"
+			FROM masterdata_information mi
+				LEFT JOIN (SELECT product_code, SUM(quantity) AS quantity
+						   FROM stock
+						   GROUP BY product_code) s ON mi.code = s.product_code
+			WHERE mi.category = "완제품";
 	  </select>
 	  
 	  <!-- 검색 상품 조회 -->
