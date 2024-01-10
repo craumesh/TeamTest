@@ -37,9 +37,9 @@
 								<table class="table align-items-center mb-0">
 									<thead>
 										<tr>
-											<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">담당자</th>
-											<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">회사 정보</th>
-											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">주소</th>
+											<th class="text-start text-secondary font-weight-bolder col-1">담당자</th>
+											<th class="text-start text-secondary font-weight-bolder col-1">회사 정보</th>
+											<th class="text-center text-secondary font-weight-bolder col-1">주소</th>
 										</tr>
 									</thead>
 									<tbody>	
@@ -100,42 +100,32 @@
 								<table class="table align-items-center mb-0">
 									<thead>
 										<tr>
-											<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">제품</th>
-											<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">수량</th>
-											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">금액</th>
-											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">재고량</th>
+											<th class="text-start text-secondary font-weight-bolder col-1">제품</th>
+											<th class="text-center text-secondary font-weight-bolder col-1">수량</th>
+											<th class="text-center text-secondary font-weight-bolder col-1">금액</th>
 										</tr>
 									</thead>	
 									<tbody>
-										<tr>			
-											<td>
-											<input type="hidden" id="product_no" name="product_no" value="">
-												<div class="d-flex px-2 py-1">
+										<tr>
+											<td class="align-items-center">
+												<input type="hidden" id="product_no" name="product_no" value="">
+												<div class="d-flex px-2 py-1 ms-15">
 													<div>
-														<img src="" class="avatar avatar-sm me-3" alt="">
+														<img src="../resources/img/memberimg.png" id="prdImagePath"  class="avatar avatar-sm me-3" alt="">
 													</div>
 													<div class="d-flex flex-column justify-content-center">
 														<h6 class="mb-0 text-sm" id="prdName">상품을 선택하세요.</h6>
+														<p id="prdPrice" class="text-xs text-secondary mb-0"></p>
 													</div>
 												</div>
 											</td>
 											<td class="align-middle text-center text-sm">
 												<div class="input-group input-group-outline">
-													<input type="number" name="quantity" class="form-control d-flex" placeholder="수량을 입력하세요">
+													<input type="number" id="orderQuantity" name="quantity" class="form-control d-flex" placeholder="수량을 입력하세요" readonly="readonly">
 												</div>
 											</td>
 											<td class="align-middle text-center">
-												<span class="text-secondary text-xs font-weight-bold">100,000원</span>
-											</td>
-											<td class="align-middle text-center">
-												<div class="d-flex align-items-center justify-content-center">
-													<span class="me-2 text-xs font-weight-bold" id="prdInv"></span>
-													<div>
-														<div class="progress">
-															<div class="progress-bar bg-gradient-info" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
-														</div>
-													</div>
-												</div>
+												<span id="outputTotalPrice" class="text-secondary text-xs font-weight-bold">₩--</span>
 											</td>
 										</tr>
 									</tbody>						
@@ -201,9 +191,25 @@
     }
     
     function selectProduct(data) {
+    	
+    	var formattedPrice = new Intl.NumberFormat('ko-KR', { style: 'currency', currency: 'KRW' }).format(data.price);
+    	
     	$("#product_no").val(data.product_no);
         $("#prdName").html(data.product_name);
+        $("#prdPrice").html(formattedPrice);   
+        $("#prdImagePath").attr("src", ".." + data.photo_paths);      
     }
+    
+    $(document).ready(function(){
+	    $("#orderQuantity").on('input', function(e){
+
+	        var quantity = $(this).val();
+	        var price = parseFloat($("#prdPrice").text().replace(/[^0-9.-]+/g, ""));
+	        var formattedTotalPrice = new Intl.NumberFormat('ko-KR', { style: 'currency', currency: 'KRW' }).format(price * quantity);
+
+	        $("#outputTotalPrice").html(formattedTotalPrice);  
+	    });
+	});
     
     // 유효성 검사
     function check() {

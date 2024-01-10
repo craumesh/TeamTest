@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <%@ include file="../include/header.jsp"%>
 <%@ include file="../include/js.jsp"%>
@@ -26,24 +27,24 @@
 						<table class="table align-items-center mb-0">
 							<thead>
 								<tr>
-									<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">제품</th>
-									<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">재고량</th>
-									<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"></th>
+									<th class="text-center text-secondary font-weight-bolder col-1">제품</th>
+									<th class="text-center text-secondary font-weight-bolder col-1">재고량</th>
+									<th class="text-center text-secondary font-weight-bolder col-1"></th>
 								</tr>
 							</thead>
 							<tbody>
 								<c:forEach var="vo" items="${productVOList }">
-									<tr>			
+									<tr>
 										<td>
-											<div class="d-flex px-2 py-1">
-												<div>
-													<img src="" class="avatar avatar-sm me-3" alt="">
-												</div>
-												<div class="d-flex flex-column justify-content-center">
-													<h6 class="mb-0 text-sm">${vo.product_name }</h6>
-												</div>
-											</div>
-										</td>
+											<div class="d-flex px-2 py-1 ms-5">
+					                        	<div>
+					                            	<img src="${vo.photo_paths }" class="avatar avatar-sm me-3 border-radius-lg" alt="user1">
+					                     		</div>
+					                          	<div class="d-flex flex-column justify-content-center">
+					                           		<h6 class="mb-0 text-sm">${vo.product_name }</h6>
+					                        	</div>
+					                    	</div>
+										</td>									
 										<td class="align-middle text-center">
 											<div class="d-flex align-items-center justify-content-center">
 												<span class="me-2 text-xs font-weight-bold">60%</span>
@@ -86,8 +87,14 @@
 					icon: "success",
 					buttons: "선택",
    				}).then(function(){
-					window.opener.selectProduct(data);
-					window.close();   
+   					var parentWindow = window.opener;
+   	                var quantityInput = parentWindow.document.querySelector('input[name="quantity"]');
+   	                if (quantityInput) {
+   	                    quantityInput.removeAttribute('readonly');
+   	                }
+
+   	                parentWindow.selectProduct(data);
+   	                window.close();  
    				})	
             },
             error: function () {
@@ -101,6 +108,6 @@
         });
      
     }
-    
+
 </script>
 

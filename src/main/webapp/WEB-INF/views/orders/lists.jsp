@@ -253,7 +253,7 @@
 		
 		$('table tr').each(function() {
             var statusText = $(this).find('td:last-child #status-badge').text();
-            console.log("span: " + statusText);
+
             switch(statusText){
 	            case "신청완료": $(this).find('td:last-child #status-badge').addClass("bg-gradient-primary"); break;
 	            case "생산중": $(this).find('td:last-child #status-badge').addClass("bg-gradient-warning"); break;
