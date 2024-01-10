@@ -170,7 +170,7 @@
 
 	// 거래처 검색창 
     function openSearchCompany() {
-        window.open('/orders/companys', '_blank', 'width=800,height=600');
+        window.open('/orders/companys', '_blank', 'width=600,height=680');
     }
 
     // 상품 검색창

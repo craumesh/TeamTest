@@ -106,22 +106,33 @@ public class OrdersController {
 	
 	// 거래처 검색 - GET
 	@RequestMapping(value = "/companys", method = RequestMethod.GET)
-	public void companyFindGET(Model model, @RequestParam(name = "query", required = false) String query) throws Exception {
+	public void companyFindGET(Model model, Criteria cri,
+							   @RequestParam(name = "query", required = false) String query, 
+							   @RequestParam(name = "filter", required = false) String filter, 
+							   Map<String, Object> params) throws Exception {
 		
-		// 리스트 - 기준 정보 거래처 리스트 가져오기
 		List<CompanyVO> companyVOList;
+		PageVO pageVO = new PageVO();
+		pageVO.setCri(cri);
 		
-		if(query != null) {
-			// 검색어가 입력되었을 때
-			logger.debug("Controller: /orders/companys/companyFindGET(model, query)");
-			companyVOList = oService.findCompany(query);
-		}else {
+		if(query == null && filter == null) {
 			// 검색어가 입력되지 않았을 때, 새로 창을 열었을 때
 			logger.debug("Controller: /orders/companys/companyFindGET(model)");
-			companyVOList = oService.getCompanyList();
+			pageVO.setTotalCount(oService.getTotalCompanyCount());
+			companyVOList = oService.getCompanyList(cri);
+		}else {
+			// 검색어가 입력되었을 때, 필터가 설정 되었을 때
+			logger.debug("Controller: /orders/companys/companyFindGET(model, query, filter)");
+			params.put("cri", cri);
+			params.put("query", query);
+			params.put("filter", filter);
+			pageVO.setTotalCount(oService.getMatchingCompanyCount(params));
+			companyVOList = oService.findCompany(params);
 		}
 		
 		// 데이터 전달
+		model.addAttribute(pageVO);
+		model.addAttribute("companysUrl", "companys");
 		model.addAttribute(companyVOList);
 	}
 	

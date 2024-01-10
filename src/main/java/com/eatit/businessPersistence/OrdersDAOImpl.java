@@ -63,15 +63,27 @@ public class OrdersDAOImpl implements OrdersDAO {
 	} 
 
 	@Override
-	public List<CompanyVO> selectCompanyList() throws Exception {
-		logger.debug("DAO: selectCompanyList()");
-		return SqlSession.selectList(NAMESPACE + ".selectCompanyList");
+	public List<CompanyVO> selectCompanyList(Criteria cri) throws Exception {
+		logger.debug("DAO: selectCompanyList(cri)");
+		return SqlSession.selectList(NAMESPACE + ".selectCompanyList", cri);
 	}
 	
 	@Override
-	public List<CompanyVO> findCompany(String query) throws Exception {
+	public int selectCountTotalCompany() throws Exception {
+		logger.debug("DAO: selectTotalCompanyCount()");
+		return SqlSession.selectOne(NAMESPACE + ".selectCountTotalCompany");
+	}
+
+	@Override
+	public int selectCountMatchingCompany(Map<String, Object> params) throws Exception {
+		logger.debug("DAO: selectCountMatchingCompany(params)");
+		return SqlSession.selectOne(NAMESPACE + ".selectCountMatchingCompany", params);
+	}
+
+	@Override
+	public List<CompanyVO> findCompany(Map<String, Object> params) throws Exception {
 		logger.debug("DAO: findCompany(query)");
-		return SqlSession.selectList(NAMESPACE + ".findCompany", query);
+		return SqlSession.selectList(NAMESPACE + ".findCompany", params);
 	}
 	
 	@Override

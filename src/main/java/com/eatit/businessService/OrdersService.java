@@ -25,9 +25,13 @@ public interface OrdersService {
 
 	public OrdersVO getOrderDetail(Integer order_id) throws Exception; 
 
-	public List<CompanyVO> getCompanyList() throws Exception;
+	public List<CompanyVO> getCompanyList(Criteria cri) throws Exception;
 	
-	public List<CompanyVO> findCompany(String query) throws Exception;
+	public int getTotalCompanyCount() throws Exception;
+	
+	public int getMatchingCompanyCount(Map<String, Object> params) throws Exception;
+	
+	public List<CompanyVO> findCompany(Map<String, Object> params) throws Exception;
 	
 	public CompanyVO selectCompany(int company_no) throws Exception;
 	

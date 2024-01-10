@@ -67,15 +67,27 @@ public class OrdersServiceImpl implements OrdersService {
 	} 
 	
 	@Override
-	public List<CompanyVO> getCompanyList() throws Exception {
-		logger.debug("Service: getCompanyList()");
-		return odao.selectCompanyList();
+	public List<CompanyVO> getCompanyList(Criteria cri) throws Exception {
+		logger.debug("Service: getCompanyList(cri)");
+		return odao.selectCompanyList(cri);
 	}
 	
 	@Override
-	public List<CompanyVO> findCompany(String query) throws Exception {
-		logger.debug("Service: findCompany(query)");
-		return odao.findCompany(query);
+	public int getTotalCompanyCount() throws Exception {
+		logger.debug("Service: getTotalCompanyCount()");
+		return odao.selectCountTotalCompany();
+	}
+
+	@Override
+	public int getMatchingCompanyCount(Map<String, Object> params) throws Exception {
+		logger.debug("Service: getMatchingCompanyCount(params)");
+		return odao.selectCountMatchingCompany(params);
+	}
+
+	@Override
+	public List<CompanyVO> findCompany(Map<String, Object> params) throws Exception {
+		logger.debug("Service: findCompany(params)");
+		return odao.findCompany(params);
 	}
 	
 	@Override

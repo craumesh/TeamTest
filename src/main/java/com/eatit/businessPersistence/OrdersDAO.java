@@ -25,9 +25,13 @@ public interface OrdersDAO {
 
 	public OrdersVO selectOrderDetail(Integer order_id) throws Exception; 
 
-	public List<CompanyVO> selectCompanyList() throws Exception;
+	public List<CompanyVO> selectCompanyList(Criteria cri) throws Exception;
 	
-	public List<CompanyVO> findCompany(String query) throws Exception;
+	public int selectCountTotalCompany() throws Exception;
+	
+	public int selectCountMatchingCompany(Map<String, Object> params) throws Exception;
+	
+	public List<CompanyVO> findCompany(Map<String, Object> params) throws Exception;
 	
 	public CompanyVO selectCompany(Integer company_no) throws Exception;
 	

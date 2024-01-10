@@ -125,13 +125,36 @@
 	  <select id="selectCompanyList" resultMap="companyVO">
 	  		SELECT *
 	  		FROM company
+	  		LIMIT #{startPage}, #{pageSize}
 	  </select>	 
 	  
+	  <!-- 전체 거래처 수 조회 -->
+	  <select id="selectCountTotalCompany" resultType="int">
+	  		SELECT COUNT(*)
+	  		FROM company
+	  </select>
+	  
+	  <!-- 검색, 필터 거래처 수 조회 -->
+	  <select id="selectCountMatchingCompany" resultType="int" parameterType="map">
+	  		SELECT COUNT(*)
+	  		FROM company
+	  		WHERE company_name LIKE CONCAT('%', #{query}, '%')
+	  		OR company_address LIKE CONCAT('%', #{query}, '%')
+	  		OR company_manager LIKE CONCAT('%', #{query}, '%')
+	  		OR company_zip_code LIKE CONCAT('%', #{query}, '%')
+	  		OR company_tel LIKE CONCAT('%', #{query}, '%')	  		
+	  </select>	   
+	  
 	  <!-- 검색 거래처 조회 -->
-	  <select id="findCompany" resultMap="companyVO">
+	  <select id="findCompany" resultMap="companyVO"  parameterType="map">
 	  		SELECT *
 	  		FROM company
 	  		WHERE company_name LIKE CONCAT('%', #{query}, '%')
+	  		OR company_address LIKE CONCAT('%', #{query}, '%')
+	  		OR company_manager LIKE CONCAT('%', #{query}, '%')
+	  		OR company_zip_code LIKE CONCAT('%', #{query}, '%')
+	  		OR company_tel LIKE CONCAT('%', #{query}, '%')
+			LIMIT #{cri.startPage}, #{cri.pageSize}		  		
 	  </select>	   
 	  
 	  <!-- 거래처 선택 -->
