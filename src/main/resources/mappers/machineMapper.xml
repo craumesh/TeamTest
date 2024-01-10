@@ -36,7 +36,7 @@
 </resultMap>  
 
 <!-- ordersVO -->
-<resultMap type="com.eatit.productionDomain.ordersVO" id="ordersVO">
+<resultMap type="com.eatit.businessDomain.OrdersVO" id="ordersVO">
   	<result property="order_id" column="order_id"/>
   	<result property="company_no" column="company_no"/>
   	<result property="employee_no" column="employee_no"/>

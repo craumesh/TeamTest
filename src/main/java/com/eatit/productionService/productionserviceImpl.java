@@ -8,9 +8,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import com.eatit.businessDomain.OrdersVO;
 import com.eatit.machineDomain.machineVO;
 import com.eatit.mainDomain.Criteria;
-import com.eatit.productionDomain.ordersVO;
 import com.eatit.productionDomain.productionVO;
 import com.eatit.productionDomain.productionhistoryVO;
 import com.eatit.productionPersistence.productionDAO;
@@ -23,7 +23,6 @@ public class productionserviceImpl implements productionservice {
 	
 	@Inject
 	private productionDAO pddao;
-
 
 
 	@Override
@@ -44,6 +43,13 @@ public class productionserviceImpl implements productionservice {
 	public void productionhistory(productionhistoryVO vo) {
 		logger.debug("service : productionhistory");
 		pddao.productionhistory(vo);
+	}
+
+
+	@Override
+	public List<OrdersVO> getOrderList(Criteria cri) {
+		
+		return pddao.selectOrderList(cri);
 	}
 	
 	

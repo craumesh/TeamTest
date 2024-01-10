@@ -1,6 +1,8 @@
 package com.eatit.productionController;
 
+import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -15,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.eatit.businessDomain.OrdersVO;
+import com.eatit.businessService.OrdersService;
 import com.eatit.machineDomain.machineVO;
 import com.eatit.machineService.machineservice;
 import com.eatit.mainDomain.Criteria;
@@ -35,6 +39,9 @@ public class productioncontroller {
 	@Inject
 	private machineservice mcService;
 	
+	@Inject
+	private OrdersService oService;
+	
 	// http://localhost:8088/production/production
 	@RequestMapping(value = "/production", method = RequestMethod.GET)
 	public void productionGET(Model model, Criteria cri) {
@@ -50,11 +57,6 @@ public class productioncontroller {
 		
 	}
 	
-	@RequestMapping(value = "/orderform", method = RequestMethod.GET)
-	public void orderform() {
-		
-		logger.debug("orderform() 페이지 이동");
-	}
 	
 	@RequestMapping(value = "/request", method = RequestMethod.GET)
 	public void proGET() {
@@ -96,6 +98,21 @@ public class productioncontroller {
 	}
 	
 	
-	
+	// 발주 내역 조회 - GET
+		@RequestMapping(value = "/orderform", method = RequestMethod.GET)
+		public void orderListGET(Model model, Criteria cri) {
+
+			List<OrdersVO> ordersVOList;
+			PageVO pageVO = new PageVO();
+			pageVO.setCri(cri);
+			pageVO.setTotalCount(oService.selectproductcount());
+			
+			ordersVOList = oService.selectproduct(cri);
+
+			// 데이터 전달
+			model.addAttribute(pageVO);
+			model.addAttribute("productionUrl", "orderform");
+			model.addAttribute(ordersVOList);
+		}
 	
 }

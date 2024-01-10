@@ -120,7 +120,7 @@ $(document).ready(function() {
     function 새창열기(url) {
         var screenWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
         var screenHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
-        var popupWidth = 850;
+        var popupWidth = 900;
         var popupHeight = 800;
         var leftPosition = (screenWidth - popupWidth) / 2;
         var topPosition = (screenHeight - popupHeight) / 2;

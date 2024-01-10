@@ -4,8 +4,8 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.List;
 
+import com.eatit.businessDomain.OrdersVO;
 import com.eatit.productionDomain.masterdata_informationVO;
-import com.eatit.productionDomain.ordersVO;
 
 import lombok.Data;
 
@@ -27,7 +27,7 @@ public class machineVO {
 //	private Date operating_time;
 	
 	private List<machinehistoryVO> infolist;
-	private List<ordersVO> ordersVOlist;
+	private List<OrdersVO> ordersVOlist;
 	private List<masterdata_informationVO> masterdataVOlist;
 	
 }

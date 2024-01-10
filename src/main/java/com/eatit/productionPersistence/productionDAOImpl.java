@@ -9,9 +9,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
+import com.eatit.businessDomain.OrdersVO;
 import com.eatit.machineDomain.machineVO;
 import com.eatit.mainDomain.Criteria;
-import com.eatit.productionDomain.ordersVO;
 import com.eatit.productionDomain.productionVO;
 import com.eatit.productionDomain.productionhistoryVO;
 
@@ -52,5 +52,12 @@ public class productionDAOImpl implements productionDAO{
 	}
 
 
+	@Override
+	public List<OrdersVO> selectOrderList(Criteria cri) {
+		
+		return sqlSession.selectList(NAMESPACE + ".selectOrderlist", cri);
+	}
+
+	
 	
 }
