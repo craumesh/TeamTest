@@ -16,7 +16,7 @@
 						<div class="align-items-center d-flex flex-column py-1 ct-example">
 							
 						</div>
-					</form>			
+			
 				</div>				
 			</div>			
 			<div class="card-body px-0 pb-2">	
@@ -38,15 +38,15 @@
 						<tbody>
 							<c:forEach var="vo" items="${ordersVOList }">				
 								<tr>
-									
-									<td class="align-middle text-center identify-no modal-act">
+                    				<td class="align-middle text-center identify-no modal-act">
                       					<a>
                    							<span class="text-secondary font-weight-bold">${vo.order_id }</span>
                       					</a>                  						
                      				</td>
-									<td class="modal-act">
+                     				
+								<td class="modal-act">
 				                    	<div class="d-flex px-2 py-1 ms-5">
-
+												<input id="productno" type="hidden" value="${vo.product_no }">
 				                          	<div class="d-flex flex-column justify-content-center">
 				                           		<h6 class="mb-0 text-sm">${vo.product_name }</h6>
 				                            	<p class="text-xs text-secondary mb-0">${vo.quantity }EA</p>
@@ -96,17 +96,17 @@
 				                        <p class="text-xs text-secondary mb-0">${vo.company_tel }</p>
                       				</td>
                       				<c:choose>
-							            <c:when test="${vo.quantity < vo.stock_quantity}">
-							                <td class="align-middle text-center text-sm">
-							                    <button class="btn bg-gradient-info fs-6 mb-0 py-1 px-3" onclick="openDeliveryForm()">출고 요청</button>
-							                </td>
-							            </c:when>
-							            <c:otherwise>
-							                <td class="align-middle text-center text-xs">
-							                    <button class="btn bg-gradient-warning fs-6 mb-0 py-1 px-3" onclick="openProductionRequest()">생산 요청</button>
-							                </td>
-							            </c:otherwise>
-							        </c:choose>  	
+								    <c:when test="${vo.quantity < vo.stock_quantity}">
+								        <td class="align-middle text-center text-sm">
+								            <button class="btn bg-gradient-info fs-6 mb-0 py-1 px-3" onclick="openDeliveryForm('${vo.order_id}')">출고 요청</button>
+								        </td>
+								    </c:when>
+								    <c:otherwise>
+								        <td class="align-middle text-center">
+								             <span id="status-badge" class="badge badge-sm bg-gradient-warning">생산 요청</span>
+								        </td>
+								    </c:otherwise>
+								</c:choose>
 								</tr>
 							</c:forEach>
 						</tbody>												
@@ -137,70 +137,94 @@
 		</div>
 	</div>
 	
+<!-- 모달 -->
+<div id="openmodalRequest" class="modal top-10 position-absolute z-index-4" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content w-100">
+            <div class="modal-header">
+                <button id="closebtn" class="btn bg-gradient-primary position-absolute py-1 px-2 mt-2 end-5" onclick="closeModal()">X</button>
+                <h3 class="modal-title mx-auto">생산 지시</h3>
+            </div>
+            <div class="modal-body p-5">
+                <div id="tableContainer">
+                    <form action="/production/production" id="myForm" method="post">
+                        <table class="table align-items-center mb-0">
+                            <tbody id="statusTableBody">
+							 <tr>
+                             <td>
+                             <input type="hidden" name="" value="">
+                             <input type="hidden" name="" value="">
+                             </td></tr>
+                             <tr>
+                                 <th class="text-center fs-5"> 주문 번호 : </th>
+                                 <td class="fs-5" id="order_id"></td></tr>
+                             <tr>
+							<th class="text-center fs-5"> 생산 설비 : </th>
+							 <td class="fs-5"></td>
+							</tr>
+							
+							<tr>
+							<th class="text-center fs-5"> 생산 제품 :  </th>
+							<td class="fs-5" id="product_name"> </td>
+							</tr>
+							
+							<tr>
+							<th class="text-center fs-5"> 생산 수량 :  </th>
+							<td class="fs-5" id="quantity">  EA </td>
+							</tr>
+							
+							
+					</tbody>
+						</table>
+                        <div class="text-center">
+                            <button class="btn bg-gradient-danger fs-6 mb-0 py-2 px-3" onclick="registerEquipment()">생산지시</button>
+                            <button class="btn bg-gradient-dark fs-6 mb-0 py-2 px-3 me-3" onclick="closeWindow()">취소</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+	
 <%@ include file="../include/footer.jsp"%>
 
 <script>
 
-	$(document).ready(function() {
-	
-		
-		$('table tr').each(function() {
-            var statusText = $(this).find('td:last-child #status-badge').text();
 
-            switch(statusText){
-	            case "신청완료": $(this).find('td:last-child #status-badge').addClass("bg-gradient-primary"); break;
-	            case "생산중": $(this).find('td:last-child #status-badge').addClass("bg-gradient-warning"); break;
-	            case "생산완료": $(this).find('td:last-child #status-badge').addClass("bg-gradient-warning"); break;
-	            case "배송중": $(this).find('td:last-child #status-badge').addClass("bg-gradient-info"); break;
-	            case "배송완료": $(this).find('td:last-child #status-badge').addClass("bg-gradient-info"); break;
-	            case "처리완료": $(this).find('td:last-child #status-badge').addClass("bg-gradient-success"); break;
-	            case "취소": $(this).find('td:last-child #status-badge').addClass("bg-gradient-danger"); break;
-            }
-        });
+		$("#order-table").on("click", "tr td.modal-act", function(event) {
+		    var orderId = $(this).closest("tr").find("td.identify-no span").text();
+		    var productno = $(this).closest("tr").find("#productno").val();
 		
-		
-			
-			if (!$(event.target).closest('.input-group').length) {
-				if (!$("#query").val()) {
-		       		$(".input-group").removeClass("focused is-focused");
-				}
-		    }
-		});		
-		
-		$(".input-group").click(function(){
-			$(this).addClass("focused is-focused");
+		    $.ajax({
+		    	url: '/production/getorderform?order_id=' + orderId + '&product_no=' + productno,
+		        method: 'GET',
+		        dataType: 'json',
+		        success: function(data) {
+		            console.log(data);
+		            $("#order_id").text(data.order_id);
+		            $("#product_name").text(data.product_name);
+		            $("#quantity").text(data.quantity);
+		            
+
+		           
+		            
+		            $("#openmodalRequest").modal('show');
+		        },
+		        error: function(error) {
+		            console.log('에러:', error);
+		        }
+		    });
 		});
 		
-		$("#depart_name-select").on("change", function() {			
-			updatePositionNameSelect();
-		});	
+		function closeModal() {
+		    $("#openmodalRequest").modal('hide');
+		}
 		
-		$(".dropdown-item").click(function(){
-			$("#dropdown-selected").text($(this).text());
-			$("#filter").val($("#dropdown-selected").text());
-			$("#search-form").submit();
-		});
-				
+		function closeWindow() {
+		    closeModal();
+		}
 
-	
-	var result = "${result}";
-	
-	if(result == "CREATEOK"){
-		swal({
-			title: "주문이 정상적으로 처리되었습니다.",
-			icon: "success",
-			buttons: "확인",
-			});
-	}
-	
-	// 배송 요청 페이지
-    function openDeliveryForm() {
-        window.open('/deliverys/forms', '_blank', 'width=800,height=600');
-    }
-	
-	// 생산 요청 페이지
-    function openProductionRequest() {
-        window.open('/생산 지시/페이지', '_blank', 'width=800,height=600');
-    }
-	
 </script>
+
+

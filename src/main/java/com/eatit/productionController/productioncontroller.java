@@ -13,9 +13,11 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.eatit.businessDomain.OrdersVO;
 import com.eatit.businessService.OrdersService;
@@ -115,4 +117,15 @@ public class productioncontroller {
 			model.addAttribute(ordersVOList);
 		}
 	
+		@RequestMapping(value = "/getorderform", method = RequestMethod.GET)
+		@ResponseBody
+		public OrdersVO getorderform(@RequestParam("order_id")Integer order_id,
+									 @RequestParam("product_no")Integer product_no ) throws Exception {
+			
+			logger.debug("order_id : " +order_id);
+			logger.debug("product_no : " +product_no);
+			
+			return oService.getOrderDetail(order_id);
+			
+		}
 }

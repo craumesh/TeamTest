@@ -103,8 +103,10 @@
 							<th class="fs-5 w-50">설치 장비</th>
 							<td><select id="machine_name" name="machine_name" onchange="updateMachineCode()" required>
 								<option value="선택">--선택하세요--</option>
-								<option value="Production">생산</option>
-								<option value="Packaging">포장</option>
+								<option value="CAKE">케이크</option>
+								<option value="COOKIE">쿠키</option>
+								<option value="ICECREAM">아이스크림</option>
+								
 							</select></td>
 						</tr>
 						<tr>
