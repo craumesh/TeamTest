@@ -1,7 +1,6 @@
 package com.eatit.warehouseService;
 
 import java.text.SimpleDateFormat;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -231,6 +230,19 @@ public class WarehouseServiceImpl implements WarehouseService {
 		getStockList();
 		// 리스트 불러오기
 		return warehousedao.getStockInfo(cri);
+	}
+
+	@Override
+	public int getFindCount(Map<String, Object> params) {
+		return warehousedao.getFindCount(params);
+	}
+	
+	@Override
+	public List<StockInfoVO> findStockInfoList(Map<String, Object> params) {
+		// 식별번호 생성과 동시에 insert 메서드 호출
+		getStockList();
+		// 리스트 불러오기
+		return warehousedao.findStockInfoList(params);
 	}
 
 	@Override

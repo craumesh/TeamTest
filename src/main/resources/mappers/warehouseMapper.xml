@@ -165,6 +165,62 @@
 	  		FROM member
   	</select>
   	
+  	<!-- 검색된 주문 개수 -->
+   <select id="findCount" resultType="int" parameterType="map">
+	 	SELECT COUNT(*) 
+	 	FROM stock_info
+	 	WHERE
+		<choose>
+		  <when test = "filter == '대기중'"> status = '대기중' </when>
+		  <when test = "filter == '승인'"> status = '승인' </when>
+		  <when test = "filter == '취소'"> status = '취소' </when>
+		  <when test = "filter == '입고'"> io_classification = '입고' </when>
+		  <when test = "filter == '출고'"> io_classification = '출고' </when>
+		  <when test = "filter == '자재'"> category = '자재' </when>
+		  <when test = "filter == '완제품'"> category = '완제품' </when>
+	  	</choose>		  		  		
+		AND (
+				identify_code LIKE CONCAT('%', #{searchword}, '%') 
+				OR io_classification LIKE CONCAT('%', #{searchword}, '%') 
+				OR category LIKE CONCAT('%', #{searchword}, '%')
+			)
+   </select>
+	  
+  <!-- 검색 내역 조회 -->
+  <select id="findOrderList" resultType="ordersVO" parameterType="map">
+		SELECT 
+			identify_code,
+  			warehouse_no,
+  			io_classification,
+  			category,
+  			product_name 'name',
+  			io_quantities,
+  			product_unit 'unit',
+  			price,
+  			expiry_date,
+  			io_date,
+  			status 
+		FROM stock_info
+		WHERE
+		<choose>
+		  <when test = "filter == '대기중'"> status = '대기중' </when>
+		  <when test = "filter == '승인'"> status = '승인' </when>
+		  <when test = "filter == '취소'"> status = '취소' </when>
+		  <when test = "filter == '입고'"> io_classification = '입고' </when>
+		  <when test = "filter == '출고'"> io_classification = '출고' </when>
+		  <when test = "filter == '자재'"> category = '자재' </when>
+		  <when test = "filter == '완제품'"> category = '완제품' </when>
+	  	</choose>	  		 		
+		AND(
+			identify_code LIKE CONCAT('%', #{searchword}, '%')
+			OR io_classification LIKE CONCAT('%', #{searchword}, '%')
+		 	OR category LIKE CONCAT('%', #{searchword}, '%')
+			)
+		ORDER BY io_date 
+		LIMIT #{cri.startPage}, #{cri.pageSize}
+	</select>
+	  
+  	
   	<!-- stock_Info 테이블 조회 -->
   	<select id="getStockInfo" resultType="com.eatit.warehouseDomain.StockInfoVO">
   		SELECT  

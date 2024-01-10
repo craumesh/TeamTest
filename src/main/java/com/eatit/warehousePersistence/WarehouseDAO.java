@@ -1,6 +1,7 @@
 package com.eatit.warehousePersistence;
 
 import java.util.List;
+import java.util.Map;
 
 import com.eatit.mainDomain.Criteria;
 import com.eatit.memberDomain.MemberVO;
@@ -46,8 +47,14 @@ public interface WarehouseDAO {
 	// 창고 정보 총갯수
 	public int getTotalCount();
 	
-	// 입출고 정보 테이블 모두 조회
+	// 창고 정보 총갯수(검색어, 필터o)
+	public int getFindCount(Map<String, Object> params);
+	
+	// 입출고 정보 테이블 모두 조회(검색어, 필터 x)
 	public List<StockInfoVO> getStockInfo(Criteria cri);
+	
+	// 입출고 정보 테이블 모두 조회(검색어, 필터 o)
+	public List<StockInfoVO> findStockInfoList(Map<String, Object> params);
 	
 	// 특정 식별 코드 정보 조회
 	public StockInfoVO getStockInfoByIdentifyCode(StockInfoVO infoVO);

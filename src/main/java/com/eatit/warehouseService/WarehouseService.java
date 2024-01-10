@@ -1,8 +1,7 @@
 package com.eatit.warehouseService;
 
 import java.util.List;
-
-import org.springframework.web.bind.annotation.RequestParam;
+import java.util.Map;
 
 import com.eatit.mainDomain.Criteria;
 import com.eatit.memberDomain.MemberVO;
@@ -49,11 +48,17 @@ public interface WarehouseService {
 	// 창고 재고 정보 현황에 필요한 정보 조회
 	public void getStockList();
 	
-	// 창고 재고 정보
+	// 창고 재고 정보 페이징(검색어, 필터x)
 	public List<StockInfoVO> getStockInfoList(Criteria cri);
+	
+	// 창고 재고 정보 페이징(검색어, 필터0)
+	public List<StockInfoVO> findStockInfoList(Map<String, Object> params);
 	
 	// 창고 재고
 	public int getTotalCount();
+	
+	// 창고 재고 정보 갯수(검색어, 필터0)
+	public int getFindCount(Map<String, Object> params);
 	
 	// 창고 승인 처리
 	public void stockApprovalProcess(StockInfoVO infoVO);

@@ -1,6 +1,7 @@
 package com.eatit.warehouseController;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
@@ -11,7 +12,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.eatit.businessService.OrdersService;
 import com.eatit.mainDomain.Criteria;
 import com.eatit.mainDomain.PageVO;
 import com.eatit.memberDomain.MemberVO;
@@ -26,9 +27,7 @@ import com.eatit.memberService.HumanResourceService;
 import com.eatit.warehouseDomain.StockInfoVO;
 import com.eatit.warehouseDomain.StockVO;
 import com.eatit.warehouseDomain.WarehouseVO;
-import com.eatit.warehousePersistence.WarehouseDAOImpl;
 import com.eatit.warehouseService.WarehouseService;
-import com.eatit.warehouseService.WarehouseServiceImpl;
 
 @Controller
 @RequestMapping(value="/warehouse/*")
@@ -42,6 +41,7 @@ public class WarehouseController {
 	@Inject
 	private HumanResourceService hrService;
 	
+	@Inject OrdersService oService;
 ////////////////////////////////////////// 창고 메인 페이지 시작 ///////////////////////////////////////
 	//http://localhost:8088/warehouse/warehouseMain
 	@GetMapping(value = "/warehouseMain")
@@ -52,18 +52,12 @@ public class WarehouseController {
 		
 		// 서비스 - 창고 리스트 가져오기
 		List<WarehouseVO> warehouseListMain = warehouseService.warehouseListMain();
-		logger.debug("@_@"+warehouseListMain);
 		
 		// 서비스 - 회원 리스트 가져오기
 		List<MemberVO> memberList = warehouseService.memberListAll();
-//		logger.debug("@_@"+memberList);
 		
 		// 서비스 - 직책 정보 가져오기
 		List<String> positionName = warehouseService.memberGetPositionName();
-//		logger.debug("@_@"+positionName);
-		
-		// 새로고침 제어시 필요
-		session.setAttribute("getStockInfoList", true);
 		
 		// 데이터를 연결된 뷰페이지로 전달
 		model.addAttribute("warehouseListMain", warehouseListMain);
@@ -144,28 +138,45 @@ public class WarehouseController {
 	}
 	
 	@GetMapping(value = "/stockInfo")
-	public void stockInfoGET(Model model, Criteria cri) {
+	public void stockInfoGET(Model model, Criteria cri,
+							 @RequestParam(name = "searchword", required = false) String searchword, 
+							 @RequestParam(name = "filter", required = false) String filter, 
+							 Map<String, Object> params) {
 //		logger.debug("C - stockInfoGET()");
-		
-		List<StockInfoVO> stockInfoList = warehouseService.getStockInfoList(cri);
+		// 페이지 사이즈 변경
+		cri.setPageSize(13);
+		List<StockInfoVO> stockInfoList;
 		
 		// 페이징
 		PageVO pageVO = new PageVO();
 		pageVO.setCri(cri);
-		pageVO.setTotalCount(warehouseService.getTotalCount());
 		
-		model.addAttribute("listUrl", "list");
+		if(searchword == null && filter == null) {
+			pageVO.setTotalCount(warehouseService.getTotalCount());
+			stockInfoList = warehouseService.getStockInfoList(cri);
+		}else {
+			params.put("cri", cri);
+			params.put("searchword", searchword);
+			params.put("filter", filter);
+			pageVO.setTotalCount(warehouseService.getFindCount(params));
+			stockInfoList = warehouseService.findStockInfoList(params);
+		}
+		
+		// 데이터전달
+		model.addAttribute("listUrl", "stockInfo");
 		model.addAttribute("pageVO", pageVO);
-		model.addAttribute("stockInfoList", stockInfoList);
+		model.addAttribute("stockInfoList",stockInfoList);
 	}
 	
-	@PostMapping(value = "/stockApprovalProcess")
-	public String stockInfoApprovalProcess(StockInfoVO infoVO) {
+	@PostMapping(value = "/stockInfo")
+	public String stockInfoPOST(StockInfoVO infoVO,
+							    @ModelAttribute("searchword") String searchword,
+							    @ModelAttribute("filter") String filter,
+							    @RequestParam("page") int page) {
 //	    logger.debug("C - stockInfoPOST()");
 //	    logger.debug("infoVO: " + infoVO);
-	    
 	    warehouseService.stockApprovalProcess(infoVO);
-
+	    
 	    return "redirect:/warehouse/stockInfo";
 	}
 	

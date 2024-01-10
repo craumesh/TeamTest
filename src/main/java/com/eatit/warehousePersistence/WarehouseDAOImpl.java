@@ -99,6 +99,16 @@ public class WarehouseDAOImpl implements WarehouseDAO {
 	public int getTotalCount() {
 		return sqlsession.selectOne(NAMESPACE+"totalCount");
 	}
+	
+	@Override
+	public int getFindCount(Map<String, Object> params) {
+		return sqlsession.selectOne(NAMESPACE + "findCount", params);
+	}
+	
+	@Override
+	public List<StockInfoVO> findStockInfoList(Map<String, Object> params) {
+		return sqlsession.selectOne(NAMESPACE+"findOrderList", params);
+	}
 
 	@Override
 	// 입출고 정보 테이블 모두 조회

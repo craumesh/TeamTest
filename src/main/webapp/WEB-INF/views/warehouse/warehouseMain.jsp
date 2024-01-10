@@ -30,7 +30,7 @@
 				<div id="tableContainer" class="modal-body">
 					<table id="view-table" class="table">
 						<tr>
-							<th class="fs-5">구분</th>
+							<th class="fs-5 ">구분</th>
 							<td class="fs-6" id="category"></td>
 						</tr>
 						<tr>
@@ -173,12 +173,12 @@
 								<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ">
 									<input type="checkbox" id="cbx_chkAll">
 								</th>
-								<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 fs-6">창고번호</th>
-								<th class="text-center text-secondary text-xxs font-weight-bolder opacity-7 fs-6">구분</th>
-								<th class="text-center text-secondary text-xxs font-weight-bolder opacity-7 fs-6">창고명</th>
-								<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 fs-6">관리자</th>
-								<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 fs-6">사용여부</th>
-								<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 fs-6">상세정보</th>
+								<th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7 fs-6">창고번호</th>
+								<th class="text-center text-secondary text-xs font-weight-bolder opacity-7 fs-6">구분</th>
+								<th class="text-center text-secondary text-xs font-weight-bolder opacity-7 fs-6">창고명</th>
+								<th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7 fs-6">관리자</th>
+								<th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7 fs-6">사용여부</th>
+								<th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7 fs-6">상세정보</th>
 							</tr>
 						</thead>
 						
@@ -189,16 +189,16 @@
 										<input type="checkbox" name="chk" value="${warehouseListMain.warehouse_no}">
 									</td>
 									<td class="text-center">
-                      					<span class="text-secondary text-xs font-weight-bold">${warehouseListMain.warehouse_no}</span>
+                      					<span class="text-secondary text-sm font-weight-bold">${warehouseListMain.warehouse_no}</span>
                      				</td>
 									<td class="text-center">
-                      					<span class="text-secondary text-xs font-weight-bold">${warehouseListMain.category}</span>
+                      					<span class="text-secondary text-sm font-weight-bold">${warehouseListMain.category}</span>
 			                        </td>
 									<td class="text-center">
-				                        <span class="text-secondary text-xs font-weight-bold">${warehouseListMain.warehouse_name}</span>
+				                        <span class="text-secondary text-sm font-weight-bold">${warehouseListMain.warehouse_name}</span>
                       				</td>
 									<td class="text-center">
-										<span class="text-secondary text-xs font-weight-bold">${warehouseListMain.name}</span>
+										<span class="text-secondary text-sm font-weight-bold">${warehouseListMain.name}</span>
 									</td>
 									<td class="text-center text-sm">
 			                        	<span id="wMainStatus" class="badge badge-sm bg-gradient-success">${warehouseListMain.use_status}</span>
