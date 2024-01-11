@@ -7,8 +7,8 @@
 		<div class="card my-4">		
 			<div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">				
 				<div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-4 pe-3 d-flex">			
-					<h3 class="text-white text-capitalize ps-5 align-items-center mt-2 py-1">주문 내역</h3>					
-					<form action="/orders/lists" id="search-form" class="ms-md-auto bg-white rounded p-2 mb-0 d-flex align-items-center">
+					<h3 class="text-white text-capitalize ps-5 align-items-center mt-2 py-1">배송 내역</h3>					
+					<form action="/deliverys/lists" id="search-form" class="ms-md-auto bg-white rounded p-2 mb-0 d-flex align-items-center">
 						<div class="align-items-center d-flex flex-column mx-1">	
 							<div class="input-group input-group-outline">
 								<label class="form-label">검색어</label>
@@ -37,7 +37,7 @@
 										<input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" data-gtm-form-interact-field-id="0">
 									</div>
 								</th>
-								<th class="text-center text-secondary font-weight-bolder col-1">주문 번호</th>
+								<th class="text-center text-secondary font-weight-bolder col-1">배송 번호</th>
 								<th class="text-center text-secondary font-weight-bolder col-1">제품 정보</th>
 								<th class="text-center text-secondary font-weight-bolder col-1">재고량</th>
 								<th class="text-center text-secondary font-weight-bolder col-1">주문 일자</th>
@@ -49,20 +49,16 @@
 											<span id="dropdown-selected">${empty param.filter ? "전체" : param.filter }</span>
 										</button>
 										<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-											<li><a class="dropdown-item">신청완료</a></li>
-											<li><a class="dropdown-item">생산중</a></li>
-											<li><a class="dropdown-item">생산완료</a></li>
+											<li><a class="dropdown-item">배송준비중</a></li>
 											<li><a class="dropdown-item">배송중</a></li>
 											<li><a class="dropdown-item">배송완료</a></li>
-											<li><a class="dropdown-item">처리완료</a></li>
-											<li><a class="dropdown-item">취소</a></li>
 										</ul>
 									</div>
 								</th>
 							</tr>
 						</thead>					
 						<tbody>
-							<c:forEach var="vo" items="${ordersVOList }">				
+							<c:forEach var="vo" items="${deliveryVOList }">				
 								<tr>
 									<td class="text-uppercase text-secondary text-s font-weight-bolder opacity-7 ps-5">
 										<div class="form-check form-check-info text-start ps-0">
@@ -71,7 +67,7 @@
 									</td>
 									<td class="align-middle text-center identify-no modal-act">
                       					<a>
-                   							<span class="text-secondary font-weight-bold">${vo.order_id }</span>
+                   							<span class="text-secondary font-weight-bold">${vo.delivery_id }</span>
                       					</a>                  						
                      				</td>
 									<td class="modal-act">
@@ -80,67 +76,40 @@
 				                            	<img src="" class="avatar avatar-sm me-3 border-radius-lg" alt="user1">
 				                     		</div>
 				                          	<div class="d-flex flex-column justify-content-center">
-				                           		<h6 class="mb-0 text-sm">${vo.product_name }</h6>
-				                            	<p class="text-xs text-secondary mb-0">${vo.quantity }EA</p>
+				                           		<h6 class="mb-0 text-sm">${vo.delivery_id }</h6>
+				                            	<p class="text-xs text-secondary mb-0">${vo.delivery_id }</p>
 				                        	</div>
 				                    	</div>
 			                        </td>
-                      				<c:choose>
-							            <c:when test="${(vo.stock_quantity / 500) * 100 >= 50}">
-							                <td class="align-middle text-center modal-act" id="progress-bar_${vo.order_id }">
+    
+
+
+							                <td class="align-middle text-center modal-act" id="progress-bar_${vo.delivery_id }">
 												<div class="d-flex flex-sm-column align-items-center justify-content-center">
-													<span class="me-2 text-xs font-weight-bold" id="prdInv_${vo.order_id}">${vo.stock_quantity }EA</span>
-													<div>
-														<div class="progress">
-															<div class="progress-bar bg-gradient-info" id="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: ${(vo.stock_quantity / 500) * 100};"></div>
-														</div>
-													</div>
+													<span class="me-2 text-xs font-weight-bold" id="prdInv_${vo.delivery_id }">${vo.delivery_id }</span>
+	
 												</div>
 											</td>
-							            </c:when>
-							            <c:when test="${(vo.stock_quantity / 500) * 100 == 0}">
-							                <td class="align-middle text-center modal-act" id="progress-bar_${vo.order_id }">
-												<div class="d-flex flex-sm-column align-items-center justify-content-center">
-													<span class="me-2 text-xs font-weight-bold" id="prdInv_${vo.order_id}">재고 없음</span>
-												</div>
-											</td>
-							            </c:when>
-						          	  	<c:otherwise>
-							                <td class="align-middle text-center modal-act" id="progress-bar_${vo.order_id }">
-												<div class="d-flex flex-sm-column align-items-center justify-content-center">
-													<span class="me-2 text-xs font-weight-bold" id="prdInv_${vo.order_id}">${vo.stock_quantity }EA</span>
-													<div>
-														<div class="progress">
-															<div class="progress-bar bg-gradient-warning" id="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: ${(vo.stock_quantity / 500) * 100};"></div>
-														</div>
-													</div>
-												</div>
-											</td>
-						            	</c:otherwise>
-							        </c:choose>	                        		
+						     
+	                     		
 									<td class="align-middle text-center modal-act">
 										<span class="text-secondary text-xs font-weight-bold">
-									    	<fmt:formatDate value="${vo.order_date}" pattern="yyyy-MM-dd" />
+									    	<fmt:formatDate value="${vo.create_date}" pattern="yyyy-MM-dd" />
 									    </span>
 									</td>
 									<td class="align-middle text-center modal-act">
-				                        <p class="text-xs font-weight-bold mb-0">${vo.company_name }</p>
-				                        <p class="text-xs text-secondary mb-0">${vo.company_tel }</p>
+				                        <p class="text-xs font-weight-bold mb-0">${vo.delivery_id }</p>
+				                        <p class="text-xs text-secondary mb-0">${vo.delivery_id }</p>
                       				</td>
-                      				<c:choose>
-							            <c:when test="${vo.quantity < vo.stock_quantity}">
-							                <td class="align-middle text-center text-sm">
-							                    <button class="btn bg-gradient-info fs-6 mb-0 py-1 px-3" onclick="openDeliveryForm()">출고 요청</button>
-							                </td>
-							            </c:when>
-							            <c:otherwise>
+                      		
+						
 							                <td class="align-middle text-center text-xs">
 							                    <button class="btn bg-gradient-warning fs-6 mb-0 py-1 px-3" onclick="openProductionRequest()">생산 요청</button>
 							                </td>
-							            </c:otherwise>
-							        </c:choose>  	
+							   
+						 	
 									<td class="align-middle text-center text-sm">
-			                        	<span id="status-badge" class="badge badge-sm fs-6 mb-0 py-2 px-3 w-50">${vo.order_status }</span>
+			                        	<span id="status-badge" class="badge badge-sm fs-6 mb-0 py-2 px-3 w-50">${vo.delivery_status }</span>
 			                      	</td>
 								</tr>
 							</c:forEach>
@@ -156,84 +125,22 @@
 				<div class="col-sm-5 mb-3">
 					<ul class="pagination">
 						<c:if test="${pageVO.prev }">
-							<li class="page-link link-container"><a href="/orders/${pageUrl }?page=${pageVO.endPage-pageVO.displayPageNum }&query=${query}&filter=${filter}" class="link"><<</a></li>
+							<li class="page-link link-container"><a href="/deliverys/${pageUrl }?page=${pageVO.endPage-pageVO.displayPageNum }&query=${query}&filter=${filter}" class="link"><<</a></li>
 						</c:if>
 						<c:forEach var="i" begin="${pageVO.startPage }" end="${pageVO.endPage }" step="1">
 							<li ${pageVO.cri.page == i ? "class='link-container active'" : "class='link-container'"} >
-								<a href="/orders/${pageUrl }?page=${i }&query=${query}&filter=${filter}" ${pageVO.cri.page == i ? "class='page-link rounded fw-bolder link-white'" : "class='page-link rounded fw-bolder'"}>${i }</a>
+								<a href="/deliverys/${pageUrl }?page=${i }&query=${query}&filter=${filter}" ${pageVO.cri.page == i ? "class='page-link rounded fw-bolder link-white'" : "class='page-link rounded fw-bolder'"}>${i }</a>
 							</li>				
 						</c:forEach>
 						<c:if test="${pageVO.next }">
-							<li class="page-link link-container"><a href="/orders/${pageUrl }?page=${pageVO.startPage+pageVO.displayPageNum }&query=${query}&filter=${filter}" class="link">>></a></li>
+							<li class="page-link link-container"><a href="/deliverys/${pageUrl }?page=${pageVO.startPage+pageVO.displayPageNum }&query=${query}&filter=${filter}" class="link">>></a></li>
 						</c:if>
 					</ul>
 				</div>
 			</div>		
 		</div>
 	</div>
-	<!-- 모달창 -->
-	<div id="Modal" class="modal top-7 position-absolute h-auto">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header py-4">
-					<button id="closebtn" class="btn bg-gradient-primary position-absolute py-1 px-2 mt-2 end-5">X</button>
-					<h3 class="modal-title mx-auto">주문 정보</h3>
-				</div>
-				<div class="modal-body p-5">
-					<div class="user-container d-flex align-items-center">
-						<img class="img-thumbnail mb-4 me-4 max-width-200 w-30" alt="상품사진" id="photo_paths">
-						<div class="user-info d-flex w-100">
-							<table class="table">
-								<tr>
-									<th class="fs-5">주문번호</th>
-									<td class="fs-5" id="order_id"></td>
-								</tr>
-								<tr>
-									<th class="fs-5">상품이름</th>
-									<td class="fs-5" id="product_name"></td>
-								</tr>
-								<tr>
-									<th class="fs-5">수량</th>
-									<td class="fs-5" id="quantity"></td>
-								</tr>
-							</table>
-						</div>
-					</div>	
-					<div id="tableContainer" class="modal-body">
-						<table id="view-table" class="table">
-							<tr>
-								<th class="fs-5">담당자</th>
-								<td class="fs-5" id="member_name"></td>
-							</tr>
-							<tr>
-								<th class="fs-5">거래처</th>
-								<td class="fs-5" id="company_name"></td>
-							</tr>
-							<tr>
-								<th class="fs-5">거래처 번호</th>
-								<td class="fs-5" id="company_tel"></td>
-							</tr>
-							<tr>
-								<th class="fs-5">거래처 주소</th>
-								<td class="fs-5" id="company_address"></td>
-							</tr>
-							<tr>
-								<th class="fs-5">요청사항</th>
-								<td class="fs-5" id="comments"></td>
-							</tr>
-							<tr>
-								<th class="fs-5">납기일</th>
-								<td class="fs-5" id="due_date"></td>
-							</tr>
-						</table>
-					</div>			
-					<div class="text-center">
-						<button id="editbtn" class="btn bg-gradient-danger fs-6 mb-0 py-2 px-3">주문 수정</button>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+
 <%@ include file="../include/footer.jsp"%>
 
 <script>
@@ -256,20 +163,16 @@
 	
 		$("#searchbtn").click(function(){
 			var value = $("#query").val();
-			location.href = '/orders/lists?query=' + value;
+			location.href = '/deliverys/lists?query=' + value;
 		});	
 		
 		$('table tr').each(function() {
             var statusText = $(this).find('td:last-child #status-badge').text();
 
             switch(statusText){
-	            case "신청완료": $(this).find('td:last-child #status-badge').addClass("bg-gradient-primary"); break;
-	            case "생산중": $(this).find('td:last-child #status-badge').addClass("bg-gradient-warning"); break;
-	            case "생산완료": $(this).find('td:last-child #status-badge').addClass("bg-gradient-warning"); break;
-	            case "배송중": $(this).find('td:last-child #status-badge').addClass("bg-gradient-info"); break;
-	            case "배송완료": $(this).find('td:last-child #status-badge').addClass("bg-gradient-info"); break;
-	            case "처리완료": $(this).find('td:last-child #status-badge').addClass("bg-gradient-success"); break;
-	            case "취소": $(this).find('td:last-child #status-badge').addClass("bg-gradient-danger"); break;
+	            case "배송준비중": $(this).find('td:last-child #status-badge').addClass("bg-gradient-primary"); break;
+	            case "배송중": $(this).find('td:last-child #status-badge').addClass("bg-gradient-warning"); break;
+	            case "배송완료": $(this).find('td:last-child #status-badge').addClass("bg-gradient-success"); break;
             }
         });
 		
@@ -348,16 +251,6 @@
 			buttons: "확인",
 			});
 	}
-	
-	// 배송 요청 페이지
-    function openDeliveryForm() {
-        window.open('/deliverys/forms', '_blank', 'width=800,height=600');
-    }
-	
-	// 생산 요청 페이지
-    function openProductionRequest() {
-        window.open('/생산 지시/페이지', '_blank', 'width=800,height=600');
-    }
 		
     function dropItemReposition(){
    		if (!$(".dropdown-menu").hasClass("show")) {
