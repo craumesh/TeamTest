@@ -106,7 +106,6 @@
 								<option value="CAKE">케이크</option>
 								<option value="COOKIE">쿠키</option>
 								<option value="ICECREAM">아이스크림</option>
-								
 							</select></td>
 						</tr>
 						<tr>

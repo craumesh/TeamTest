@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import com.eatit.businessDomain.OrdersVO;
 import com.eatit.machineDomain.machineVO;
 import com.eatit.mainDomain.Criteria;
+import com.eatit.productionDomain.masterdata_informationVO;
 import com.eatit.productionDomain.productionVO;
 import com.eatit.productionDomain.productionhistoryVO;
 
@@ -56,6 +57,20 @@ public class productionDAOImpl implements productionDAO{
 	public List<OrdersVO> selectOrderList(Criteria cri) {
 		
 		return sqlSession.selectList(NAMESPACE + ".selectOrderlist", cri);
+	}
+
+
+	@Override
+	public String recipe(Integer product_no) {
+	 logger.debug("DAO : recipe");
+		return sqlSession.selectOne(NAMESPACE+ ".recipe", product_no);
+	}
+
+
+	@Override
+	public List<masterdata_informationVO> category() {
+		logger.debug("DAO : category");
+		return sqlSession.selectList(NAMESPACE+ ".category");
 	}
 
 	

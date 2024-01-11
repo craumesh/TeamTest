@@ -88,6 +88,12 @@ private static final String NAMESPACE="com.eatit.mapper.machineMapper";
 		logger.debug("productstatus() 호출");
 		return sqlSession.selectOne(NAMESPACE+ ".productstatus", code);
 	}
+
+	@Override
+	public List<machineVO> machinecategory() {
+		logger.debug("DAO : machinecategory()");
+		return sqlSession.selectList(NAMESPACE+ ".machinecategory");
+	}
 	
 	
 }

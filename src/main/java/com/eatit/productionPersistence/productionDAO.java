@@ -5,6 +5,7 @@ import java.util.List;
 import com.eatit.businessDomain.OrdersVO;
 import com.eatit.machineDomain.machineVO;
 import com.eatit.mainDomain.Criteria;
+import com.eatit.productionDomain.masterdata_informationVO;
 import com.eatit.productionDomain.productionVO;
 import com.eatit.productionDomain.productionhistoryVO;
 
@@ -25,5 +26,10 @@ public interface productionDAO {
 	// 발주서 조회
 	public List<OrdersVO> selectOrderList(Criteria cri);
 
+	// 레시피 조회
+	public String recipe(Integer product_no);
+	
+	// 자재 조회
+	public List<masterdata_informationVO> category();
 	
 }

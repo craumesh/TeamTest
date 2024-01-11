@@ -139,7 +139,7 @@
 	
 <!-- 모달 -->
 <div id="openmodalRequest" class="modal top-10 position-absolute z-index-4" data-bs-backdrop="static" data-bs-keyboard="false">
-    <div class="modal-dialog">
+    <div class="modal-dialog" style="max-width:800">
         <div class="modal-content w-100">
             <div class="modal-header">
                 <button id="closebtn" class="btn bg-gradient-primary position-absolute py-1 px-2 mt-2 end-5" onclick="closeModal()">X</button>
@@ -147,20 +147,18 @@
             </div>
             <div class="modal-body p-5">
                 <div id="tableContainer">
-                    <form action="/production/production" id="myForm" method="post">
+                    <form action="/production/production" id="myForm" method="post" class="d-flex">
                         <table class="table align-items-center mb-0">
                             <tbody id="statusTableBody">
-							 <tr>
-                             <td>
-                             <input type="hidden" name="" value="">
-                             <input type="hidden" name="" value="">
-                             </td></tr>
+
                              <tr>
                                  <th class="text-center fs-5"> 주문 번호 : </th>
                                  <td class="fs-5" id="order_id"></td></tr>
                              <tr>
 							<th class="text-center fs-5"> 생산 설비 : </th>
-							 <td class="fs-5"></td>
+							 <td class="fs-5" id=machinelist>
+							
+							 </td>
 							</tr>
 							
 							<tr>
@@ -174,14 +172,26 @@
 							</tr>
 							
 							
+							
 					</tbody>
 						</table>
+						
+						<table class="table align-items-center mb-0">
+							<tbody id="tdadd">
+							<tr>
+							<th class="text-center fs-5" colspan="2"> 레시피  </th>
+							</tr>
+							
+							
+							</tbody>
+						</table>
+						
+                    </form>
+                </div>
                         <div class="text-center">
                             <button class="btn bg-gradient-danger fs-6 mb-0 py-2 px-3" onclick="registerEquipment()">생산지시</button>
                             <button class="btn bg-gradient-dark fs-6 mb-0 py-2 px-3 me-3" onclick="closeWindow()">취소</button>
                         </div>
-                    </form>
-                </div>
             </div>
         </div>
     </div>
@@ -201,15 +211,32 @@
 		        method: 'GET',
 		        dataType: 'json',
 		        success: function(data) {
-		            console.log(data);
-		            $("#order_id").text(data.order_id);
-		            $("#product_name").text(data.product_name);
-		            $("#quantity").text(data.quantity);
-		            
 
-		           
-		            
+		        	
+		        	var newSelect = $("<select>").attr("name", "machine_code").addClass("w-100 text-center");
+		        	addOptionsToSelect(newSelect, data.machine);
+		        	
+		        	
+		        	$("#machinelist").append(newSelect);	
+		            $("#order_id").text(data.Detail.order_id);
+		            $("#product_name").text(data.Detail.product_name);
+		            $("#quantity").text(data.Detail.quantity);
+		            $("#recipe").text(data.recipe);
 		            $("#openmodalRequest").modal('show');
+					
+		            var $tdadd = $("#tdadd");
+		            
+		            if (data.recipe !== '미등록') {      
+		                var recipe = JSON.parse(data.recipe)[data.Detail.product_no];
+		                
+		                  for (var key in recipe) {
+		                   var value = recipe[key]*data.Detail.quantity;
+		                   $tdadd.append("<tr><td class='text-center fs-5'>" + key + "</td><td class='text-center fs-5'>" + value + "</td></tr>");
+
+		                }                 
+		             }
+		            
+		            
 		        },
 		        error: function(error) {
 		            console.log('에러:', error);
@@ -223,8 +250,21 @@
 		
 		function closeWindow() {
 		    closeModal();
+		    location.reload();
 		}
+		
+		function addOptionsToSelect(selectElement, optionsArray) {
+		       optionsArray.forEach(function(optionValue) {
+		           var newOption = $("<option>");
+		           
 
+		           newOption.text(optionValue.machine_name+"_"+optionValue.machine_code).appendTo(selectElement);
+		       });
+		   }
+		    
+		
+		
+		
 </script>
 
 

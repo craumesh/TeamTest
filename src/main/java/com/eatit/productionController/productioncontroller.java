@@ -1,5 +1,6 @@
 package com.eatit.productionController;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -25,6 +26,7 @@ import com.eatit.machineDomain.machineVO;
 import com.eatit.machineService.machineservice;
 import com.eatit.mainDomain.Criteria;
 import com.eatit.mainDomain.PageVO;
+import com.eatit.productionDomain.masterdata_informationVO;
 import com.eatit.productionDomain.productionhistoryVO;
 import com.eatit.productionService.productionservice;
 
@@ -59,11 +61,21 @@ public class productioncontroller {
 		
 	}
 	
-	
+	// 자재 요청
 	@RequestMapping(value = "/request", method = RequestMethod.GET)
-	public void proGET() {
-		logger.debug("requestGET() 페이지 이동");
+	public void request() {
+		logger.debug("request() 페이지 이동");
 	}
+	
+	@RequestMapping(value = "/getrequest", method = RequestMethod.GET)
+	@ResponseBody
+	public List<masterdata_informationVO> requrstGET() {
+		
+		logger.debug("requestGET() 페이지 이동");
+		logger.debug("category() : " +pdService.category());
+		
+		return pdService.category();
+		}
 	
 	
 	@RequestMapping(value = "/status", method = RequestMethod.GET)
@@ -115,17 +127,23 @@ public class productioncontroller {
 			model.addAttribute(pageVO);
 			model.addAttribute("productionUrl", "orderform");
 			model.addAttribute(ordersVOList);
+			
 		}
 	
-		@RequestMapping(value = "/getorderform", method = RequestMethod.GET)
+		@RequestMapping(value = "/getorderform", method = RequestMethod.GET )
 		@ResponseBody
-		public OrdersVO getorderform(@RequestParam("order_id")Integer order_id,
-									 @RequestParam("product_no")Integer product_no ) throws Exception {
+		public Map<String, Object> getorderform(@RequestParam("order_id")Integer order_id,
+									 @RequestParam("product_no")Integer product_no) throws Exception {
+			Map<String, Object> pram = new HashMap<String, Object>();
 			
-			logger.debug("order_id : " +order_id);
-			logger.debug("product_no : " +product_no);
+			logger.debug("pdService.recipe(product_no) : " +pdService.recipe(product_no));
 			
-			return oService.getOrderDetail(order_id);
+			
+			pram.put("recipe", pdService.recipe(product_no));
+			pram.put("machine", mcService.machinecategory());
+			pram.put("Detail", oService.getOrderDetail(order_id));
+			
+			return pram;
 			
 		}
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import com.eatit.businessDomain.OrdersVO;
 import com.eatit.machineDomain.machineVO;
 import com.eatit.mainDomain.Criteria;
+import com.eatit.productionDomain.masterdata_informationVO;
 import com.eatit.productionDomain.productionVO;
 import com.eatit.productionDomain.productionhistoryVO;
 
@@ -22,4 +23,9 @@ public interface productionservice {
 	// 발주서 확인
 	public List<OrdersVO> getOrderList(Criteria cri);
 	
+	// 레시피 조회
+	public String recipe(Integer product_no);
+	
+	// 자재 조회
+	public List<masterdata_informationVO> category();
 }

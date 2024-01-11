@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.eatit.businessDomain.OrdersVO;
 import com.eatit.machineDomain.machineVO;
 import com.eatit.mainDomain.Criteria;
+import com.eatit.productionDomain.masterdata_informationVO;
 import com.eatit.productionDomain.productionVO;
 import com.eatit.productionDomain.productionhistoryVO;
 import com.eatit.productionPersistence.productionDAO;
@@ -50,6 +51,20 @@ public class productionserviceImpl implements productionservice {
 	public List<OrdersVO> getOrderList(Criteria cri) {
 		
 		return pddao.selectOrderList(cri);
+	}
+
+
+	@Override
+	public String recipe(Integer product_no) {
+		logger.debug("Service : recipe");
+		return pddao.recipe(product_no);
+	}
+
+
+	@Override
+	public List<masterdata_informationVO> category() {
+		logger.debug("Service : category");
+		return pddao.category();
 	}
 	
 	

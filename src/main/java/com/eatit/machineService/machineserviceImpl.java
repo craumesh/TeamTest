@@ -90,6 +90,12 @@ public class machineserviceImpl implements machineservice {
 		return mcdao.productstatus(code);
 	}
 
+	@Override
+	public List<machineVO> machinecategory() {
+		logger.debug("Service : machinecategory()");
+		return mcdao.machinecategory();
+	}
+
     
     
 }

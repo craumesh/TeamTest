@@ -25,14 +25,26 @@
   		]]>
   </select>
 
-
+<!-- 생산 기록 -->
   <insert id="productionhistory">
   INSERT INTO production_history(product_no, production_quantity, defective_product, products, date_of_manufacture, EXPiry_date, machine_code)
   VALUES (#{product_no}, #{production_quantity}, #{defective_product}, #{products}, NOW(), ADDDATE(DATE(NOW()), INTERVAL #{EXP_intervar} DAY), #{machine_code});
   </insert>
   
-
+  <!-- 레시피 조회 -->
+  <select id="recipe" resultType="String">
+  select recipe
+  from masterdata_information
+  where product_no=#{product_no}
+  </select>
   
+  <!-- 자재 조회 -->
+  	<select id="category" resultType="com.eatit.productionDomain.masterdata_informationVO">
+  	SELECT name, category, unit, unit_quantity
+	FROM masterdata_information
+	where category = '자재'
+  	</select>
+
   
   
   

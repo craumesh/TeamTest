@@ -35,4 +35,7 @@ public interface machineDAO {
 
 	// 생산 리스트 조회
 	public machineVO productstatus(int code);
+	
+	// 생산 가능 설비
+	public List<machineVO> machinecategory();
 }

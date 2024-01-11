@@ -38,5 +38,8 @@ public interface machineservice {
 	
 	// 생산 상세 조회
 	public machineVO productstatus(int code);
+	
+	// 생산 가능 설비
+	public List<machineVO> machinecategory();
 
 }

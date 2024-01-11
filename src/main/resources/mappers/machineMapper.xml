@@ -201,6 +201,13 @@
   ORDER BY machine_update_date DESC
   LIMIT 1;
   </select>
+	
+	<!-- 생산 대기인 설비 -->
+	<select id="machinecategory" resultMap="machineVO">
+	select machine_name, machine_code
+	from machine
+	where machine_status = '생산 대기'
+	</select>
 
 
   

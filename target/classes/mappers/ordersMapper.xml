@@ -209,5 +209,9 @@
   ]]>
 	  </select>
 	  
+	  <!-- <select id="" resultType="">
+	  select * from masterdata_information
+		where product_no = #{product_no)
+	  </select> -->
 	  	    
   </mapper>
