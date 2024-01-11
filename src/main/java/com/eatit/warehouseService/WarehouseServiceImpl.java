@@ -276,6 +276,8 @@ public class WarehouseServiceImpl implements WarehouseService {
 		vo.setQuantity(stockInfoVO.getIo_quantities());
 		logger.debug("vo :" +vo);
 		
+		
+		// 입고!
 		// insert 후 상태 update
 		warehousedao.insertStockInfoIntoStock(vo);
 		warehousedao.updateStockInfoStatusWhenApprovalSuccess(vo);
@@ -291,6 +293,9 @@ public class WarehouseServiceImpl implements WarehouseService {
 		if(countStock > 0 && "N".equals(warehouseUseStatus)) {
 			warehousedao.updateWarehouseUseStatus(vo);
 		}
+		
+		// 출고!
+		// 
 	}
 
 	@Override
@@ -305,8 +310,29 @@ public class WarehouseServiceImpl implements WarehouseService {
 		return warehousedao.getStockList();
 	}
 	
+	@Override
+	// 창고 리스트 총갯수(검색어 x, 필터 x) - 페이징
+	public int getStockTotalCount() {
+		return warehousedao.getStockTotalCount();
+	}
 	
+	@Override
+	// 입출고 정보 테이블 모두 조회(검색어 x, 필터 x) - 페이징
+	public List<StockVO> getStockListAll(Criteria cri) {
+		// TODO Auto-generated method stub
+		return warehousedao.getStockList(cri);
+	}
+
+	@Override
+	// 창고 리스트 총갯수(검색어 o, 필터 o) - 페이징
+	public int getFindStockListCount(Map<String, Object> params) {
+		return warehousedao.findStockList(params);
+	}
 	
-	
+	@Override
+	// 입출고 정보 테이블 모두 조회(검색어 o, 필터 o) - 페이징
+	public List<StockVO> findStockList(Map<String, Object> params) {
+		return warehousedao.getFindStockListCount(params);
+	}
 	
 }

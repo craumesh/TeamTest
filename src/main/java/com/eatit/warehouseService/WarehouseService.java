@@ -54,10 +54,10 @@ public interface WarehouseService {
 	// 창고 재고 정보 페이징(검색어, 필터0)
 	public List<StockInfoVO> findStockInfoList(Map<String, Object> params);
 	
-	// 창고 재고
+	// 창고 재고 정보 갯수(검색어 x, 필터 x)
 	public int getTotalCount();
 	
-	// 창고 재고 정보 갯수(검색어, 필터0)
+	// 창고 재고 정보 갯수(검색어 o, 필터 o)
 	public int getFindCount(Map<String, Object> params);
 	
 	// 창고 승인 처리
@@ -67,5 +67,18 @@ public interface WarehouseService {
 	public void stockCancelProcess(String[] identifyCode);
 	
 	// 창고 조회
-	public List<StockVO> stockListALL(); 
+	public List<StockVO> stockListALL();
+	
+	// 창고 리스트 총갯수(검색어 x, 필터 x) - 페이징
+	public int getStockTotalCount(); 
+	
+	// 입출고 정보 테이블 모두 조회(검색어 x, 필터 x) - 페이징
+	public List<StockVO> getStockListAll(Criteria cri);
+
+	// 창고 리스트 총갯수(검색어 o, 필터 o) - 페이징
+	public int getFindStockListCount(Map<String, Object> params);
+	
+	// 입출고 정보 테이블 모두 조회(검색어 o, 필터 o) - 페이징
+	public List<StockVO> findStockList(Map<String, Object> params);
+	
 }

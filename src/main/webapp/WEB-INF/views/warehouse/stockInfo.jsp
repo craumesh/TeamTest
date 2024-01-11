@@ -7,10 +7,10 @@
 <!-- 본문 시작  -->
 	<div class="col-12">
 		<div class="card my-4 mx-4">
-			<div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-				<div class="bg-gradient-primary shadow-primary border-radius-lg pt-3 pb-3 pe-3 d-flex">
+			<div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 ">
+				<div class="bg-gradient-primary shadow-primary border-radius-lg pt-3 pb-3 pe-3 d-flex align-items-center">
 					<h3 class="text-white text-capitalize ps-5 align-items-center mt-2 py-1">창고 입출고 관리</h3>
-					<form action="/warehouse/stockInfo" id="search-form" class="ms-md-auto bg-white rounded p-2 mb-0 d-flex align-items-center">
+					<form action="/warehouse/stockInfo" id="search-form" class="ms-md-auto bg-white rounded p-1 mb-0 d-flex align-items-center">
 					<div class="align-items-center d-flex flex-column mx-1">	
 						<div class="input-group input-group-outline">
 							<label class="form-label">검색어</label>
@@ -19,17 +19,18 @@
 						</div>
 					</div>					
 					<div class="align-items-center d-flex flex-column py-1 ct-example">
-						<button type="button" id="searchbtn" class="btn btn-outline-primary mb-0 py-2 mx-1 fs-6">검색</button>
+						<button type="button" id="searchbtn" class="btn btn-outline-primary mb-0 py-2 mx-1">검색</button>
 					</div>
 				</form>
 				</div>
 			</div>
 			
-			<div class="card-body px-0 pb-2">
-				<div class="table-responsive p-0 ">
+			<div class="card-body px-0 pb-2 z-index-0">
+				<div class="table-responsive p-0 min-vh-65">
 					<form role="form" method="post" class="w-sm-auto">
 					<input type="hidden" id="searchword-forSubmit" name="searchword">
 					<input type="hidden" id="filter-forSubmit" name="filter">
+					<input type="hidden" id="filter-forSubmit" name="page" value="${page}">
 					<table class="table align-items-center mb-0 ">
 						<thead>
 							<tr>
@@ -53,10 +54,11 @@
 											<span id="dropdown-selected">${empty param.filter ? "전체" : param.filter }</span>
 										</button>
 										<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+											<li><a class="dropdown-item">전체</a></li>
 											<li><a class="dropdown-item">대기중</a></li>
 											<li><a class="dropdown-item">승인</a></li>
 											<li><a class="dropdown-item">취소</a></li>
-											<li><a class="dropdown-item">취소</a></li>
+											<li><a class="dropdown-item">입고</a></li>
 											<li><a class="dropdown-item">출고</a></li>
 											<li><a class="dropdown-item">자재</a></li>
 											<li><a class="dropdown-item">완제품</a></li>
@@ -122,11 +124,11 @@
 					<div class="col-sm-6 mb-3">
 						<ul class="pagination">
 							<c:if test="${pageVO.prev }">
-								<li class="page-link link-container"><a href="/warehouse/${listUrl }?page=${pageVO.endPage-pageVO.displayPageNum }&searchword=${searchword}" class="link"><<</a></li>
+								<li class="page-link link-container"><a href="/warehouse/${listUrl }?page=${pageVO.endPage-pageVO.displayPageNum }&searchword=${searchword}" class="link"></a></li>
 							</c:if>
 							<c:forEach var="i" begin="${pageVO.startPage }" end="${pageVO.endPage }" step="1">
 								<li ${pageVO.cri.page == i ? "class='link-container active'" : "class='link-container'"} >
-									<a href="/warehouse/${listUrl }?page=${i }&searchword=${searchword}" ${pageVO.cri.page == i ? "class='page-link rounded fw-bolder link-white'" : "class='page-link rounded fw-bolder'"}>${i }</a>
+									<a href="/warehouse/${listUrl }?page=${i}&searchword=${searchword}" ${pageVO.cri.page == i ? "class='page-link rounded fw-bolder link-white'" : "class='page-link rounded fw-bolder'"}>${i }</a>
 								</li>				
 							</c:forEach>
 							<c:if test="${pageVO.next }">
@@ -149,6 +151,34 @@ $(document).ready(function(){
 		// 필요한 변수 저장
 		var formObj = $("form[role='form']");
 		
+	 	if (!$(".dropdown-menu").hasClass("show")) {
+	      dropItemReposition();
+	  	}
+	 	
+ 	 	$("#dropdownMenuButton").click(function(){
+	 	      dropItemReposition();
+ 	   	});
+ 	 	
+ 	 	if($("#searchword").val()) {
+			$(".input-group").addClass("focused is-focused");
+		}
+ 	 	
+ 	 	$(window).click(function(event){
+			if (event.target == modal) {
+				$("#closebtn").trigger("click");
+			}
+			
+			if (!$(event.target).closest('.input-group').length) {
+				if (!$("#searchword").val()) {
+		       		$(".input-group").removeClass("focused is-focused");
+				}
+		    }
+		});
+ 	 	
+ 	 	$(".input-group").click(function(){
+			$(this).addClass("focused is-focused");
+		});
+ 	 	
 		// 체크박스 전체선택 기능
 		$("#cbx_chkAll").click(function() {
 			if ($("#cbx_chkAll").is(":checked")) $("input[name=chk]").prop("checked", true);
@@ -252,8 +282,19 @@ $(document).ready(function(){
 			$("#search-form").submit();
 		});	
 		
-		
+		$(".dropdown-item").click(function(){
+			$("#dropdown-selected").text($(this).text());
+			$("#filter").val($("#dropdown-selected").text());
+			$("#search-form").submit();
+		});
+		 
 	});
+
+function dropItemReposition(){
+   if (!$(".dropdown-menu").hasClass("show")) {
+      $(".dropdown-menu").css('inset', '0 0 auto auto');
+   }
+}
 	
 </script>
 <script src="/resources/js/plugins/warehouseMain.js"></script>

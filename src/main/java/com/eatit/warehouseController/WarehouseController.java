@@ -122,27 +122,59 @@ public class WarehouseController {
 ////////////////////////////////////////// 창고 메인 페이지 끝 /////////////////////////////////////////
 
 	
-////////////////////////////////////////// 재고 페이지 시작 ////////////////////////////////////////////
+////////////////////////////////////////// 재고 관련 페이지 시작 ////////////////////////////////////////////
 	
-	//http://localhost:8088/warehouse/warehouseStockMain
+	//http://localhost:8088/warehouse/stockMain
 	// 창고 재고 페이지
-	@RequestMapping(value = "/warehouseStockMain", method = RequestMethod.GET)
-	public void warehouseStockMainGET(StockInfoVO stockVO,Model model) {
-		logger.debug("C - warehouseStockMainGET()");
+	@RequestMapping(value = "/stockMain", method = RequestMethod.GET)
+	public void warehouseStockMainGET(Model model, Criteria cri,
+									  @RequestParam(name = "searchword", required = false) String searchword, 
+									  @RequestParam(name = "filter", required = false) String filter, 
+									  Map<String, Object> params) {
 		
-		List<StockVO> stockList = warehouseService.stockListALL();
-		logger.debug("stockList " +stockList);
+		// 페이지 사이즈 변경
+		cri.setPageSize(13);
+		List<StockVO> stockList;
 		
+		// 페이징
+		PageVO pageVO = new PageVO();
+		pageVO.setCri(cri);
+		
+		if(searchword == null && filter == null) {
+			pageVO.setTotalCount(warehouseService.getStockTotalCount());
+			stockList = warehouseService.getStockListAll(cri);
+		}else {
+			params.put("cri", cri);
+			params.put("searchword", searchword);
+			params.put("filter", filter);
+			pageVO.setTotalCount(warehouseService.getFindStockListCount(params));
+			stockList = warehouseService.findStockList(params);
+		}
+		model.addAttribute("listUrl", "stockMain");
+		model.addAttribute("pageVO", pageVO);
 		model.addAttribute("stockList", stockList);
+	}
+	
+	@PostMapping(value = "/stockMain")
+	public String warehouseStockMainPOST(StockInfoVO infoVO,
+										 @RequestParam(name="searchword", required = false) String searchword,
+										 @RequestParam(name="filter", required = false) String filter
+										 ) {
 		
+		return "redirect:/warehouse/stockMain";
 	}
 	
 	@GetMapping(value = "/stockInfo")
 	public void stockInfoGET(Model model, Criteria cri,
-							 @RequestParam(name = "searchword", required = false) String searchword, 
-							 @RequestParam(name = "filter", required = false) String filter, 
+							@RequestParam(name = "searchword", required = false) String searchword, 
+							@RequestParam(name = "filter", required = false) String filter,
+							@RequestParam(name = "page", required = false) String page,
 							 Map<String, Object> params) {
 //		logger.debug("C - stockInfoGET()");
+		logger.debug("Getpage : "+page);
+		logger.debug("cri :"+cri);
+		
+		
 		// 페이지 사이즈 변경
 		cri.setPageSize(13);
 		List<StockInfoVO> stockInfoList;
@@ -163,6 +195,7 @@ public class WarehouseController {
 		}
 		
 		// 데이터전달
+		model.addAttribute("page",page);
 		model.addAttribute("listUrl", "stockInfo");
 		model.addAttribute("pageVO", pageVO);
 		model.addAttribute("stockInfoList",stockInfoList);
@@ -170,14 +203,14 @@ public class WarehouseController {
 	
 	@PostMapping(value = "/stockInfo")
 	public String stockInfoPOST(StockInfoVO infoVO,
-							    @ModelAttribute("searchword") String searchword,
-							    @ModelAttribute("filter") String filter,
-							    @RequestParam("page") int page) {
-//	    logger.debug("C - stockInfoPOST()");
-//	    logger.debug("infoVO: " + infoVO);
+								@RequestParam(name="searchword", required = false) String searchword,
+								@RequestParam(name="filter", required = false) String filter,
+								@RequestParam(name="page", required = false) String page) {
+		logger.debug("Postpage : "+page);
+		
 	    warehouseService.stockApprovalProcess(infoVO);
 	    
-	    return "redirect:/warehouse/stockInfo";
+	    return "redirect:/warehouse/stockInfo?page="+page;
 	}
 	
 	@PostMapping(value = "/cancelStockInfo")

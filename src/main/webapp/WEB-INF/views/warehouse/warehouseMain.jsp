@@ -164,7 +164,7 @@
 			</div>
 			
 			<div class="card-body px-0 pb-2">
-				<div class="table-responsive p-0">
+				<div class="table-responsive p-0 min-vh-65">
 					<form role="form" method="post">
 					<table class="table align-items-center mb-0">
 					

@@ -89,7 +89,19 @@ public interface WarehouseDAO {
 	// 창고 번호에 해당하는 사용여부상태 변경
 	public void updateWarehouseUseStatus(StockVO vo);
 	
-	// 창고 조회
+	// 창고 조회(그냥 조회)
 	public List<StockVO> getStockList();
 	
+	// 창고 리스트 총갯수(검색어 x, 필터 x) - 페이징
+	public int getStockTotalCount(); 
+	
+	// 입출고 정보 테이블 모두 조회(검색어 x, 필터 x) - 페이징
+	public List<StockVO> getStockList(Criteria cri);
+
+	// 창고 리스트 총갯수(검색어 o, 필터 o) - 페이징
+	public int findStockList(Map<String, Object> params);
+	
+	// 입출고 정보 테이블 모두 조회(검색어 o, 필터 o) - 페이징
+	public List<StockVO> getFindStockListCount(Map<String, Object> params);
+
 }

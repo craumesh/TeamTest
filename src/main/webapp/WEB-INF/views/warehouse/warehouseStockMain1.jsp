@@ -24,7 +24,7 @@
 	
 		<div class="card-body mx-5 px-0 pb-4">
 			<div class="table-responsive p-0">
-				<table id="hr-table" class="table table-hover align-items-center mb-0">
+				<table id="stock-table" class="table table-hover align-items-center mb-0">
 					<thead>
 						<tr>
 							<th class="text-center py-3 font-weight-bolder col-2">품목코드</th>

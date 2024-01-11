@@ -84,7 +84,7 @@
 			      </a>
 			    </li>
 			    <li class="nav-item">
-			      <a class="nav-link text-white sm-hv" href="/warehouse/warehouseStockMain">
+			      <a class="nav-link text-white sm-hv" href="/warehouse/stockMain">
 			        <span class="nav-link-text ms-1">창고 재고 현황</span>
 			      </a>
 			    </li>

@@ -107,7 +107,7 @@ public class WarehouseDAOImpl implements WarehouseDAO {
 	
 	@Override
 	public List<StockInfoVO> findStockInfoList(Map<String, Object> params) {
-		return sqlsession.selectOne(NAMESPACE+"findOrderList", params);
+		return sqlsession.selectList(NAMESPACE+"findStockInfoList", params);
 	}
 
 	@Override
@@ -206,8 +206,30 @@ public class WarehouseDAOImpl implements WarehouseDAO {
 	public List<StockVO> getStockList() {
 		return sqlsession.selectList(NAMESPACE+"getStockList");
 	}
+
+	@Override
+	// 창고 리스트 총갯수(검색어 x, 필터 x) - 페이징
+	public int getStockTotalCount() {
+		return sqlsession.selectOne(NAMESPACE+"getStockTotalCount");
+	}
 	
+	@Override
+	// 입출고 정보 테이블 모두 조회(검색어 x, 필터 x) - 페이징
+	public List<StockVO> getStockList(Criteria cri) {
+		return sqlsession.selectList(NAMESPACE+"getStockListAll", cri);
+	}
+
+	@Override
+	// 창고 리스트 총갯수(검색어 o, 필터 o) - 페이징
+	public int findStockList(Map<String, Object> params) {
+		return sqlsession.selectOne(NAMESPACE+"getFindStockListCount", params);
+	}
 	
-	
+	@Override
+	// 입출고 정보 테이블 모두 조회(검색어 o, 필터 o) - 페이징
+	public List<StockVO> getFindStockListCount(Map<String, Object> params) {
+		return sqlsession.selectList(NAMESPACE+"findStockList", params);
+	}
+
 
 }
