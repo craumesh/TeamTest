@@ -11,29 +11,29 @@ import com.eatit.memberDomain.MemberVO;
 
 public interface OrdersService {
 
-	public List<OrdersVO> getOrderList(Criteria cri) throws Exception; 
+	public List<OrdersVO> getOrderList(Criteria cri); 
 
-	public List<OrdersVO> findOrderList(Map<String, Object> params) throws Exception;
+	public List<OrdersVO> findOrderList(Map<String, Object> params);
 	
-	public int getTotalCount() throws Exception;
+	public int getTotalCount();
 	
-	public int getFindCount(Map<String, Object> params) throws Exception;
+	public int getFindCount(Map<String, Object> params);
 	
-	public MemberVO getMemberInfo(String id) throws Exception;
+	public MemberVO getMemberInfo(String id);
 	
-	public void addOrder(OrdersVO ovo) throws Exception; 
+	public void addOrder(OrdersVO ovo); 
 
-	public OrdersVO getOrderDetail(Integer order_id) throws Exception; 
+	public OrdersVO getOrderDetail(Integer order_id); 
 
-	public List<CompanyVO> getCompanyList(Criteria cri) throws Exception;
+	public List<CompanyVO> getCompanyList(Criteria cri);
 	
-	public int getTotalCompanyCount() throws Exception;
+	public int getTotalCompanyCount();
 	
-	public int getMatchingCompanyCount(Map<String, Object> params) throws Exception;
+	public int getMatchingCompanyCount(Map<String, Object> params);
 	
-	public List<CompanyVO> findCompany(Map<String, Object> params) throws Exception;
+	public List<CompanyVO> findCompany(Map<String, Object> params);
 	
-	public CompanyVO selectCompany(int company_no) throws Exception;
+	public CompanyVO selectCompany(int company_no);
 	
 	public int getTotalProductCount();
 	
@@ -41,12 +41,12 @@ public interface OrdersService {
 	
 	public List<ProductVO> getProductList(Criteria cri); 
 	
-	public List<ProductVO> findProduct(Map<String, Object> params) throws Exception;
+	public List<ProductVO> findProduct(Map<String, Object> params);
 	
-	public ProductVO selectProduct(Integer product_no) throws Exception;
+	public ProductVO selectProduct(Integer product_no);
 	
-	public int editForm(OrdersVO ovo) throws Exception;
+	public int editForm(OrdersVO ovo);
 
-	public int cancelForm(int order_id) throws Exception;
+	public int cancelForm(int order_id);
 
 }

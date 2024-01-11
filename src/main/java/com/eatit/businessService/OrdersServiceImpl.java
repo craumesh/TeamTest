@@ -25,73 +25,73 @@ public class OrdersServiceImpl implements OrdersService {
 	private OrdersDAO odao;
 	
 	@Override
-	public List<OrdersVO> getOrderList(Criteria cri) throws Exception {
+	public List<OrdersVO> getOrderList(Criteria cri) {
 		logger.debug("Service: getOrderList(cri)");
 		return odao.selectOrderList(cri);
 	}
 	
 	@Override
-	public List<OrdersVO> findOrderList(Map<String, Object> params) throws Exception {
+	public List<OrdersVO> findOrderList(Map<String, Object> params) {
 		logger.debug("Service: findOrderList(params)");
 		return odao.findOrderList(params);
 	}
 
 	@Override
-	public int getTotalCount() throws Exception {
+	public int getTotalCount() {
 		logger.debug("Service: getTotalCount()");
 		return odao.getTotalCount();
 	}
 	
 	@Override
-	public int getFindCount(Map<String, Object> params) throws Exception {
+	public int getFindCount(Map<String, Object> params) {
 		logger.debug("Service: getFindCount(params)");
 		return odao.getFindCount(params);
 	}
 
 	@Override
-	public MemberVO getMemberInfo(String id) throws Exception {
+	public MemberVO getMemberInfo(String id) {
 		logger.debug("Service: getMemberInfo(id)");
 		return odao.selectMember(id);
 	}
 	
 	@Override
-	public void addOrder(OrdersVO ovo) throws Exception {
+	public void addOrder(OrdersVO ovo) {
 		logger.debug("Service: addOrder(ovo)");
 		odao.insertOrder(ovo);
 	} 
 
 	@Override
-	public OrdersVO getOrderDetail(Integer order_id) throws Exception {
+	public OrdersVO getOrderDetail(Integer order_id) {
 		logger.debug("Service: getOrderDetail(int order_id)");
 		return odao.selectOrderDetail(order_id);
 	} 
 	
 	@Override
-	public List<CompanyVO> getCompanyList(Criteria cri) throws Exception {
+	public List<CompanyVO> getCompanyList(Criteria cri) {
 		logger.debug("Service: getCompanyList(cri)");
 		return odao.selectCompanyList(cri);
 	}
 	
 	@Override
-	public int getTotalCompanyCount() throws Exception {
+	public int getTotalCompanyCount() {
 		logger.debug("Service: getTotalCompanyCount()");
 		return odao.selectCountTotalCompany();
 	}
 
 	@Override
-	public int getMatchingCompanyCount(Map<String, Object> params) throws Exception {
+	public int getMatchingCompanyCount(Map<String, Object> params) {
 		logger.debug("Service: getMatchingCompanyCount(params)");
 		return odao.selectCountMatchingCompany(params);
 	}
 
 	@Override
-	public List<CompanyVO> findCompany(Map<String, Object> params) throws Exception {
+	public List<CompanyVO> findCompany(Map<String, Object> params) {
 		logger.debug("Service: findCompany(params)");
 		return odao.findCompany(params);
 	}
 	
 	@Override
-	public CompanyVO selectCompany(int company_no) throws Exception {
+	public CompanyVO selectCompany(int company_no) {
 		logger.debug("Service: sselectCompany(company_no)");
 		return odao.selectCompany(company_no);
 	}
@@ -115,25 +115,25 @@ public class OrdersServiceImpl implements OrdersService {
 	}
 
 	@Override
-	public List<ProductVO> findProduct(Map<String, Object> params) throws Exception {
+	public List<ProductVO> findProduct(Map<String, Object> params) {
 		logger.debug("Service: findProduct(params)");
 		return odao.findProduct(params);
 	} 
 	
 	@Override
-	public ProductVO selectProduct(Integer product_no) throws Exception {
+	public ProductVO selectProduct(Integer product_no) {
 		logger.debug("Service: selectProduct(product_no)");
 		return odao.selectProduct(product_no);
 	} 
 	
 	@Override
-	public int editForm(OrdersVO pvo) throws Exception {
+	public int editForm(OrdersVO pvo) {
 		logger.debug("Service: editForm(PurchaseVO pvo)");
 		return odao.updateForm(pvo);
 	}
 
 	@Override
-	public int cancelForm(int order_id) throws Exception {
+	public int cancelForm(int order_id) {
 		logger.debug("Service: cancelForm(int order_id)");
 		return odao.deleteForm(order_id);	
 	}

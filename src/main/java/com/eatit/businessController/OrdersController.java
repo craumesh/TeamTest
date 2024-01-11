@@ -38,7 +38,7 @@ public class OrdersController {
 	public void orderListGET(Model model, Criteria cri, 
 							 @RequestParam(name = "query", required = false) String query, 
 							 @RequestParam(name = "filter", required = false) String filter, 
-							 Map<String, Object> params) throws Exception {
+							 Map<String, Object> params) {
 
 		List<OrdersVO> ordersVOList;
 		PageVO pageVO = new PageVO();
@@ -65,7 +65,7 @@ public class OrdersController {
 	
 	// 주문 신청 - GET
 	@RequestMapping(value = "/forms", method = RequestMethod.GET)
-	public void orderAddGET(Model model, HttpSession session) throws Exception {
+	public void orderAddGET(Model model, HttpSession session) {
 		
 		logger.debug("Controller: /orders/forms/orderAddGET(model, session)");
 	
@@ -81,7 +81,7 @@ public class OrdersController {
 	
 	// 주문 신청 - POST
 	@RequestMapping(value = "/forms", method = RequestMethod.POST)
-	public String orderAddPOST(OrdersVO ovo, RedirectAttributes rttr) throws Exception {
+	public String orderAddPOST(OrdersVO ovo, RedirectAttributes rttr) {
 		
 		logger.debug("Controller: /orders/forms/orderAddPOST(ovo) 호출");
 		
@@ -97,7 +97,7 @@ public class OrdersController {
 	// 주문  상세 - GET
 	@RequestMapping(value = "/detail", method = RequestMethod.GET)
 	@ResponseBody
-	public OrdersVO orderDetailGET(@RequestParam("order_id")Integer order_id) throws Exception {
+	public OrdersVO orderDetailGET(@RequestParam("order_id")Integer order_id) {
 		
 		logger.debug("Controller: /orders/orderDetailGET(order_id)");
 		
@@ -139,7 +139,7 @@ public class OrdersController {
 	// 거래처 선택 - POST
 	@RequestMapping(value = "/companySelect", method = RequestMethod.POST)
 	@ResponseBody
-	public CompanyVO companySelectPOST(@RequestParam(name = "company_no") Integer company_no) throws Exception {
+	public CompanyVO companySelectPOST(@RequestParam(name = "company_no") Integer company_no) {
 		
 		logger.debug("Controller: /orders/selectCompany(company_no)");
 		
@@ -154,7 +154,7 @@ public class OrdersController {
 	public void productFindGET(Model model, Criteria cri,
 							   @RequestParam(name = "query", required = false) String query,
 							   @RequestParam(name = "filter", required = false) String filter, 
-							   Map<String, Object> params) throws Exception {
+							   Map<String, Object> params) {
 		
 		List<ProductVO> productVOList;
 		PageVO pageVO = new PageVO();
@@ -185,7 +185,7 @@ public class OrdersController {
 	// 상품 선택 - POST
 	@RequestMapping(value = "/productSelect", method = RequestMethod.POST)
 	@ResponseBody
-	public ProductVO productSelectPOST(@RequestParam(name = "product_no") Integer product_no) throws Exception {
+	public ProductVO productSelectPOST(@RequestParam(name = "product_no") Integer product_no) {
 		
 		logger.debug("Controller: /orders/productSelectPOST(product_no)");
 		
@@ -199,7 +199,7 @@ public class OrdersController {
 	
 	// 발주서 수정 - POST
 	@RequestMapping(value = "/editForm", method = RequestMethod.POST)
-	public String editFormPOST(OrdersVO ovo, RedirectAttributes rttr) throws Exception {
+	public String editFormPOST(OrdersVO ovo, RedirectAttributes rttr) {
 		
 		logger.debug("/orders/editFormPOST() 호출");
 		
@@ -215,7 +215,7 @@ public class OrdersController {
 	
 	// 발주서 삭제 - POST
 	@RequestMapping(value = "/cancelForm", method = RequestMethod.POST)
-	public String cancelFormPOST(@RequestParam("order_id")int order_id) throws Exception {
+	public String cancelFormPOST(@RequestParam("order_id")int order_id) {
 		
 		logger.debug("/orders/cancelFormPOST() 호출");
 		

@@ -27,67 +27,67 @@ public class OrdersDAOImpl implements OrdersDAO {
 	private SqlSession SqlSession;
 	
 	@Override
-	public List<OrdersVO> selectOrderList(Criteria cri) throws Exception {
+	public List<OrdersVO> selectOrderList(Criteria cri) {
 		logger.debug("DAO: selectOrderList(cri)");
 		return SqlSession.selectList(NAMESPACE + ".selectOrderlist", cri);
 	}
 	
 	@Override
-	public List<OrdersVO> findOrderList(Map<String, Object> params) throws Exception {
+	public List<OrdersVO> findOrderList(Map<String, Object> params) {
 		logger.debug("DAO: findOrderList(params)");
 		return SqlSession.selectList(NAMESPACE + ".findOrderList", params);
 	}
 
 	@Override
-	public int getTotalCount() throws Exception {
+	public int getTotalCount() {
 		logger.debug("DAO: getTotalCount()");
 		return SqlSession.selectOne(NAMESPACE + ".totalCount");
 	}
 	
 	@Override
-	public int getFindCount(Map<String, Object> params) throws Exception {
+	public int getFindCount(Map<String, Object> params) {
 		logger.debug("DAO: getFindCount(params)");
 		return SqlSession.selectOne(NAMESPACE + ".findCount", params);
 	}
 
 	@Override
-	public MemberVO selectMember(String id) throws Exception {
+	public MemberVO selectMember(String id) {
 		logger.debug("DAO: selectMember(id)");
 		return SqlSession.selectOne(NAMESPACE + ".selectMember", id);
 	}
 	
 	@Override
-	public void insertOrder(OrdersVO ovo) throws Exception {
+	public void insertOrder(OrdersVO ovo) {
 		logger.debug("DAO: insertOrder(ovo)");
 		SqlSession.insert(NAMESPACE + ".insertOrder", ovo);
 	} 
 
 	@Override
-	public List<CompanyVO> selectCompanyList(Criteria cri) throws Exception {
+	public List<CompanyVO> selectCompanyList(Criteria cri) {
 		logger.debug("DAO: selectCompanyList(cri)");
 		return SqlSession.selectList(NAMESPACE + ".selectCompanyList", cri);
 	}
 	
 	@Override
-	public int selectCountTotalCompany() throws Exception {
+	public int selectCountTotalCompany() {
 		logger.debug("DAO: selectTotalCompanyCount()");
 		return SqlSession.selectOne(NAMESPACE + ".selectCountTotalCompany");
 	}
 
 	@Override
-	public int selectCountMatchingCompany(Map<String, Object> params) throws Exception {
+	public int selectCountMatchingCompany(Map<String, Object> params) {
 		logger.debug("DAO: selectCountMatchingCompany(params)");
 		return SqlSession.selectOne(NAMESPACE + ".selectCountMatchingCompany", params);
 	}
 
 	@Override
-	public List<CompanyVO> findCompany(Map<String, Object> params) throws Exception {
+	public List<CompanyVO> findCompany(Map<String, Object> params) {
 		logger.debug("DAO: findCompany(query)");
 		return SqlSession.selectList(NAMESPACE + ".findCompany", params);
 	}
 	
 	@Override
-	public CompanyVO selectCompany(Integer company_no) throws Exception {
+	public CompanyVO selectCompany(Integer company_no) {
 		logger.debug("DAO: selectCompany(company_no)");
 		return SqlSession.selectOne(NAMESPACE + ".selectCompany", company_no);
 	}
@@ -111,30 +111,30 @@ public class OrdersDAOImpl implements OrdersDAO {
 	}
 
 	@Override
-	public List<ProductVO> findProduct(Map<String, Object> params) throws Exception {
+	public List<ProductVO> findProduct(Map<String, Object> params) {
 		logger.debug("DAO: findProduct(params)");
 		return SqlSession.selectList(NAMESPACE + ".findProduct", params);
 	} 
 	
 	@Override
-	public ProductVO selectProduct(Integer product_no) throws Exception {
+	public ProductVO selectProduct(Integer product_no) {
 		logger.debug("DAO: selectProduct(product_no)");
 		return SqlSession.selectOne(NAMESPACE + ".selectProduct", product_no);
 	} 
 	
 	@Override
-	public OrdersVO selectOrderDetail(Integer order_id) throws Exception {
+	public OrdersVO selectOrderDetail(Integer order_id) {
 		logger.debug("DAO: selectOrderDetail(order_id)");
 		return SqlSession.selectOne(NAMESPACE + ".selectOrderDetail", order_id);
 	}
 
 	@Override
-	public int updateForm(OrdersVO ovo) throws Exception {
+	public int updateForm(OrdersVO ovo) {
 		logger.debug("DAO: updateForm(PurchaseVO ovo)");
 		return SqlSession.update(NAMESPACE + ".updateForm", ovo);
 	}
 	@Override
-	public int deleteForm(Integer order_id) throws Exception {
+	public int deleteForm(Integer order_id) {
 		logger.debug("DAO: deleteForm(int order_id)");
 		return SqlSession.update(NAMESPACE + ".deleteForm", order_id);
 	}
