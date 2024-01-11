@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.eatit.businessDomain.DeliveryVO;
 import com.eatit.businessPersistence.DeliveryDAO;
 import com.eatit.mainDomain.Criteria;
+import com.eatit.memberDomain.MemberVO;
 
 @Service
 public class DeliveryServiceImpl implements DeliveryService {
@@ -43,6 +44,12 @@ public class DeliveryServiceImpl implements DeliveryService {
 	public List<DeliveryVO> getMatchingDeliveryList(Map<String, Object> params) {
 		logger.debug("Service: getMatchingDeliveryList(params)");
 		return ddao.selectMatchingDeliveryList(params);
+	}
+
+	@Override
+	public MemberVO getMemberInfo(String id) {
+		logger.debug("Service: getMemberInfo(id)");
+		return ddao.selectMemberInfo(id);
 	}
 
 }

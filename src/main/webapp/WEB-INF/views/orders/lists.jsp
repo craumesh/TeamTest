@@ -130,7 +130,7 @@
                       				<c:choose>
 							            <c:when test="${vo.quantity < vo.stock_quantity}">
 							                <td class="align-middle text-center text-sm">
-							                    <button class="btn bg-gradient-info fs-6 mb-0 py-1 px-3" onclick="openDeliveryForm()">출고 요청</button>
+							                    <button class="btn bg-gradient-info fs-6 mb-0 py-1 px-3" onclick="openDeliveryForm(${vo.order_id })">출고 요청</button>
 							                </td>
 							            </c:when>
 							            <c:otherwise>
@@ -350,8 +350,8 @@
 	}
 	
 	// 배송 요청 페이지
-    function openDeliveryForm() {
-        window.open('/deliverys/forms', '_blank', 'width=800,height=600');
+    function openDeliveryForm(order_id) {
+    	var newWindow = window.open('/deliverys/forms?order_id=' + order_id, '_blank', 'width=800,height=600');
     }
 	
 	// 생산 요청 페이지

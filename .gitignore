@@ -80,6 +80,8 @@ target/m2e-wtp/web-resources/META-INF/maven/com.itwillbs/controller/pom.properti
 .idea/**/dictionaries
 .idea/**/shelf
 
+/src/main/resources/mappers/warehouseMapper.xml
+
 # AWS User-specific
 .idea/**/aws.xml
 

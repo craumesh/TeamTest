@@ -113,7 +113,7 @@
 	  
 	  <!-- 주문 상세 조회 -->
 	  <select id="selectOrderDetail" resultType="ordersVO">
-	  		SELECT o.*, mi.name "product_name", m.name, c.company_name, c.company_tel, c.company_address, c.company_address_detail
+	  		SELECT o.*, mi.name "product_name", m.name, c.company_name, c.company_tel, c.company_address, c.company_address_detail, c.photo_paths
 	  		FROM orders o
 	  			JOIN masterdata_information mi ON o.product_no = mi.product_no
 	  			JOIN member m ON o.employee_no = m.employee_no

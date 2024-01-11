@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import com.eatit.businessDomain.DeliveryVO;
 import com.eatit.mainDomain.Criteria;
+import com.eatit.memberDomain.MemberVO;
 
 @Repository
 public class DeliveryDAOImpl implements DeliveryDAO {
@@ -45,6 +46,12 @@ public class DeliveryDAOImpl implements DeliveryDAO {
 	public List<DeliveryVO> selectMatchingDeliveryList(Map<String, Object> params) {
 		logger.debug("DAO: selectMatchingDeliveryList(params)");
 		return SqlSession.selectList(NAMESPACE + ".selectMatchingDeliveryList", params);
+	}
+
+	@Override
+	public MemberVO selectMemberInfo(String id) {
+		logger.debug("DAO: selectMemberInfo(id)");
+		return SqlSession.selectOne(NAMESPACE + ".selectMemberInfo", id);
 	}
 	
 }
