@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class DeliveryDAOImpl {
+public class DeliveryDAOImpl implements DeliveryDAO {
 	
 	private static final Logger logger = LoggerFactory.getLogger(DeliveryDAOImpl.class);
 	

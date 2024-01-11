@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import com.eatit.businessPersistence.DeliveryDAO;
 
 @Service
-public class DeliveryServiceImpl {
+public class DeliveryServiceImpl implements DeliveryService {
 	
 	private static final Logger logger = LoggerFactory.getLogger(DeliveryServiceImpl.class);
 	
