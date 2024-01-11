@@ -180,38 +180,4 @@
 	  
 	  
 	  
-	   <select id="selectproduct" resultType="ordersVO" >
-	   <![CDATA[
-  SELECT o.*, mi.name "product_name", c.company_name, c.company_tel, s.quantity "stock_quantity"
-  FROM orders o
-  JOIN company c ON o.company_no = c.company_no
-  JOIN masterdata_information mi ON o.product_no = mi.product_no
-  LEFT JOIN (SELECT product_code, SUM(quantity) AS quantity
-  FROM stock
-  GROUP BY product_code) s ON mi.code = s.product_code
-  WHERE o.delete_status = 0 and (s.quantity < o.quantity or s.quantity is null) and o.order_status ='신청완료' 
-  ORDER BY o.order_date DESC
-  LIMIT #{startPage}, #{pageSize}
-  ]]>
-	  </select>
-	  
-	  <select id="selectproductcount" resultType="int">
-	  <![CDATA[
-  SELECT count(*)
-  FROM orders o
-  JOIN company c ON o.company_no = c.company_no
-  JOIN masterdata_information mi ON o.product_no = mi.product_no
-  LEFT JOIN (SELECT product_code, SUM(quantity) AS quantity
-  FROM stock
-  GROUP BY product_code) s ON mi.code = s.product_code
-  WHERE o.delete_status = 0 and (s.quantity < o.quantity or s.quantity is null) and o.order_status ='신청완료' 
-  ORDER BY o.order_date DESC;
-  ]]>
-	  </select>
-	  
-	  <!-- <select id="" resultType="">
-	  select * from masterdata_information
-		where product_no = #{product_no)
-	  </select> -->
-	  	    
   </mapper>
