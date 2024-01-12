@@ -8,6 +8,7 @@ import com.eatit.mainDomain.Criteria;
 import com.eatit.productionDomain.masterdata_informationVO;
 import com.eatit.productionDomain.productionVO;
 import com.eatit.productionDomain.productionhistoryVO;
+import com.eatit.warehouseDomain.StockVO;
 
 public interface productionservice {
 
@@ -28,4 +29,13 @@ public interface productionservice {
 	
 	// 자재 조회
 	public List<masterdata_informationVO> category();
+	
+	// 자재 출고 요청
+	public void getStockList();
+	
+	// 이름 으로 조회한 제품 번호
+	public masterdata_informationVO nameproduct_no(String name);
+	
+	// 이름 으로 조회한 창고 정보
+	public StockVO stockname(String name);
 }

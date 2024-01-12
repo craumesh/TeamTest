@@ -1,5 +1,11 @@
 package com.eatit.productionController;
 
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -29,6 +35,9 @@ import com.eatit.mainDomain.PageVO;
 import com.eatit.productionDomain.masterdata_informationVO;
 import com.eatit.productionDomain.productionhistoryVO;
 import com.eatit.productionService.productionservice;
+import com.eatit.warehouseDomain.StockInfoVO;
+import com.eatit.warehouseDomain.StockVO;
+import com.eatit.warehousePersistence.WarehouseDAO;
 
 @Controller
 @RequestMapping(value = "/production/*")
@@ -45,6 +54,9 @@ public class productioncontroller {
 	
 	@Inject
 	private OrdersService oService;
+	
+	@Inject
+	private WarehouseDAO dao;
 	
 	// http://localhost:8088/production/production
 	@RequestMapping(value = "/production", method = RequestMethod.GET)
@@ -63,8 +75,67 @@ public class productioncontroller {
 	
 	// 자재 요청
 	@RequestMapping(value = "/request", method = RequestMethod.GET)
-	public void request() {
+	public void requestGET() {
 		logger.debug("request() 페이지 이동");
+	}
+	
+	@RequestMapping(value = "/request", method = RequestMethod.POST)
+	public String requestPOST(@RequestParam(name = "materialGroup", required = false) String[] materialGroup,
+							  @RequestParam(name = "requiredGroup", required = false) int[] requiredGroup,
+							  StockInfoVO vo) {
+
+		
+		if(Arrays.toString(materialGroup)!= null && Arrays.toString(requiredGroup) != null) {
+			for(int i=0; i<materialGroup.length; i++) {
+				logger.debug(" :"+materialGroup[i]);
+				logger.debug(" :"+requiredGroup[i]);
+				logger.debug("조회한 데이터 : "+pdService.nameproduct_no(materialGroup[i]));
+				logger.debug("창고 데이터" + pdService.stockname(materialGroup[i]));
+				
+				// StockInfoVO 객체 생성
+				StockInfoVO setStockVO = new StockInfoVO();
+				StockVO stockVO = pdService.stockname(materialGroup[i]);
+				masterdata_informationVO infoVO = pdService.nameproduct_no(materialGroup[i]);
+				
+				// 현재 날짜와 시간을 가져옴
+		        LocalDate currentDate = LocalDate.now();
+		        LocalDateTime now = LocalDateTime.now();
+		        Timestamp timestamp = Timestamp.valueOf(now);
+		        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+		        
+				
+				// 식별 코드 생성
+				int companyNo = infoVO.getProduct_no();
+				String formatCompanyNo = String.format("%03d", companyNo);
+				/* SimpleDateFormat prodateFormat = new SimpleDateFormat("yyyyMMdd"); */
+				String orderDate = currentDate.format(formatter);
+				String formatorderId = String.format("%04d", companyNo);
+				
+				String identify_code = formatCompanyNo+ stockVO.getProduct_code() + "-O" + orderDate + formatorderId;
+				
+				logger.debug("생성된 식별코드 : "+identify_code);
+				
+				// siVO에 정보 담기
+				setStockVO.setIdentify_code(identify_code);
+				setStockVO.setWarehouse_no(stockVO.getWarehouse_no());
+				setStockVO.setIo_classification("출고");
+				setStockVO.setCategory(stockVO.getCategory());
+				setStockVO.setName(materialGroup[i]);
+				setStockVO.setIo_quantities(requiredGroup[i]);
+				setStockVO.setUnit(stockVO.getProduct_unit());
+				setStockVO.setPrice((infoVO.getPrice()*requiredGroup[i])/10000);
+				setStockVO.setExpiry_date(stockVO.getExpiry_date());
+				setStockVO.setIo_date(timestamp);
+
+				pdService.nameproduct_no(materialGroup[i]); // 자재 이름으로 조회한 마스터데이터
+				pdService.stockname(materialGroup[i]); // 이름으로 조회한 창고 정보
+				
+				dao.insertStockInfoList(setStockVO);
+			}
+		}
+		
+		return null;
+		/* return "redirect:/warehouse/registClose"; */
 	}
 	
 	@RequestMapping(value = "/getrequest", method = RequestMethod.GET)

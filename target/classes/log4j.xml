@@ -59,6 +59,18 @@
 	<logger name="com.eatit.MaterialService">
 		<level value="debug"/>
 	</logger>
+	
+	<logger name="com.eatit.productionController">
+		<level value="debug"/>
+	</logger>
+	<logger name="com.eatit.productionPersistence">
+		<level value="debug"/>
+	</logger>
+	<logger name="com.eatit.productionService">
+		<level value="debug"/>
+	</logger>
+	
+	
 	<!-- 3rdparty Loggers -->
 	<logger name="org.springframework.core">
 		<level value="info" />

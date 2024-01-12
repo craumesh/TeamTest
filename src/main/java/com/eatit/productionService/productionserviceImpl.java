@@ -1,5 +1,6 @@
 package com.eatit.productionService;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -15,6 +16,9 @@ import com.eatit.productionDomain.masterdata_informationVO;
 import com.eatit.productionDomain.productionVO;
 import com.eatit.productionDomain.productionhistoryVO;
 import com.eatit.productionPersistence.productionDAO;
+import com.eatit.warehouseDomain.StockInfoVO;
+import com.eatit.warehouseDomain.StockVO;
+import com.eatit.warehousePersistence.WarehouseDAO;
 
 @Service
 public class productionserviceImpl implements productionservice {
@@ -24,6 +28,10 @@ public class productionserviceImpl implements productionservice {
 	
 	@Inject
 	private productionDAO pddao;
+	
+	@Inject
+	private WarehouseDAO warehousedao;
+	
 
 
 	@Override
@@ -65,6 +73,36 @@ public class productionserviceImpl implements productionservice {
 	public List<masterdata_informationVO> category() {
 		logger.debug("Service : category");
 		return pddao.category();
+	}
+
+	
+	
+
+	@Override
+	public masterdata_informationVO nameproduct_no(String name) {
+		
+		logger.debug("Service : nameproduct_no");
+		
+		return pddao.nameproduct_no(name);
+	}
+
+	
+
+	@Override
+	public StockVO stockname(String name) {
+		logger.debug("Service : stockname");
+		return pddao.stockname(name);
+	}
+
+
+	@Override
+	public void getStockList() {
+		
+		
+		
+		
+	        
+	        
 	}
 	
 	

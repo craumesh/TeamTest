@@ -15,6 +15,7 @@ import com.eatit.mainDomain.Criteria;
 import com.eatit.productionDomain.masterdata_informationVO;
 import com.eatit.productionDomain.productionVO;
 import com.eatit.productionDomain.productionhistoryVO;
+import com.eatit.warehouseDomain.StockVO;
 
 @Repository
 public class productionDAOImpl implements productionDAO{
@@ -71,6 +72,20 @@ public class productionDAOImpl implements productionDAO{
 	public List<masterdata_informationVO> category() {
 		logger.debug("DAO : category");
 		return sqlSession.selectList(NAMESPACE+ ".category");
+	}
+
+
+	@Override
+	public masterdata_informationVO nameproduct_no(String name) {
+		logger.debug("DAO : nameproduct_no");
+		return sqlSession.selectOne(NAMESPACE+ ".nameproduct_no", name);
+	}
+
+
+	@Override
+	public StockVO stockname(String name) {
+		logger.debug("stockname");
+		return sqlSession.selectOne(NAMESPACE + ".stockname", name);
 	}
 
 	
