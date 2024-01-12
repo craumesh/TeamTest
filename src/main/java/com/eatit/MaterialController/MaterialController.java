@@ -151,21 +151,16 @@ public class MaterialController {
 	}
 
 	// 발주 신청 - POST
-	@RequestMapping(value = "/MatereialwriteForm", method = RequestMethod.POST)
-	public String matereialWriteFormPOST(MaterialOrderVO pvo) throws Exception {
+	@RequestMapping(value = "/MaterialwriteForm", method = RequestMethod.POST)
+	public String materialWriteFormPOST(MaterialOrderVO pvo , RedirectAttributes rttr){
 
-		logger.debug("Controller: /Material/MatereialwriteForm/matereialWriteFormPOST() 호출");
-
-		// 전달 정보 저장, 확인
+		logger.debug("C - materialWriteFormPOST() 호출");
 		logger.debug("pvo: " + pvo);
-
+		
 		// 서비스 - 신청서 작성 동작 호출(INSERT)
-		MaterialService.createMatereialOrder(pvo);
-		logger.debug("신청서 작성 완료");
+		MaterialService.insertMaterialOrder(pvo);
 
-		// 페이지 이동
-		logger.debug("/Matereial/MaterialOrderList 페이지 이동");
-		return "redirect:/Material/MaterialOrderList";
+		return "redirect:/Material/MaterialClose";
 	}
 
 	// 발주 목록 조회
@@ -182,41 +177,6 @@ public class MaterialController {
 		
 		model.addAttribute("MaterialOrderList", MaterialService.Materialorder());
 		
-	}
-
-	
-//	// 발주 내역 상세 조회 - GET
-//	@RequestMapping(value = "/MaterialorderDetail", method = RequestMethod.GET)
-//	@ResponseBody
-//	public MaterialOrderVO MaterialorderDetailGET(@RequestParam("materialod_id")Integer materialod_id) throws Exception{
-//		
-//		logger.debug("Controller: /Material/MaterialorderDetailGET(materialod_id)");
-//		
-//		return MaterialService.getMaterialorderDetail(materialod_id);
-//	}
-	
-	// 발주 내역 상세 조회 - GET
-	@RequestMapping(value = "/api/MaterialorderDetail", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
-	@ResponseBody
-	public MaterialOrderVO MaterialorderDetailGET(@RequestParam("materialod_id") Integer materialod_id) throws Exception {
-	    logger.debug("Controller: /Material/api/MaterialorderDetailGET(materialod_id)");
-	    // 발주 내역 상세 정보
-	    return MaterialService.getMaterialorderDetail(materialod_id);
-	}
-
-
-	
-	
-
-	// 발주서 수정 - POST
-	@RequestMapping(value = "/updateDetailInfo", method = RequestMethod.POST)
-	public String updateDetailInfo(MaterialOrderVO vo) {
-		logger.debug("/Material/updateDetailInfo 호출 -> updateDetailInfo() 실행");
-
-		// 서비스 - 신청서 수정 동작 호출(UPDATE)
-		MaterialService.Materialupdate(vo);
-		
-		return "redirect:/Material/MaterialOrderList";
 	}
 	
 	// 발주서 삭제 - POST

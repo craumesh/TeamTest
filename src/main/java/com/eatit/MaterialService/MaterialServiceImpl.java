@@ -85,11 +85,6 @@ public class MaterialServiceImpl implements MaterialService {
 		return 0;
 	}
 
-//	@Override
-//	public void setHrRegActive(MaterialVO vo) {
-//		// TODO Auto-generated method stub
-//
-//	}
 
 	@Override
 	public List<materialaddVO> getmaterialaddList() {
@@ -104,31 +99,18 @@ public class MaterialServiceImpl implements MaterialService {
 	}
 	
 	@Override
-	public void createMatereialOrder(MaterialOrderVO pvo) throws Exception {
-		logger.debug("Service: createMatereialOrder(MaterialOrderVO pvo)");
+	// 발주 등록
+	public void insertMaterialOrder(MaterialOrderVO pvo) {
+		logger.debug("S - insertMaterialOrder(MaterialOrderVO pvo)");
 		materialDAO.insertMaterialOrder(pvo);
 	}
 
-	@Override
-	public MaterialOrderVO getMaterialorderDetail(int materialod_id) throws Exception {
-		logger.debug("Service: getMaterialOrderDetail(String materialod_id)");
-		return materialDAO.getMaterialOrderDetail(materialod_id);
-	}
-	
-	@Override
-	// 창고 수정
-	public void Materialupdate(MaterialOrderVO vo) {
-		materialDAO.updateDetailInfo(vo);
-	}
-	
 	@Override
 	// 발주 삭제
 	public void deleteMaterial(int[] materialod_id) {
 		logger.debug("S - deleteMaterial(int[] materialod_id)");
 		materialDAO.deleteMaterial(materialod_id);
 	}
-	
-
 	
     @Override
     public List<MaterialOrderVO> Materialorder() {
@@ -146,6 +128,12 @@ public class MaterialServiceImpl implements MaterialService {
 	public MaterialVO getMaterialContent(MaterialVO vo) {
 		logger.debug("Service(getMaterialContent) -> DAO 호출");
 		return materialDAO.selectMaterialContent(vo);
+	}
+
+	@Override
+	public void Materialupdate(MaterialOrderVO vo) {
+		// TODO Auto-generated method stub
+		
 	}
 
 

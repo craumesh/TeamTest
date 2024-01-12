@@ -22,7 +22,10 @@ public interface MaterialService {
 
 	// 새로운 재료 추가를 등록합니다.
 	public void insertmaterialadd(materialaddVO vo);
-
+	
+	// 새로운 발주 추가를 등록합니다.
+	public void insertMaterialOrder(MaterialOrderVO pvo);
+	
 	// 기존 재료 정보를 업데이트합니다.
 	public void updateMaterial(MaterialVO vo);
 
@@ -50,21 +53,14 @@ public interface MaterialService {
 	// 발주 삭제
 	public void deleteMaterial(int[] materialod_id);
 	
-	// 창고 수정
+	// 발주 수정
 	public void Materialupdate(MaterialOrderVO vo);
 
 	// 특정 조건에 맞는 재료 목록을 검색합니다.
 	public List<MaterialVO> getMaterialList(Criteria cri);
 
-	// 재료 주문을 생성합니다.
-	public void createMatereialOrder(MaterialOrderVO pvo) throws Exception;
-
 	// 재료 주문 목록을 검색합니다.
 	public List<MaterialOrderVO> getMaterialorderList() throws Exception;
-
-	// 특정 재료 주문의 세부 정보를 검색합니다.
-	public MaterialOrderVO getMaterialorderDetail(int materialod_id) throws Exception;
-
 
 	public MaterialVO getMaterialContent(MaterialVO vo);
 

@@ -108,33 +108,14 @@ public class MaterialDAOImpl implements MaterialDAO {
 	@Override
 	public List<MaterialVO> selectMaterialList(Criteria cri) {
 		logger.debug("DAO(selectMaterialList) -> Mapper 호출");
-		return sqlSession.selectList(NAMESPACE+".selectMaterialList", cri);
+		return sqlSession.selectList(NAMESPACE+"selectMaterialList", cri);
 	}
 	
 	@Override
-	public void insertMaterialOrder(MaterialOrderVO pvo) throws Exception {
+	public void insertMaterialOrder(MaterialOrderVO pvo) {
 		logger.debug("DAO: insertMaterialOrder(MaterialOrderVO pvo)");
-		sqlSession.insert(NAMESPACE + ".insertForm", pvo);
+		sqlSession.insert(NAMESPACE + "insertMaterialOrder", pvo);
 	}
-
-//	@Override
-//	public MaterialOrderVO getMaterialOrderDetail(int materialod_id) throws Exception {
-//		logger.debug("DAO: getMaterialOrderDetail(String materialod_id)");
-//		return sqlSession.selectOne(NAMESPACE + ".MaterialorderDetail", materialod_id);
-//	}
-	
-	@Override
-	public MaterialOrderVO getMaterialOrderDetail(int materialod_id) throws Exception {
-	    try {
-	        logger.debug("DAO: getMaterialOrderDetail 호출, materialod_id: " + materialod_id);
-	        return sqlSession.selectOne(NAMESPACE + ".MaterialorderDetail", materialod_id);
-	    } catch (Exception e) {
-	        logger.error("getMaterialOrderDetail에서 오류 발생: " + e.getMessage());
-	        e.printStackTrace(); // 오류의 스택 트레이스를 콘솔에 출력
-	        throw e; // 예외를 다시 throw하여 호출자에게 전파
-	    }
-	}
-
 	
 	// 발주 삭제
 	@Override
@@ -144,12 +125,6 @@ public class MaterialDAOImpl implements MaterialDAO {
 		sqlSession.delete(NAMESPACE+"deleteMaterial",paramMap);
 	}
 	
-	@Override
-	// 창고 수정
-	public void updateDetailInfo(MaterialOrderVO vo) {
-		sqlSession.update(NAMESPACE+"updateDetailInfo", vo);
-	}
-
 	@Override
 	public MaterialVO selectContent(MaterialVO vo) {
 		logger.debug("DAO(selectContent) -> Mapper 호출");

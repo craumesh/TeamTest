@@ -53,15 +53,12 @@ public interface MaterialDAO {
     
     // 특정 원자재를 삭제합니다.
     public void deleteMaterial(Long id);
+ 
+	public void insertMaterialOrder(MaterialOrderVO pvo);
 
-	public void insertMaterialOrder(MaterialOrderVO pvo) throws Exception;
-	
-
-	public MaterialOrderVO getMaterialOrderDetail(int materialod_id) throws Exception;
-
-	public void updateDetailInfo(MaterialOrderVO vo);
-
+	//발주 삭제
 	public void deleteMaterial(int[] materialod_id);
+	
 
 
 	

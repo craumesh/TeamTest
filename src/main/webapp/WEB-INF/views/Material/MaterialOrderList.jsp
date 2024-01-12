@@ -5,97 +5,6 @@
 
 <%@ include file="../include/header.jsp"%>
 
-<!-- 창고 상세 모달 시작  -->
-<div class="modal" id="MaterialModal"
-	class="modal top-10 position-absolute h-auto">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button id="closebtn"
-					class="btn bg-gradient-primary position-absolute py-1 px-2 mt-2 end-5">X</button>
-				<h3 class="modal-title mx-auto">발주 상세 정보</h3>
-			</div>
-			<div class="modal-body p-5">
-				<div class="user-container d-flex align-items-center">
-					<div class="user-info d-flex w-100">
-						<table class="table">
-							<tr>
-								<th class="fs-5">발주번호</th>
-								<td class="fs-6" id="materialod_id"></td>
-							</tr>
-							<tr>
-								<th class="fs-5">거래처정보번호</th>
-								<td class="fs-6" id="company_no"></td>
-							</tr>
-						</table>
-					</div>
-				</div>
-				<div id="tableContainer" class="modal-body">
-					<table id="view-table" class="table">
-						<tr>
-							<th class="fs-5 ">발주 일자</th>
-							<td class="fs-6" id="materialod_date"></td>
-						</tr>
-						<tr>
-							<th class="fs-5">발주 수정일자</th>
-							<td class="fs-6" id="materialod_update"></td>
-						</tr>
-						<tr>
-							<th class="fs-5">자재 코드</th>
-							<td class="fs-6" id="product_no"></td>
-						</tr>
-						<tr>
-							<th class="fs-5">수량</th>
-							<td class="fs-6" id="quantity"></td>
-						</tr>
-						<tr>
-							<th class="fs-5">발주자명</th>
-							<td class="fs-6" id="employee_no"></td>
-						</tr>
-						<tr>
-							<th class="fs-5">처리 상태</th>
-							<td class="fs-6" id="status"></td>
-						</tr>
-					</table>
-
-					<!-- 수정폼 시작-->
-					<form action="/Material/updateDetailInfo" id="edit-form"
-						method="post">
-						<table id="edit-table" class="d-none table">
-							<tr>
-								<th class="fs-5">수량</th>
-								<td class="fs-6">
-									<div class="input-group input-group-dynamic">
-										<input type="text" name="quantity" id="quantity-input"
-											class="form-control" placeholder="수량" aria-label="수량"
-											aria-describedby="basic-addon1" readonly>
-									</div>
-								</td>
-							</tr>
-							<tr>
-								<th class="fs-5">발주자명</th>
-								<td class="fs-6">
-									<div class="input-group input-group-dynamic">
-										<input type="text" name="employee_no" id="employee_no-input"
-											class="form-control" placeholder="발주자명" aria-label="발주자명"
-											aria-describedby="basic-addon1">
-									</div>
-								</td>
-							</tr>
-						</table>
-					</form>
-					<!-- 수정폼 끝-->
-				</div>
-				<div class="text-center">
-					<button id="editbtn"
-						class="btn bg-gradient-danger fs-6 mb-0 py-2 px-3">수정 완료</button>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
-<!-- 창고 상세 모달 끝  -->
-
 <!-- 본문 시작 -->
 <div class="col-11 mx-auto">
 	<div class="card my-3 mx-auto pt-5 px-6 pb-2">
@@ -122,11 +31,11 @@
 			</div>
 		</div>
 
-
+		<!-- 팝업  -->
 		<div class="card-body px-0 pb-2">
 			<div class="text-end pe-4 pb-3">
 				<a class="btn bg-gradient-dark mb-0"
-					href="/Material/MaterialwriteForm"> <i
+					onclick="popupMaterialwriteForm();"> <i
 					class="material-icons text-sm">발주서작성하기</i>
 				</a>
 			</div>
@@ -153,7 +62,6 @@
 									<th scope="col" class="text-center font-weight-bolder col-4">수량</th>
 									<th scope="col" class="text-center font-weight-bolder col-3">발주자명</th>
 									<th scope="col" class="text-center font-weight-bolder col-3">처리상태</th>
-									<th scope="col" class="text-center font-weight-bolder col-3">상세확인</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -171,13 +79,6 @@
 										<td class="text-center">${Materialorder.quantity}</td>
 										<td class="text-center">${Materialorder.employee_no}</td>
 										<td class="text-center">${Materialorder.status}</td>
-										<!--상세내역 모달버튼 시작  -->
-										<td class="text-center text-sm">
-											<button type="button" class="btn MaterialDetailBtn"
-												onclick="loadMaterialDetails('${Materialorder.materialod_id}')">
-												상세</button>
-										</td>
-										<!--상세내역 모달버튼 끝  -->
 									</tr>
 								</c:forEach>
 							</tbody>
@@ -281,34 +182,24 @@ $(document).ready(function(){
 		
 	});
 	
-function loadMaterialDetails(materialodId) {
-    $.ajax({
-        url: '/Material/api/MaterialorderDetail', // 수정된 API 경로
-        type: 'GET',
-        dataType: 'json',
-        data: { materialod_id: materialodId },
-        success: function(data) {
-            // 모달의 내용을 업데이트하는 코드
-            $('#materialod_id').text(data.materialod_id);
-            $('#company_no').text(data.company_no);
-            $('#materialod_date').text(data.materialod_date);
-            $('#materialod_update').text(data.materialod_update);
-            $('#product_no').text(data.product_no);
-            $('#quantity').text(data.quantity);
-            $('#employee_no').text(data.employee_no);
-            $('#status').text(data.status);
-            // 추가적으로 필요한 필드들 업데이트
+function popupMaterialwriteForm() {
+	const width = 900;
+	const height = 900;
+	// const left = 500;
+	// const top = 500;
 
-            // 모달을 표시
-            $('#MaterialModal').modal('show');
-        },
-        error: function(error) {
-            console.log('Error:', error);
-        }
-    });
+	// 현재 창의 중앙 좌표 계산
+	//	const left = (window.innerWidth - width) / 2
+	//			+ window.screenLeft;
+	//				const top = (window.innerHeight - height) / 2
+	//		+ window.screenTop;
+
+	console.log(`width=${width}`);
+	console.log(width);
+	// 팝업 창 열기
+	window.open("/Material/MaterialwriteForm", "popup",
+			" width = 900px, height = 900px, left = 900px, top = 900px ");
 }
 	
-	
 </script>
-<script src="/resources/js/plugins/warehouseMain.js"></script>
-</html>
+
