@@ -13,7 +13,7 @@
 	<div class="card-body px-0 pb-2">
 		<div class="card-body">
 			<!-- 폼테그 시작  -->
-			<form role="form" method="post" name="fr">
+			<form role="form" action="/deliverys/forms" method="post" name="fr">
 				<!-- 거래처 정보 -->
 				<div class="row mb-4">
 					<div class="card">
@@ -120,7 +120,7 @@
 				</div>
 				<!-- 버튼 -->
 				<div class="text-center">
-					<button type="submit" class="btn btn-lg bg-gradient-primary btn-lg w-100 mt-4 mb-0">신청하기</button>
+					<button type="button" onclick="registAlert()" class="btn btn-lg bg-gradient-primary btn-lg w-100 mt-4 mb-0">신청하기</button>
 				</div>
 			</form>
 		</div>
@@ -128,3 +128,21 @@
 </div>
 
 <%@ include file="../include/footer.jsp"%>
+
+<script>
+
+	function registAlert(){
+		swal({
+			text: "출고 요청 완료",
+			icon: "success",
+			buttons: false
+		});
+		
+		
+		setTimeout(function() {
+		  document.forms["fr"].submit();
+		}, 700);
+		
+	}
+	
+</script>

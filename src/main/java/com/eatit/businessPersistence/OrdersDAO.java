@@ -53,4 +53,7 @@ public interface OrdersDAO {
 	
 	public int selectproductcount();
 
+	public void updateOrderStatusToShippingPreparation(Integer order_id);
+	
+
 }

@@ -52,6 +52,7 @@
 											<li><a class="dropdown-item">신청완료</a></li>
 											<li><a class="dropdown-item">생산중</a></li>
 											<li><a class="dropdown-item">생산완료</a></li>
+											<li><a class="dropdown-item">배송준비중</a></li>
 											<li><a class="dropdown-item">배송중</a></li>
 											<li><a class="dropdown-item">배송완료</a></li>
 											<li><a class="dropdown-item">처리완료</a></li>
@@ -130,7 +131,7 @@
 	                      			<c:choose>
 									    <c:when test="${vo.order_status eq '신청완료'}">
 									        <c:choose>
-									            <c:when test="${vo.quantity < vo.stock_quantity}">
+									            <c:when test="${vo.quantity <= vo.stock_quantity}">
 									                <td class="align-middle text-center text-sm">
 									                    <button class="btn bg-gradient-info fs-6 mb-0 py-1 px-3" onclick="openDeliveryForm(${vo.order_id })">출고 요청</button>
 									                </td>
@@ -274,6 +275,7 @@
 	            case "신청완료": $(this).find('td:last-child #status-badge').addClass("bg-gradient-primary"); break;
 	            case "생산중": $(this).find('td:last-child #status-badge').addClass("bg-gradient-warning"); break;
 	            case "생산완료": $(this).find('td:last-child #status-badge').addClass("bg-gradient-warning"); break;
+	            case "배송준비중": $(this).find('td:last-child #status-badge').addClass("bg-gradient-info"); break;
 	            case "배송중": $(this).find('td:last-child #status-badge').addClass("bg-gradient-info"); break;
 	            case "배송완료": $(this).find('td:last-child #status-badge').addClass("bg-gradient-info"); break;
 	            case "처리완료": $(this).find('td:last-child #status-badge').addClass("bg-gradient-success"); break;

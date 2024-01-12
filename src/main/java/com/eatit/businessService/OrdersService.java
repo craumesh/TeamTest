@@ -53,4 +53,6 @@ public interface OrdersService {
 	
 	public int selectproductcount();
 
+	public void changeOrderStatusToShippingPreparation(Integer order_id);
+
 }

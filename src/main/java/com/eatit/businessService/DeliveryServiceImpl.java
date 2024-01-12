@@ -108,7 +108,7 @@ public class DeliveryServiceImpl implements DeliveryService {
 		setStockVO.setName(ordersVO.getProduct_name());
 		setStockVO.setIo_quantities(ordersVO.getQuantity());
 		setStockVO.setUnit(stockVO.getProduct_unit());
-		setStockVO.setPrice(ordersVO.getPrice());
+		setStockVO.setPrice((ordersVO.getPrice()*ordersVO.getQuantity())/10000);
 		setStockVO.setExpiry_date(stockVO.getExpiry_date());
 		setStockVO.setIo_date(timestamp);
 	

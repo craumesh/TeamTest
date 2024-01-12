@@ -151,4 +151,10 @@ public class OrdersDAOImpl implements OrdersDAO {
 		return SqlSession.selectOne(NAMESPACE +".selectproductcount");
 	}
 
+	@Override
+	public void updateOrderStatusToShippingPreparation(Integer order_id) {
+		logger.debug("DAO : updateOrderStatusToShippingPreparation(order_id)");
+		SqlSession.update(NAMESPACE + ".updateOrderStatusToShippingPreparation", order_id);
+	}
+
 }

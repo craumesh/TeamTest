@@ -150,4 +150,10 @@ public class OrdersServiceImpl implements OrdersService {
 		return odao.selectproductcount();
 	}
 
+	@Override
+	public void changeOrderStatusToShippingPreparation(Integer order_id) {
+		logger.debug("Service: changeOrderStatusToShippingPreparation(order_id)");
+		odao.updateOrderStatusToShippingPreparation(order_id);	
+	}
+
 }

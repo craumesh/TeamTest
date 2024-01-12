@@ -84,15 +84,18 @@ public class DeliveryController {
 	
 	// 출고 요청 - POST
 	@RequestMapping(value = "/forms", method = RequestMethod.POST)
-	public void releaseRequestPOST(DeliveryVO dvo, RedirectAttributes rttr,
+	public String releaseRequestPOST(DeliveryVO dvo, RedirectAttributes rttr,
 									@RequestParam(name = "order_id") Integer order_id) {
 		
 		logger.debug("Controller: /deliverys/forms/deliveryRequestPOST()");
 		
 		dService.requestDelivery(dvo);
 		dService.requestRelease(order_id);
+		oService.changeOrderStatusToShippingPreparation(order_id);
 		
 		rttr.addFlashAttribute("result", "CREATEOK");
+		
+		return "redirect:/warehouse/registClose";
 	}
 	
 }
