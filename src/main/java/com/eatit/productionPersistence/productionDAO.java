@@ -7,6 +7,7 @@ import com.eatit.machineDomain.machineVO;
 import com.eatit.mainDomain.Criteria;
 import com.eatit.productionDomain.masterdata_informationVO;
 import com.eatit.productionDomain.productionVO;
+import com.eatit.productionDomain.production_warehouseVO;
 import com.eatit.productionDomain.productionhistoryVO;
 import com.eatit.warehouseDomain.StockVO;
 
@@ -38,5 +39,8 @@ public interface productionDAO {
 	
 	// 이름 으로 조회한 창고 정보
 	public StockVO stockname(String name);
+	
+	// 생산 창고 조회
+	public production_warehouseVO production_warehouse(String product_name);
 	
 }

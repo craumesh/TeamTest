@@ -14,6 +14,7 @@ import com.eatit.machineDomain.machineVO;
 import com.eatit.mainDomain.Criteria;
 import com.eatit.productionDomain.masterdata_informationVO;
 import com.eatit.productionDomain.productionVO;
+import com.eatit.productionDomain.production_warehouseVO;
 import com.eatit.productionDomain.productionhistoryVO;
 import com.eatit.productionPersistence.productionDAO;
 import com.eatit.warehouseDomain.StockInfoVO;
@@ -96,14 +97,12 @@ public class productionserviceImpl implements productionservice {
 
 
 	@Override
-	public void getStockList() {
-		
-		
-		
-		
-	        
-	        
+	public production_warehouseVO production_warehouse(String product_name) {
+		logger.debug("Service : production_warehouse");
+		return pddao.production_warehouse(product_name);
 	}
+
+
 	
 	
 	

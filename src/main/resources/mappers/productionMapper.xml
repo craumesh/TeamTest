@@ -13,8 +13,9 @@
   <result property="employee_no" column="employee_no"/>
   <result property="recipe_no" column="recipe_no"/>
   <result property="production_time" column="production_time"/>
-  <!-- <collection property="" resultMap=""></collection> -->
   </resultMap>
+  
+  
 
   <!-- 설비 페이징 처리 갯수 -->
   <select id="machinetotalCount" resultType="int">
@@ -58,6 +59,13 @@
 	FROM stock
 	where product_name = #{name};
   	</select>
+
+	<!-- 생산 창고 조회 -->
+	<select id="production_warehouse" resultType="production_warehouseVO">
+	select total
+	from production_warehouse
+	where product_name = #{product_name}
+	</select>
 
   
   </mapper>

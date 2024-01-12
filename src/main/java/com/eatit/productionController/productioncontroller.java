@@ -1,5 +1,6 @@
 package com.eatit.productionController;
 
+import java.lang.reflect.Type;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -38,6 +39,7 @@ import com.eatit.productionService.productionservice;
 import com.eatit.warehouseDomain.StockInfoVO;
 import com.eatit.warehouseDomain.StockVO;
 import com.eatit.warehousePersistence.WarehouseDAO;
+import com.google.gson.Gson;
 
 @Controller
 @RequestMapping(value = "/production/*")
@@ -134,8 +136,7 @@ public class productioncontroller {
 			}
 		}
 		
-		return null;
-		/* return "redirect:/warehouse/registClose"; */
+		 return "redirect:/warehouse/registClose";
 	}
 	
 	@RequestMapping(value = "/getrequest", method = RequestMethod.GET)
@@ -208,11 +209,35 @@ public class productioncontroller {
 			Map<String, Object> pram = new HashMap<String, Object>();
 			
 			logger.debug("pdService.recipe(product_no) : " +pdService.recipe(product_no));
+
 			
+			String recipe = pdService.recipe(product_no);
+			
+			Gson gson = new Gson();
+			
+			Map<String, Map<String, Integer>> outerMap = gson.fromJson(recipe, Map.class);
+			
+			String key = String.valueOf(product_no);
+			Map<String, Integer> innerMap = outerMap.get(key);
+			
+			logger.debug("innerMap"+innerMap);
+			
+			Map<String, Object> material = new HashMap<String, Object>();
+			
+			
+			for(String innerMapkey : innerMap.keySet()) {
+				logger.debug(innerMapkey + "/" + innerMap.get(innerMapkey));
+				
+				material.put(innerMapkey, pdService.production_warehouse(innerMapkey).getTotal());
+				
+			}
+			
+			logger.debug("material : "+material);
 			
 			pram.put("recipe", pdService.recipe(product_no));
 			pram.put("machine", mcService.machinecategory());
 			pram.put("Detail", oService.getOrderDetail(order_id));
+			pram.put("house", material);
 			
 			return pram;
 			

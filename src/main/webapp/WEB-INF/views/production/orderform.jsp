@@ -211,7 +211,10 @@
 		        method: 'GET',
 		        dataType: 'json',
 		        success: function(data) {
-
+					
+		        	console.log(data);
+		        	console.log(data.house);
+		        	
 		        	
 		        	var newSelect = $("<select>").attr("name", "machine_code").addClass("w-100 text-center");
 		        	addOptionsToSelect(newSelect, data.machine);
@@ -222,6 +225,7 @@
 		            $("#product_name").text(data.Detail.product_name);
 		            $("#quantity").text(data.Detail.quantity);
 		            $("#recipe").text(data.recipe);
+		            
 		            $("#openmodalRequest").modal('show');
 					
 		            var $tdadd = $("#tdadd");
@@ -229,10 +233,13 @@
 		            if (data.recipe !== '미등록') {      
 		                var recipe = JSON.parse(data.recipe)[data.Detail.product_no];
 		                
+		                
+		                
+		                
 		                  for (var key in recipe) {
 		                   var value = recipe[key]*data.Detail.quantity;
-		                   $tdadd.append("<tr><td class='text-center fs-5'>" + key + "</td><td class='text-center fs-5'>" + value + "</td></tr>");
-
+		                   $tdadd.append("<tr><td class='text-center fs-5'>" + key + "</td><td class='text-center fs-5'>" + value +"/"+ data.house[key]+"</td></tr>");
+							
 		                }                 
 		             }
 		            
@@ -246,6 +253,7 @@
 		
 		function closeModal() {
 		    $("#openmodalRequest").modal('hide');
+		    location.reload();
 		}
 		
 		function closeWindow() {
