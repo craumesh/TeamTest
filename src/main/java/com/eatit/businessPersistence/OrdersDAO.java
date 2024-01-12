@@ -9,6 +9,7 @@ import com.eatit.mainDomain.Criteria;
 import com.eatit.masterdataDomain.CompanyVO;
 import com.eatit.memberDomain.MemberVO;
 
+
 public interface OrdersDAO {
 
 	public List<OrdersVO> selectOrderList(Criteria cri);
