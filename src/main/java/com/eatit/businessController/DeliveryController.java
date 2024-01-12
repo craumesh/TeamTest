@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.eatit.businessDomain.DeliveryVO;
 import com.eatit.businessDomain.OrdersVO;
@@ -65,11 +66,11 @@ public class DeliveryController {
 	}	
 
 	// 출고 요청 - GET
-	@RequestMapping(value = "forms", method = RequestMethod.GET)
-	public void deliveryRequestGET(Model model, HttpSession session,
+	@RequestMapping(value = "/forms", method = RequestMethod.GET)
+	public void releaseRequestGET(Model model, HttpSession session,
 								   @RequestParam(name = "order_id") Integer order_id) {
 		
-		logger.debug("deliveryRequestGET(model, session)");
+		logger.debug("Controller: /deliverys/forms/releaseRequestGET(model, order_id)");
 		
 		String id = (String)session.getAttribute("id");
 		MemberVO memberVO = dService.getMemberInfo(id);
@@ -79,6 +80,19 @@ public class DeliveryController {
 		
 		model.addAttribute(memberVO);
 		model.addAttribute(ordersVO);
+	}
+	
+	// 출고 요청 - POST
+	@RequestMapping(value = "/forms", method = RequestMethod.POST)
+	public void releaseRequestPOST(DeliveryVO dvo, RedirectAttributes rttr,
+									@RequestParam(name = "order_id") Integer order_id) {
+		
+		logger.debug("Controller: /deliverys/forms/deliveryRequestPOST()");
+		
+		dService.requestDelivery(dvo);
+		dService.requestRelease(order_id);
+		
+		rttr.addFlashAttribute("result", "CREATEOK");
 	}
 	
 }

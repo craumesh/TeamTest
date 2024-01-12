@@ -126,19 +126,27 @@
 									<td class="align-middle text-center modal-act">
 				                        <p class="text-xs font-weight-bold mb-0">${vo.company_name }</p>
 				                        <p class="text-xs text-secondary mb-0">${vo.company_tel }</p>
-                      				</td>
-                      				<c:choose>
-							            <c:when test="${vo.quantity < vo.stock_quantity}">
-							                <td class="align-middle text-center text-sm">
-							                    <button class="btn bg-gradient-info fs-6 mb-0 py-1 px-3" onclick="openDeliveryForm(${vo.order_id })">출고 요청</button>
-							                </td>
-							            </c:when>
-							            <c:otherwise>
-							                <td class="align-middle text-center text-xs">
-							                    <button class="btn bg-gradient-warning fs-6 mb-0 py-1 px-3" onclick="openProductionRequest()">생산 요청</button>
-							                </td>
-							            </c:otherwise>
-							        </c:choose>  	
+                      				</td>             				
+	                      			<c:choose>
+									    <c:when test="${vo.order_status eq '신청완료'}">
+									        <c:choose>
+									            <c:when test="${vo.quantity < vo.stock_quantity}">
+									                <td class="align-middle text-center text-sm">
+									                    <button class="btn bg-gradient-info fs-6 mb-0 py-1 px-3" onclick="openDeliveryForm(${vo.order_id })">출고 요청</button>
+									                </td>
+									            </c:when>
+									            <c:otherwise>
+									                <td class="align-middle text-center text-xs">
+									                    <button class="btn bg-gradient-warning fs-6 mb-0 py-1 px-3" onclick="openProductionRequest()">생산 요청</button>
+									                </td>
+									            </c:otherwise>
+									        </c:choose>
+									    </c:when>
+									    <c:otherwise>
+									        <td class="align-middle text-center text-xs">	
+									        </td>
+									    </c:otherwise>
+									</c:choose>                      	
 									<td class="align-middle text-center text-sm">
 			                        	<span id="status-badge" class="badge badge-sm fs-6 mb-0 py-2 px-3 w-50">${vo.order_status }</span>
 			                      	</td>

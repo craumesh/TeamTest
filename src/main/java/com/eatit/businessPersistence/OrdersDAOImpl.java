@@ -150,7 +150,5 @@ public class OrdersDAOImpl implements OrdersDAO {
 		logger.debug("DAO : selectproductcount");
 		return SqlSession.selectOne(NAMESPACE +".selectproductcount");
 	}
-	
-	
-	
+
 }

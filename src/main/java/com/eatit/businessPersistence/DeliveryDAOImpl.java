@@ -13,6 +13,8 @@ import org.springframework.stereotype.Repository;
 import com.eatit.businessDomain.DeliveryVO;
 import com.eatit.mainDomain.Criteria;
 import com.eatit.memberDomain.MemberVO;
+import com.eatit.warehouseDomain.StockInfoVO;
+import com.eatit.warehouseDomain.StockVO;
 
 @Repository
 public class DeliveryDAOImpl implements DeliveryDAO {
@@ -52,6 +54,18 @@ public class DeliveryDAOImpl implements DeliveryDAO {
 	public MemberVO selectMemberInfo(String id) {
 		logger.debug("DAO: selectMemberInfo(id)");
 		return SqlSession.selectOne(NAMESPACE + ".selectMemberInfo", id);
+	}
+
+	@Override
+	public void insertDelivery(DeliveryVO dvo) {
+		logger.debug("DAO: insertDelivery(dvo)");
+		SqlSession.insert(NAMESPACE + ".insertDelivery", dvo);
+	}
+
+	@Override
+	public StockVO selectProductStock(String productName) {
+		logger.debug("DAO: selctReleaseInfo(productName)");
+		return SqlSession.selectOne(NAMESPACE + ".selectProductStock", productName);
 	}
 	
 }

@@ -6,6 +6,8 @@ import java.util.Map;
 import com.eatit.businessDomain.DeliveryVO;
 import com.eatit.mainDomain.Criteria;
 import com.eatit.memberDomain.MemberVO;
+import com.eatit.warehouseDomain.StockInfoVO;
+import com.eatit.warehouseDomain.StockVO;
 
 public interface DeliveryDAO {
 
@@ -18,5 +20,9 @@ public interface DeliveryDAO {
 	public List<DeliveryVO> selectMatchingDeliveryList(Map<String, Object> params);
 
 	public MemberVO selectMemberInfo(String id);
+
+	public void insertDelivery(DeliveryVO dvo);
+
+	public StockVO selectProductStock(String productName);
 
 }

@@ -52,4 +52,5 @@ public interface OrdersDAO {
 	public List<OrdersVO> selectproduct(Criteria cri);
 	
 	public int selectproductcount();
+
 }

@@ -8,6 +8,7 @@
   	<!-- 데이터 테이블 매핑 -->
   	<resultMap type="com.eatit.businessDomain.DeliveryVO" id="deliveryVO"/>
   	<resultMap type="com.eatit.memberDomain.MemberVO" id="memberVO"/>
+  	<resultMap type="com.eatit.warehouseDomain.StockVO" id="stockVO"/>
   
 	<!-- 전체 배송 목록 개수 -->
 	<select id="selectCountTotalDelivery" resultType="int">
@@ -64,8 +65,20 @@
   		FROM member
   		WHERE id = #{id}
   	</select>
+  	
+  	<!-- 배송 신청서 추가 -->
+  	<insert id="insertDelivery">
+		INSERT INTO delivery (order_id, confirm_employee_no)
+  		VALUES (#{order_id}, #{confirm_employee_no})
+	</insert>
   
-  
+  	<!-- 창고 입출고 정보 조회 -->
+  	<select id="selectProductStock" resultType="stockVO">
+  		SELECT MAX(product_code) "product_code", warehouse_no, category, product_unit, MAX(expiry_date) "expiry_date", SUM(quantity) "quantity"
+		FROM stock
+		WHERE product_name = #{productName}
+		GROUP BY warehouse_no, category, product_name, product_unit
+  	</select>
   
   
   

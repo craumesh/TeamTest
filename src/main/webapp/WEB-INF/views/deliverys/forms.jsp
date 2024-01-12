@@ -37,7 +37,8 @@
 									<tbody>	
 										<tr>
 											<td>
-												<input type="hidden" name="employee_no" value="${memberVO.employee_no }">
+												<input type="hidden" name="order_id" value="${ordersVO.order_id }">
+												<input type="hidden" name="confirm_employee_no" value="${memberVO.employee_no }">
 												<div class="d-flex px-2 py-1">
 													<div>
 														<img src="${memberVO.photo_paths }" class="avatar avatar-sm me-3" alt="">
@@ -48,8 +49,7 @@
 													</div>
 												</div>
 											</td>								
-											<td>											
-												<input type="hidden" id="company_no" name="company_no" value="${companyVO.company_no }">												
+											<td>													
 												<div class="d-flex px-2 py-1">
 													<div>
 														<img src="${ordersVO.photo_paths }" id="companyImg" class="avatar avatar-sm me-3" alt="">
@@ -93,7 +93,6 @@
 									<tbody>
 										<tr>
 											<td class="align-items-center">
-												<input type="hidden" id="product_no" name="product_no" value="">
 												<div class="d-flex px-2 py-1 ms-15">
 													<div>
 														<img src="../resources/img/memberimg.png" id="prdImagePath"  class="avatar avatar-sm me-3" alt="">
@@ -105,12 +104,12 @@
 												</div>
 											</td>
 											<td class="align-middle text-center text-sm">
-												<div class="input-group input-group-outline">
-													<input type="number" id="orderQuantity" name="quantity" class="form-control d-flex" value="${ordersVO.quantity }" readonly="readonly">
+												<div class="input-group input-group-outline ps-3">
+													<h6 class="text-sm font-weight-bold pt-3" id="orderQuantity">${ordersVO.quantity }EA</h6>
 												</div>
 											</td>
 											<td class="align-middle text-center">
-												<h6 class="text-sm font-weight-bold pt-3" id="outputTotalPrice">₩--</h6>
+												<h6 class="text-sm font-weight-bold pt-3" id="outputTotalPrice">₩${ordersVO.price * ordersVO.quantity }</h6>
 											</td>
 										</tr>
 									</tbody>						
