@@ -57,6 +57,7 @@ public class OrdersController {
 			ordersVOList = oService.findOrderList(params);
 		}
 
+		logger.debug("ordersVOList: " + ordersVOList);
 		// 데이터 전달
 		model.addAttribute(pageVO);
 		model.addAttribute("pageUrl", "lists");
@@ -175,7 +176,7 @@ public class OrdersController {
 			productVOList = oService.findProduct(params);
 		}
 		
-		logger.debug("productVOList: " + productVOList.size());
+		logger.debug("productVOList: " + productVOList);
 		// 데이터 전달
 		model.addAttribute(pageVO);
 		model.addAttribute("pageUrl", "products");
