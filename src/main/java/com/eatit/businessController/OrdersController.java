@@ -198,6 +198,21 @@ public class OrdersController {
 		return productVO;
 	} 
 	
+	// 발주서 수정 - GET
+	@RequestMapping(value = "/editForm", method = RequestMethod.GET)
+	public void editFormGET(@RequestParam(name = "order_id") Integer order_id, 
+							Model model, HttpSession session) {
+		
+		logger.debug("Controller: /orders/editForm(order_id)");
+
+		String id = (String)session.getAttribute("id");
+		MemberVO memberVO = oService.getMemberInfo(id);
+		OrdersVO ordersVO = oService.getOrderDetail(order_id);
+		
+		model.addAttribute(memberVO);	
+		model.addAttribute(ordersVO);
+	}
+	
 	// 발주서 수정 - POST
 	@RequestMapping(value = "/editForm", method = RequestMethod.POST)
 	public String editFormPOST(OrdersVO ovo, RedirectAttributes rttr) {
@@ -211,7 +226,7 @@ public class OrdersController {
 		oService.editForm(ovo);
 		rttr.addFlashAttribute("result", "modifyOK");
 		
-		return "redirect:/orders/orderList";
+		return "redirect:/orders/lists";
 	}
 	
 	// 발주서 삭제 - POST

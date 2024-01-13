@@ -75,7 +75,7 @@
                    							<span class="text-secondary font-weight-bold">${vo.order_id }</span>
                       					</a>                  						
                      				</td>
-									<td class="modal-act">
+									<td>
 				                    	<div class="d-flex px-2 py-1 ms-5">
 				                        	<div>
 				                            	<img src="" class="avatar avatar-sm me-3 border-radius-lg" alt="user1">
@@ -88,7 +88,7 @@
 			                        </td>
                       				<c:choose>
 							            <c:when test="${(vo.stock_quantity / 500) * 100 >= 50}">
-							                <td class="align-middle text-center modal-act" id="progress-bar_${vo.order_id }">
+							                <td class="align-middle text-center" id="progress-bar_${vo.order_id }">
 												<div class="d-flex flex-sm-column align-items-center justify-content-center">
 													<span class="me-2 text-xs font-weight-bold" id="prdInv_${vo.order_id}">${vo.stock_quantity }EA</span>
 													<div>
@@ -100,14 +100,14 @@
 											</td>
 							            </c:when>
 							            <c:when test="${(vo.stock_quantity / 500) * 100 == 0}">
-							                <td class="align-middle text-center modal-act" id="progress-bar_${vo.order_id }">
+							                <td class="align-middle text-center" id="progress-bar_${vo.order_id }">
 												<div class="d-flex flex-sm-column align-items-center justify-content-center">
 													<span class="me-2 text-xs font-weight-bold" id="prdInv_${vo.order_id}">재고 없음</span>
 												</div>
 											</td>
 							            </c:when>
 						          	  	<c:otherwise>
-							                <td class="align-middle text-center modal-act" id="progress-bar_${vo.order_id }">
+							                <td class="align-middle text-center" id="progress-bar_${vo.order_id }">
 												<div class="d-flex flex-sm-column align-items-center justify-content-center">
 													<span class="me-2 text-xs font-weight-bold" id="prdInv_${vo.order_id}">${vo.stock_quantity }EA</span>
 													<div>
@@ -119,12 +119,12 @@
 											</td>
 						            	</c:otherwise>
 							        </c:choose>	                        		
-									<td class="align-middle text-center modal-act">
+									<td class="align-middle text-center">
 										<span class="text-secondary text-xs font-weight-bold">
 									    	<fmt:formatDate value="${vo.order_date}" pattern="yyyy-MM-dd" />
 									    </span>
 									</td>
-									<td class="align-middle text-center modal-act">
+									<td class="align-middle text-center">
 				                        <p class="text-xs font-weight-bold mb-0">${vo.company_name }</p>
 				                        <p class="text-xs text-secondary mb-0">${vo.company_tel }</p>
                       				</td>             				
@@ -285,7 +285,8 @@
 		
 		$("#order-table").on("click", "tr td.modal-act", function(event) {
 			
-		    var value = $(this).closest("tr").find("td.identify-no").text();
+		    var value = $(this).closest("tr").find("td.identify-no").text();	    
+		    
 			
 	        $.ajax({
 	            url: '/orders/detail?order_id=' + value,
@@ -303,6 +304,20 @@
 				    $("#company_address").text(data.company_address + ", " + data.company_address_detail);
 				    $("#comments").text(data.comments);
 				    $("#due_date").text(data.due_date);
+				    
+				    if (data.order_status == "신청완료") {
+				    	
+				    	$("#editbtn").show();
+				    	
+					    $("#editbtn").click(function(){
+					        var order_id = $("#order_id").text();
+					        location.href = "/orders/editForm?order_id=" + order_id;
+					    });
+					    
+				    }else {
+				    	$("#editbtn").hide();
+	                }
+				    
 				    modal.style.display = "block";
 				},
 				error : function(error) {
@@ -310,6 +325,7 @@
 				}
 			});
 		        
+		    
 	    });
 		
 		$("#closebtn").click(function(){
@@ -348,13 +364,7 @@
 			$("#filter").val($("#dropdown-selected").text());
 			$("#search-form").submit();
 		});
-		
-		$("#editbtn").click(function(){
-		    var order_id = $(this).closest("tr").find("td.identify-no a span").text();
-
-		    location.href="/orders/editForm?order_id=" + order_id;
-		});
-				
+						
 	});
 	
 	var result = "${result}";

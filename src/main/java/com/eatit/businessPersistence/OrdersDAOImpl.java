@@ -130,7 +130,7 @@ public class OrdersDAOImpl implements OrdersDAO {
 
 	@Override
 	public int updateForm(OrdersVO ovo) {
-		logger.debug("DAO: updateForm(PurchaseVO ovo)");
+		logger.debug("DAO: updateForm(OrdersVO ovo)");
 		return SqlSession.update(NAMESPACE + ".updateForm", ovo);
 	}
 	@Override

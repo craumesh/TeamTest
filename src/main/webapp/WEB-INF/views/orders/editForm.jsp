@@ -8,7 +8,7 @@
 <div class="card my-4">
 	<div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
 		<div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-4">
-			<h3 class="text-white text-capitalize ps-5 align-items-center mt-2 py-1">발주 신청서</h3>
+			<h3 class="text-white text-capitalize ps-5 align-items-center mt-2 py-1">발주서 수정</h3>
 		</div>
 	</div>	
 	<div class="card-body px-0 pb-2">
@@ -19,7 +19,8 @@
 		</div>
 		<div class="card-body">
 			<!-- 폼테그 시작  -->
-			<form role="form" method="post" name="fr" onsubmit="return check()">
+			<form role="form" action="/orders/editForm" method="post" name="fr" onsubmit="return check()">
+				<input type="hidden" name="order_id" value="${ordersVO.order_id }">
 				<!-- 거래처 정보 -->
 				<div class="row mb-4">
 					<div class="card">
@@ -62,19 +63,19 @@
 												</div>
 											</td>								
 											<td>											
-												<input type="hidden" id="company_no" name="company_no" value="">												
+												<input type="hidden" id="company_no" name="company_no" value="${ordersVO.company_no }">												
 												<div class="d-flex px-2 py-1">
 													<div>
 														<img src="" id="companyImg" class="avatar avatar-sm me-3" alt="">
 													</div>
 													<div class="d-flex flex-column justify-content-center">
-														<h6 class="mb-0 text-sm" id="company_name">거래처를 선택하세요.</h6>
-														<p class="text-xs text-secondary mb-0" id="companyTel"></p>
+														<h6 class="mb-0 text-sm" id="company_name">${ordersVO.company_name }</h6>
+														<p class="text-xs text-secondary mb-0" id="companyTel">${ordersVO.company_tel }</p>
 													</div>
 												</div>
 											</td>
 											<td class="text-center">
-												<h6 class="text-sm font-weight-bold pt-3" id="companyAddress"></h6>
+												<h6 class="text-sm font-weight-bold pt-3" id="companyAddress">(${ordersVO.company_zip_code }) ${ordersVO.company_address }, ${ordersVO.company_address_detail }</h6>
 											</td>																						
 										</tr>
 									</tbody>									
@@ -113,24 +114,30 @@
 									<tbody>
 										<tr>
 											<td class="align-items-center">
-												<input type="hidden" id="product_no" name="product_no" value="">
+												<input type="hidden" id="product_no" name="product_no" value="${ordersVO.product_no }">
 												<div class="d-flex px-2 py-1 ms-15">
 													<div>
-														<img src="../resources/img/memberimg.png" id="prdImagePath"  class="avatar avatar-sm me-3" alt="">
+														<img src="..${ordersVO.photo_paths }" id="prdImagePath"  class="avatar avatar-sm me-3" alt="">
 													</div>
 													<div class="d-flex flex-column justify-content-center">
-														<h6 class="mb-0 text-sm" id="prdName">상품을 선택하세요.</h6>
-														<p id="prdPrice" class="text-xs text-secondary mb-0"></p>
+														<h6 class="mb-0 text-sm" id="prdName">${ordersVO.product_name }</h6>
+														<c:set var="price" value="${ordersVO.price }" />
+														<p id="prdPrice" class="text-xs text-secondary mb-0">
+														<fmt:formatNumber value="${price}" type="currency" currencyCode="KRW" />
+														</p>
 													</div>
 												</div>
 											</td>
 											<td class="align-middle text-center text-sm">
 												<div class="input-group input-group-outline">
-													<input type="number" id="orderQuantity" name="quantity" class="form-control d-flex" placeholder="수량을 입력하세요" readonly="readonly">
+													<input type="number" id="orderQuantity" name="quantity" class="form-control d-flex" value="${ordersVO.quantity }">
 												</div>
 											</td>
 											<td class="align-middle text-center">
-												<h6 class="text-sm font-weight-bold pt-3" id="outputTotalPrice">₩0</h6>
+												<c:set var="totalPrice" value="${ordersVO.price * ordersVO.quantity}" />
+												<h6 class="text-sm font-weight-bold pt-3" id="outputTotalPrice">
+													<fmt:formatNumber value="${totalPrice}" type="currency" currencyCode="KRW" />
+												</h6>
 											</td>
 										</tr>
 									</tbody>						
@@ -148,13 +155,13 @@
 									<h6>희망 납기일</h6>
 								</div>								
 								<div class="input-group input-group-static my-3 is-filled">
-									<input type="date" name="due_date" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)" data-gtm-form-interact-field-id="2">
+									<input type="date" name="due_date" value="${ordersVO.due_date }" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)" data-gtm-form-interact-field-id="2">
 								</div>								
 								<div class="col-lg-6 col-7">
 									<h6>요청사항</h6>
 								</div>
 								<div class="input-group input-group-outline mb-3">
-									<textarea class="form-control" rows="7" placeholder="요청사항을 입력하세요" name="comments"></textarea>
+									<textarea class="form-control" rows="7" name="comments">${ordersVO.comments }</textarea>
 								</div>	
 							</div>
 						</div>
@@ -162,7 +169,7 @@
 				</div>
 				<!-- 버튼 -->
 				<div class="text-center">
-					<button type="submit" class="btn btn-lg bg-gradient-primary btn-lg w-100 mt-4 mb-0">신청하기</button>
+					<button type="submit" class="btn btn-lg bg-gradient-primary btn-lg w-100 mt-4 mb-0">수정하기</button>
 				</div>
 			</form>
 		</div>
@@ -195,6 +202,7 @@
         $("#companyAddress").html(address);
     }
     
+    // 상품 변경
     function selectProduct(data) {
     	
     	var formattedPrice = new Intl.NumberFormat('ko-KR', { style: 'currency', currency: 'KRW' }).format(data.price);
