@@ -69,7 +69,6 @@ public class DeliveryServiceImpl implements DeliveryService {
 	@Override
 	public void requestDelivery(DeliveryVO dvo) {
 		logger.debug("Service: requestDelivery(dvo)");
-		
 		ddao.insertDelivery(dvo);
 	}
 
@@ -113,6 +112,12 @@ public class DeliveryServiceImpl implements DeliveryService {
 		setStockVO.setIo_date(timestamp);
 	
 		wdao.insertStockInfoList(setStockVO);
+	}
+
+	@Override
+	public DeliveryVO getDeliveryDetail(Integer delivery_id) {
+		logger.debug("Service: getDeliveryDetail(delivery_id)");
+		return ddao.selectDeliveryDetail(delivery_id);
 	}
 
 	

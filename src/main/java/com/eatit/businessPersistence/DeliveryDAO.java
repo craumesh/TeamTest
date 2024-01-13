@@ -25,4 +25,6 @@ public interface DeliveryDAO {
 
 	public StockVO selectProductStock(String productName);
 
+	public DeliveryVO selectDeliveryDetail(Integer delivery_id);
+
 }

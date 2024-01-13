@@ -22,5 +22,11 @@ public class DeliveryVO {
 	private String photo_paths;
 	private Integer price;
 	private Integer quantity;
+	private String company_name;
+	private String company_tel;
+	private String company_zip_code;
+	private String company_address;
+	private String company_address_detail;
+	private String comments;
 	
 }

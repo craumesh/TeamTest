@@ -24,4 +24,6 @@ public interface DeliveryService {
 
 	public void requestRelease(Integer order_id);
 
+	public DeliveryVO getDeliveryDetail(Integer delivery_id);
+
 }

@@ -98,4 +98,19 @@ public class DeliveryController {
 		return "redirect:/warehouse/registClose";
 	}
 	
+	// 배송 요청 - GET 
+	@RequestMapping(value = "/ships", method = RequestMethod.GET)
+	public void deliveryRequestGET(Model model, HttpSession session,
+			   					   @RequestParam(name = "delivery_id") Integer delivery_id) {
+		
+		logger.debug("Controller: /deliverys/forms/deliveryRequestGET(model, delivery_id)");
+		
+		String id = (String)session.getAttribute("id");
+		MemberVO memberVO = dService.getMemberInfo(id);
+		DeliveryVO deliveryVO = dService.getDeliveryDetail(delivery_id);
+		
+		model.addAttribute(memberVO);
+		model.addAttribute(deliveryVO);
+	}
+	
 }

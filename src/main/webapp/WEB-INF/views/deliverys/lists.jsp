@@ -42,6 +42,7 @@
 								<th class="text-center text-secondary font-weight-bolder col-1">주문 수량</th>
 								<th class="text-center text-secondary font-weight-bolder col-1">배송 시작일</th>
 								<th class="text-center text-secondary font-weight-bolder col-1">배송 종료일</th>
+								<th class="text-center text-secondary font-weight-bolder col-1">작업지시</th>
 								<th class="text-center font-weight-bolder col-1">
 									<div class="dropdown">
 										<button class="btn btn-outline-secondary dropdown-toggle mb-0 fs-6 w-70" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
@@ -98,7 +99,21 @@
 										<span class="text-secondary text-xs font-weight-bold">
 									    	<fmt:formatDate value="${vo.delivery_end_date}" pattern="yyyy-MM-dd" />
 									    </span>
-									</td>				
+									</td>
+									
+									<c:choose>
+									    <c:when test="${vo.delivery_status eq '출고완료'}">
+									
+											<td class="align-middle text-center text-sm">
+												<button class="btn bg-gradient-info fs-6 mb-0 py-1 px-3" onclick="openShippingForm(${vo.delivery_id })">배송 시작</button>
+											</td>
+									    </c:when>
+									    <c:otherwise>
+									        <td class="align-middle text-center text-xs">	
+									        </td>
+									    </c:otherwise>
+									</c:choose> 	
+												
 									<td class="align-middle text-center text-sm">
 			                        	<span id="status-badge" class="badge badge-sm fs-6 mb-0 py-2 px-3 w-50">${vo.delivery_status }</span>
 			                      	</td>
@@ -250,5 +265,10 @@
  	      $(".dropdown-menu").css('inset', '0 0 auto auto');
  	   	}
    	}
+    
+	// 배송 요청 페이지
+    function openShippingForm(delivery_id) {
+    	var newWindow = window.open('/deliverys/ships?delivery_id=' + delivery_id, '_blank', 'width=800,height=600');
+    }
 
 </script>
