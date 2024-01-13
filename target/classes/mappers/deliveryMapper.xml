@@ -19,8 +19,10 @@
 	
 	<!-- 전체 배송 목록 조회 -->
   	<select id="selectDeliveryList" resultType="deliveryVO">
-		SELECT *
-		FROM delivery
+		SELECT d.*, mi.name "product_name", mi.photo_paths, mi.price, o.quantity
+		FROM delivery d
+			JOIN orders o ON d.order_id = o.order_id
+			JOIN masterdata_information mi ON o.product_no = mi.product_no
 		WHERE delivery_status != '삭제'
 		LIMIT #{startPage}, #{pageSize}
   	</select>
@@ -31,6 +33,8 @@
 		FROM delivery
 		WHERE delivery_status != '삭제'	
 		<choose>
+			<when test = "filter == '배송준비중'"> AND o.order_status = '출고준비중' </when>
+			<when test = "filter == '배송준비중'"> AND o.order_status = '출고완료' </when>
 			<when test = "filter == '배송준비중'"> AND o.order_status = '배송준비중' </when>
 			<when test = "filter == '배송중'"> AND o.order_status = '배송중' </when>
 			<when test = "filter == '배송완료'"> AND o.order_status = '배송완료' </when>
@@ -47,6 +51,8 @@
 		FROM delivery
 		WHERE delivery_status != '삭제'	 
 		<choose>
+			<when test = "filter == '배송준비중'"> AND o.order_status = '출고준비중' </when>
+			<when test = "filter == '배송준비중'"> AND o.order_status = '출고완료' </when>
 			<when test = "filter == '배송준비중'"> AND o.order_status = '배송준비중' </when>
 			<when test = "filter == '배송중'"> AND o.order_status = '배송중' </when>
 			<when test = "filter == '배송완료'"> AND o.order_status = '배송완료' </when>

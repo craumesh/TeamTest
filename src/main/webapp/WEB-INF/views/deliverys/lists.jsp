@@ -39,18 +39,20 @@
 								</th>
 								<th class="text-center text-secondary font-weight-bolder col-1">배송 번호</th>
 								<th class="text-center text-secondary font-weight-bolder col-1">제품 정보</th>
-								<th class="text-center text-secondary font-weight-bolder col-1">재고량</th>
-								<th class="text-center text-secondary font-weight-bolder col-1">주문 일자</th>
-								<th class="text-center text-secondary font-weight-bolder col-1">거래처 정보</th>
-								<th class="text-center text-secondary font-weight-bolder col-1">작업 지시</th>
+								<th class="text-center text-secondary font-weight-bolder col-1">주문 수량</th>
+								<th class="text-center text-secondary font-weight-bolder col-1">배송 시작일</th>
+								<th class="text-center text-secondary font-weight-bolder col-1">배송 종료일</th>
 								<th class="text-center font-weight-bolder col-1">
 									<div class="dropdown">
 										<button class="btn btn-outline-secondary dropdown-toggle mb-0 fs-6 w-70" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
 											<span id="dropdown-selected">${empty param.filter ? "전체" : param.filter }</span>
 										</button>
 										<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+											<li><a class="dropdown-item">출고준비중</a></li>
+											<li><a class="dropdown-item">출고완료</a></li>
 											<li><a class="dropdown-item">배송준비중</a></li>
 											<li><a class="dropdown-item">배송중</a></li>
+											<li><a class="dropdown-item">배송완료</a></li>
 											<li><a class="dropdown-item">배송완료</a></li>
 										</ul>
 									</div>
@@ -73,41 +75,30 @@
 									<td class="modal-act">
 				                    	<div class="d-flex px-2 py-1 ms-5">
 				                        	<div>
-				                            	<img src="" class="avatar avatar-sm me-3 border-radius-lg" alt="user1">
+				                            	<img src="..${vo.photo_paths }" class="avatar avatar-sm me-3 border-radius-lg" alt="user1">
 				                     		</div>
 				                          	<div class="d-flex flex-column justify-content-center">
-				                           		<h6 class="mb-0 text-sm">${vo.delivery_id }</h6>
-				                            	<p class="text-xs text-secondary mb-0">${vo.delivery_id }</p>
+				                           		<h6 class="mb-0 text-sm">${vo.product_name }</h6>
+				                            	<p class="text-xs text-secondary mb-0">
+												    <c:set var="totalPrice" value="${vo.price * vo.quantity}" />
+												    <fmt:formatNumber value="${totalPrice}" type="currency" currencyCode="KRW" />
+												</p>
 				                        	</div>
 				                    	</div>
 			                        </td>
-    
-
-
-							                <td class="align-middle text-center modal-act" id="progress-bar_${vo.delivery_id }">
-												<div class="d-flex flex-sm-column align-items-center justify-content-center">
-													<span class="me-2 text-xs font-weight-bold" id="prdInv_${vo.delivery_id }">${vo.delivery_id }</span>
-	
-												</div>
-											</td>
-						     
-	                     		
+					                <td class="align-middle text-center modal-act">							
+										<span class="me-2 text-xs font-weight-bold">${vo.quantity }EA</span>
+									</td>          		
 									<td class="align-middle text-center modal-act">
 										<span class="text-secondary text-xs font-weight-bold">
-									    	<fmt:formatDate value="${vo.create_date}" pattern="yyyy-MM-dd" />
+									    	<fmt:formatDate value="${vo.delivery_start_date}" pattern="yyyy-MM-dd" />
 									    </span>
 									</td>
 									<td class="align-middle text-center modal-act">
-				                        <p class="text-xs font-weight-bold mb-0">${vo.delivery_id }</p>
-				                        <p class="text-xs text-secondary mb-0">${vo.delivery_id }</p>
-                      				</td>
-                      		
-						
-							                <td class="align-middle text-center text-xs">
-							                    <button class="btn bg-gradient-warning fs-6 mb-0 py-1 px-3" onclick="openProductionRequest()">생산 요청</button>
-							                </td>
-							   
-						 	
+										<span class="text-secondary text-xs font-weight-bold">
+									    	<fmt:formatDate value="${vo.delivery_end_date}" pattern="yyyy-MM-dd" />
+									    </span>
+									</td>				
 									<td class="align-middle text-center text-sm">
 			                        	<span id="status-badge" class="badge badge-sm fs-6 mb-0 py-2 px-3 w-50">${vo.delivery_status }</span>
 			                      	</td>
@@ -170,7 +161,9 @@
             var statusText = $(this).find('td:last-child #status-badge').text();
 
             switch(statusText){
-	            case "배송준비중": $(this).find('td:last-child #status-badge').addClass("bg-gradient-primary"); break;
+	            case "출고준비중": $(this).find('td:last-child #status-badge').addClass("bg-gradient-primary"); break;
+	            case "출고완료": $(this).find('td:last-child #status-badge').addClass("bg-gradient-warning"); break;
+	            case "배송준비중": $(this).find('td:last-child #status-badge').addClass("bg-gradient-warning"); break;
 	            case "배송중": $(this).find('td:last-child #status-badge').addClass("bg-gradient-warning"); break;
 	            case "배송완료": $(this).find('td:last-child #status-badge').addClass("bg-gradient-success"); break;
             }
