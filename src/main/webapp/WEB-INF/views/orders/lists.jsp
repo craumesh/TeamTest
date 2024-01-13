@@ -348,6 +348,12 @@
 			$("#filter").val($("#dropdown-selected").text());
 			$("#search-form").submit();
 		});
+		
+		$("#editbtn").click(function(){
+		    var order_id = $(this).closest("tr").find("td.identify-no a span").text();
+
+		    location.href="/orders/editForm?order_id=" + order_id;
+		});
 				
 	});
 	
