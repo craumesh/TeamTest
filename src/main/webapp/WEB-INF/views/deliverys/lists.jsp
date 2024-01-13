@@ -41,7 +41,7 @@
 								<th class="text-center text-secondary font-weight-bolder col-1">제품 정보</th>
 								<th class="text-center text-secondary font-weight-bolder col-1">주문 수량</th>
 								<th class="text-center text-secondary font-weight-bolder col-1">배송 시작일</th>
-								<th class="text-center text-secondary font-weight-bolder col-1">배송 종료일</th>
+								<th class="text-center text-secondary font-weight-bolder col-1">배송 완료일</th>
 								<th class="text-center text-secondary font-weight-bolder col-1">작업지시</th>
 								<th class="text-center font-weight-bolder col-1">
 									<div class="dropdown">

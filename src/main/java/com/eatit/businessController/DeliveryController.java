@@ -134,16 +134,12 @@ public class DeliveryController {
 	// 배송완료 - POST
 	@RequestMapping(value = "/success", method = RequestMethod.POST)
 	@ResponseBody
-	public String deliveryCompletePost(@RequestParam(name = "delivery_id") Integer delivery_id,
-									   RedirectAttributes rttr) {
+	public void deliveryCompletePost(@RequestParam(name = "delivery_id") Integer delivery_id) {
 		
 		logger.debug("Controller: /deliverys/deliveryCompletePost(delivery_id)");
 		
 		dService.completeDelivery(delivery_id);
-		oService.completeOrder(delivery_id);
-		
-		rttr.addFlashAttribute("result", "deliveryComplete");
-		
-		return "redirect:/deliverys/lists";
+		oService.completeOrder(delivery_id);	
 	}
+	
 }
