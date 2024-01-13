@@ -51,7 +51,7 @@
   
   	<!-- 검색,필터된 배송 목록 조회 -->
 	<select id="selectMatchingDeliveryList" resultType="deliveryVO" parameterType="map">
-		SELECT *
+		SELECT *, mi.name "product_name", mi.photo_paths, mi.price, o.quantity
 		FROM delivery d
 			JOIN orders o ON d.order_id = o.order_id
 			JOIN masterdata_information mi ON o.product_no = mi.product_no
