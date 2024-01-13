@@ -120,5 +120,10 @@ public class DeliveryServiceImpl implements DeliveryService {
 		return ddao.selectDeliveryDetail(delivery_id);
 	}
 
-	
+	@Override
+	public void startDelivery(Integer delivery_id) {
+		logger.debug("Service: startDelivery(delivery_id)");
+		ddao.updateDeliveryStart(delivery_id);
+	}
+
 }

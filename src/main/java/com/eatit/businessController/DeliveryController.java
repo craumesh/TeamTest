@@ -113,4 +113,16 @@ public class DeliveryController {
 		model.addAttribute(deliveryVO);
 	}
 	
+	// 배송 요청 - POST
+	@RequestMapping(value = "/ships", method = RequestMethod.POST)
+	public String deliveryRequestPOST(RedirectAttributes rttr, 
+			                          @RequestParam(name = "delivery_id") Integer delivery_id) {
+		
+		logger.debug("Controller: /deliverys/forms/deliveryRequestPOST(dvo, rttr)");
+		
+		dService.startDelivery(delivery_id);
+		oService.updateOrderStatusToDelivering(delivery_id);
+		
+		return "redirect:/warehouse/registClose";
+	}
 }

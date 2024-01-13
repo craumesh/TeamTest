@@ -156,4 +156,10 @@ public class OrdersServiceImpl implements OrdersService {
 		odao.updateOrderStatusToShippingPreparation(order_id);	
 	}
 
+	@Override
+	public void updateOrderStatusToDelivering(Integer delivery_id) {
+		logger.debug("Service: updateOrderStatusToDelivering(delivery_id)");
+		odao.updateOrderStatusToDelivering(delivery_id);
+	}
+
 }

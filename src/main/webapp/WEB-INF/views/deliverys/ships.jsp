@@ -114,9 +114,18 @@
 
 <script>
 
-	// 배송담당자 검색창 
-    function openSearchCourier() {
-        window.open('/deliverys/courier', '_blank', 'width=600,height=680');
-    }
-
+	function registAlert(){
+		swal({
+			text: "배송 시작",
+			icon: "success",
+			buttons: false
+		});
+		
+		
+		setTimeout(function() {
+		  document.forms["fr"].submit();
+		}, 700);
+		
+	}
+	
 </script>

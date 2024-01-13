@@ -24,6 +24,7 @@
 			JOIN orders o ON d.order_id = o.order_id
 			JOIN masterdata_information mi ON o.product_no = mi.product_no
 		WHERE delivery_status != '삭제'
+		ORDER BY create_date DESC
 		LIMIT #{startPage}, #{pageSize}
   	</select>
   	
@@ -95,7 +96,11 @@
   		WHERE delivery_id = #{delivery_id}
   	</select>
   
-  
+ 	<!-- 배송 시작 -->
+ 	<update id="updateDeliveryStart">
+ 		UPDATE delivery SET delivery_start_date = now(), update_date = NOW(), delivery_status ='배송중'
+  		WHERE delivery_id = #{delivery_id} 
+ 	</update>
   
   
   

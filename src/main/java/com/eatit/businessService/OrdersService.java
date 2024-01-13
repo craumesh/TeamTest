@@ -55,4 +55,6 @@ public interface OrdersService {
 
 	public void changeOrderStatusToShippingPreparation(Integer order_id);
 
+	public void updateOrderStatusToDelivering(Integer delivery_id);
+
 }
