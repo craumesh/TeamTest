@@ -149,7 +149,7 @@
             	ma.warehouse_no,
             	mi.category,
             	mi.name,
-            	quantity 'io_quantities' ,
+            	quantityv 'io_quantities' ,
             	mi.unit,
 				(mi.price*quantity)/10000 'price',
 				ma.expiry_date,
@@ -223,6 +223,7 @@
 		LIMIT #{cri.startPage}, #{cri.pageSize}
 	</select>
   	
+  	<!-- stock_info 테이블에서 모든 재고 정보를 조회합니다. -->
   	<select id="getStockInfo" resultType="com.eatit.warehouseDomain.StockInfoVO">
   		SELECT  
   			identify_code,
@@ -240,14 +241,14 @@
   		ORDER BY io_date 
   		LIMIT #{startPage},#{pageSize}
   	</select>
-  	<!-- stock_info table 조회 -->
   	
-  	<!-- stock table 조회 -->
+  	<!-- stock 테이블의 전체 재고 개수를 계산합니다. -->
   	<select id="getStockTotalCount" resultType="int">
 	  		SELECT COUNT(*)
 	  		FROM stock
   	</select>
   	
+  	<!-- 주어진 조건에 따라 stock 테이블에서 재고 개수를 계산합니다. -->
    	<select id="getFindStockListCount" resultType="int" parameterType="map">
 	 	SELECT COUNT(*) 
 	 	FROM stock
@@ -263,12 +264,14 @@
 			)
    	</select>
 	
+	<!-- stock 테이블에서 모든 재고 목록을 조회합니다. -->
 	<select id="getStockListAll" resultType="com.eatit.warehouseDomain.StockVO">
   		SELECT *
   		FROM stock
   		LIMIT #{startPage},#{pageSize}
   	</select>
 	
+	<!-- 주어진 조건에 따라 stock 테이블에서 재고 목록을 조회합니다. -->
   	<select id="findStockList" resultType="com.eatit.warehouseDomain.StockVO" parameterType="map">
 		SELECT *
 		FROM stock
@@ -287,7 +290,7 @@
 	</select>
   	<!-- stock table 조회 -->
   	
-  	<!-- 특정 품목 stock_info 테이블 조회  -->
+  	<!-- 특정 식별 코드로 stock_info 테이블에서 재고 정보를 조회합니다. -->
   	<select id="getStockInfoByIdentifyCode" resultType="com.eatit.warehouseDomain.StockInfoVO">
   		SELECT  
   			identify_code,
@@ -305,6 +308,7 @@
   		WHERE identify_code = #{identify_code}
   	</select>
   	
+  	<!-- 여러 식별 코드에 해당하는 재고 정보를 stock_info 테이블에서 조회합니다. -->
   	<select id="getStockInfoByIdentifyCode2" parameterType="java.util.Map" resultType="com.eatit.warehouseDomain.StockInfoVO">
   		SELECT  
   			identify_code,
@@ -325,13 +329,14 @@
   			</foreach>
   	</select>
   	
-  	
+  	<!-- 특정 식별 코드의 개수를 세는 쿼리 -->
   	<select id="countIdentifyCode" resultType="int">
   		SELECT COUNT(*) 
   		FROM stock_info 
   		WHERE identify_code = #{identifyCode}
   	</select>
   	
+  	<!-- stock_info 테이블에 새로운 재고 정보를 추가합니다. -->
   	<insert id="insertStockInfo">
   		INSERT INTO stock_info(identify_code,warehouse_no,io_classification,category,product_name,io_quantities,product_unit,price,expiry_date,io_date)
   		VALUES(#{identify_code},#{warehouse_no},#{io_classification},#{category},#{name},#{io_quantities},#{unit},#{price},#{expiry_date},#{io_date})

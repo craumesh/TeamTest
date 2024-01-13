@@ -71,7 +71,7 @@ public class MaterialServiceImpl implements MaterialService {
 		// TODO Auto-generated method stub
 
 	}
-
+	
 	@Override
 	public MaterialVO findMaterialById(int materialId) {
 		// TODO Auto-generated method stub
@@ -134,6 +134,24 @@ public class MaterialServiceImpl implements MaterialService {
 	public void Materialupdate(MaterialOrderVO vo) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public List<MaterialVO> getTotalCount(Criteria cri) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int getFindMaterialListCount(Map<String, Object> params) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public List<MaterialVO> findMaterialList(Map<String, Object> params) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 

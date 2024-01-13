@@ -34,30 +34,33 @@ public class MaterialController {
 	@Inject
 	private MaterialService MaterialService;
 
-	// 원자재 목록 조회
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public String materialListGET(Model model, Criteria cri) {
-		logger.debug("/Material/list 호출 -> materialListGET() 실행");
-		PageVO pageVO = new PageVO();
-		pageVO.setCri(cri);
-		pageVO.setTotalCount(MaterialService.getTotalCount());
+	    logger.debug("/Material/list 호출 -> materialListGET() 실행");
+	    PageVO pageVO = new PageVO();
+	    pageVO.setCri(cri);
+	    pageVO.setTotalCount(MaterialService.getTotalCount());
 
-		model.addAttribute("listUrl", "list");
-		model.addAttribute("pageVO", pageVO);
-		model.addAttribute("Material", MaterialService.findAllMaterials());
-		return "/Material/MaterialList";
+	    // 모든 원자재 목록을 조회합니다.
+	    List<MaterialVO> materials = MaterialService.findAllMaterials();
+
+	    model.addAttribute("listUrl", "list");
+	    model.addAttribute("pageVO", pageVO);
+	    model.addAttribute("Material", materials);
+	    return "/Material/MaterialList";
 	}
 
 	@RequestMapping(value = "/list", method = RequestMethod.POST)
-	public String materialListPost(MaterialVO vo, @ModelAttribute("searchword") String searchword) {
-		logger.debug("/Material/list 호출 -> materialListPOST() 실행");		
+	public String materialListPost(MaterialVO vo,
+			@RequestParam(name = "searchword", required = false) String searchword) {
+		logger.debug("/Material/list 호출 -> materialListPOST() 실행");
 		MaterialService.editMaterialContent(vo);
-		if(!searchword.isEmpty()) {
+		if (!searchword.isEmpty()) {
 			return "redirect:/Material/searchlist";
 		}
 		return "redirect:/Material/MaterialList";
 	}
-	
+
 	@RequestMapping(value = "/content", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public MaterialVO MaterialContentGET(MaterialVO vo) {
@@ -66,27 +69,101 @@ public class MaterialController {
 	}
 
 	@RequestMapping(value = "/searchlist", method = RequestMethod.GET)
-	public String searchListGET(Model model, Map<String, Object> params, Criteria cri, @ModelAttribute("searchword") String searchword) {
+	public String searchListGET(Model model, Map<String, Object> params, Criteria cri,
+			@ModelAttribute("searchword") String searchword) {
 		logger.debug("/Material/searchlist 호출 -> searchListGET() 실행");
 		PageVO pageVO = new PageVO();
 		pageVO.setCri(cri);
 		pageVO.setTotalCount(MaterialService.getSearchCount(searchword));
-		
+
 		params.put("cri", cri);
 		params.put("searchword", searchword);
-		
-		model.addAttribute("searchword",searchword);
+
+		model.addAttribute("searchword", searchword);
 		model.addAttribute("listUrl", "searchlist");
 		model.addAttribute("pageVO", pageVO);
-		model.addAttribute("list",MaterialService.getSearchList(params,cri, searchword));		
-		return "/Material/MaterialList";
+		model.addAttribute("list", MaterialService.getSearchList(params, cri, searchword));
+	    return "/Material/MaterialList";
+	}
+	
+	@RequestMapping(value = "/searchlist", method = RequestMethod.GET, params = "pageType=add")
+	public String searchListToAddPage(Model model, Map<String, Object> params, Criteria cri,
+	        @ModelAttribute("searchword") String searchword) {
+	    logger.debug("/Material/searchlist 호출 -> searchListToAddPage() 실행");
+	    PageVO pageVO = new PageVO();
+	    pageVO.setCri(cri);
+	    pageVO.setTotalCount(MaterialService.getSearchCount(searchword));
+
+	    params.put("cri", cri);
+	    params.put("searchword", searchword);
+
+	    model.addAttribute("searchword", searchword);
+	    model.addAttribute("listUrl", "searchlist");
+	    model.addAttribute("pageVO", pageVO);
+	    model.addAttribute("list", MaterialService.getSearchList(params, cri, searchword));
+
+	    return "/Material/add"; // add 페이지로 이동
 	}
 
+	@RequestMapping(value = "/searchlist", method = RequestMethod.GET, params = "pageType=MaterialOrderList")
+	public String searchListToMaterialOrderListPage(Model model, Map<String, Object> params, Criteria cri,
+	        @ModelAttribute("searchword") String searchword) {
+	    logger.debug("/Material/searchlist 호출 -> searchListToMaterialOrderListPage() 실행");
+	    PageVO pageVO = new PageVO();
+	    pageVO.setCri(cri);
+	    pageVO.setTotalCount(MaterialService.getSearchCount(searchword));
+
+	    params.put("cri", cri);
+	    params.put("searchword", searchword);
+
+	    model.addAttribute("searchword", searchword);
+	    model.addAttribute("listUrl", "searchlist");
+	    model.addAttribute("pageVO", pageVO);
+	    model.addAttribute("list", MaterialService.getSearchList(params, cri, searchword));
+
+	    return "/Material/MaterialOrderList"; // MaterialOrderList 페이지로 이동
+	}
+
+	
+
+	
+//	@RequestMapping(value = "/searchlist", method = RequestMethod.GET)
+//    public String searchListGET(Model model, Map<String, Object> params, Criteria cri,
+//                                @ModelAttribute("searchword") String searchword,
+//                                @RequestParam(name = "pageType", required = false) String pageType) {
+//        logger.debug("/Material/searchlist 호출 -> searchListGET() 실행");
+//        PageVO pageVO = new PageVO();
+//        pageVO.setCri(cri);
+//        pageVO.setTotalCount(MaterialService.getSearchCount(searchword));
+//
+//        params.put("cri", cri);
+//        params.put("searchword", searchword);
+//
+//        model.addAttribute("searchword", searchword);
+//        model.addAttribute("listUrl", "searchlist");
+//        model.addAttribute("pageVO", pageVO);
+//        model.addAttribute("list", MaterialService.getSearchList(params, cri, searchword));
+//
+//        // 각 페이지로 이동
+//        if ("add".equals(pageType)) {
+//            // add 페이지로 이동
+//            return "redirect:/Material/add";
+//        } else if ("MaterialOrderList".equals(pageType)) {
+//            // MaterialOrderList 페이지로 이동
+//            return "redirect:/Material/MaterialOrderList";
+//        } else {
+//            // 기본 페이지로 이동 (list 페이지 등)
+//            return "redirect:/Material/MaterialList";
+//        }
+//    }
+
+	
+	
 	// 입고 목록 조회
 	@RequestMapping(value = "/materialadd", method = RequestMethod.GET)
 	public void materialaddListGET(Model model, Criteria cri) {
 		logger.debug("/Material/add 호출 -> materialaddListGET() 실행");
-		
+
 		PageVO pageVO = new PageVO();
 		pageVO.setCri(cri);
 		pageVO.setTotalCount(MaterialService.getTotalCount());
@@ -94,7 +171,6 @@ public class MaterialController {
 		model.addAttribute("listUrl", "add");
 		model.addAttribute("pageVO", pageVO);
 		model.addAttribute("materialaddList", MaterialService.getmaterialaddList());
-		
 
 	}
 
@@ -152,11 +228,11 @@ public class MaterialController {
 
 	// 발주 신청 - POST
 	@RequestMapping(value = "/MaterialwriteForm", method = RequestMethod.POST)
-	public String materialWriteFormPOST(MaterialOrderVO pvo , RedirectAttributes rttr){
+	public String materialWriteFormPOST(MaterialOrderVO pvo, RedirectAttributes rttr) {
 
 		logger.debug("C - materialWriteFormPOST() 호출");
 		logger.debug("pvo: " + pvo);
-		
+
 		// 서비스 - 신청서 작성 동작 호출(INSERT)
 		MaterialService.insertMaterialOrder(pvo);
 
@@ -167,28 +243,28 @@ public class MaterialController {
 	@RequestMapping(value = "/MaterialOrderList", method = RequestMethod.GET)
 	public void materialorderListGET(Model model, Criteria cri) {
 		logger.debug("/Material/MaterialOrderList 호출 -> materialorderListGET() 실행");
-		
+
 		PageVO pageVO = new PageVO();
 		pageVO.setCri(cri);
 		pageVO.setTotalCount(MaterialService.getTotalCount());
 
 		model.addAttribute("listUrl", "MaterialOrderList");
 		model.addAttribute("pageVO", pageVO);
-		
+
 		model.addAttribute("MaterialOrderList", MaterialService.Materialorder());
-		
+
 	}
-	
+
 	// 발주서 삭제 - POST
 	@RequestMapping(value = "/deleteMaterial", method = RequestMethod.POST)
 	public String deleteMateialPOST(@RequestParam("chk") int[] materialod_id) {
 		logger.debug("C - deleteMateialPOST()");
-		logger.debug("vo : "+materialod_id);
-		
+		logger.debug("vo : " + materialod_id);
+
 		// 서비스 - 창고 삭제
 		MaterialService.deleteMaterial(materialod_id);
-		
+
 		return "redirect:/Material/MaterialOrderList";
-	}	
+	}
 
 }

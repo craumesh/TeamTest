@@ -26,7 +26,8 @@
 					</div>
 					<div class="align-items-center d-flex flex-column py-1">
 						<button id="searchbtn"
-							class="btn btn-outline-primary btn-sm mb-0 py-1 ms-2">검색</button>
+							class="btn btn-outline-primary btn-sm mb-0 py-1 ms-2"
+							onclick="location.href='/Material/searchlist?pageType=add'">검색</button>
 					</div>
 				</div>
 			</div>
@@ -65,8 +66,8 @@
 
 				<div class="row">
 					<div class="col-sm-5">
-						<div class="ms-6">${pageVO.startPage }/ ${pageVO.endPage }
-							of page</div>
+						<div class="ms-6">${pageVO.startPage }/${pageVO.endPage }of
+							page</div>
 					</div>
 					<div class="col-sm-5 mb-3">
 						<ul class="pagination">

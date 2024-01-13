@@ -9,6 +9,7 @@
 <div class="col-11 mx-auto">
 	<div class="card my-3 mx-auto pt-5 px-6 pb-2">
 		<div class="card-header p-0 position-relative mx-3 z-index-2">
+
 			<div
 				class="bg-gradient-primary shadow-primary border-radius-lg pt-3 pb-3 pe-3 d-flex">
 				<h3
@@ -18,14 +19,15 @@
 					class="ms-md-auto bg-white rounded p-2 d-flex align-items-center">
 					<div class="align-items-center d-flex flex-column">
 						<div class="input-group input-group-outline">
-							<label class="form-label">검색어를 입력해주세요</label> <input type="text"
+							<label class="form-label">검색어를 입력하세요</label> <input type="text"
 								id="searchword" name="searchword" class="form-control"
 								value="${param.searchword }">
 						</div>
 					</div>
 					<div class="align-items-center d-flex flex-column py-1">
 						<button id="searchbtn"
-							class="btn btn-outline-primary btn-sm mb-0 py-1 ms-2">검색</button>
+							class="btn btn-outline-primary btn-sm mb-0 py-1 ms-2"
+							onclick="location.href='/Material/searchlist?pageType=MaterialOrderList'">검색</button>
 					</div>
 				</div>
 			</div>
@@ -55,8 +57,6 @@
 									<th scope="col" class="text-center font-weight-bolder col-1">거래처정보번호</th>
 									<th scope="col" class="text-center font-weight-bolder col-1">발주
 										일자</th>
-									<th scope="col" class="text-center font-weight-bolder col-1">발주
-										수정일자</th>
 									<th scope="col" class="text-center font-weight-bolder col-3">자재
 										코드</th>
 									<th scope="col" class="text-center font-weight-bolder col-4">수량</th>
@@ -74,7 +74,6 @@
 										<td class="text-center identify-no">${Materialorder.materialod_id}</td>
 										<td class="text-center">${Materialorder.company_no}</td>
 										<td class="text-center">${Materialorder.materialod_date}</td>
-										<td class="text-center">${Materialorder.materialod_update}</td>
 										<td class="text-center">${Materialorder.product_no}</td>
 										<td class="text-center">${Materialorder.quantity}</td>
 										<td class="text-center">${Materialorder.employee_no}</td>
@@ -128,6 +127,33 @@
 <%@ include file="../include/footer.jsp"%>
 <%@ include file="../include/js.jsp"%>
 <script type="text/javascript">
+<script>
+$(document).ready(function() {
+	loadmaterialorders();
+
+	if ($("#searchword").val()) {
+		$(".input-group").addClass("focused is-focused");
+	}
+
+	$(".input-group").click(function() {
+		$(this).addClass("focused is-focused");
+	});
+});
+
+$("#searchbtn").click(function() {
+	var value = $("#searchword").val();
+	location.href = '/Material/searchlist?searchword=' + value; // 경로 수정
+});
+
+$(window).click(function(event) {
+
+	if (!$(event.target).closest('.input-group').length) {
+		if (!$("#searchword").val()) {
+			$(".input-group").removeClass("focused is-focused");
+		}
+	}
+});
+
 $(document).ready(function(){
 		// 필요한 변수 저장
 		var formObj = $("form[role='form']");

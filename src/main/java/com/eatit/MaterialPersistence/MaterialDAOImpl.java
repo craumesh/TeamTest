@@ -63,12 +63,13 @@ public class MaterialDAOImpl implements MaterialDAO {
         sqlSession.delete(NAMESPACE + "deleteMaterial", id);
     }
 
-    // 전체 원자재의 수를 반환합니다.
-    @Override
-    public int getTotalCount() {
-        logger.debug("DAO(getTotalCount) -> Mapper 호출");
-        return sqlSession.selectOne(NAMESPACE + "totalCount");
-    }
+//    // 전체 원자재의 수를 반환합니다.
+//    @Override
+//    public int getSearchCount(String searchword) {
+//        logger.debug("DAO(getSearchCount) -> Mapper 호출");
+//        return sqlSession.selectOne(NAMESPACE + "searchCount", searchword);
+//    }
+
 
     // 특정 조건에 맞는 원자재 목록을 조회합니다.
     @Override
@@ -142,6 +143,11 @@ public class MaterialDAOImpl implements MaterialDAO {
 		logger.debug("DAO(selectMaterialContent) -> Mapper 호출");
 		return sqlSession.selectOne(NAMESPACE+".selectMaterialContent", vo);
 		
+	}
+
+	@Override
+	public int getTotalCount() {
+		return sqlSession.selectOne(NAMESPACE+"totalCount");
 	}
 	
 	

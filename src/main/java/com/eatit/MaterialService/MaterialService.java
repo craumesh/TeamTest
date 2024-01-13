@@ -32,9 +32,6 @@ public interface MaterialService {
 	// 특정 재료를 삭제합니다.
 	public void deleteMaterial(String string);
 
-	// ID를 기준으로 특정 재료 정보를 검색합니다.
-	public MaterialVO findMaterialById(int materialId);
-
 	// 모든 재료의 총 수를 반환합니다.
 	public int getTotalCount();
 
@@ -53,6 +50,9 @@ public interface MaterialService {
 	// 발주 삭제
 	public void deleteMaterial(int[] materialod_id);
 	
+	// ID를 기준으로 특정 재료 정보를 검색합니다.
+	public MaterialVO findMaterialById(int materialId);
+
 	// 발주 수정
 	public void Materialupdate(MaterialOrderVO vo);
 
@@ -63,5 +63,11 @@ public interface MaterialService {
 	public List<MaterialOrderVO> getMaterialorderList() throws Exception;
 
 	public MaterialVO getMaterialContent(MaterialVO vo);
+
+	public List<MaterialVO> getTotalCount(Criteria cri);
+
+	public int getFindMaterialListCount(Map<String, Object> params);
+
+	public List<MaterialVO> findMaterialList(Map<String, Object> params);
 
 }
