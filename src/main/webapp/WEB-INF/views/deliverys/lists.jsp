@@ -54,7 +54,6 @@
 											<li><a class="dropdown-item">배송준비중</a></li>
 											<li><a class="dropdown-item">배송중</a></li>
 											<li><a class="dropdown-item">배송완료</a></li>
-											<li><a class="dropdown-item">배송완료</a></li>
 										</ul>
 									</div>
 								</th>
@@ -109,7 +108,7 @@
 									    </c:when>
 									    <c:when test="${vo.delivery_status eq '배송중'}">
 											<td class="align-middle text-center text-sm">
-												<button class="btn bg-gradient-info fs-6 mb-0 py-1 px-3" onclick="">배송 완료</button>
+												<button class="btn bg-gradient-info fs-6 mb-0 py-1 px-3" onclick="completeDelivery(${vo.delivery_id })">배송 완료</button>
 											</td>
 									    </c:when>    
 									    <c:otherwise>
@@ -274,5 +273,41 @@
     function openShippingForm(delivery_id) {
     	var newWindow = window.open('/deliverys/ships?delivery_id=' + delivery_id, '_blank', 'width=800,height=600');
     }
-
+	
+	// 배송완료 처리
+    function completeDelivery(delivery_id) {
+		
+    	// 현재 시간을 얻어오기 위한 함수
+        function getCurrentDateTime() {
+            var now = new Date();
+            return now.toLocaleString();
+        }
+    	
+        $.ajax({
+            url: "/deliverys/success", 
+            type: "POST",
+            data: { 
+            	"delivery_id": delivery_id,  
+            },
+            success: function(data) {
+            	var currentDateTime = getCurrentDateTime();
+            	swal({
+					title: "배송이 완료되었습니다.",
+					text: "배송 완료: " + currentDateTime,
+					icon: "success",
+				}).then(function(){
+					 window.location.reload();		 
+  				})		
+            	
+            },
+            error: function(error) {
+            	swal({
+					title: " ",
+					text: " ",
+					icon: "error",
+					buttons: "실패",
+   				})
+            }
+        });
+    }
 </script>

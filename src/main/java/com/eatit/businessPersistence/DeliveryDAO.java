@@ -29,4 +29,6 @@ public interface DeliveryDAO {
 
 	public void updateDeliveryStart(Map<String, Object> params);
 
+	public void updateDeliveryComplete(Integer delivery_id);
+
 }

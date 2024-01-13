@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.eatit.businessDomain.DeliveryVO;
@@ -128,5 +129,21 @@ public class DeliveryController {
 		oService.updateOrderStatusToDelivering(delivery_id);
 		
 		return "redirect:/warehouse/registClose";
+	}
+	
+	// 배송완료 - POST
+	@RequestMapping(value = "/success", method = RequestMethod.POST)
+	@ResponseBody
+	public String deliveryCompletePost(@RequestParam(name = "delivery_id") Integer delivery_id,
+									   RedirectAttributes rttr) {
+		
+		logger.debug("Controller: /deliverys/deliveryCompletePost(delivery_id)");
+		
+		dService.completeDelivery(delivery_id);
+		oService.completeOrder(delivery_id);
+		
+		rttr.addFlashAttribute("result", "deliveryComplete");
+		
+		return "redirect:/deliverys/lists";
 	}
 }

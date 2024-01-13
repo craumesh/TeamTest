@@ -103,7 +103,7 @@
 				</div>
 				<!-- 버튼 -->
 				<div class="text-center">
-					<button type="submit" class="btn btn-lg bg-gradient-primary btn-lg w-100 mt-4 mb-0">신청하기</button>
+					<button type="button" class="btn btn-lg bg-gradient-primary btn-lg w-100 mt-4 mb-0" onclick="registAlert()">신청하기</button>
 				</div>
 			</form>
 		</div>

@@ -28,4 +28,6 @@ public interface DeliveryService {
 
 	public void startDelivery(Map<String, Object> params);
 
+	public void completeDelivery(Integer delivery_id);
+
 }

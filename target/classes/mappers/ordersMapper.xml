@@ -273,5 +273,13 @@
 		SET o.order_status = '배송중', o.update_date = now()
 		WHERE d.delivery_id = #{delivery_id};
      </update>
+     
+     <!-- 처리 완료로 주문 상태 변경 -->
+     <update id="updateOrderComplete">
+     	UPDATE orders o
+		JOIN delivery d ON o.order_id = d.order_id
+		SET o.order_status = '처리완료', o.update_date = now()
+		WHERE d.delivery_id = #{delivery_id};
+     </update>
 	  	    
   </mapper>

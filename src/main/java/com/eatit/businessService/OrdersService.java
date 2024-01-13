@@ -57,4 +57,6 @@ public interface OrdersService {
 
 	public void updateOrderStatusToDelivering(Integer delivery_id);
 
+	public void completeOrder(Integer delivery_id);
+
 }
