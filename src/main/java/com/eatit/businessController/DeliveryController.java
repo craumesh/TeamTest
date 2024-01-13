@@ -116,11 +116,15 @@ public class DeliveryController {
 	// 배송 요청 - POST
 	@RequestMapping(value = "/ships", method = RequestMethod.POST)
 	public String deliveryRequestPOST(RedirectAttributes rttr, 
-			                          @RequestParam(name = "delivery_id") Integer delivery_id) {
+			                          @RequestParam(name = "delivery_id") Integer delivery_id,
+			                          @RequestParam(name = "employee_no") Integer employee_no,
+			                          Map<String, Object> params) {
 		
 		logger.debug("Controller: /deliverys/forms/deliveryRequestPOST(dvo, rttr)");
 		
-		dService.startDelivery(delivery_id);
+		params.put("delivery_id", delivery_id);
+		params.put("employee_no", employee_no);
+		dService.startDelivery(params);
 		oService.updateOrderStatusToDelivering(delivery_id);
 		
 		return "redirect:/warehouse/registClose";

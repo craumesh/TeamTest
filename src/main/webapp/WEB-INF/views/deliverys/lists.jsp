@@ -103,11 +103,15 @@
 									
 									<c:choose>
 									    <c:when test="${vo.delivery_status eq '출고완료'}">
-									
 											<td class="align-middle text-center text-sm">
 												<button class="btn bg-gradient-info fs-6 mb-0 py-1 px-3" onclick="openShippingForm(${vo.delivery_id })">배송 시작</button>
 											</td>
 									    </c:when>
+									    <c:when test="${vo.delivery_status eq '배송중'}">
+											<td class="align-middle text-center text-sm">
+												<button class="btn bg-gradient-info fs-6 mb-0 py-1 px-3" onclick="">배송 완료</button>
+											</td>
+									    </c:when>    
 									    <c:otherwise>
 									        <td class="align-middle text-center text-xs">	
 									        </td>

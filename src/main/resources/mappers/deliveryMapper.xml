@@ -97,8 +97,8 @@
   	</select>
   
  	<!-- 배송 시작 -->
- 	<update id="updateDeliveryStart">
- 		UPDATE delivery SET delivery_start_date = now(), update_date = NOW(), delivery_status ='배송중'
+ 	<update id="updateDeliveryStart" parameterType="map">
+ 		UPDATE delivery SET delivery_start_date = now(), update_date = NOW(), delivery_status ='배송중', confirm_employee_no = #{employee_no}
   		WHERE delivery_id = #{delivery_id} 
  	</update>
   

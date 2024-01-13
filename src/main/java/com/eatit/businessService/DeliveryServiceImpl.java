@@ -121,9 +121,9 @@ public class DeliveryServiceImpl implements DeliveryService {
 	}
 
 	@Override
-	public void startDelivery(Integer delivery_id) {
-		logger.debug("Service: startDelivery(delivery_id)");
-		ddao.updateDeliveryStart(delivery_id);
+	public void startDelivery(Map<String, Object> params) {
+		logger.debug("Service: startDelivery(params)");
+		ddao.updateDeliveryStart(params);
 	}
 
 }
