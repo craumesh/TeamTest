@@ -17,19 +17,26 @@
 				<div
 					class="ms-md-auto bg-white rounded p-2 d-flex align-items-center">
 					<div class="align-items-center d-flex flex-column">
+
 						<div class="input-group input-group-outline">
-							<label class="form-label">검색어를 입력해주세요</label> <input type="text"
+							<label class="form-label">검색어</label> <input type="text"
 								id="searchword" name="searchword" class="form-control"
-								value="${param.searchword }">
+								value="${param.searchword }"> <input type="hidden"
+								id="filter" name="filter" value="${param.filter }">
 						</div>
+
+
 					</div>
 					<div class="align-items-center d-flex flex-column py-1">
 						<button id="searchbtn"
 							class="btn btn-outline-primary btn-sm mb-0 py-1 ms-2">검색</button>
 					</div>
+
 				</div>
+
 			</div>
 		</div>
+
 
 
 		<!-- Materials Table -->
@@ -61,11 +68,11 @@
 							<td class="text-center">${materialList.warehouse_no}</td>
 							<td class="text-center">${materialList.employee_no}</td>
 							<td class="text-center">${materialList.material_checkDate }</td>
-						<!-- 수정, 삭제 기능 추가 -->
+							<!-- 수정, 삭제 기능 추가 -->
 						</tr>
 					</tbody>
 				</table>
-				
+
 				<div class="row">
 					<div class="col-sm-5">
 						<div class="ms-6">Showing ${pageVO.startPage } to
@@ -82,7 +89,8 @@
 								end="${pageVO.endPage }" step="1">
 								<li
 									${pageVO.cri.page == i ? "class='link-container active'" : "class='link-container'"}>
-									<a href="/Material/${listUrl }?page=${i }&searchword=${searchword}"
+									<a
+									href="/Material/${listUrl }?page=${i }&searchword=${searchword}"
 									${pageVO.cri.page == i ? "class='page-link rounded fw-bolder link-white'" : "class='page-link rounded fw-bolder'"}>${i }</a>
 								</li>
 							</c:forEach>
@@ -94,8 +102,8 @@
 						</ul>
 					</div>
 					<div class="col-sm-2">
-					<a href="/Material/MaterialOrderList"
-						class="btn bg-gradient-dark mt-3">발주서 작성하기</a>
+						<a href="/Material/MaterialOrderList"
+							class="btn bg-gradient-dark mt-3">발주서 작성하기</a>
 					</div>
 				</div>
 			</div>

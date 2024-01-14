@@ -106,11 +106,7 @@ public class MaterialDAOImpl implements MaterialDAO {
 		return 0;
 	}
 
-	@Override
-	public List<MaterialVO> selectMaterialList(Criteria cri) {
-		logger.debug("DAO(selectMaterialList) -> Mapper 호출");
-		return sqlSession.selectList(NAMESPACE+"selectMaterialList", cri);
-	}
+
 	
 	@Override
 	public void insertMaterialOrder(MaterialOrderVO pvo) {
@@ -149,7 +145,36 @@ public class MaterialDAOImpl implements MaterialDAO {
 	public int getTotalCount() {
 		return sqlSession.selectOne(NAMESPACE+"totalCount");
 	}
+
+	@Override
+	public List<materialaddVO> selectSearchmaterialadd(Criteria cri) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<MaterialOrderVO> selectSearchMaterialOrder(Criteria cri) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<materialaddVO> selectSearchMaterialAddList(Map<String, Object> params, Criteria cri, String searchword) {
+		return sqlSession.selectList(NAMESPACE+"selectSearchmaterialadd", cri);
+
+	}
+
+	@Override
+	public List<MaterialOrderVO> selectSearchMaterialorderList(Map<String, Object> params, Criteria cri,
+			String searchword) {
+		return sqlSession.selectList(NAMESPACE+"selectSearchMaterialOrder", cri);
+	}
 	
+	@Override
+	public List<MaterialVO> selectMaterialList(Criteria cri) {
+		logger.debug("DAO(selectMaterialList) -> Mapper 호출");
+		return sqlSession.selectList(NAMESPACE+"selectMaterialList", cri);
+	}
 	
 
 }

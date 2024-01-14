@@ -56,8 +56,6 @@
 								<thead>
 									<tr>
 										<th class="text-start text-secondary font-weight-bolder col-1">거래처</th>
-										<th class="text-start text-secondary font-weight-bolder col-1">회사
-											정보</th>
 										<th
 											class="text-center text-secondary font-weight-bolder col-1">주소</th>
 									</tr>
@@ -103,7 +101,7 @@
 							<table class="table align-items-center mb-0">
 								<thead>
 									<tr>
-										<th class="text-start text-secondary font-weight-bolder col-1">발주자명</th>
+										<th class="text-start text-secondary font-weight-bolder col-1">발주자사번</th>
 										<th class="text-start text-secondary font-weight-bolder col-1">자재</th>
 										<th class="text-start text-secondary font-weight-bolder col-1">수량</th>
 									</tr>
@@ -113,7 +111,7 @@
 										<td>
 											<div class="input-group input-group-dynamic mb-4">
 												<input type="text" name="employee_no" class="form-control"
-													placeholder="발주자명" aria-label="발주자명"
+													placeholder="발주자사번" aria-label="발주자사번"
 													aria-describedby="basic-addon1">
 											</div>
 										</td>

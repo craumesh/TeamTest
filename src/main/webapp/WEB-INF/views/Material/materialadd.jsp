@@ -15,25 +15,9 @@
 				<h3
 					class="text-white text-capitalize ps-5 align-items-center mb-0 py-1">원자재
 					입/출고 관리</h3>
-				<div
-					class="ms-md-auto bg-white rounded p-2 d-flex align-items-center">
-					<div class="align-items-center d-flex flex-column">
-						<div class="input-group input-group-outline">
-							<label class="form-label">검색어를 입력하세요</label> <input type="text"
-								id="searchword" name="searchword" class="form-control"
-								value="${param.searchword }">
-						</div>
-					</div>
-					<div class="align-items-center d-flex flex-column py-1">
-						<button id="searchbtn"
-							class="btn btn-outline-primary btn-sm mb-0 py-1 ms-2"
-							onclick="location.href='/Material/searchlist?pageType=add'">검색</button>
-					</div>
-				</div>
-			</div>
-		</div>
 
-		<!-- Materials Table -->
+				</div>
+						<!-- Materials Table -->
 		<div class="my-3 p-3 bg-white rounded shadow-sm">
 			<h6 class="border-bottom border-gray pb-2 mb-0">입/출고 목록</h6>
 			<div class="table-responsive">
@@ -99,6 +83,11 @@
 				</div>
 			</div>
 		</div>
+			</div>
+		</div>
+		
+
+
 
 	</div>
 </div>
@@ -191,20 +180,20 @@
 
 	function popup() {
 		const width = 900;
-		const height = 900;
-		// const left = 500;
-		// const top = 500;
+		const height = 400;
+		 const left = 500;
+		 const top = 500;
 
-		// 현재 창의 중앙 좌표 계산
-		//	const left = (window.innerWidth - width) / 2
-		//			+ window.screenLeft;
-		//				const top = (window.innerHeight - height) / 2
-		//		+ window.screenTop;
+// 		// 현재 창의 중앙 좌표 계산
+// 			const left = (window.innerWidth - width) / 2
+// 					+ window.screenLeft;
+// 						const top = (window.innerHeight - height) / 2
+// 				+ window.screenTop;
 
 		console.log(`width=${width}`);
 		console.log(width);
 		// 팝업 창 열기
 		window.open("/Material/Material", "popup",
-				" width = 900px, height = 900px, left = 900px, top = 900px ");
+				" width = 900px, height = 400PX, left = 500px, top = 500px ");
 	}
 </script>

@@ -41,8 +41,12 @@ public interface MaterialService {
 	// 검색 조건에 맞는 재료 목록을 검색합니다.
 	public List<MaterialVO> getSearchList(Map<String, Object> params, Criteria cri, String searchword);
 
+	public List<materialaddVO> getMaterialaddList(Map<String, Object> params, Criteria cri, String searchword);
+
+	public List<MaterialOrderVO> getMaterialorderList(Map<String, Object> params, Criteria cri, String searchword);
+
 	// 검색 조건에 맞는 재료의 총 개수를 반환합니다.
-	public int getSearchCount(String searchword);
+	public int getSearchCount(Map<String, Object> params);
 
 	// 등록된 재료의 총 개수를 반환합니다.
 	public int getRegCount();
@@ -69,5 +73,7 @@ public interface MaterialService {
 	public int getFindMaterialListCount(Map<String, Object> params);
 
 	public List<MaterialVO> findMaterialList(Map<String, Object> params);
+
+	public int getSearchCount(String searchword);
 
 }

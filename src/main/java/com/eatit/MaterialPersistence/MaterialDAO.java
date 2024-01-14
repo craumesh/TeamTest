@@ -31,9 +31,19 @@ public interface MaterialDAO {
     
     // 특정 조건에 맞는 등록된 원자재 목록을 조회합니다.
  	public List<MaterialVO> selecMaterialList(Criteria cri);
+ 	
+ 	public List<materialaddVO> selectSearchmaterialadd(Criteria cri);
         
+ 	public List<MaterialOrderVO> selectSearchMaterialOrder(Criteria cri);
+    
+ 	
     // 검색 조건에 맞는 원자재 목록을 조회합니다.
     public List<MaterialVO> selectSearchList(Map<String, Object> params, Criteria cri, String searchword);
+    
+    public List<materialaddVO> selectSearchMaterialAddList(Map<String, Object> params, Criteria cri, String searchword);
+    
+    public List<MaterialOrderVO> selectSearchMaterialorderList(Map<String, Object> params, Criteria cri, String searchword);
+    
     
     // 검색된 원자재의 총 개수를 반환합니다.
     public int getSearchCount(String searchword);

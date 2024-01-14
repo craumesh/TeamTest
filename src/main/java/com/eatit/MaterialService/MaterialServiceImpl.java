@@ -65,7 +65,21 @@ public class MaterialServiceImpl implements MaterialService {
 		logger.debug("Service(getSearchList) -> DAO 호출");
 		return materialDAO.selectSearchList(params, cri, searchword);
 	}
+	
+	@Override
+	public List<materialaddVO> getMaterialaddList(Map<String, Object> params, Criteria cri, String searchword) {
+		logger.debug("Service(getMaterialaddList) -> DAO 호출");
+		return materialDAO.selectSearchMaterialAddList(params, cri, searchword);
+	}
+	
 
+	@Override
+	public List<MaterialOrderVO> getMaterialorderList(Map<String, Object> params, Criteria cri, String searchword) {
+		logger.debug("Service(getMaterialorderList) -> DAO 호출");
+		return materialDAO.selectSearchMaterialorderList(params, cri, searchword);
+	}
+	
+	
 	@Override
 	public void deleteMaterial(String string) {
 		// TODO Auto-generated method stub
@@ -152,6 +166,12 @@ public class MaterialServiceImpl implements MaterialService {
 	public List<MaterialVO> findMaterialList(Map<String, Object> params) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public int getSearchCount(Map<String, Object> params) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 

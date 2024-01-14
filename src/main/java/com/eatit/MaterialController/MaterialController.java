@@ -70,92 +70,27 @@ public class MaterialController {
 
 	@RequestMapping(value = "/searchlist", method = RequestMethod.GET)
 	public String searchListGET(Model model, Map<String, Object> params, Criteria cri,
-			@ModelAttribute("searchword") String searchword) {
-		logger.debug("/Material/searchlist 호출 -> searchListGET() 실행");
-		PageVO pageVO = new PageVO();
-		pageVO.setCri(cri);
-		pageVO.setTotalCount(MaterialService.getSearchCount(searchword));
-
-		params.put("cri", cri);
-		params.put("searchword", searchword);
-
-		model.addAttribute("searchword", searchword);
-		model.addAttribute("listUrl", "searchlist");
-		model.addAttribute("pageVO", pageVO);
-		model.addAttribute("list", MaterialService.getSearchList(params, cri, searchword));
+	        @ModelAttribute("searchword") String searchword,
+	        @RequestParam(name = "page", required = false) String page) {
+	    
+	    logger.debug("/Material/searchlist 호출 -> searchListGET() 실행");
+	    PageVO pageVO = new PageVO();
+	    pageVO.setCri(cri);
+	    
+	    params.put("cri", cri);
+	    params.put("searchword", searchword);
+	  //  params.put("filter", filter);
+	    
+	    pageVO.setTotalCount(MaterialService.getSearchCount(params));
+	    
+	    model.addAttribute("page", page);
+	    model.addAttribute("searchword", searchword);
+	  //  model.addAttribute("filter", filter);
+	    model.addAttribute("listUrl", "searchlist");
+	    model.addAttribute("pageVO", pageVO);
+	    model.addAttribute("list", MaterialService.getSearchList(params, cri, page));
 	    return "/Material/MaterialList";
 	}
-	
-	@RequestMapping(value = "/searchlist", method = RequestMethod.GET, params = "pageType=add")
-	public String searchListToAddPage(Model model, Map<String, Object> params, Criteria cri,
-	        @ModelAttribute("searchword") String searchword) {
-	    logger.debug("/Material/searchlist 호출 -> searchListToAddPage() 실행");
-	    PageVO pageVO = new PageVO();
-	    pageVO.setCri(cri);
-	    pageVO.setTotalCount(MaterialService.getSearchCount(searchword));
-
-	    params.put("cri", cri);
-	    params.put("searchword", searchword);
-
-	    model.addAttribute("searchword", searchword);
-	    model.addAttribute("listUrl", "searchlist");
-	    model.addAttribute("pageVO", pageVO);
-	    model.addAttribute("list", MaterialService.getSearchList(params, cri, searchword));
-
-	    return "/Material/add"; // add 페이지로 이동
-	}
-
-	@RequestMapping(value = "/searchlist", method = RequestMethod.GET, params = "pageType=MaterialOrderList")
-	public String searchListToMaterialOrderListPage(Model model, Map<String, Object> params, Criteria cri,
-	        @ModelAttribute("searchword") String searchword) {
-	    logger.debug("/Material/searchlist 호출 -> searchListToMaterialOrderListPage() 실행");
-	    PageVO pageVO = new PageVO();
-	    pageVO.setCri(cri);
-	    pageVO.setTotalCount(MaterialService.getSearchCount(searchword));
-
-	    params.put("cri", cri);
-	    params.put("searchword", searchword);
-
-	    model.addAttribute("searchword", searchword);
-	    model.addAttribute("listUrl", "searchlist");
-	    model.addAttribute("pageVO", pageVO);
-	    model.addAttribute("list", MaterialService.getSearchList(params, cri, searchword));
-
-	    return "/Material/MaterialOrderList"; // MaterialOrderList 페이지로 이동
-	}
-
-	
-
-	
-//	@RequestMapping(value = "/searchlist", method = RequestMethod.GET)
-//    public String searchListGET(Model model, Map<String, Object> params, Criteria cri,
-//                                @ModelAttribute("searchword") String searchword,
-//                                @RequestParam(name = "pageType", required = false) String pageType) {
-//        logger.debug("/Material/searchlist 호출 -> searchListGET() 실행");
-//        PageVO pageVO = new PageVO();
-//        pageVO.setCri(cri);
-//        pageVO.setTotalCount(MaterialService.getSearchCount(searchword));
-//
-//        params.put("cri", cri);
-//        params.put("searchword", searchword);
-//
-//        model.addAttribute("searchword", searchword);
-//        model.addAttribute("listUrl", "searchlist");
-//        model.addAttribute("pageVO", pageVO);
-//        model.addAttribute("list", MaterialService.getSearchList(params, cri, searchword));
-//
-//        // 각 페이지로 이동
-//        if ("add".equals(pageType)) {
-//            // add 페이지로 이동
-//            return "redirect:/Material/add";
-//        } else if ("MaterialOrderList".equals(pageType)) {
-//            // MaterialOrderList 페이지로 이동
-//            return "redirect:/Material/MaterialOrderList";
-//        } else {
-//            // 기본 페이지로 이동 (list 페이지 등)
-//            return "redirect:/Material/MaterialList";
-//        }
-//    }
 
 	
 	
