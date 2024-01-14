@@ -29,5 +29,7 @@ public interface DeliveryService {
 	public void startDelivery(Map<String, Object> params);
 
 	public void completeDelivery(Integer delivery_id);
-
+	
+	public void completeRelease(Integer order_id);
+	
 }

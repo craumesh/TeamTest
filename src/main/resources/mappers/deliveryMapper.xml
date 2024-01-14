@@ -114,29 +114,13 @@
   		WHERE delivery_id = #{delivery_id} 
  	</update>
   
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
+ 	<!-- 출고 완료 -->
+ 	<update id="updateReleaseComplete">
+ 		UPDATE delivery d
+		JOIN orders o ON d.order_id = o.order_id
+		SET d.update_date = NOW(),
+		    d.delivery_status = '출고완료'
+		WHERE o.order_id = #{order_id};
+ 	</update>
   
   </mapper>

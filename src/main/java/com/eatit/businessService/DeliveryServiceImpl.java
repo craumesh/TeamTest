@@ -132,4 +132,10 @@ public class DeliveryServiceImpl implements DeliveryService {
 		ddao.updateDeliveryComplete(delivery_id);
 	}
 
+	@Override
+	public void completeRelease(Integer order_id) {
+		logger.debug("Service: completeRelease(order_id)");
+		ddao.updateReleaseComplete(order_id);
+	}
+
 }

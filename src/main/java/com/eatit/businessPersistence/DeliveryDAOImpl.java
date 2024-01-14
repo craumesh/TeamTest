@@ -85,5 +85,11 @@ public class DeliveryDAOImpl implements DeliveryDAO {
 		logger.debug("DAO: updateDeliveryComplete(delivery_id)");
 		SqlSession.update(NAMESPACE + ".updateDeliveryComplete", delivery_id);
 	}
+
+	@Override
+	public void updateReleaseComplete(Integer order_id) {
+		logger.debug("DAO: updateReleaseComplete(order_id)");
+		SqlSession.update(NAMESPACE + ".updateReleaseComplete", order_id);
+	}
 	
 }

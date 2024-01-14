@@ -31,4 +31,6 @@ public interface DeliveryDAO {
 
 	public void updateDeliveryComplete(Integer delivery_id);
 
+	public void updateReleaseComplete(Integer order_id);
+
 }
