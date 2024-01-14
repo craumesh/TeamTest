@@ -231,13 +231,13 @@ public class OrdersController {
 	
 	// 발주서 삭제 - POST
 	@RequestMapping(value = "/cancelForm", method = RequestMethod.POST)
-	public String cancelFormPOST(@RequestParam("order_id")int order_id) {
+	@ResponseBody
+	public void cancelFormPOST(@RequestParam("order_id")int order_id) {
 		
 		logger.debug("/orders/cancelFormPOST() 호출");
 		
 		// 서비스 - 발주서 삭제 동작 호출(DELETE)
 		oService.cancelForm(order_id);
 		
-		return "redirect:/orders/orderList";
 	}
 }

@@ -16,6 +16,9 @@
 			<a class="btn bg-gradient-dark mb-0" href="/orders/lists">
 				<i class="material-icons text-sm">more_horiz</i> 목록으로
 			</a>
+			<a id="cancelBtn" class="btn bg-gradient-danger mb-0" onclick="deleteForm(${ordersVO.order_id })">
+				<i class="material-icons text-sm">delete</i> 취소하기
+			</a>
 		</div>
 		<div class="card-body">
 			<!-- 폼테그 시작  -->
@@ -220,7 +223,12 @@
 	        var quantity = $(this).val();
 
             if (quantity < 0) {
-                alert('수량은 음수일 수 없습니다.');
+            	swal({
+    				title: "1개 이상 주문이 가능합니다.",
+    				text: "음수는 입력할 수 없습니다.",
+    				icon: "error",
+    				buttons: "실패",
+    			})
                 $(this).val(0);
             }else {
                 var price = parseFloat($("#prdPrice").text().replace(/[^0-9.-]+/g, ""));
@@ -232,6 +240,36 @@
 	    });
 	
     });
+    
+    function deleteForm(order_id) {
+    	
+        $.ajax({
+            url: "/orders/cancelForm", 
+            type: "POST",
+            data: { 
+            	"order_id": order_id,  
+            },
+            success: function(data) {
+            	swal({
+					title: "주문이 취소되었습니다.",
+					text: "주문 번호: " + order_id,
+					icon: "success",
+					buttons: "확인",
+				}).then(function(){
+					 location.href = "/orders/lists";
+  				})		
+            	
+            },
+            error: function(error) {
+            	Swal({
+            		 title: "주문 취소 실패",
+                     text: "주문을 취소하는 중에 오류가 발생했습니다.",
+                     icon: "error",
+                     confirmButtonText: "확인"
+   				});
+            }
+        });
+    }
     
     // 유효성 검사
     function check() {

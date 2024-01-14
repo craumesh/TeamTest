@@ -146,10 +146,6 @@
 						</tbody>												
 					</table>
 				</div>
-				<div class="text-end">
-	                <button type="button" class="btn bg-gradient-dark py-2" onclick="popup();">주문서 작성하기</button>
-	                <button type="button" id="deleteBtn" class="btn bg-gradient-dark py-2 me-3" >주문서 삭제</button>
-           		</div>
 			</div>
 			<!-- 페이징 처리 -->			
 			<div class="row">

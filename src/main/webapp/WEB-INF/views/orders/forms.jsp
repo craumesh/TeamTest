@@ -212,7 +212,12 @@
 	        var quantity = $(this).val();
 
             if (quantity < 0) {
-                alert('수량은 음수일 수 없습니다.');
+            	swal({
+    				title: "1개 이상 주문이 가능합니다.",
+    				text: "음수는 입력할 수 없습니다.",
+    				icon: "error",
+    				buttons: "실패",
+    			})
                 $(this).val(0);
             }else {
                 var price = parseFloat($("#prdPrice").text().replace(/[^0-9.-]+/g, ""));
