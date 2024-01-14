@@ -168,4 +168,10 @@ public class OrdersServiceImpl implements OrdersService {
 		odao.updateOrderComplete(delivery_id);
 	}
 
+	@Override
+	public void updateOrderStatusToReleaseComplete(Integer order_id) {
+		logger.debug("Service: updateOrderStatusToReleaseComplete(order_id)");
+		odao.updateOrderStatusToReleaseComplete(order_id);
+	}
+
 }

@@ -47,7 +47,8 @@
 											<li><a class="dropdown-item">신청완료</a></li>
 											<li><a class="dropdown-item">생산중</a></li>
 											<li><a class="dropdown-item">생산완료</a></li>
-											<li><a class="dropdown-item">배송준비중</a></li>
+											<li><a class="dropdown-item">출고준비중</a></li>
+											<li><a class="dropdown-item">출고완료</a></li>
 											<li><a class="dropdown-item">배송중</a></li>
 											<li><a class="dropdown-item">배송완료</a></li>
 											<li><a class="dropdown-item">처리완료</a></li>
@@ -265,7 +266,8 @@
 	            case "신청완료": $(this).find('td:last-child #status-badge').addClass("bg-gradient-primary"); break;
 	            case "생산중": $(this).find('td:last-child #status-badge').addClass("bg-gradient-warning"); break;
 	            case "생산완료": $(this).find('td:last-child #status-badge').addClass("bg-gradient-warning"); break;
-	            case "배송준비중": $(this).find('td:last-child #status-badge').addClass("bg-gradient-info"); break;
+	            case "출고준비중": $(this).find('td:last-child #status-badge').addClass("bg-gradient-info"); break;
+	            case "출고완료": $(this).find('td:last-child #status-badge').addClass("bg-gradient-info"); break;
 	            case "배송중": $(this).find('td:last-child #status-badge').addClass("bg-gradient-info"); break;
 	            case "배송완료": $(this).find('td:last-child #status-badge').addClass("bg-gradient-info"); break;
 	            case "처리완료": $(this).find('td:last-child #status-badge').addClass("bg-gradient-success"); break;

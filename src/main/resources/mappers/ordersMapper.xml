@@ -54,7 +54,8 @@
 			  <when test = "filter == '신청완료'"> AND o.order_status = '신청완료' </when>
 			  <when test = "filter == '생산중'"> AND o.order_status = '생산중' </when>
 			  <when test = "filter == '생산완료'"> AND o.order_status = '생산완료' </when>
-			  <when test = "filter == '배송준비중'"> AND o.order_status = '배송준비중' </when>
+			  <when test = "filter == '출고준비중'"> AND o.order_status = '출고준비중' </when>
+			  <when test = "filter == '출고완료'"> AND o.order_status = '출고완료' </when>
 			  <when test = "filter == '배송중'"> AND o.order_status = '배송중' </when>
 			  <when test = "filter == '배송완료'"> AND o.order_status = '배송완료' </when>
 			  <when test = "filter == '처리완료'"> AND o.order_status = '처리완료' </when>
@@ -87,7 +88,8 @@
 			  <when test = "filter == '신청완료'"> AND o.order_status = '신청완료' </when>
 			  <when test = "filter == '생산중'"> AND o.order_status = '생산중' </when>
 			  <when test = "filter == '생산완료'"> AND o.order_status = '생산완료' </when>
-			  <when test = "filter == '배송준비중'"> AND o.order_status = '배송준비중' </when>
+			  <when test = "filter == '출고준비중'"> AND o.order_status = '출고준비중' </when>
+			  <when test = "filter == '출고완료'"> AND o.order_status = '출고완료' </when>
 			  <when test = "filter == '배송중'"> AND o.order_status = '배송중' </when>
 			  <when test = "filter == '배송완료'"> AND o.order_status = '배송완료' </when>
 			  <when test = "filter == '처리완료'"> AND o.order_status = '처리완료' </when>
@@ -285,6 +287,12 @@
 		JOIN delivery d ON o.order_id = d.order_id
 		SET o.order_status = '처리완료', o.update_date = now()
 		WHERE d.delivery_id = #{delivery_id};
+     </update>
+     
+     <!-- 출고 완료로 주문 상태 변경 -->
+     <update id="updateOrderStatusToReleaseComplete">
+     	UPDATE orders SET order_status = '출고완료', update_date = now()
+  		WHERE order_id = #{order_id} 
      </update>
 	  	    
   </mapper>

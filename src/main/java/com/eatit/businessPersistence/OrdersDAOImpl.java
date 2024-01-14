@@ -169,4 +169,10 @@ public class OrdersDAOImpl implements OrdersDAO {
 		SqlSession.update(NAMESPACE + ".updateOrderComplete", delivery_id);
 	}
 
+	@Override
+	public void updateOrderStatusToReleaseComplete(Integer order_id) {
+		logger.debug("DAO : updateOrderStatusToReleaseComplete(order_id)");
+		SqlSession.update(NAMESPACE + ".updateOrderStatusToReleaseComplete", order_id);
+	}
+
 }
