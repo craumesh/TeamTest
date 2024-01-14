@@ -233,7 +233,11 @@
 		        	$("#machinelist").append(newSelect);	
 		            $("#order_id").text(data.Detail.order_id);
 		            $("#product_name").text(data.Detail.product_name);
-		            $("#quantity").text(data.Detail.quantity);
+		            var originalQuantity = parseFloat(data.Detail.quantity);
+	                   if (!isNaN(originalQuantity)) {
+	                 var increasedQuantity = originalQuantity * 1.2;
+	                 $("#quantity").text(increasedQuantity);
+	               }
 		            $("#recipe").text(data.recipe);
 		            
 		            $("#openmodalRequest").modal('show');
@@ -246,7 +250,7 @@
 
 		                for (var key in recipe) {
 		                    var value = recipe[key] * data.Detail.quantity;
-		                    var houseValue = data.house[key];
+ 		                    var houseValue = data.house[key];
 
 		                    if (houseValue < value) {
 		                        enableButton = false;

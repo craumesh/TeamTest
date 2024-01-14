@@ -406,10 +406,17 @@ public class WarehouseServiceImpl implements WarehouseService {
 				// pdwVO에 set
 				pdwVO.setTotal(totalQuantity);
 				
-				// 생산 창고에 정보 insert
-				wDao.insertStockIntoPoductionWarehouse(pdwVO);
-				logger.debug("생산 창고에 정보 insert 완료!");
+				int NameCheck = wDao.selectNameCheck(vo);
 				
+				if(NameCheck >= 1) {
+					pdwVO.setTotal(pdwVO.getTotal()+wDao.selectNameTotal(vo).getTotal());
+					wDao.updateStockIntoPoductionWarehouse(pdwVO);
+					logger.debug("생산 창고에 정보 update 완료!");
+				} else {
+					// 생산 창고에 정보 insert
+					wDao.insertStockIntoPoductionWarehouse(pdwVO);
+					logger.debug("생산 창고에 정보 insert 완료!");
+				}
 				// 처리 상태 변경 - '대기중' => '승인'  
 				wDao.updateStockInfoStatusWhenApprovalSuccess(vo);
 				

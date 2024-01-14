@@ -419,6 +419,12 @@
   		VALUES(#{product_name},#{unit},#{unit_quantity},#{total})
   	</insert>
   	
+  	<update id="updateStockIntoPoductionWarehouse">
+  		UPDATE production_warehouse
+  		SET total = #{total}
+  		WHERE product_name = #{product_name}
+  	</update>
+  	
   	<delete id="deleteStock" parameterType="java.util.Map">
   		DELETE FROM stock
   		WHERE identify_code IN
@@ -426,6 +432,18 @@
   				#{code}
   			</foreach>
   	</delete>
+  	
+  	<select id="selectNameCheck" resultType="int">
+  		SELECT COUNT(*)
+  		FROM production_warehouse
+  		WHERE product_name = #{product_name}
+  	</select>
+  	
+  	<select id="selectNameTotal" resultType="production_warehouseVO">
+  		SELECT total
+  		FROM production_warehouse
+  		WHERE product_name = #{product_name}
+  	</select>
   	
   </mapper>	  
   

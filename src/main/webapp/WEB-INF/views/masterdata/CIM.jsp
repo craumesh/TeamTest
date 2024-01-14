@@ -467,6 +467,8 @@ $(document).ready(function() {
 
 	    $("<button>").attr("type", "button").addClass("btn bg-gradient-warning btn-sm fs-6 py-0 px-2 mb-0 removebtn").text("-").appendTo(buttonTd);
 
+	    applyValidation(newRow.find('.requiredGroup'));
+	    
 	    $("#edit-table tbody").append(newRow);
 	}
 
@@ -516,5 +518,17 @@ $(document).ready(function() {
     function closeEditModal() {
         document.getElementById("editModal").style.display = "none";
         location.reload();
+    }
+    
+    
+    function applyValidation(element) {
+        element.on("input", function(e) {
+            var value = $(this).val();
+            if (!/^[1-9]\d*$/.test(value)) {
+                $(this).val($(this).data("prevValue") || "");
+            } else {
+                $(this).data("prevValue", value);
+            }
+        });
     }
 </script>

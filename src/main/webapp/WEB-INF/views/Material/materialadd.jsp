@@ -48,8 +48,8 @@
 
 				<div class="row">
 					<div class="col-sm-5">
-						<div class="ms-6">${pageVO.startPage }/${pageVO.endPage }of
-							page</div>
+<%-- 						<div class="ms-6">${pageVO.startPage }/${pageVO.endPage }of --%>
+<!-- 							page</div> -->
 					</div>
 					<div class="col-sm-5 mb-3">
 						<ul class="pagination">

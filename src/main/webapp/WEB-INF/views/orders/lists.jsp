@@ -120,7 +120,7 @@
 				                        <p class="text-xs text-secondary mb-0">${vo.company_tel }</p>
                       				</td>             				
 	                      			<c:choose>
-									    <c:when test="${vo.order_status eq '신청완료'}">
+									    <c:when test="${vo.order_status eq '신청완료' or vo.order_status eq '생산중'}">
 									        <c:choose>
 									            <c:when test="${vo.quantity <= vo.stock_quantity}">
 									                <td class="align-middle text-center text-sm">

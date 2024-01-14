@@ -254,6 +254,12 @@ public class WarehouseDAOImpl implements WarehouseDAO {
 	public void insertStockIntoPoductionWarehouse(production_warehouseVO pdwVO) {
 		sqlSession.insert(NAMESPACE+"insertStockIntoPoductionWarehouse",pdwVO);
 	}
+	
+	@Override
+	// 재고를 생산 창고 테이블에 insert
+	public void updateStockIntoPoductionWarehouse(production_warehouseVO pdwVO) {
+		sqlSession.update(NAMESPACE+"updateStockIntoPoductionWarehouse",pdwVO);
+	}
 
 	@Override
 	public void deleteStock(String[] identifyCode) {
@@ -261,6 +267,15 @@ public class WarehouseDAOImpl implements WarehouseDAO {
 		Map<String,Object> idCodeMap = new HashMap<String, Object>();
 		idCodeMap.put("identifyCode", identifyCode);
 		sqlSession.delete(NAMESPACE+"deleteStock", idCodeMap);
+	}
+
+	@Override
+	public int selectNameCheck(StockVO vo) {
+		return sqlSession.selectOne(NAMESPACE+"selectNameCheck", vo);
+	}
+	@Override
+	public production_warehouseVO selectNameTotal(StockVO vo) {
+		return sqlSession.selectOne(NAMESPACE+"selectNameTotal", vo);
 	}
 	
 	

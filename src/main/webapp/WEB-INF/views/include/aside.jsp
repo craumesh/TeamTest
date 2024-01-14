@@ -35,10 +35,10 @@
  		    </button>
 	  		<ul class="dropdown-menu w-80" aria-labelledby="materialDropdownMenuButton">
 			    <li>
-			    	<a class="dropdown-item fs-6" href="/Material/materialadd">자재 입출고 관리</a>
+			    	<a class="dropdown-item fs-6" href="/Material/MaterialOrderList">자재 발주 내역</a>
 			    </li>
 			    <li>
-			    	<a class="dropdown-item fs-6" href="/Material/MaterialOrderList">자재 발주 내역</a>
+			    	<a class="dropdown-item fs-6" href="/Material/materialadd">자재 입출고 관리</a>
 			    </li>
 			    <li>
 			    	<a class="dropdown-item fs-6" href="/Material/list">자재 정보 관리</a>

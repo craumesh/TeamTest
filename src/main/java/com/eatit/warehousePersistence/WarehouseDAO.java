@@ -117,7 +117,14 @@ public interface WarehouseDAO {
 	// 재고를 생산 창고 테이블에 insert
 	public void insertStockIntoPoductionWarehouse(production_warehouseVO pdwVO);
 	
+	// 재고를 생산 창고 테이블에 update
+	public void updateStockIntoPoductionWarehouse(production_warehouseVO pdwVO);
+	
 	// 창고 재고 삭제
 	public void deleteStock(String[] identifyCode);
+	
+	// 생산 창고 내부 값 확인
+	public int selectNameCheck(StockVO vo);
 
+	public production_warehouseVO selectNameTotal(StockVO vo);
 }
