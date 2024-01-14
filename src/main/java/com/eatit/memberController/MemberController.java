@@ -1,7 +1,5 @@
 package com.eatit.memberController;
 
-import java.util.Arrays;
-
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
@@ -119,6 +117,7 @@ public class MemberController {
    public String profilePost(MemberVO vo, @RequestParam("prev-url") String prev_url) {
       logger.debug("/profile 호출 -> profilePOST() 실행");
       mService.memberUpdateProfile(vo); 
+      logger.debug(""+prev_url);
       
       return "redirect:/"+prev_url.substring(22);
    }

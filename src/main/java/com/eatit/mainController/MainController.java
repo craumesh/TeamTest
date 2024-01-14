@@ -1,6 +1,5 @@
 package com.eatit.mainController;
 
-import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
@@ -8,12 +7,10 @@ import javax.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.eatit.businessDomain.OrdersVO;
 import com.eatit.mainService.mainService;
 
 @Controller
