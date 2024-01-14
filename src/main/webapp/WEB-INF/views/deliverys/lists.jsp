@@ -32,11 +32,6 @@
 					<table id="order-table" class="table align-items-center mb-0">					
 						<thead>
 							<tr>
-								<th class="ps-5 w-1">
-									<div class="form-check form-check-info text-start ps-0">
-										<input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" data-gtm-form-interact-field-id="0">
-									</div>
-								</th>
 								<th class="text-center text-secondary font-weight-bolder col-1">배송 번호</th>
 								<th class="text-center text-secondary font-weight-bolder col-1">제품 정보</th>
 								<th class="text-center text-secondary font-weight-bolder col-1">주문 수량</th>
@@ -62,11 +57,6 @@
 						<tbody>
 							<c:forEach var="vo" items="${deliveryVOList }">				
 								<tr>
-									<td class="text-uppercase text-secondary text-s font-weight-bolder opacity-7 ps-5">
-										<div class="form-check form-check-info text-start ps-0">
-											<input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" data-gtm-form-interact-field-id="0">
-										</div>
-									</td>
 									<td class="align-middle text-center identify-no modal-act">
                       					<a>
                    							<span class="text-secondary font-weight-bold">${vo.delivery_id }</span>

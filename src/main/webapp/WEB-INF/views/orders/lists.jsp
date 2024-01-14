@@ -32,11 +32,6 @@
 					<table id="order-table" class="table align-items-center mb-0">					
 						<thead>
 							<tr>
-								<th class="ps-5 w-1">
-									<div class="form-check form-check-info text-start ps-0">
-										<input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" data-gtm-form-interact-field-id="0">
-									</div>
-								</th>
 								<th class="text-center text-secondary font-weight-bolder col-1">주문 번호</th>
 								<th class="text-center text-secondary font-weight-bolder col-1">제품 정보</th>
 								<th class="text-center text-secondary font-weight-bolder col-1">재고량</th>
@@ -65,11 +60,6 @@
 						<tbody>
 							<c:forEach var="vo" items="${ordersVOList }">				
 								<tr>
-									<td class="text-uppercase text-secondary text-s font-weight-bolder opacity-7 ps-5">
-										<div class="form-check form-check-info text-start ps-0">
-											<input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" data-gtm-form-interact-field-id="0">
-										</div>
-									</td>
 									<td class="align-middle text-center identify-no modal-act">
                       					<a>
                    							<span class="text-secondary font-weight-bold">${vo.order_id }</span>
@@ -156,6 +146,10 @@
 						</tbody>												
 					</table>
 				</div>
+				<div class="text-end">
+	                <button type="button" class="btn bg-gradient-dark py-2" onclick="popup();">주문서 작성하기</button>
+	                <button type="button" id="deleteBtn" class="btn bg-gradient-dark py-2 me-3" >주문서 삭제</button>
+           		</div>
 			</div>
 			<!-- 페이징 처리 -->			
 			<div class="row">
