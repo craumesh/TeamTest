@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.eatit.machineDomain.machineVO;
 import com.eatit.mainDomain.Criteria;
+import com.eatit.masterdataDomain.CompanyVO;
 import com.eatit.masterdataDomain.MasterdataVO;
 
 public interface MasterDataService {
@@ -92,4 +93,20 @@ public interface MasterDataService {
 	public void editRequires(MasterdataVO vo);
 	
 	public void delRequires(MasterdataVO vo);
+
+	public MasterdataVO getqContent(MasterdataVO pvo);
+
+	public List<CompanyVO> CompanyIMListPage(Criteria cri);
+
+	public int totalCompanyCount();
+
+	public List<CompanyVO> searchCompanyIM(String keyword);
+
+	public int searchCompanyIMCount();
+
+	public void companyInsert(CompanyVO cvo);
+
+	public int CompanyIMUpdate(CompanyVO cvo);
+
+	public void CompanyIMDelete(int company_no);
 }

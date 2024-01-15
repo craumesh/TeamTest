@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.eatit.machineDomain.machineVO;
 import com.eatit.mainDomain.Criteria;
+import com.eatit.masterdataDomain.CompanyVO;
 import com.eatit.masterdataDomain.MasterdataVO;
 import com.eatit.masterdataPersistence.MasterDataDAO;
 import com.eatit.masterdataService.MasterDataService;
@@ -60,6 +61,27 @@ public class MasterDataServiceImpl implements MasterDataService {
 	public void productDelete(int product_no, String product_code) throws Exception {
 		mddao.deleteProduct(product_no, product_code);
 
+	}
+   
+	
+	
+	@Override
+	public int totalCompanyCount() {
+		
+		return mddao.getCompanyIMCount();
+	}
+	
+	@Override
+	public List<CompanyVO> CompanyIMListPage(Criteria cri) {
+		
+		return mddao.getCompanyListPage(cri);
+	}
+	
+	
+	@Override
+	public MasterdataVO getqContent(MasterdataVO pvo) {
+		
+		 return mddao.selectqContent(pvo);
 	}
 
 	@Override
@@ -276,4 +298,37 @@ public class MasterDataServiceImpl implements MasterDataService {
 		logger.debug("Service(delRequires) 호출");
 		mddao.deleteRequires(vo);
 	}
+
+	@Override
+	public List<CompanyVO> searchCompanyIM(String keyword) {
+		// TODO Auto-generated method stub
+		return mddao.searchCompany(keyword);
+	}
+
+	@Override
+	public int searchCompanyIMCount() {
+		// TODO Auto-generated method stub
+		return mddao.getCompanySearchCount();
+	}
+
+	@Override
+	public void companyInsert(CompanyVO cvo) {
+		mddao.companyInsert(cvo);
+		
+	}
+
+	@Override
+	public int CompanyIMUpdate(CompanyVO cvo) {
+		// TODO Auto-generated method stub
+		return mddao.companyUpdate(cvo);
+	}
+
+	@Override
+	public void CompanyIMDelete(int company_no) {
+		mddao.deleteCompany(company_no);
+		
+	}
+	
+	
+	
 }

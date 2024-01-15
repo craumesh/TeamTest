@@ -105,11 +105,11 @@
 
 	<select id="getQIMList" resultType="MasterdataVO">
 		SELECT q.*, pi.*
-		FROM quality
+		FROM quality_test
 		q
-		LEFT JOIN masterdata_information pi ON pi.code = q.product_code
+		LEFT JOIN masterdata_information pi ON pi.code = q.code
 
-		order by quality_no desc
+		order by test_no desc
 		limit
 		#{startPage},#{pageSize}
 	</select>
@@ -132,14 +132,14 @@
 
 	<insert id="insertQIM">
 		insert into
-		quality(product_code,product_visual,taste,scent,texture,measure)
-		values(#{product_code},#{product_visual},#{taste},#{scent},#{texture},#{measure})
+		quality(code,product_visual,taste,scent,texture,measure)
+		values(#{code},#{product_visual},#{taste},#{scent},#{texture},#{measure})
 	</insert>
 
 	<insert id="insertQIMTest">
 		insert into
-		quality_test(product_code,test_tool,test_method,test_equipment)
-		values(#{product_code},#{test_tool},#{test_method},#{test_equipment})
+		quality_test(code,test_tool,test_method,test_equipment)
+		values(#{code},#{test_tool},#{test_method},#{test_equipment})
 	</insert>
 
 
@@ -320,18 +320,17 @@
 	<select id="getQIMSearchCount" resultType="int"
 		parameterType="String">
   	  <![CDATA[
-	  	  select count(*) FROM quality q
-		LEFT JOIN masterdata_information pi ON pi.code = q.product_code
+	  	  select count(*) FROM quality_test q
+		LEFT JOIN masterdata_information pi ON pi.code = q.code
 		WHERE
 		
-        q.quality_no LIKE CONCAT('%', #{keyword}, '%')
+        q.test_no LIKE CONCAT('%', #{keyword}, '%')
         OR pi.code LIKE CONCAT('%', #{keyword}, '%')
         OR pi.name LIKE CONCAT('%', #{keyword}, '%')
-        OR q.product_visual LIKE CONCAT('%', #{keyword}, '%')
-        OR q.taste LIKE CONCAT('%', #{keyword}, '%')
-        OR q.scent LIKE CONCAT('%', #{keyword}, '%')
-        OR q.texture LIKE CONCAT('%', #{keyword}, '%')
-        OR q.measure LIKE CONCAT('%', #{keyword}, '%')
+        OR q.test_tool LIKE CONCAT('%', #{keyword}, '%')
+        OR q.test_method LIKE CONCAT('%', #{keyword}, '%')
+        OR q.test_equipment LIKE CONCAT('%', #{keyword}, '%')
+        
    	  ]]>
 	</select>
 
@@ -371,8 +370,21 @@
   ]]>
 	</select>
 
+<select id="cptotalCount" resultType="int">
+  		<![CDATA[
+	  		SELECT COUNT(*)
+	  		FROM company	  			  		
+  		]]>
+	</select>
 
 
+   <select id="getCompanyList" resultType="CompanyVO">
+		SELECT *
+		FROM
+		company
+		where company_no >0
+		order by company_no desc
+	</select>
 
 
 	<select id="searchProducts" parameterType="String"
@@ -395,6 +407,14 @@
 		OR r.recipe LIKE CONCAT('%', #{keyword}, '%')
 		)
 	</select>
+	
+	
+    <select id="selectqContent" resultType="MasterdataVO">
+		select * from quality
+		where code = #{code}
+
+	</select>
+	
 
 	<select id="searchMIM" parameterType="String"
 		resultType="MasterdataVO">
@@ -431,20 +451,18 @@
 
 	<select id="searchQIM" parameterType="String"
 		resultType="MasterdataVO">
-		SELECT pi.*, q.*
-		FROM quality q
-		LEFT JOIN masterdata_information
-		pi ON pi.code = q.product_code
+		SELECT *
+		FROM quality_test q		
+		LEFT JOIN masterdata_information pi ON pi.code = q.code
 		WHERE
-
-		q.quality_no LIKE CONCAT('%', #{keyword}, '%')
-		OR pi.code LIKE CONCAT('%', #{keyword}, '%')
-		OR pi.name LIKE CONCAT('%', #{keyword}, '%')
-		OR q.product_visual LIKE CONCAT('%', #{keyword}, '%')
-		OR q.taste LIKE CONCAT('%', #{keyword}, '%')
-		OR q.scent LIKE CONCAT('%', #{keyword}, '%')
-		OR q.texture LIKE CONCAT('%', #{keyword}, '%')
-		OR q.measure LIKE CONCAT('%', #{keyword}, '%')
+		
+        q.test_no LIKE CONCAT('%', #{keyword}, '%')
+        OR pi.code LIKE CONCAT('%', #{keyword}, '%')
+        OR pi.name LIKE CONCAT('%', #{keyword}, '%')
+        OR q.test_tool LIKE CONCAT('%', #{keyword}, '%')
+        OR q.test_method LIKE CONCAT('%', #{keyword}, '%')
+        OR q.test_equipment LIKE CONCAT('%', #{keyword}, '%')
+		
 
 	</select>
 
@@ -558,4 +576,76 @@
 		SET recipe='미등록'
 		WHERE product_no=#{product_no}
 	</update>
+	
+	<select id="searchCompany" parameterType="String"
+		resultType="CompanyVO">
+		SELECT *
+		FROM company
+		WHERE
+		company_name LIKE CONCAT('%', #{keyword}, '%')
+		OR company_type LIKE CONCAT('%', #{keyword}, '%')
+		OR company_zip_code LIKE CONCAT('%', #{keyword}, '%')
+		OR company_address LIKE CONCAT('%', #{keyword}, '%')
+		OR company_address_detail LIKE CONCAT('%', #{keyword}, '%')
+		OR company_tel LIKE CONCAT('%', #{keyword}, '%')
+		OR company_manager LIKE CONCAT('%', #{keyword}, '%')
+		OR transaction_history LIKE CONCAT('%', #{keyword}, '%')
+		OR contract_information LIKE CONCAT('%', #{keyword}, '%')
+
+	</select>
+	
+	<select id="getCompanySearchCount" parameterType="String"
+		resultType="int">
+  <![CDATA[
+    SELECT COUNT(*) AS count
+    FROM company
+    WHERE
+     company_name LIKE CONCAT('%', #{keyword}, '%')
+		OR company_type LIKE CONCAT('%', #{keyword}, '%')
+		OR company_zip_code LIKE CONCAT('%', #{keyword}, '%')
+		OR company_address LIKE CONCAT('%', #{keyword}, '%')
+		OR company_address_detail LIKE CONCAT('%', #{keyword}, '%')
+		OR company_tel LIKE CONCAT('%', #{keyword}, '%')
+		OR company_manager LIKE CONCAT('%', #{keyword}, '%')
+		OR transaction_history LIKE CONCAT('%', #{keyword}, '%')
+		OR contract_information LIKE CONCAT('%', #{keyword}, '%')
+  ]]>
+	</select>
+	
+	 <insert id ="insertCompany">
+      insert into 
+      company(company_name,company_type,company_zip_code,company_address,company_address_detail,company_tel,company_manager,transaction_history,contract_information,photo_paths)
+      values(#{company_name},#{company_type},#{company_zip_code},#{company_address},#{company_address_detail},#{company_tel},#{company_manager},#{transaction_history},#{contract_information},'/resources/img/memberimg.png')
+      
+    
+    </insert>
+    
+    <update id="updateCompany">
+		update company
+		set company_name =
+		#{company_name},
+		company_type = #{company_type},
+		
+		company_zip_code = #{company_zip_code},
+		company_address =
+		#{company_address},
+		
+		company_address_detail = #{company_address_detail},
+		company_tel = #{company_tel},
+	    company_manager = #{company_manager},
+		transaction_history = #{transaction_history},
+		contract_information =
+		#{contract_information}
+		where company_no =
+		#{company_no};
+	</update>
+    
+    <delete id="deleteCompany">
+	 delete from company
+	 where company_no = #{company_no}
+	
+	</delete>
+	
+	
+	
 </mapper>

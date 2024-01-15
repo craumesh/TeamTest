@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.eatit.machineDomain.machineVO;
 import com.eatit.mainDomain.Criteria;
+import com.eatit.masterdataDomain.CompanyVO;
 import com.eatit.masterdataDomain.MasterdataVO;
 
 public interface MasterDataDAO {
@@ -100,4 +101,21 @@ public interface MasterDataDAO {
 	public void updateRequires(MasterdataVO vo);
 	
 	public void deleteRequires(MasterdataVO vo);
+
+	public MasterdataVO selectqContent(MasterdataVO pvo);
+
+	public int getCompanyIMCount();
+
+	public List<CompanyVO> getCompanyListPage(Criteria cri);
+	public List<CompanyVO> getCompanyListPage(int page)throws Exception;
+
+	public List<CompanyVO> searchCompany(String keyword);
+
+	public int getCompanySearchCount();
+
+	public void companyInsert(CompanyVO cvo);
+
+	public int companyUpdate(CompanyVO cvo);
+
+	public void deleteCompany(int company_no);
 }

@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.eatit.machineDomain.machineVO;
 import com.eatit.mainDomain.Criteria;
 import com.eatit.mainDomain.PageVO;
+import com.eatit.masterdataDomain.CompanyVO;
 import com.eatit.masterdataDomain.MasterdataVO;
 import com.eatit.masterdataService.MasterDataService;
 
@@ -425,4 +426,93 @@ public class MasterDataController {
 		}
 		return "redirect:/masterdata/CIM?page="+page;
 	}
+	@RequestMapping(value ="/qContent", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public MasterdataVO qContentGET(MasterdataVO pvo) {
+		logger.debug("/hr/content 호출 -> hrContentGET() 실행");
+		
+		return mdService.getqContent(pvo);
+	}
+	
+	@RequestMapping(value="/CompanyIM", method=RequestMethod.GET)
+	   public String CompanyIMListPageGet(Model model, HttpSession session, Criteria cri) throws Exception {
+	       session.setAttribute("viewcntCheck", true);
+	       
+	       //  럹 씠吏 蹂   젣 뭹 紐⑸줉 媛  졇 삤湲 
+	       List<CompanyVO> CompanyIMList = mdService.CompanyIMListPage(cri);
+	       
+	       // 珥   젣 뭹  닔  꽕 젙
+	       int totalProductCount = mdService.totalCompanyCount();
+	       
+	       // PageVO 媛앹껜  깮 꽦 諛   꽕 젙
+	       PageVO pageVO = new PageVO();
+	       pageVO.setCri(cri);
+	       pageVO.setTotalCount(totalProductCount);
+	       
+	       //  럹 씠吏  釉붾줉 떦 10媛쒖쓽  럹 씠吏   꽕 젙
+	       pageVO.setDisplayPageNum(10);
+	       
+	       model.addAttribute("pageVO", pageVO);
+	       model.addAttribute("CompanyIMList", CompanyIMList);
+	       
+	       return "/masterdata/CompanyIM";
+	   }
+	
+	@RequestMapping(value = "/masterdata/CompanyIMsearch", method = RequestMethod.GET)
+	   public String searchCompanyIM(@RequestParam("keyword") String keyword, Model model,Criteria cri,HttpServletRequest request) throws Exception {
+	       List<CompanyVO> searchCompanyIM = mdService.searchCompanyIM(keyword); 
+	       
+	       if (searchCompanyIM.isEmpty()) {
+	           
+	           model.addAttribute("searchError", true); 
+	       } else {
+	           model.addAttribute("CompanyIMList", searchCompanyIM); 
+	           String referer = request.getHeader("Referer");
+	           model.addAttribute("referer", referer);
+	       }
+
+	      
+	  	 com.eatit.mainDomain.PageVO pageVO = new com.eatit.mainDomain.PageVO();
+	  	 pageVO.setCri(cri);
+	  	 pageVO.setTotalCount(mdService.searchCompanyIMCount());
+	  	 model.addAttribute("pageVO", pageVO);
+	  	
+	       
+	       
+	       return "/masterdata/CompanyIM"; 
+	   }
+	
+	@RequestMapping(value = "/CompanyIMinsert",method = RequestMethod.POST)
+ 	public String CompanyIMinsertPOST(CompanyVO cvo) {
+ 	   logger.debug("cvo"+cvo);
+ 	   
+ 	   
+       mdService.companyInsert(cvo);
+       
+       
+       return "redirect:/masterdata/CompanyIM";
+ }
+	@RequestMapping(value="/masterdata/CompanyIMedit",method = RequestMethod.POST)
+	   public String CompanyIMedit(CompanyVO cvo)throws Exception {
+		   logger.debug("cvo"+cvo);
+		   int result = mdService.CompanyIMUpdate(cvo);
+		   logger.debug("/update form ->updatePOST()");
+		   
+		   
+		   
+		   return "redirect:/masterdata/CompanyIM";
+	   }
+	
+	  @RequestMapping(value="/masterdata/CompanyIMdelete",method = RequestMethod.POST)
+	  public String CompanyIMdelete(@RequestParam("company_no") int company_no)throws Exception {
+	 	   
+	 	   mdService.CompanyIMDelete(company_no);
+	 	 		   
+	 	   
+	 	   return "redirect:/masterdata/CompanyIM";
+	    }
+	
+	  
+	  
+	  
 }

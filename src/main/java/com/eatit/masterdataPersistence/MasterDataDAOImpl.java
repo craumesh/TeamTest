@@ -8,6 +8,7 @@ import javax.inject.Inject;
 
 import com.eatit.machineDomain.machineVO;
 import com.eatit.mainDomain.Criteria;
+import com.eatit.masterdataDomain.CompanyVO;
 import com.eatit.masterdataDomain.MasterdataVO;
 import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
@@ -330,5 +331,61 @@ public class MasterDataDAOImpl implements MasterDataDAO {
 		logger.debug("Service(deleteRequires) 호출");
 		sqlSession.update(NAMESPACE + ".deleteRequires",vo);
 	}
+
+	@Override
+	public MasterdataVO selectqContent(MasterdataVO pvo) {
+		return sqlSession.selectOne(NAMESPACE+".selectqContent",pvo);
+	}
+
+	@Override
+	public int getCompanyIMCount() {
+		
+		return sqlSession.selectOne(NAMESPACE+".cptotalCount");
+	}
+
+	@Override
+	public List<CompanyVO> getCompanyListPage(Criteria cri) {
+		
+		return sqlSession.selectList(NAMESPACE+".getCompanyList",cri);
+	}
+	
+	
+	@Override
+	public List<CompanyVO> getCompanyListPage(int page) throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList(NAMESPACE+".getCompanyList",page);
+	}
+
+	@Override
+	public List<CompanyVO> searchCompany(String keyword) {
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("keyword", keyword);
+		return sqlSession.selectList(NAMESPACE +".searchCompany",paramMap);
+	}
+
+	@Override
+	public int getCompanySearchCount() {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne(NAMESPACE+".getCompanySearchCount");
+	}
+
+	@Override
+	public void companyInsert(CompanyVO cvo) {
+		sqlSession.insert(NAMESPACE+".insertCompany",cvo);
+		
+	}
+
+	@Override
+	public int companyUpdate(CompanyVO cvo) {
+		
+		return sqlSession.update(NAMESPACE+".updateCompany",cvo);
+	}
+
+	@Override
+	public void deleteCompany(int company_no) {
+		sqlSession.delete(NAMESPACE+".deleteCompany",company_no);
+		
+	}
+	
 	
 }

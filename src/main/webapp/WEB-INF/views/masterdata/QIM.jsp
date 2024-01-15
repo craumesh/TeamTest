@@ -5,26 +5,31 @@
 <%@ include file="../include/header.jsp"%>
 
 <style>
+.btn.text-xs {
+	padding: 0.25rem 0.5rem; /* 원하는 크기에 맞게 padding 조절 */
+	font-size: 0.75rem; /* 원하는 크기에 맞게 font-size 조절 */
+}
+
 .modal {
 	display: none;
 	position: fixed;
 	z-index: 1;
 	left: 0;
 	top: 0;
-	width: 100%;
+	width: 110%;
 	height: 100%;
 	overflow: auto;
 	background-color: rgba(0, 0, 0, 0.4);
-	 z-index: 1000;
+	z-index: 1000;
 }
 
 .modal-content {
 	background-color: #fefefe;
 	margin: 5% auto;
-	padding: 20px;
+	padding: 10px;
 	border: 1px solid #ddd;
 	border-radius: 5px;
-	width: 50%;
+	width: 40%;
 	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 }
 
@@ -82,25 +87,26 @@
 					class="table table-hover align-items-center mb-0">
 					<thead>
 						<tr>
-							<th class="text-center py-3 font-weight-bolder col-2">품질정보번호</th>
+							<th class="text-center py-3 font-weight-bolder col-2">테스트번호</th>
 							<th class="text-center font-weight-bolder col-1">품목코드</th>
 							<th class="text-center font-weight-bolder col-1">품목이름</th>
-							<th class="text-center font-weight-bolder col-1">외관</th>
-							<th class="text-center font-weight-bolder col-1">맛</th>
-							<th class="text-center font-weight-bolder col-3">향</th>
-							<th class="text-center font-weight-bolder col-2">질감</th>
-							<th class="text-center font-weight-bolder col-3">개선조치</th>
+							<th class="text-center font-weight-bolder col-1">테스트도구</th>
+							<th class="text-center font-weight-bolder col-1">테스트장비</th>
+							<th class="text-center font-weight-bolder col-1">테스트방법</th>
+
 
 							<th class="text-center font-weight-bolder col-1">
+
 
 
 								<ul class="navbar-nav  justify-content-end">
 									<li class="nav-item d-flex align-items-center"><span
 										class="d-sm-inline d-none"><button
 												onclick="openModal()" class="btn btn-success">품질정보등록</button></span></li>
-												<li class="nav-item d-flex align-items-center"><span
+									<li class="nav-item d-flex align-items-center"><span
 										class="d-sm-inline d-none"><button
-												onclick="opentestModal()" class="btn btn-success" style="width: 122;">테스트과정등록</button></span></li>
+												onclick="opentestModal()" class="btn btn-success"
+												style="width: 122;">테스트과정등록</button></span></li>
 
 								</ul>
 
@@ -112,36 +118,24 @@
 					<tbody id="productTableBody">
 						<c:forEach var="product" items="${QIMList}">
 							<tr>
-								<td class="text-center py-2-3">${product.quality_no}</td>
+								<td class="text-center py-2-3">${product.test_no}</td>
 								<td class="text-center py-2-3 identify-no">${product.code}</td>
-								<td class="text-center py-2-3" >${product.name}</td>
-								<td class="text-center py-2-3" >${product.product_visual}</td>
-								<td class="text-center py-2-3">${product.taste}</td>
-								<td class="text-center py-2-3" >${product.scent}</td>
-								<td class="text-center py-2-3" >${product.texture}</td>
-								<td class="text-center py-2-3" >${product.measure}</td>
+								<td class="text-center py-2-3">${product.name}</td>
+								<td class="text-center py-2-3">${product.test_tool}</td>
+								<td class="text-center py-2-3">${product.test_method}</td>
+								<td class="text-center py-2-3">${product.test_equipment}</td>
 
-								<td class="text-center py-2-3">
-									<button onclick="openEditModal(event)"
-										class="btn btn-secondary">품질정보수정</button>
 
-									<form action="/masterdata/QIMdelete" method="post">
-										<input type="hidden" name="quality_no"
-											value="${product.quality_no}"> <input type="hidden"
-											name="quality_no" value="${product.quality_no}">
-											<input type="hidden"
-											name="product_code" value="${product.product_code}">
-										<button type="submit" class="btn btn-dark">품질정보삭제</button>
-									</form>
-								</td>
+
+								
 							</tr>
 						</c:forEach>
 					</tbody>
 				</table>
 			</div>
 		</div>
-		
-		
+
+
 		<c:if test="${not empty referer}">
 			<a href="${referer}" class="btn btn-primary">뒤로 가기</a>
 		</c:if>
@@ -207,12 +201,14 @@
 							<tr>
 
 								<th class="fs-5">품목코드</th>
-								<td class="fs-5" id="position_name"><select
-									name="product_code" class="form_select" style="width: 500px;">
-										<c:forEach var="product" items="${categoryList}">
+								<td class="fs-5" id="depart_name"><select
+									name="code" id="codeInput" class="form_select"
+									onblur="checkDuplicateCode()" style="width: 500px;">
+										<c:forEach var="product" items="${QIMList}">
 											<option value="${product.code}">${product.code}</option>
 										</c:forEach>
-								</select></td>
+								</select> <span id="duplicateWarning" style="color: red; display: none;">중복된
+										품목 코드입니다!</span></td>
 							</tr>
 							<tr>
 								<th class="fs-5">외관</th>
@@ -256,6 +252,34 @@
 
 	</div>
 </div>
+
+<script>
+    function checkDuplicateCode() {
+        var codeValue = document.getElementById('codeInput').value;
+
+        // Ajax 요청을 통해 중복 코드 확인
+        $.ajax({
+            type: 'GET',
+            url: '/masterdata/qcheckDuplicateCode?code=' + codeValue,
+            success: function (result) {
+                if (result.duplicate) {
+                    // 중복 코드 처리 (예: 경고 메시지 표시)
+                    document.getElementById('duplicateWarning').style.display = 'block';
+                } else {
+                    // 중복이 아닌 경우 처리
+                    document.getElementById('duplicateWarning').style.display = 'none';
+                }
+            },
+            error: function () {
+                // 에러 처리
+               
+            }
+        });
+    }
+</script>
+
+
+
 <div id="mytestModal" class="modal">
 	<div class="modal-content">
 
@@ -268,7 +292,8 @@
 		<div class="modal-body p-5">
 
 			<div id="tableContainer" class="modal-body">
-				<form id="mytestForm" method="post" action="/masterdata/QIMTestInsert">
+				<form id="mytestForm" method="post"
+					action="/masterdata/QIMTestInsert">
 					<table id="view-table" class="table">
 						<tbody>
 
@@ -277,7 +302,7 @@
 
 								<th class="fs-5">품목코드</th>
 								<td class="fs-5" id="position_name"><select
-									name="product_code" class="form_select" style="width: 500px;">
+									name="code" class="form_select" style="width: 500px;">
 										<c:forEach var="product" items="${categoryList}">
 											<option value="${product.code}">${product.code}</option>
 										</c:forEach>
@@ -288,13 +313,13 @@
 								<td class="fs-5" id="address"><input type="text"
 									name="test_tool" class="form-control"></td>
 							</tr>
-							
+
 							<tr>
 								<th class="fs-5">테스트장비</th>
 								<td class="fs-5" id="address"><input type="text"
 									name="test_equipment" class="form-control"></td>
 							</tr>
-							
+
 
 							<tr>
 								<th class="fs-5">테스트방법</th>
@@ -318,6 +343,9 @@
 	</div>
 </div>
 
+
+
+
 <div id="myInfoModal" class="modal">
 	<div class="modal-content">
 
@@ -325,12 +353,13 @@
 			<button id="closebtn"
 				class="btn bg-gradient-primary position-absolute py-1 px-2 mt-2 end-5"
 				onclick="closeInfoModal()">X</button>
-			<h3 class="modal-title mx-auto">품질테스트과정 정보 </h3>
+			<h3 class="modal-title mx-auto">품질 정보</h3>
 		</div>
 		<div class="modal-body p-5">
 
 			<div id="tableContainer" class="modal-body">
-				<form id="myInfoForm" method="post" action="/masterdata/QIMTestInsert">
+				<form id="myInfoForm" method="post"
+					action="/masterdata/QIMTestInsert">
 					<table id="view-table" class="table">
 						<tbody>
 
@@ -338,32 +367,40 @@
 							<tr>
 								<th class="fs-5">품목코드</th>
 								<td class="fs-5" id="address"><input type="text"
-									name="product_code" class="form-control"></td>
+									name="code" class="form-control"></td>
 							</tr>
-							
 							<tr>
-								<th class="fs-5">테스트도구</th>
+								<th class="fs-5">외관</th>
 								<td class="fs-5" id="address"><input type="text"
-									name="test_tool" class="form-control"></td>
+									name="product_visual" class="form-control"></td>
 							</tr>
-							
-							<tr>
-								<th class="fs-5">테스트장비</th>
-								<td class="fs-5" id="address"><input type="text"
-									name="test_equipment" class="form-control"></td>
-							</tr>
-							
 
 							<tr>
-								<th class="fs-5">테스트방법</th>
+								<th class="fs-5">맛</th>
+								<td class="fs-5" id="address"><input type="text"
+									name="taste" class="form-control"></td>
+							</tr>
+
+							<tr>
+								<th class="fs-5">향</th>
+								<td class="fs-5" id="address"><input type="text"
+									name="scent" class="form-control"></td>
+							</tr>
+
+
+							<tr>
+								<th class="fs-5">질감</th>
 								<td class="fs-5" id="status"><input type="text"
-									name="test_method" class="form-control"></td>
+									name="texture" class="form-control"></td>
+							</tr>
+							<tr>
+								<th class="fs-5">개선조치</th>
+								<td class="fs-5" id="status"><input type="text"
+									name="measure" class="form-control"></td>
 							</tr>
 						</tbody>
 					</table>
-					<div class="text-center">
-						
-					</div>
+					<div class="text-center"></div>
 
 				</form>
 			</div>
@@ -374,6 +411,54 @@
 	</div>
 </div>
 
+<script>
+ function closeInfoModal() {
+	    var modal = document.getElementById("myInfoModal");
+	    modal.style.display = "none";
+	}
+ 
+ 
+ $(document).ready(function() {
+	    var modal = document.getElementById("myInfoModal");
+
+	    $("#hr-table").on("click", "tr td", function(event) {
+	        var value = $(this).closest("tr").find("td.identify-no").text();
+	        $.ajax({
+	            url: '/masterdata/qContent?code=' + value,
+	            method: 'GET',
+	            dataType: 'json',
+	            success: function(data) {
+	                console.log(data);
+	                $("#address input[name='code']").prop('readonly', true).val(data.code);
+	                $("#address input[name='product_visual']").prop('readonly', true).val(data.product_visual);
+	                $("#address input[name='taste']").prop('readonly', true).val(data.taste);
+	                $("#address input[name='scent']").prop('readonly', true).val(data.scent);
+	                $("#status input[name='texture']").prop('readonly', true).val(data.texture);
+	                $("#status input[name='measure']").prop('readonly', true).val(data.measure);
+
+	                // 모달창을 띄우는 부분은 여기서 처리
+	                modal.style.display = "block";
+
+	                // 추가된 부분: 수정 버튼 클릭 시 이벤트 처리
+	                $("#editButton").on("click", function() {
+	                    // openEditModal 함수 호출 또는 해당 버튼 클릭 시 실행해야 하는 작업 수행
+	                    openEditModal(event);
+	                });
+
+	                // 추가된 부분: 삭제 버튼 클릭 시 이벤트 처리
+	                $("#deleteButton").on("click", function() {
+	                    // 삭제 버튼 클릭 시 form submit 실행
+	                    $("#deleteForm").submit();
+	                });
+	            },
+	            error: function(error) {
+	                console.log('실패:', error);
+	                swal("품질테스트과정을 거치지 않은 제품입니다!", "", "error");
+	            }
+	        });
+	    });
+	});
+</script>
 
 
 
@@ -399,7 +484,7 @@
 							<tr>
 								<th class="fs-5">품목코드</th>
 								<td class="fs-5" id="depart_name"><input type="text"
-									name="product_code" class="form-control" readonly="readonly"></td>
+									name="code" class="form-control" readonly="readonly"></td>
 							</tr>
 							<tr>
 								<th class="fs-5">품목이름</th>
@@ -416,7 +501,7 @@
 								<td class="fs-5" id="extension_no"><input type="text"
 									name="taste" class="form-control"></td>
 							</tr>
-							
+
 							<tr>
 								<th class="fs-5">향</th>
 								<td class="fs-5" id="address"><input type="text"
@@ -541,39 +626,6 @@ function goToPageWithKeyword(page) {
 </script>
 
 
- <script>
- function closeInfoModal() {
-	    var modal = document.getElementById("myInfoModal");
-	    modal.style.display = "none";
-	}
- 
- 
- $(document).ready(function() {
-	    var modal = document.getElementById("myInfoModal");
-
-	    $("#hr-table").on("click", "tr td", function(event) {
-	        var value = $(this).closest("tr").find("td.identify-no").text();
-	        $.ajax({
-	            url: '/masterdata/content?product_code=' + value,
-	            method: 'GET',
-	            dataType: 'json',
-	            success: function(data) {
-	                console.log(data);
-	                $("#address input[name='product_code']").prop('readonly', true).val(data.product_code);
-	                $("#address input[name='test_tool']").prop('readonly', true).val(data.test_tool);
-	                $("#address input[name='test_equipment']").prop('readonly', true).val(data.test_equipment);
-	                $("#status input[name='test_method']").prop('readonly', true).val(data.test_method);
-
-	                modal.style.display = "block";
-	            },
-	            error: function(error) {
-	                console.log('실패:', error);
-	                swal("품질테스트과정을 거치지 않은 제품입니다!", "", "error");
-	            }
-	        });
-	    });
-	});
-</script>
 
 
 
@@ -638,9 +690,9 @@ function goToPageWithKeyword(page) {
         // 가져온 데이터를 수정 모달에 넣어줍니다.
         document.getElementById("editModal").style.display = "block";
         document.querySelector('#editForm [name="quality_no"]').value = qualityNo;
-        document.querySelector('#editForm [name="product_code"]').value = productCode;
+        document.querySelector('#editForm [name="code"]').value = productCode;
         document.querySelector('#editForm [name="product_name"]').value = productName;
-        document.querySelector('#editForm [name="product_code"]').disabled = true; // 수정 불가능 설정
+        document.querySelector('#editForm [name="code"]').disabled = true; // 수정 불가능 설정
         document.querySelector('#editForm [name="product_name"]').disabled = true; // 수정 불가능 설정
         document.querySelector('#editForm [name="product_visual"]').value = productVisual;
         document.querySelector('#editForm [name="taste"]').value = taste;
